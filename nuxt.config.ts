@@ -1,12 +1,15 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-11-01',
+  compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
-  modules: [
-    '@nuxt/content',
-    '@nuxt/ui'
-  ],
+  imports: {
+    autoImport: true,
+  },
+  modules: ["@nuxt/content", "@nuxt/ui"],
   ui: {
-    global: true
-  }
-})
+    global: true,
+  },
+  content: {
+    documentDriven: true,
+  },
+});
