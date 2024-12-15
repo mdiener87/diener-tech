@@ -1,7 +1,7 @@
 <template>
-  <div class="container mx-auto py-6">
+  <div class="container flex flex-col flex-grow mx-auto py-6">
     <h1 class="text-3xl font-bold mb-4">Blog</h1>
-    <p class="text-lg text-gray-600 mb-6">Explore my latest posts:</p>
+    <h3>Explore my latest posts:</h3>
 
     <!-- Blog Posts -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -22,9 +22,8 @@
 </template>
 
 <script setup lang="ts">
-
-// Query all blog posts
-const posts = await queryContent("blog").sort({ date: -1 }).find();
-
-console.log("DEBUG posts", posts);
+const posts = await queryContent("blog")
+  .where({ _partial: false }) // Exclude partials
+  .sort({ date: -1 }) // Sort by date descending
+  .find();
 </script>
