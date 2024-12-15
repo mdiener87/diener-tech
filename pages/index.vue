@@ -1,6 +1,5 @@
 <template>
     <main class="flex-grow container mx-auto p-6 text-center">
-        <!-- About Section -->
         <UCard class="mb-6 shadow-lg">
             <template #header>
                 <h2 class="text-xl font-bold">About This Site</h2>
@@ -11,18 +10,6 @@
                 to explore my work or read my thoughts on technology, you're in the
                 right place.
             </p>
-        </UCard>
-
-        <!-- Blog Link Section -->
-        <UCard class="shadow-lg">
-            <template #header>
-                <h2 class="text-xl font-bold">Check Out the Blog</h2>
-            </template>
-            <p>Stay up-to-date with my latest posts on technology, tutorials, and projects.</p>
-            <NuxtLink to="/blog"
-                class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">
-                Visit the Blog
-            </NuxtLink>
         </UCard>
     </main>
 </template>
