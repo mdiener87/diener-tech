@@ -1,7 +1,7 @@
 <template>
   <div class="container flex flex-col flex-grow mx-auto py-6">
-    <h1 class="text-3xl font-bold mb-4">Blog</h1>
-    <h3>Explore my latest posts:</h3>
+    <h1 class="text-3xl font-bold mb-4 text-gray-900">Blog</h1>
+    <h3 class="text-gray-900">Explore my latest posts:</h3>
 
     <!-- Blog Posts -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
