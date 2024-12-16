@@ -20,7 +20,7 @@
         Blog
       </NuxtLink>
       <NuxtLink
-        to="/blog"
+        to="/about"
         class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
         About
