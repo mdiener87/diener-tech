@@ -9,25 +9,25 @@
     <div class="flex justify-center items-baseline">
       <NuxtLink
         to="/"
-        class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
         Home
       </NuxtLink>
       <NuxtLink
         to="/blog"
-        class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
         Blog
       </NuxtLink>
       <NuxtLink
         to="/about"
-        class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
         About
       </NuxtLink>
       <NuxtLink
         to="/contact"
-        class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
       >
         Contact
       </NuxtLink>
