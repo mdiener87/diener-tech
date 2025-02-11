@@ -9,7 +9,4 @@ export default defineNuxtConfig({
   ui: {
     global: true,
   },
-  content: {
-    documentDriven: false,
-  },
 });
