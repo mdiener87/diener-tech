@@ -6,7 +6,7 @@
         Exploring the intersection of technology, development, and creativity.
       </p>
     </div>
-    <div class="flex justify-center">
+    <div class="flex justify-center items-baseline">
       <NuxtLink
         to="/"
         class="mt-4 inline-block bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
@@ -31,7 +31,9 @@
       >
         Contact
       </NuxtLink>
+      <ColorMode class="m-4"></ColorMode>
     </div>
+    
   </header>
 </template>
 

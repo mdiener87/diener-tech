@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  modules: ["@nuxt/content", "@nuxt/ui"],
+  modules: ["@nuxt/content", "@nuxt/ui", "@nuxtjs/color-mode"],
   ui: {
     global: true,
   },
