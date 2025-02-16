@@ -9,25 +9,25 @@
     <div class="flex justify-center items-baseline">
       <NuxtLink
         to="/"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded nuxt-link"
       >
         Home
       </NuxtLink>
       <NuxtLink
         to="/blog"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
       >
         Blog
       </NuxtLink>
       <NuxtLink
         to="/about"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
       >
         About
       </NuxtLink>
       <NuxtLink
         to="/contact"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded hover:bg-blue-600"
+        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
       >
         Contact
       </NuxtLink>
@@ -38,5 +38,3 @@
 </template>
 
 <script setup></script>
-
-<style scoped></style>
