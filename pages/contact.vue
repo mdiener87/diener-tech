@@ -1,8 +1,8 @@
 <template>
   <div class="container mx-auto py-10 px-6">
     <!-- Page Header -->
-    <h1 class="text-4xl font-bold text-gray-900 mb-6">Get in Touch</h1>
-    <p class="text-lg text-gray-600 mb-8">
+    <h1 class="text-4xl font-bold mb-6">Get in Touch</h1>
+    <p class="text-lg mb-8">
       Have a project idea, a question, or just want to say hello? Reach out
       using the form below or the provided contact info.
     </p>
@@ -15,9 +15,7 @@
       <form @submit.prevent="submitForm" class="space-y-6">
         <!-- Name Input -->
         <div>
-          <label for="name" class="block text-gray-700 font-medium mb-2"
-            >Name</label
-          >
+          <label for="name" class="block font-medium mb-2">Name</label>
           <input
             v-model="form.name"
             type="text"
@@ -30,9 +28,7 @@
 
         <!-- Email Input -->
         <div>
-          <label for="email" class="block text-gray-700 font-medium mb-2"
-            >Email</label
-          >
+          <label for="email" class="block font-medium mb-2">Email</label>
           <input
             v-model="form.email"
             type="email"
@@ -45,9 +41,7 @@
 
         <!-- Message Input -->
         <div>
-          <label for="message" class="block text-gray-700 font-medium mb-2"
-            >Message</label
-          >
+          <label for="message" class="block font-medium mb-2">Message</label>
           <textarea
             v-model="form.message"
             id="message"
@@ -61,7 +55,7 @@
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full bg-blue-500 text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 transition-colors"
+          class="w-full text-white font-semibold py-2 px-4 rounded"
         >
           Send Message
         </button>
@@ -75,12 +69,10 @@
         <template #header>
           <h3 class="text-xl font-semibold">Email</h3>
         </template>
-        <p class="text-gray-700">
-          Prefer to reach out directly? Drop me an email at:
-        </p>
+        <p class="">Prefer to reach out directly? Drop me an email at:</p>
         <a
           href="mailto:youremail@example.com"
-          class="text-blue-500 hover:underline mt-2 inline-block"
+          class="hover:underline mt-2 inline-block"
         >
           youremail@example.com
         </a>
@@ -91,15 +83,13 @@
         <template #header>
           <h3 class="text-xl font-semibold">Social Links</h3>
         </template>
-        <p class="text-gray-700">
-          You can also connect with me on social platforms:
-        </p>
+        <p class="">You can also connect with me on social platforms:</p>
         <ul class="mt-2 space-y-2">
           <li>
             <a
               href="https://github.com/mdiener87"
               target="_blank"
-              class="text-blue-500 hover:underline"
+              class="hover:underline"
             >
               GitHub
             </a>
@@ -108,7 +98,7 @@
             <a
               href="https://linkedin.com/in/mdiener87/"
               target="_blank"
-              class="text-blue-500 hover:underline"
+              class="hover:underline"
             >
               LinkedIn
             </a>
