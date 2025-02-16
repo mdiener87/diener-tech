@@ -5,7 +5,9 @@
     <Header />
     <main class="max-w-3xl mx-auto px-6 py-6 flex-grow w-full">
       <Transition name="fade" mode="out-in">
-        <NuxtPage />
+        <div>
+          <NuxtPage />
+        </div>
       </Transition>
     </main>
     <Footer />
