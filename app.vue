@@ -15,6 +15,11 @@
 <script setup></script>
 
 <style>
+html {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
