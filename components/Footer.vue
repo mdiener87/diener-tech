@@ -1,7 +1,9 @@
 <template>
-    <footer class="w-full bg-gray-800 text-gray-400 py-4 text-center">
-        <p>© 2024 Diener.tech | Built with Nuxt.js</p>
-    </footer>
+  <footer class="w-full bg-gray shadow-md mt-auto">
+    <UContainer class="py-4 text-center text-gray-600 dark:text-gray-400">
+      <p>© 2024 Diener.tech | Built with Nuxt.js</p>
+    </UContainer>
+  </footer>
 </template>
 
 <script setup></script>

@@ -6,7 +6,7 @@
       </NuxtLink>
 
       <!-- Center: Navigation Links (Hidden on Smaller Screens) -->
-      <UHorizontalNavigation :links="navLinks" class="hidden sm:flex" />
+      <UHorizontalNavigation :links="navLinks" class="hidden sm:flex pl-5" />
 
       <!-- Right: Color Mode + Mobile Menu Button -->
       <div class="flex items-center gap-4">
