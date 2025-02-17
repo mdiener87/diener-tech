@@ -6,7 +6,7 @@ export default defineAppConfig({
     black: "black",
     darkMode: {
       primary: "cyan",
-      gray: "gray",
+      gray: "slate",
     },
   },
 });
