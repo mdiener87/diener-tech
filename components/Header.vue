@@ -1,40 +1,25 @@
 <template>
-  <header class="w-full py-6 shadow-md bg-primary">
-    <div class="container mx-auto text-center">
-      <h1 class="text-4xl font-bold">Welcome to Diener.tech</h1>
-      <p class="text-lg mt-2">
-        Exploring the intersection of technology, development, and creativity.
-      </p>
-    </div>
-    <div class="flex justify-center items-baseline">
-      <NuxtLink
-        to="/"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded nuxt-link"
-      >
-        Home
+  <header class="w-full py-4 shadow-md bg-gray">
+    <UContainer class="flex items-center justify-between">
+      <NuxtLink to="/" class="text-2xl font-bold text-primary">
+        Diener.tech
       </NuxtLink>
-      <NuxtLink
-        to="/blog"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
-      >
-        Blog
-      </NuxtLink>
-      <NuxtLink
-        to="/about"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
-      >
-        About
-      </NuxtLink>
-      <NuxtLink
-        to="/contact"
-        class="mt-4 inline-block font-semibold py-2 px-4 rounded"
-      >
-        Contact
-      </NuxtLink>
-      <ColorMode class="m-4"></ColorMode>
-    </div>
-    
+
+      <UHorizontalNavigation
+        :links="navLinks"
+        class=""
+      />
+
+      <ColorMode class="pr-1" />
+    </UContainer>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+const navLinks = [
+  { label: "Home", to: "/" },
+  { label: "Blog", to: "/blog" },
+  { label: "About", to: "/about" },
+  { label: "Contact", to: "/contact" }
+];
+</script>

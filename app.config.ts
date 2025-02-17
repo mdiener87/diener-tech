@@ -1,8 +1,12 @@
-// app.config.ts
 export default defineAppConfig({
-    ui: {
-      primary: "blue",
-      gray: "cool",
+  ui: {
+    primary: "blue",
+    gray: "slate",
+    white: "white",
+    black: "black",
+    darkMode: {
+      primary: "cyan",
+      gray: "gray",
     },
-  });
-  
+  },
+});
