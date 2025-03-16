@@ -316,7 +316,7 @@ function initializeSkillsTree() {
     nodeEnter
       .append("circle")
       .attr("r", 0)
-      .attr("fill", (d) => getNodeColor(d.data))
+      .attr("fill", (d) => getNodeColor(d.data, d))
       .attr("class", "transition-colors duration-200");
 
     // Add node labels
@@ -345,7 +345,7 @@ function initializeSkillsTree() {
     nodeUpdate
       .select("circle")
       .attr("r", (d) => (d.data.experience ? 6 : 8))
-      .attr("fill", (d) => getNodeColor(d.data));
+      .attr("fill", (d) => getNodeColor(d.data, d));
 
     // Remove old nodes
     const nodeExit = node
@@ -416,19 +416,63 @@ function initializeSkillsTree() {
     return [Math.cos(angle) * y, Math.sin(angle) * y];
   }
 
-  // Helper function to get node color based on experience
-  function getNodeColor(data: SkillNode): string {
-    if (!data.experience) return "#6B7280"; // Default gray for parent nodes
-    switch (data.experience) {
-      case "Expert":
-        return "#10B981"; // Emerald
-      case "Advanced":
-        return "#3B82F6"; // Blue
-      case "Intermediate":
-        return "#F59E0B"; // Amber
-      default:
-        return "#6B7280"; // Gray
+  // Helper function to get node color based on category and depth
+  function getNodeColor(data: SkillNode, node: d3.HierarchyNode<SkillNode>): string {
+    // Root node
+    if (node.depth === 0) {
+      return "rgb(107 114 128)"; // gray-500
     }
+
+    // Get the top-level parent for category color
+    let topParent = node;
+    while (topParent.parent && topParent.parent.depth > 0) {
+      topParent = topParent.parent;
+    }
+
+    // Get base color by category
+    const categoryColors: { [key: string]: string[] } = {
+      "Programming Languages": [
+        "rgb(147 51 234)", // purple-600
+        "rgb(168 85 247)", // purple-500
+        "rgb(192 132 252)", // purple-400
+        "rgb(216 180 254)", // purple-300
+      ],
+      "Frameworks & Libraries": [
+        "rgb(37 99 235)", // blue-600
+        "rgb(59 130 246)", // blue-500
+        "rgb(96 165 250)", // blue-400
+        "rgb(147 197 253)", // blue-300
+      ],
+      "Tools & Platforms": [
+        "rgb(5 150 105)", // emerald-600
+        "rgb(16 185 129)", // emerald-500
+        "rgb(52 211 153)", // emerald-400
+        "rgb(110 231 183)", // emerald-300
+      ],
+      "Professional Experience": [
+        "rgb(217 70 239)", // fuchsia-600
+        "rgb(232 121 249)", // fuchsia-500
+        "rgb(240 171 252)", // fuchsia-400
+        "rgb(245 208 254)", // fuchsia-300
+      ],
+      "Achievements & Awards": [
+        "rgb(234 88 12)", // orange-600
+        "rgb(249 115 22)", // orange-500
+        "rgb(251 146 60)", // orange-400
+        "rgb(253 186 116)", // orange-300
+      ],
+    };
+
+    const colors = categoryColors[topParent.data.name] || [
+      "rgb(107 114 128)", // gray-600
+      "rgb(156 163 175)", // gray-500
+      "rgb(209 213 219)", // gray-400
+      "rgb(229 231 235)", // gray-300
+    ];
+
+    // Use different shades based on depth
+    const depthIndex = Math.min(node.depth - 1, colors.length - 1);
+    return colors[depthIndex];
   }
 
   // Replace tooltip functions with info panel functions
