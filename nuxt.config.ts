@@ -11,6 +11,8 @@ export default defineNuxtConfig({
   },
   colorMode: {
     classSuffix: '',
+    fallback: 'light',
+    storageKey: 'nuxt-color-mode'
   },
   app: {
     pageTransition: {
