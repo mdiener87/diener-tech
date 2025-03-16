@@ -480,7 +480,7 @@ function initializeSkillsTree() {
     if (!d.data.name || !infoPanelContent.value) return;
     
     if (!isInfoPanelExpanded.value) {
-      isInfoPanelExpanded.value = true;
+      return;
     }
 
     let content = `<h3 class="text-sm font-semibold mb-2">${d.data.name}</h3>`;
