@@ -10,9 +10,7 @@
     <!-- Main Content (Avoid Overlap with Header) -->
     <UPage class="flex-grow pt-[80px] bg-gray">
       <Transition name="fade" mode="out-in">
-        <div>
-          <NuxtPage />
-        </div>
+        <NuxtPage />
       </Transition>
     </UPage>
 
