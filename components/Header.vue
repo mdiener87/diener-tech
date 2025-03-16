@@ -44,6 +44,7 @@
 <script setup>
 const navLinks = [
   { label: "Home", to: "/" },
+  { label: "Career", to: "/career" },
   { label: "Projects", to: "/projects" },
   { label: "Blog", to: "/blog" },
   { label: "About", to: "/about" },
