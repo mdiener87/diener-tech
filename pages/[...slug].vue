@@ -1,7 +1,9 @@
 <template>
-  <main>
+  <div class="container mx-auto py-10 px-6">
     <ContentDoc />
-  </main>
+  </div>
 </template>
 
-<script lang="ts"></script>
+<script setup lang="ts">
+// Ensure proper handling of dynamic routes
+</script>

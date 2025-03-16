@@ -9,4 +9,14 @@ export default defineNuxtConfig({
   ui: {
     global: true,
   },
+  colorMode: {
+    classSuffix: '',
+  },
+  app: {
+    pageTransition: {
+      name: 'page',
+      mode: 'out-in',
+      appear: true
+    }
+  }
 });

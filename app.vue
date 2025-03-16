@@ -8,11 +8,11 @@
     </div>
 
     <!-- Main Content (Avoid Overlap with Header) -->
-    <UPage class="flex-grow pt-[80px] bg-gray">
-      <Transition name="fade" mode="out-in">
+    <div class="flex-grow pt-[80px] bg-gray">
+      <UContainer>
         <NuxtPage />
-      </Transition>
-    </UPage>
+      </UContainer>
+    </div>
 
     <!-- Footer -->
     <Footer class="shadow-md backdrop-blur-lg" />
@@ -36,14 +36,14 @@ html {
   background-color: rgba(17, 24, 39, 0.95); /* Dark mode */
 }
 
-/* Fade Transition */
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s ease;
+/* Page Transition */
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
 }
-
-.fade-enter-from,
-.fade-leave-to {
+.page-enter-from,
+.page-leave-to {
   opacity: 0;
+  filter: blur(1rem);
 }
 </style>
