@@ -130,9 +130,19 @@ const skillsData: SkillNode = {
     {
       name: "Achievements & Awards",
       children: [
-        { name: "Outstanding Contribution - JavaScript Component Library (Sopheon)" },
-        { name: "Outstanding Implementation - Merck Project (Sopheon)" },
-        { name: "Outstanding Implementation - 3M Project (Sopheon)" }
+        {
+          name: "Outstanding Contribution",
+          children: [
+            { name: "JavaScript Component Library (Sopheon)" }
+          ]
+        },
+        {
+          name: "Outstanding Implementation", 
+          children: [
+            { name: "Merck Project (Sopheon)" },
+            { name: "3M Project (Sopheon)" }
+          ]
+        }
       ]
     }
   ]
@@ -276,12 +286,6 @@ function initializeSkillsTree() {
         const angle = d.x - Math.PI / 2;
         return (angle > Math.PI / 2 || angle < -Math.PI / 2) ? 'end' : 'start';
       })
-/*       .attr('transform', (d: any) => {
-        const angle = d.x - Math.PI / 2;
-        return (angle > Math.PI / 2 || angle < -Math.PI / 2)
-          ? 'rotate(180)'
-          : null;
-      }) */
       .attr('class', 'text-sm fill-gray-900 dark:fill-gray-100')
       .text(d => d.data.name);
 
@@ -316,11 +320,21 @@ function initializeSkillsTree() {
     // Update hover handlers
     svg.selectAll('g.node')
       .on('mouseover', function(event, d: any) {
-        const [x, y] = d3.pointer(event, container.node());
+        const containerNode = container.node();
+        if (!containerNode) return;
+        const containerRect = containerNode.getBoundingClientRect();
+        const [mouseX, mouseY] = d3.pointer(event);
+        const x = mouseX + width / 2 + containerRect.left;
+        const y = mouseY + height / 2 + containerRect.top;
         showTooltip(x, y, d as d3.HierarchyNode<SkillNode>);
       })
       .on('mousemove', function(event) {
-        const [x, y] = d3.pointer(event, container.node());
+        const containerNode = container.node();
+        if (!containerNode) return;
+        const containerRect = containerNode.getBoundingClientRect();
+        const [mouseX, mouseY] = d3.pointer(event);
+        const x = mouseX + width / 2 + containerRect.left;
+        const y = mouseY + height / 2 + containerRect.top;
         tooltip
           .style('left', `${x}px`)
           .style('top', `${y - 10}px`);
