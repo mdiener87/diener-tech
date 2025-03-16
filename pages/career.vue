@@ -1,454 +1,440 @@
 <template>
   <div class="container mx-auto py-10 px-6">
-    <div class="flex justify-between items-center mb-8">
-      <div>
-        <h1 class="text-4xl font-bold mb-4">Career Journey</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-300">
-          Explore my professional journey and technical expertise
-        </p>
-      </div>
-      <UButton
-        icon="i-heroicons-document-arrow-down"
-        color="primary"
-        variant="solid"
-        :to="'/resume.pdf'"
-        target="_blank"
-      >
-        Download Resume
-      </UButton>
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold mb-4">Career Journey</h1>
+      <p class="text-lg text-gray-600 dark:text-gray-300">
+        Explore my professional journey, skills, and achievements through interactive visualizations
+      </p>
     </div>
 
-    <!-- Interactive Timeline -->
-    <div class="mb-12">
-      <h2 class="text-2xl font-semibold mb-6">Experience Timeline</h2>
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <div ref="timelineRef" class="w-full h-[400px]"></div>
-      </div>
-    </div>
-
-    <!-- Skills Distribution -->
-    <div class="mb-12">
-      <h2 class="text-2xl font-semibold mb-6">Technical Skills</h2>
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <div ref="skillsRef" class="w-full h-[500px]"></div>
-      </div>
-    </div>
-
-    <!-- Key Achievements -->
-    <div>
-      <h2 class="text-2xl font-semibold mb-6">Key Achievements</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <UCard v-for="achievement in achievements" :key="achievement.id">
-          <template #header>
-            <div class="flex items-center gap-3">
-              <div class="p-2 rounded-full bg-primary/10 text-primary">
-                <Icon :name="achievement.icon" class="w-6 h-6" />
-              </div>
-              <h3 class="text-xl font-semibold">{{ achievement.title }}</h3>
+    <!-- Skills Tree Visualization -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-12">
+      <h2 class="text-2xl font-semibold mb-6">Skills & Experience</h2>
+      <div class="relative">
+        <div ref="skillsTreeRef" class="w-full h-[800px] overflow-hidden">
+          <!-- D3 visualization will be rendered here -->
+        </div>
+        <!-- Legend -->
+        <div class="absolute top-4 right-4 bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md border border-gray-200 dark:border-gray-700">
+          <h3 class="text-sm font-semibold mb-2">Experience Level</h3>
+          <div class="space-y-2">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+              <span class="text-sm">Expert</span>
             </div>
-          </template>
-          <p class="text-gray-600 dark:text-gray-300">{{ achievement.description }}</p>
-        </UCard>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-blue-500"></div>
+              <span class="text-sm">Advanced</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-amber-500"></div>
+              <span class="text-sm">Intermediate</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, onUnmounted } from 'vue';
 import * as d3 from 'd3';
 
 // References for D3 visualizations
-const timelineRef = ref<HTMLElement>();
-const skillsRef = ref<HTMLElement>();
+const skillsTreeRef = ref<HTMLElement>();
 
-// Career timeline data
-interface TimelineEvent {
-  date: Date;
-  company: string;
-  role: string;
-  description: string;
-  technologies: string[];
-}
-
-interface Skill extends d3.SimulationNodeDatum {
+// Skills data structure
+interface SkillNode {
   name: string;
-  category: string;
-  level: number; // 1-10
-  experience: number; // Years
+  children?: SkillNode[];
+  experience?: string;
+  years?: number;
+  position?: string;
+  duration?: string;
+  achievements?: string[];
+  notes?: string;
 }
 
-const timelineData: TimelineEvent[] = [
-  {
-    date: new Date('2024-01'),
-    company: 'Current Company',
-    role: 'Senior Software Engineer',
-    description: 'Leading development of cloud-native applications and microservices architecture',
-    technologies: ['Vue.js', 'Node.js', 'AWS', 'Docker', 'Kubernetes']
-  },
-  {
-    date: new Date('2022-06'),
-    company: 'Tech Solutions Inc.',
-    role: 'Full Stack Developer',
-    description: 'Developed and maintained enterprise web applications using modern technologies',
-    technologies: ['React', 'TypeScript', 'Python', 'PostgreSQL', 'Redis']
-  },
-  {
-    date: new Date('2020-03'),
-    company: 'Digital Innovations',
-    role: 'Frontend Developer',
-    description: 'Built responsive web applications and improved user experience',
-    technologies: ['Angular', 'JavaScript', 'SCSS', 'REST APIs']
-  }
-];
+interface ExtendedNode {
+  x0?: number;
+  y0?: number;
+  x?: number;
+  y?: number;
+  id?: string;
+  _children?: d3.HierarchyNode<SkillNode>[] | null;
+}
 
-const skillsData: Skill[] = [
-  {
-    name: 'Vue.js',
-    category: 'Frontend',
-    level: 9,
-    experience: 4
-  },
-  {
-    name: 'React',
-    category: 'Frontend',
-    level: 8,
-    experience: 3
-  },
-  {
-    name: 'TypeScript',
-    category: 'Languages',
-    level: 9,
-    experience: 4
-  },
-  {
-    name: 'Node.js',
-    category: 'Backend',
-    level: 8,
-    experience: 4
-  },
-  {
-    name: 'Python',
-    category: 'Languages',
-    level: 7,
-    experience: 3
-  },
-  {
-    name: 'AWS',
-    category: 'Cloud',
-    level: 8,
-    experience: 3
-  },
-  {
-    name: 'Docker',
-    category: 'DevOps',
-    level: 7,
-    experience: 3
-  },
-  {
-    name: 'Kubernetes',
-    category: 'DevOps',
-    level: 6,
-    experience: 2
-  },
-  {
-    name: 'PostgreSQL',
-    category: 'Database',
-    level: 7,
-    experience: 4
-  },
-  {
-    name: 'MongoDB',
-    category: 'Database',
-    level: 6,
-    experience: 2
-  }
-];
+type TreeNode = d3.HierarchyNode<SkillNode> & ExtendedNode;
 
-// Achievements data
-const achievements = [
-  {
-    id: 1,
-    icon: 'i-heroicons-rocket-launch',
-    title: 'Cloud Migration',
-    description: 'Successfully led a team of 5 engineers in migrating a monolithic application to a cloud-native microservices architecture, reducing deployment time by 70%.'
-  },
-  {
-    id: 2,
-    icon: 'i-heroicons-chart-bar',
-    title: 'Performance Optimization',
-    description: 'Improved application performance by 60% through implementing efficient caching strategies, code optimization, and database indexing.'
-  },
-  {
-    id: 3,
-    icon: 'i-heroicons-user-group',
-    title: 'Team Leadership',
-    description: 'Mentored junior developers, conducted code reviews, and established best practices that improved team productivity by 40%.'
-  },
-  {
-    id: 4,
-    icon: 'i-heroicons-light-bulb',
-    title: 'Innovation Award',
-    description: 'Received company innovation award for developing an automated testing framework that reduced QA time by 50%.'
-  }
-];
+const skillsData: SkillNode = {
+  name: "Michael Diener - Software Engineer",
+  children: [
+    {
+      name: "Programming Languages",
+      children: [
+        { name: "JavaScript", experience: "Expert", years: 10 },
+        { name: "TypeScript", experience: "Advanced", years: 5 },
+        { name: "Python", experience: "Intermediate" },
+        { name: "C#", experience: "Intermediate" },
+        { name: "SQL", experience: "Intermediate" }
+      ]
+    },
+    {
+      name: "Frameworks & Libraries",
+      children: [
+        { name: "Vue 3", experience: "Advanced", notes: "Custom Component Library" },
+        { name: "AngularJS", experience: "Advanced" },
+        { name: "Nuxt.js", experience: "Advanced" },
+        { name: "NodeJS", experience: "Advanced" },
+        { name: "TypeScript", experience: "Advanced" }
+      ]
+    },
+    {
+      name: "Tools & Platforms",
+      children: [
+        { name: "Docker", experience: "Advanced" },
+        { name: "Visual Studio & VS Code", experience: "Expert" },
+        { name: "SQL Server", experience: "Intermediate" },
+        { name: "Git & GitHub", experience: "Advanced" },
+        { name: "AWS/Vercel Hosting", experience: "Advanced" },
+        { name: "Firebase", experience: "Intermediate" },
+        { name: "Unity", experience: "Intermediate" }
+      ]
+    },
+    {
+      name: "Professional Experience",
+      children: [
+        {
+          name: "HeadSpin",
+          position: "Software Engineer",
+          duration: "Nov 2022 - Present",
+          achievements: [
+            "Developed Vue Component Library",
+            "Optimized front-end performance",
+            "Migrated from Vue 2 to Vue 3"
+          ]
+        },
+        {
+          name: "Sopheon",
+          position: "Senior Technical Consultant",
+          duration: "Nov 2021 - Nov 2022",
+          achievements: [
+            "Built JavaScript Component Library",
+            "Led technical implementations",
+            "Created C# plugins and SQL scripts"
+          ]
+        }
+      ]
+    },
+    {
+      name: "Achievements & Awards",
+      children: [
+        { name: "Outstanding Contribution - JavaScript Component Library (Sopheon)" },
+        { name: "Outstanding Implementation - Merck Project (Sopheon)" },
+        { name: "Outstanding Implementation - 3M Project (Sopheon)" }
+      ]
+    }
+  ]
+};
 
-// Initialize D3 visualizations
+// Initialize D3 visualization
 onMounted(() => {
-  initializeTimeline();
-  initializeSkillsChart();
+  initializeSkillsTree();
 });
 
-// Watch for color mode changes to update visualizations
+// Watch for color mode changes to update visualization
 const colorMode = useColorMode();
 watch(() => colorMode.value, () => {
-  initializeTimeline();
-  initializeSkillsChart();
+  initializeSkillsTree();
 });
 
-function initializeTimeline() {
-  if (!timelineRef.value) return;
+function initializeSkillsTree() {
+  if (!skillsTreeRef.value) return;
 
   // Clear previous visualization
-  d3.select(timelineRef.value as Element).selectAll('*').remove();
+  d3.select(skillsTreeRef.value as Element).selectAll('*').remove();
 
-  const width = timelineRef.value.clientWidth;
-  const height = timelineRef.value.clientHeight;
-  const margin = { top: 40, right: 40, bottom: 40, left: 40 };
+  const width = skillsTreeRef.value.clientWidth;
+  const height = skillsTreeRef.value.clientHeight;
+  const radius = Math.min(width, height) / 2 - 100;
 
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
+  // Create the tree layout
+  const tree = d3.tree<SkillNode>()
+    .size([2 * Math.PI, radius])
+    .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth);
 
-  // Create time scale
-  const timeExtent = d3.extent(timelineData, d => d.date) as [Date, Date];
-  const xScale = d3.scaleTime()
-    .domain(timeExtent)
-    .range([0, innerWidth]);
-
-  // Create SVG
-  const svg = d3.select(timelineRef.value as Element)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-  // Create main group and apply margins
-  const g = svg.append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
-
-  // Add x-axis
-  const xAxis = d3.axisBottom(xScale)
-    .ticks(d3.timeMonth.every(6) ?? 6)
-    .tickFormat((d: Date | d3.NumberValue) => {
-      if (d instanceof Date) {
-        return d3.timeFormat('%b %Y')(d);
-      }
-      return '';
-    });
-
-  g.append('g')
-    .attr('class', 'x-axis')
-    .attr('transform', `translate(0,${innerHeight})`)
-    .call(xAxis as any)
-    .selectAll('text')
-    .attr('dy', '1em')
-    .style('text-anchor', 'middle');
-
-  // Add timeline events
-  const events = g.selectAll('.timeline-event')
-    .data(timelineData)
-    .enter()
-    .append('g')
-    .attr('class', 'timeline-event')
-    .attr('transform', d => `translate(${xScale(d.date)},0)`);
-
-  // Add event circles
-  events.append('circle')
-    .attr('r', 8)
-    .attr('cy', innerHeight)
-    .attr('class', 'fill-primary');
-
-  // Add event labels
-  events.append('text')
-    .attr('y', innerHeight - 20)
-    .attr('text-anchor', 'middle')
-    .attr('class', 'font-medium text-sm')
-    .text(d => d.company);
-
-  // Add role labels
-  events.append('text')
-    .attr('y', innerHeight - 40)
-    .attr('text-anchor', 'middle')
-    .attr('class', 'font-medium text-xs text-gray-600 dark:text-gray-400')
-    .text(d => d.role);
-
-  // Add connecting line
-  g.append('line')
-    .attr('x1', 0)
-    .attr('x2', innerWidth)
-    .attr('y1', innerHeight)
-    .attr('y2', innerHeight)
-    .attr('class', 'stroke-gray-300 dark:stroke-gray-700')
-    .attr('stroke-width', 2);
-
-  // Add hover interaction
-  events
-    .on('mouseover', function(event, d) {
-      const tooltip = d3.select(timelineRef.value as Element)
-        .append('div')
-        .attr('class', 'absolute bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700')
-        .style('left', `${event.pageX}px`)
-        .style('top', `${event.pageY - 100}px`);
-
-      tooltip.append('p')
-        .attr('class', 'font-bold mb-2')
-        .text(`${d.company} - ${d.role}`);
-
-      tooltip.append('p')
-        .attr('class', 'text-sm text-gray-600 dark:text-gray-400 mb-2')
-        .text(d.description);
-
-      tooltip.append('div')
-        .attr('class', 'flex flex-wrap gap-2')
-        .selectAll('.tech-tag')
-        .data(d.technologies)
-        .enter()
-        .append('span')
-        .attr('class', 'text-xs px-2 py-1 rounded-full bg-primary/10 text-primary')
-        .text(d => d);
-    })
-    .on('mouseout', function() {
-      d3.select(timelineRef.value as Element)
-        .selectAll('.absolute')
-        .remove();
-    });
-}
-
-function initializeSkillsChart() {
-  if (!skillsRef.value) return;
-
-  // Clear previous visualization
-  d3.select(skillsRef.value as Element).selectAll('*').remove();
-
-  const width = skillsRef.value.clientWidth;
-  const height = skillsRef.value.clientHeight;
-  const margin = { top: 40, right: 40, bottom: 40, left: 40 };
-
-  const innerWidth = width - margin.left - margin.right;
-  const innerHeight = height - margin.top - margin.bottom;
-
-  // Create SVG
-  const svg = d3.select(skillsRef.value as Element)
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
-
-  // Create force simulation
-  const simulation = d3.forceSimulation<Skill>(skillsData)
-    .force('x', d3.forceX<Skill>(innerWidth / 2).strength(0.1))
-    .force('y', d3.forceY<Skill>(innerHeight / 2).strength(0.1))
-    .force('collide', d3.forceCollide<Skill>().radius(d => Math.sqrt((d as Skill).level * 100) + 2))
-    .force('charge', d3.forceManyBody<Skill>().strength(-50));
-
-  // Create main group and apply margins
-  const g = svg.append('g')
-    .attr('transform', `translate(${margin.left},${margin.top})`);
-
-  // Create color scale for categories
-  const categories = Array.from(new Set(skillsData.map(d => d.category)));
-  const colorScale = d3.scaleOrdinal<string>()
-    .domain(categories)
-    .range(d3.schemeSet3);
-
-  // Add bubbles
-  const bubbles = g.selectAll<SVGGElement, Skill>('.skill-bubble')
-    .data(skillsData)
-    .enter()
-    .append('g')
-    .attr('class', 'skill-bubble');
-
-  bubbles.append('circle')
-    .attr('r', d => Math.sqrt(d.level * 100))
-    .attr('fill', d => colorScale(d.category))
-    .attr('class', 'opacity-80 hover:opacity-100 transition-opacity');
-
-  bubbles.append('text')
-    .attr('text-anchor', 'middle')
-    .attr('dy', '0.3em')
-    .attr('class', 'text-sm font-medium fill-gray-900 dark:fill-white')
-    .text(d => d.name);
-
-  // Add legend
-  const legend = svg.append('g')
-    .attr('class', 'legend')
-    .attr('transform', `translate(${width - margin.right - 150}, ${margin.top})`);
-
-  categories.forEach((category, i) => {
-    const legendItem = legend.append('g')
-      .attr('transform', `translate(0, ${i * 25})`);
-
-    legendItem.append('circle')
-      .attr('r', 6)
-      .attr('fill', colorScale(category));
-
-    legendItem.append('text')
-      .attr('x', 15)
-      .attr('y', 5)
-      .attr('class', 'text-sm fill-gray-900 dark:fill-white')
-      .text(category);
+  // Create the root hierarchy and collapse all nodes initially
+  const root = d3.hierarchy(skillsData) as TreeNode;
+  let i = 0; // Counter for generating unique IDs
+  
+  root.descendants().forEach(d => {
+    const node = d as TreeNode & { children: TreeNode[] | null };
+    node._children = node.children;
+    if (d.depth > 0) {
+      node.children = null;
+    }
+    node.id = `node-${i++}`;
   });
 
-  // Update bubble positions on simulation tick
-  simulation.on('tick', () => {
-    bubbles.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
-  });
+  // Create SVG with overflow handling
+  const container = d3.select(skillsTreeRef.value as Element)
+    .style('position', 'relative')
+    .style('overflow-x', 'hidden');
 
-  // Add hover interaction
-  bubbles
-    .on('mouseover', function(event, d) {
-      const tooltip = d3.select(skillsRef.value as Element)
-        .append('div')
-        .attr('class', 'absolute bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700')
-        .style('left', `${event.pageX}px`)
-        .style('top', `${event.pageY - 80}px`);
+  const svg = container
+    .append('svg')
+    .attr('width', width)
+    .attr('height', height)
+    .append('g')
+    .attr('transform', `translate(${width / 2},${height / 2})`);
 
-      tooltip.append('p')
-        .attr('class', 'font-bold mb-1')
-        .text(d.name);
+  // Create tooltip container
+  const tooltip = container
+    .append('div')
+    .attr('class', 'fixed hidden bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10 pointer-events-none max-w-sm')
+    .style('transform', 'translate(-50%, -100%)');
 
-      tooltip.append('p')
-        .attr('class', 'text-sm text-gray-600 dark:text-gray-400')
-        .text(`${d.experience} years experience`);
+  // Function to update the visualization
+  function update(source: TreeNode) {
+    const duration = 750;
+    const nodes = root.descendants();
+    const links = root.links();
 
-      tooltip.append('div')
-        .attr('class', 'mt-2')
-        .append('div')
-        .attr('class', 'h-2 bg-gray-200 dark:bg-gray-700 rounded-full')
-        .append('div')
-        .attr('class', 'h-full bg-primary rounded-full')
-        .style('width', `${d.level * 10}%`);
-    })
-    .on('mouseout', function() {
-      d3.select(skillsRef.value as Element)
-        .selectAll('.absolute')
-        .remove();
+    // Compute the new tree layout
+    tree(root);
+
+    // Update links
+    const link = svg.selectAll('path.link')
+      .data(links, (d: any) => d.target.id);
+
+    // Enter new links
+    const linkEnter = link.enter()
+      .append('path')
+      .attr('class', 'link')
+      .attr('fill', 'none')
+      .attr('stroke', colorMode.value === 'dark' ? '#4B5563' : '#D1D5DB')
+      .attr('stroke-width', 1.5)
+      .attr('d', (d) => {
+        const o = { x: source.x0 ?? Math.PI, y: source.y0 ?? 0 };
+        return d3.linkRadial<any, any>()
+          .angle((d: any) => d.x)
+          .radius((d: any) => d.y)({ source: o, target: o });
+      });
+
+    // Update existing links
+    link.merge(linkEnter as any)
+      .transition()
+      .duration(duration)
+      .attr('d', d3.linkRadial<any, any>()
+        .angle((d: any) => d.x)
+        .radius((d: any) => d.y));
+
+    // Remove old links
+    link.exit()
+      .transition()
+      .duration(duration)
+      .attr('d', (d) => {
+        const o = { x: source.x ?? Math.PI, y: source.y ?? 0 };
+        return d3.linkRadial<any, any>()
+          .angle((d: any) => d.x)
+          .radius((d: any) => d.y)({ source: o, target: o });
+      })
+      .remove();
+
+    // Update nodes
+    const node = svg.selectAll('g.node')
+      .data(nodes, (d: any) => d.id);
+
+    // Enter new nodes
+    const nodeEnter = node.enter()
+      .append('g')
+      .attr('class', 'node')
+      .attr('cursor', 'pointer')
+      .attr('transform', () => `translate(${project((source as any).x0 || 0, (source as any).y0 || 0)})`)
+      .style('opacity', 0)
+      .on('click', (event, d: TreeNode) => {
+        const node = d as TreeNode & { children: TreeNode[] | null };
+        node.children = node.children ? null : node._children || null;
+        update(node);
+      });
+
+    // Add node circles
+    nodeEnter.append('circle')
+      .attr('r', 0)
+      .attr('fill', d => getNodeColor(d.data))
+      .attr('class', 'transition-colors duration-200');
+
+    // Add node labels
+    nodeEnter.append('text')
+      .attr('dy', '0.31em')
+      .attr('x', (d: any) => {
+        const angle = d.x - Math.PI / 2;
+        return (angle > Math.PI / 2 || angle < -Math.PI / 2) ? -8 : 8;
+      })
+      .attr('text-anchor', (d: any) => {
+        const angle = d.x - Math.PI / 2;
+        return (angle > Math.PI / 2 || angle < -Math.PI / 2) ? 'end' : 'start';
+      })
+/*       .attr('transform', (d: any) => {
+        const angle = d.x - Math.PI / 2;
+        return (angle > Math.PI / 2 || angle < -Math.PI / 2)
+          ? 'rotate(180)'
+          : null;
+      }) */
+      .attr('class', 'text-sm fill-gray-900 dark:fill-gray-100')
+      .text(d => d.data.name);
+
+    // Update existing nodes
+    const nodeUpdate = node.merge(nodeEnter as any)
+      .transition()
+      .duration(duration)
+      .attr('transform', (d: any) => `translate(${project(d.x, d.y)})`)
+      .style('opacity', 1);
+
+    nodeUpdate.select('circle')
+      .attr('r', d => d.data.experience ? 6 : 8)
+      .attr('fill', d => getNodeColor(d.data));
+
+    // Remove old nodes
+    const nodeExit = node.exit()
+      .transition()
+      .duration(duration)
+      .attr('transform', () => `translate(${project((source as any).x || 0, (source as any).y || 0)})`)
+      .style('opacity', 0)
+      .remove();
+
+    nodeExit.select('circle')
+      .attr('r', 0);
+
+    // Store positions for next transition
+    nodes.forEach((d: any) => {
+      d.x0 = d.x;
+      d.y0 = d.y;
     });
+
+    // Update hover handlers
+    svg.selectAll('g.node')
+      .on('mouseover', function(event, d: any) {
+        const [x, y] = d3.pointer(event, container.node());
+        showTooltip(x, y, d as d3.HierarchyNode<SkillNode>);
+      })
+      .on('mousemove', function(event) {
+        const [x, y] = d3.pointer(event, container.node());
+        tooltip
+          .style('left', `${x}px`)
+          .style('top', `${y - 10}px`);
+      })
+      .on('mouseout', hideTooltip);
+  }
+
+  // Initialize positions and start animation
+  (root as any).x0 = Math.PI;
+  (root as any).y0 = 0;
+
+  // Start with only the root node visible
+  update(root);
+
+  // Expand nodes one level at a time
+  function expandLevel(depth: number) {
+    if (depth > 3) return; // Max depth to expand
+
+    const toExpand = root.descendants()
+      .filter(d => d.depth === depth - 1 && (d as TreeNode)._children);
+
+    if (toExpand.length === 0) return;
+
+    toExpand.forEach(d => {
+      const node = d as TreeNode & { children: TreeNode[] | null };
+      node.children = node._children;
+    });
+
+    update(root);
+
+    setTimeout(() => expandLevel(depth + 1), 1000);
+  }
+
+  // Start expansion animation after a short delay
+  setTimeout(() => expandLevel(1), 500);
+
+  // Helper function to project coordinates
+  function project(x: number, y: number): [number, number] {
+    const angle = x - Math.PI / 2;
+    return [Math.cos(angle) * y, Math.sin(angle) * y];
+  }
+
+  // Helper function to get node color based on experience
+  function getNodeColor(data: SkillNode): string {
+    if (!data.experience) return '#6B7280'; // Default gray for parent nodes
+    switch (data.experience) {
+      case 'Expert': return '#10B981'; // Emerald
+      case 'Advanced': return '#3B82F6'; // Blue
+      case 'Intermediate': return '#F59E0B'; // Amber
+      default: return '#6B7280'; // Gray
+    }
+  }
+
+  // Tooltip functions
+  function showTooltip(x: number, y: number, d: d3.HierarchyNode<SkillNode>) {
+    tooltip.classed('hidden', false)
+      .style('left', `${x}px`)
+      .style('top', `${y - 10}px`)
+      .html('');
+
+    if (d.data.experience) {
+      tooltip.html(`
+        <p class="font-bold mb-1">${d.data.name}</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400">Experience: ${d.data.experience}</p>
+        ${d.data.years ? `<p class="text-sm text-gray-600 dark:text-gray-400">Years: ${d.data.years}</p>` : ''}
+        ${d.data.notes ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">${d.data.notes}</p>` : ''}
+      `);
+    } else if (d.data.position) {
+      tooltip.html(`
+        <p class="font-bold mb-1">${d.data.name}</p>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">${d.data.position} (${d.data.duration})</p>
+        ${d.data.achievements ? `
+          <div class="mt-2">
+            ${d.data.achievements.map(a => `
+              <p class="text-sm text-gray-600 dark:text-gray-400 ml-2 before:content-['•'] before:mr-2">${a}</p>
+            `).join('')}
+          </div>
+        ` : ''}
+      `);
+    }
+  }
+
+  function hideTooltip() {
+    tooltip.classed('hidden', true);
+  }
 }
+
+// Add window resize handler
+onMounted(() => {
+  const handleResize = () => {
+    if (skillsTreeRef.value) {
+      initializeSkillsTree();
+    }
+  };
+  
+  window.addEventListener('resize', handleResize);
+  initializeSkillsTree();
+  
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+  });
+});
 </script>
 
 <style scoped>
-/* Add any custom styles for visualizations */
-:deep(svg) {
-  max-width: 100%;
-  height: auto;
+.link {
+  transition: stroke 0.2s ease;
 }
 
-:deep(.timeline-event:hover) {
-  cursor: pointer;
-  filter: brightness(1.1);
+.node circle {
+  transition: fill 0.2s ease, r 0.2s ease;
 }
 
-:deep(.skill-bubble:hover) {
-  cursor: pointer;
-  filter: brightness(1.1);
+.node:hover circle {
+  r: 8;
 }
-</style> 
+</style>
