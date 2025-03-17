@@ -115,7 +115,6 @@ const featuredProjects: Project[] = [
   },
 ];
 
-// Example other projects
 const otherProjects: Project[] = [
   {
     id: 1,
@@ -124,7 +123,6 @@ const otherProjects: Project[] = [
     technologies: ["Python"],
     githubUrl: "https://github.com/mdiener87/python-scripts"
   },
-  // Add more projects
 ];
 
 // Function to determine badge color based on technology
