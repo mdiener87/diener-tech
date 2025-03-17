@@ -2,6 +2,7 @@ import type { Config } from "tailwindcss";
 import defaultTheme from "tailwindcss/defaultTheme";
 
 export default <Partial<Config>>{
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -17,8 +18,8 @@ export default <Partial<Config>>{
           "800": "#1e293b",
           "900": "#0f172a",
           "950": "#020617",
-        },
-      },
-    },
-  },
+        }
+      }
+    }
+  }
 };
