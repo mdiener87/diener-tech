@@ -4,12 +4,22 @@
     
     <!-- Search and Filter Section -->
     <div class="mb-8 space-y-4">
-      <UInput
-        v-model="searchQuery"
-        icon="i-heroicons-magnifying-glass"
-        placeholder="Search posts..."
-        class="max-w-md"
-      />
+      <div class="flex justify-between items-center">
+        <UInput
+          v-model="searchQuery"
+          icon="i-heroicons-magnifying-glass"
+          placeholder="Search posts..."
+          class="max-w-md"
+        />
+        <NuxtLink
+          to="/feed.xml"
+          class="flex items-center gap-2 text-primary hover:underline"
+          target="_blank"
+        >
+          <UIcon name="i-heroicons-rss" class="w-5 h-5" />
+          RSS Feed
+        </NuxtLink>
+      </div>
       
       <div class="flex flex-wrap gap-2">
         <UButton
