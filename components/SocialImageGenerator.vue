@@ -1,7 +1,7 @@
 <template>
   <div ref="imageContainer" class="social-image-container">
     <div class="social-image">
-      <div class="social-title">Diener.tech</div>
+      <div class="social-title">DienerTech</div>
       <div class="social-subtitle">Personal Portfolio &amp; Blog</div>
     </div>
   </div>

@@ -108,7 +108,7 @@ const featuredProjects: Project[] = [
     id: 1,
     title: "Personal Website",
     description: "You are here! My personal website and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode, and d3.js visualizations!",
-    image: "/projects/dienertech.webp",
+    image: "/images/default-social.svg",
     technologies: ["Vue", "Nuxt", "TypeScript"],
     demoUrl: "https://diener.tech",
     githubUrl: "https://github.com/mdiener87/diener-tech"

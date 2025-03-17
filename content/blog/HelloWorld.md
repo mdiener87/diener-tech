@@ -1,5 +1,5 @@
 ---
-title: "Welcome to Diener.tech"
+title: "Welcome to DienerTech"
 description: "An introduction to my personal website."
 date: "2024-12-08"
 ---
