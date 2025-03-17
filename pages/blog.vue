@@ -105,7 +105,7 @@ const posts = await queryContent<BlogPost>('blog')
 
 // Get unique categories from posts
 const categories = computed(() => {
-  const cats = new Set(['All', ...posts.map(post => post.category).filter(Boolean)]);
+  const cats = new Set(['All', ...posts.map(post => post.category || '').filter(Boolean)]);
   return Array.from(cats);
 });
 
@@ -150,4 +150,13 @@ function formatDate(date: string) {
     day: 'numeric'
   });
 }
+
+// Add SEO metadata
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+  title: 'Blog',
+  description: 'Explore articles and insights on software development, web technologies, and creative projects.',
+  type: 'website'
+});
 </script>
