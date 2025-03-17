@@ -25,7 +25,9 @@
         :class="[isInfoPanelExpanded ? 'max-h-[300px] p-4' : 'max-h-0 p-0']"
       >
         <div ref="infoPanelContent" class="w-64 min-h-[100px]">
-          <h3 class="text-sm font-semibold mb-2">Hover over nodes to see details</h3>
+          <h3 class="text-sm font-semibold mb-2">
+            Hover over nodes to see details
+          </h3>
           <div class="text-sm text-gray-600 dark:text-gray-400">
             Click nodes to expand/collapse branches
           </div>
@@ -40,15 +42,15 @@ import { ref, onMounted, onUnmounted, computed, watch } from "vue";
 import * as d3 from "d3";
 import { skillsData } from "~/types/skills";
 import type { SkillNode, TreeNode } from "~/types/skills";
-import { 
-  getNodeColor, 
-  project, 
-  storeNodeChildren, 
-  hideNodeChildren, 
-  toggleNodeChildren, 
+import {
+  getNodeColor,
+  project,
+  storeNodeChildren,
+  hideNodeChildren,
+  toggleNodeChildren,
   restoreNodeChildren,
   getLinkColor,
-  getTextColor
+  getTextColor,
 } from "~/utils/d3-utils";
 
 // References for D3 visualizations
@@ -59,7 +61,7 @@ const infoPanelContent = ref<HTMLElement>();
 
 // Get color mode from Nuxt
 const colorMode = useColorMode();
-const isDarkMode = computed(() => colorMode.value === 'dark');
+const isDarkMode = computed(() => colorMode.value === "dark");
 
 // Initialize D3 visualization on mount
 onMounted(() => {
@@ -73,9 +75,12 @@ onMounted(() => {
   initializeSkillsTree();
 
   // Watch for color mode changes to update the visualization
-  watch(() => colorMode.value, () => {
-    initializeSkillsTree();
-  });
+  watch(
+    () => colorMode.value,
+    () => {
+      initializeSkillsTree();
+    }
+  );
 
   onUnmounted(() => {
     window.removeEventListener("resize", handleResize);
@@ -241,10 +246,8 @@ function initializeSkillsTree() {
       .select("circle")
       .attr("r", (d) => (d.data.experience ? 6 : 8))
       .attr("fill", (d) => getNodeColor(d.data, d));
-      
-    nodeUpdate
-      .select("text")
-      .attr("fill", getTextColor(isDarkMode.value));
+
+    nodeUpdate.select("text").attr("fill", getTextColor(isDarkMode.value));
 
     // Remove old nodes
     const nodeExit = node
@@ -314,11 +317,11 @@ function initializeSkillsTree() {
 
   function showNodeInfo(d: d3.HierarchyNode<SkillNode>) {
     if (!d.data.name || !infoPanelContent.value) return;
-    
+
     if (!isInfoPanelExpanded.value) {
       return;
     }
-    
+
     if (hideTimeout) {
       clearTimeout(hideTimeout);
     }
@@ -327,34 +330,43 @@ function initializeSkillsTree() {
 
     if (d.data.experience) {
       content += `
-        <p class="text-sm text-gray-600 dark:text-gray-400">Experience: ${d.data.experience}</p>
-        ${d.data.years ? `<p class="text-sm text-gray-600 dark:text-gray-400">Years: ${d.data.years}</p>` : ''}
-        ${d.data.notes ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">${d.data.notes}</p>` : ''}
+        <p class="text-sm text-gray-600 dark:text-gray-400">Experience: ${
+          d.data.experience
+        }</p>
+        ${
+          d.data.years
+            ? `<p class="text-sm text-gray-600 dark:text-gray-400">Years: ${d.data.years}</p>`
+            : ""
+        }
+        ${
+          d.data.notes
+            ? `<p class="text-sm text-gray-600 dark:text-gray-400 mt-2">${d.data.notes}</p>`
+            : ""
+        }
       `;
-    } else if (d.data.position) {
+    }
+
+    if (d.data.position) {
       content += `
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">${d.data.position} (${d.data.duration})</p>
-        ${d.data.achievements ? `
-          <div class="mt-2">
-            ${d.data.achievements.map(a => `
-              <p class="text-sm text-gray-600 dark:text-gray-400 ml-2 before:content-['•'] before:mr-2">${a}</p>
-            `).join('')}
-          </div>
-        ` : ''}
-      `;
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-1"><i>${d.data.position}</i></p>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-1">${d.data.duration}</p>`;
     }
 
     if (d.data.description) {
       content += `
         <ul class="mt-2 list-disc pl-4">
-          ${d.data.description.map(desc => `<li class="text-sm text-gray-600 dark:text-gray-400">${desc}</li>`).join('')}
+          ${d.data.description
+            .map(
+              (desc) =>
+                `<li class="text-sm text-gray-600 dark:text-gray-400">${desc}</li>`
+            )
+            .join("")}
         </ul>
       `;
     }
 
     infoPanelContent.value.innerHTML = content;
   }
-
 
   function hideNodeInfo() {
     if (!infoPanelContent.value) return;
@@ -370,8 +382,8 @@ function initializeSkillsTree() {
 
       // Add fade out class
       const content = infoPanelContent.value;
-      content.style.opacity = '0';
-      content.style.transition = 'opacity 0.3s ease';
+      content.style.opacity = "0";
+      content.style.transition = "opacity 0.3s ease";
 
       // After fade, update content and fade back in
       setTimeout(() => {
@@ -381,9 +393,8 @@ function initializeSkillsTree() {
             Click nodes to expand/collapse branches
           </div>
         `;
-        content.style.opacity = '1';
+        content.style.opacity = "1";
       }, 300);
-
     }, 1500);
   }
 }
@@ -405,4 +416,4 @@ function initializeSkillsTree() {
 .node-text {
   font-size: 0.875rem;
 }
-</style> 
+</style>

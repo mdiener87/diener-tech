@@ -7,7 +7,6 @@ export interface SkillNode {
   years?: number;
   position?: string;
   duration?: string;
-  achievements?: string[];
   notes?: string;
   description?: string[];
 }
@@ -29,16 +28,16 @@ export const skillsData: SkillNode = {
     {
       name: "Programming Languages",
       description: [
-        "I have a deep love for clean and maintainable code.",
-        "JavaScript and TypeScript have been my primary languages for front-end development.",
-        "My experience with C# and Python primarily relates to backend integrations and tooling."
+        "I have a deep love for programming! I've been coding since I was 12 years old.",
+        "Frontend, backend, and everything in between!",
       ],
       children: [
-        { name: "JavaScript", experience: "Expert", description: ["Over a decade of experience building interactive web applications."] },
-        { name: "TypeScript", experience: "Advanced", description: ["I appreciate the type safety and structure TypeScript brings to JavaScript."] },
-        { name: "Python", experience: "Intermediate", description: ["Primarily used for backend scripting, data processing, and automation."] },
-        { name: "C#", experience: "Intermediate", description: ["Developed multiple .NET integrations and plugins."] },
-        { name: "SQL", experience: "Intermediate", description: ["Extensive experience writing queries, optimizing performance, and creating schemas."] }
+        { name: "JavaScript", experience: "Expert", description: ["Over a decade of experience building interactive web applications.", "I don't miss debugging Internet Explorer!"] },
+        { name: "TypeScript", experience: "Advanced", description: ["I appreciate the type safety and structure TypeScript brings to JavaScript.", "JsDocs blends JavaScript and TypeScript into a single language that compilers hate."] },
+        { name: "Python", experience: "Intermediate", description: ["It's like JavaScript, but it actually makes sense.", "Cool scripts or an entire backend, I've done it."] },
+        { name: "CSS", experience: "Advanced", description: ["Can anyone actually claim to be an Advanced CSS developer?", "I once centered a div on the first try"] },
+        { name: "C#", experience: "Intermediate", description: ["I've built desktop applications, websites, backend integrations, and everything in between.", "Shoutout to StarSiege modding community for teaching me how to build complex C# applications."] },
+        { name: "SQL", experience: "Intermediate", description: ["Extensive experience writing queries, optimizing performance, and creating schemas.", "DBA is its own thing and you should hire one."] }
       ],
     },
     {
@@ -67,67 +66,78 @@ export const skillsData: SkillNode = {
         "Always eager to explore new technologies and platforms to streamline development."
       ],
       children: [
-        { name: "Docker", experience: "Advanced", description: ["Frequently containerize applications for consistency and deployment simplicity."] },
-        { name: "Visual Studio & VS Code", experience: "Expert", description: ["My daily drivers for development, debugging, and productivity."] },
-        { name: "SQL Server", experience: "Intermediate", description: ["Used extensively for data storage, analysis, and integration."] },
-        { name: "Git & GitHub", experience: "Advanced", description: ["Skilled with version control, branching strategies, and CI/CD."] },
-        { name: "AWS/Vercel Hosting", experience: "Advanced", description: ["Regularly deploy and manage web applications on these platforms."] },
-        { name: "Firebase", experience: "Intermediate", description: ["Used Firebase for quick prototyping and realtime database solutions."] },
-        { name: "Unity", experience: "Intermediate", description: ["Developed a small game to kickstart my software development career."] }
+        { name: "Docker", experience: "Intermediate", description: ["Frequently containerize applications for consistency and deployment simplicity.", "By frequently, I mean sometimes."] },
+        { name: "Visual Studio & VS Code", experience: "Expert", description: ["My daily drivers for development, debugging, and productivity.", "Please don't make me use Visual Studio again. That thing is heavy!"] },
+        { name: "SQL Server", experience: "Advanced", description: ["Used extensively for data storage, analysis, and integration."] },
+        { name: "Git & GitHub", experience: "Advanced", description: ["Skilled with version control, branching strategies, and CI/CD.", "I will absolutely delete a branch and start over if the merge gets wonky."] },
+        //{ name: "AWS/Vercel Hosting", experience: "Advanced", description: ["Regularly deploy and manage web applications on these platforms."] },
+        //{ name: "Firebase", experience: "Intermediate", description: ["Used Firebase for quick prototyping and realtime database solutions."] },
+        { name: "Unity", experience: "Intermediate", description: ["Developed a small game that kickstarted my software development career!"] },
+        { name: "Unreal Engine", experience: "Intermediate", description: ["UE5 is really cool to build prototypes in! Cutting edge graphics come free out of the box."] }
       ],
     },
     {
       name: "Professional Experience",
       description: [
-        "A proven track record of leadership, technical excellence, and delivering impactful projects.",
-        "I've progressively grown from a junior developer to a senior technical lead."
+        "Now a decade in the industry, I've progressively grown from a self-taught, junior developer, to a senior engineering lead.",
+        "I have a proven track record of leadership, technical excellence, and delivering impactful projects.",
       ],
       children: [
         {
           name: "HeadSpin",
           position: "Software Engineer",
           duration: "Nov 2022 - Present",
-          achievements: [
-            "Developed Vue Component Library",
-            "Optimized front-end performance",
-            "Migrated from Vue 2 to Vue 3"
-          ],
           description: [
-            "Led a significant frontend overhaul, greatly improving application responsiveness.",
+            "Led a significant frontend overhaul, greatly improving application responsiveness and decreasing memory usage.",
+            "Implemented individaul customer requests into our product as reusable features, resulting in increased customer satisfaction and retention.",
             "Standardized our component design, improving consistency across products."
           ]
         },
         {
-          name: "Sopheon",
-          position: "Senior Technical Consultant",
+          name: "Sopheon (Engineering)",
+          position: "Software Engineer",
           duration: "Nov 2021 - Nov 2022",
-          achievements: [
-            "Built JavaScript Component Library",
-            "Led technical implementations",
-            "Created C# plugins and SQL scripts"
-          ],
           description: [
-            "Acted as technical lead, directly interfacing with enterprise-level clients.",
+            "Created an API that integrated a new application with Sopheon's core product, Accolade, amplifying the value of both platforms.",
+            "Implemented GDPR compliance for the European market, ensuring our product met strict data protection regulations.",
+            "Decreased page load times and increased responsiveness by optimizing front-end and backend architecture."
+          ]
+        },
+        {
+          name: "Sopheon (Consulting)",
+          position: "Senior Technical Consultant",
+          duration: "Feb 2017 - Nov 2021",
+          description: [
+            "Spearheaded client success as the lead consultant, managing technical implementations for enterprise clients and interfacing with key stakeholders at the director and VP level.",
             "Built reusable tools that directly led to increased client satisfaction and additional contracts."
+          ]
+        },
+        {
+          name: "LenderLive",
+          position: "Software Developer",
+          duration: "Jun 2015 - Feb 2017",
+          description: [
+            "Designed and built a .NET solution integrating production systems with Microsoft Great Plains ERP.",
+            "Automated monthly billing into a one-click process, significantly boosting efficiency and accuracy."
           ]
         }
       ],
     },
     {
       name: "Achievements & Awards",
-      description: ["Recognition for innovation, quality implementation, and outstanding contribution to major projects."],
+      description: ["Profesionall Recognition for innovation, quality implementation, and outstanding contribution to major projects.", "I have little trophies for each of these, so you know it's legit."],
       children: [
         {
           name: "Outstanding Contribution",
-          description: ["Recognized internally at Sopheon for developing a high-value JavaScript library."],
-          children: [{ name: "JavaScript Component Library (Sopheon)", description: ["This library significantly boosted frontend productivity."] }]
+          description: ["Recognized by Sopheon for developing a high-value JavaScript library."],
+          children: [{ name: "JavaScript Component Library (Sopheon)", description: ["This library dramatically improved the power of our product, Accolade, by empowering advanced UX capabilities."] }]
         },
         {
           name: "Outstanding Implementation",
           description: ["Acknowledged for successful implementation of high-profile client projects."],
           children: [
-            { name: "Merck Project (Sopheon)", description: ["Delivered ahead of schedule, exceeding client expectations."] },
-            { name: "3M Project (Sopheon)", description: ["Key role in delivering critical functionality with high quality."] }
+            { name: "Merck Project (Sopheon)", description: ["Digitized and streamlined Merck's complex financial processes, saving them millions of dollars.", "Also recognized by Merck for my work on the project."] },
+            { name: "3M Project (Sopheon)", description: ["Key role in delivering critical functionality with high quality.", "Promoted to Senior Technical Consultant for this one."] }
           ]
         }
       ],
