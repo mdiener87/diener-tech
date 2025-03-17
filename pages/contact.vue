@@ -129,4 +129,13 @@ const submitForm = () => {
   form.email = "";
   form.message = "";
 };
+
+// Add SEO metadata
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+  title: 'Contact Me',
+  description: 'Get in touch with me for project inquiries, questions, or just to say hello. Use the contact form or connect via email and social media.',
+  type: 'website'
+});
 </script>
