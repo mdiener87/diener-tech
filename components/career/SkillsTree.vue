@@ -71,21 +71,63 @@ onMounted(() => {
     }
   };
 
-  window.addEventListener("resize", handleResize);
+  // Debounce resize handler to prevent excessive updates
+  const debouncedResize = debounce(handleResize, 250);
+  window.addEventListener("resize", debouncedResize);
+  
+  // Initial setup
   initializeSkillsTree();
 
-  // Watch for color mode changes to update the visualization
+  // Watch for color mode changes to update colors only
   watch(
     () => colorMode.value,
     () => {
-      initializeSkillsTree();
+      updateVisualizationColors();
     }
   );
 
   onUnmounted(() => {
-    window.removeEventListener("resize", handleResize);
+    window.removeEventListener("resize", debouncedResize);
+    // Clean up D3 elements
+    if (skillsTreeRef.value) {
+      d3.select(skillsTreeRef.value).selectAll("*").remove();
+    }
   });
 });
+
+// Debounce helper
+function debounce(fn: Function, ms: number) {
+  let timer: NodeJS.Timeout;
+  return (...args: any[]) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}
+
+// Update only colors without reinitializing the entire visualization
+function updateVisualizationColors() {
+  if (!skillsTreeRef.value) return;
+
+  const svg = d3.select(skillsTreeRef.value).select("svg");
+  
+  // Update link colors
+  svg.selectAll("path.link")
+    .transition()
+    .duration(250)
+    .attr("stroke", getLinkColor(isDarkMode.value));
+
+  // Update node colors
+  svg.selectAll("circle")
+    .transition()
+    .duration(250)
+    .attr("fill", (d: any) => getNodeColor(d.data, d));
+
+  // Update text colors
+  svg.selectAll(".node-text")
+    .transition()
+    .duration(250)
+    .attr("fill", getTextColor(isDarkMode.value));
+}
 
 // Initialize D3 visualization
 function initializeSkillsTree() {
