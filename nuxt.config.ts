@@ -13,7 +13,12 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "nuxt-schema-org",
     "@nuxt/image",
+    "nuxt-cloudflare-analytics",
   ],
+  // Configure modules
+  cloudflareAnalytics: {
+    token: process.env.NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+  },
   ui: {
     global: true,
   },
