@@ -39,14 +39,14 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
         { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-        { rel: 'alternate', type: 'application/rss+xml', title: 'Diener.tech Blog RSS Feed', href: '/feed.xml' }
+        { rel: 'alternate', type: 'application/rss+xml', title: 'DienerTech Blog RSS Feed', href: '/feed.xml' }
       ]
     }
   },
   // SEO Configuration
   site: {
-    url: 'https://diener.tech', // Replace with your actual domain
-    name: 'Diener.tech',
+    url: 'https://diener.tech',
+    name: 'DienerTech',
     description: 'Personal portfolio and blog showcasing software development, creative projects, and more.',
     defaultLocale: 'en',
   },
@@ -70,8 +70,8 @@ export default defineNuxtConfig({
     // Schema.org configuration
     identity: {
       type: 'Person',
-      name: 'Your Name', // Replace with your name
-      url: 'https://diener.tech', // Replace with your site URL
+      name: 'Michael Diener',
+      url: 'https://diener.tech',
     }
   },
   image: {

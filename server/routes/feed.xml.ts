@@ -27,14 +27,14 @@ function serializeContent(content: any): string {
 export default defineEventHandler(async (event) => {
   // Initialize the feed
   const feed = new Feed({
-    title: "Diener.tech Blog",
+    title: "DienerTech Blog",
     description: "Personal portfolio and blog showcasing software development, creative projects, and more",
     id: "https://diener.tech/",
     link: "https://diener.tech/",
     language: "en",
     image: "https://diener.tech/images/default-social.jpg",
     favicon: "https://diener.tech/favicon.ico",
-    copyright: `All rights reserved ${new Date().getFullYear()}, Diener.tech`,
+    copyright: `All rights reserved ${new Date().getFullYear()}, DienerTech`,
     feedLinks: {
       rss2: "https://diener.tech/feed.xml",
     },

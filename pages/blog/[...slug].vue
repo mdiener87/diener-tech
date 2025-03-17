@@ -56,22 +56,22 @@ const formatDate = (dateString) => {
 
 // Site information
 const siteUrl = 'https://diener.tech';
-const authorName = 'Your Name'; // Update with your name
+const authorName = 'Michael Diener';
 
 // SEO metadata for the blog post
 useHead({
   title: post.value?.title || 'Blog Post',
-  titleTemplate: '%s | Diener.tech',
+  titleTemplate: '%s | DienerTech',
   meta: [
-    { name: 'description', content: post.value?.description || post.value?.excerpt || 'Blog post on Diener.tech' },
-    { property: 'og:title', content: `${post.value?.title || 'Blog Post'} | Diener.tech` },
-    { property: 'og:description', content: post.value?.description || post.value?.excerpt || 'Blog post on Diener.tech' },
+    { name: 'description', content: post.value?.description || post.value?.excerpt || 'Blog post on DienerTech' },
+    { property: 'og:title', content: `${post.value?.title || 'Blog Post'} | DienerTech` },
+    { property: 'og:description', content: post.value?.description || post.value?.excerpt || 'Blog post on DienerTech' },
     { property: 'og:type', content: 'article' },
     { property: 'og:url', content: `${siteUrl}/blog/${slug}` },
     { property: 'og:image', content: post.value?.image || '/images/default-social.jpg' },
     { name: 'twitter:card', content: 'summary_large_image' },
-    { name: 'twitter:title', content: `${post.value?.title || 'Blog Post'} | Diener.tech` },
-    { name: 'twitter:description', content: post.value?.description || post.value?.excerpt || 'Blog post on Diener.tech' },
+    { name: 'twitter:title', content: `${post.value?.title || 'Blog Post'} | DienerTech` },
+    { name: 'twitter:description', content: post.value?.description || post.value?.excerpt || 'Blog post on DienerTech' },
     { name: 'twitter:image', content: post.value?.image || '/images/default-social.jpg' },
     ...(post.value?.date ? [{ property: 'article:published_time', content: new Date(post.value.date).toISOString() }] : []),
     ...(post.value?.tags ? post.value.tags.map(tag => ({ property: 'article:tag', content: tag })) : []),

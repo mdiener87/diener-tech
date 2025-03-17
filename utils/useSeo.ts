@@ -28,8 +28,8 @@ export const useSeo = () => {
       canonicalUrl
     } = options;
 
-    const siteName = 'Diener.tech';
-    const siteUrl = 'https://diener.tech'; // Update to your domain
+    const siteName = 'DienerTech';
+    const siteUrl = 'https://diener.tech';
     const fullTitle = `${title} | ${siteName}`;
     const fullUrl = canonicalUrl || `${siteUrl}${useRoute().path}`;
 
@@ -39,7 +39,7 @@ export const useSeo = () => {
       titleTemplate: `%s | ${siteName}`,
       meta: [
         { name: 'description', content: description },
-        { name: 'author', content: 'Your Name' }, // Update with your name
+        { name: 'author', content: 'Michael Diener' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ],
       link: [

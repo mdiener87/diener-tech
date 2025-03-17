@@ -2,7 +2,7 @@
   <header class="w-full py-4 shadow-md bg-gray">
     <UContainer class="flex items-center justify-between">
       <NuxtLink to="/" class="text-2xl font-bold text-primary">
-        Diener.tech
+        DienerTech
       </NuxtLink>
 
       <!-- Center: Navigation Links (Hidden on Smaller Screens) -->
