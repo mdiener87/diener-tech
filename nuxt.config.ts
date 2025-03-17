@@ -5,7 +5,15 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
-  modules: ["@nuxt/content", "@nuxt/ui", "@nuxtjs/color-mode"],
+  modules: [
+    "@nuxt/content", 
+    "@nuxt/ui", 
+    "@nuxtjs/color-mode",
+    "@nuxtjs/sitemap",
+    "@nuxtjs/robots",
+    "nuxt-schema-org",
+    "@nuxt/image",
+  ],
   ui: {
     global: true,
   },
@@ -28,5 +36,48 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' }
       ]
     }
-  }
+  },
+  // SEO Configuration
+  site: {
+    url: 'https://diener.tech', // Replace with your actual domain
+    name: 'Diener.tech',
+    description: 'Personal portfolio and blog showcasing software development, creative projects, and more.',
+    defaultLocale: 'en',
+  },
+  sitemap: {
+    // Sitemap configuration
+    urls: [], // Additional URLs to include
+    // Will automatically include routes from your pages directory
+  },
+  robots: {
+    // Robots.txt configuration for v4
+    sitemap: ['https://diener.tech/sitemap.xml'],
+    groups: [
+      {
+        userAgent: '*',
+        allow: ['/']
+      }
+    ],
+    disallowNonIndexableRoutes: true,
+  },
+  schemaOrg: {
+    // Schema.org configuration
+    identity: {
+      type: 'Person',
+      name: 'Your Name', // Replace with your name
+      url: 'https://diener.tech', // Replace with your site URL
+    }
+  },
+  image: {
+    // Image optimization
+    provider: 'ipx',
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536,
+    },
+  },
 });

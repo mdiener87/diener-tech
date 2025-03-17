@@ -71,4 +71,13 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+// The useSeo composable is auto-imported
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+  title: 'About Me',
+  description: 'Learn about my experience as a software developer, my skills in Vue.js and Node.js, and my personal interests including hiking, 3D printing, and running D&D campaigns.',
+  type: 'profile'
+});
+</script>
