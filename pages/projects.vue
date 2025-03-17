@@ -126,8 +126,8 @@ const otherProjects: Project[] = [
 ];
 
 // Function to determine badge color based on technology
-function getBadgeColor(tech: string): string {
-  const colorMap: Record<string, string> = {
+function getBadgeColor(tech: string): "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary" {
+  const colorMap: Record<string, "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary"> = {
     Vue: "emerald",
     Nuxt: "green",
     TypeScript: "blue",
@@ -137,4 +137,13 @@ function getBadgeColor(tech: string): string {
   };
   return colorMap[tech] || "gray";
 }
+
+// Add SEO metadata
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+  title: 'Projects',
+  description: 'Explore my portfolio of web development projects featuring Vue.js, Nuxt, TypeScript, and Python applications.',
+  type: 'website'
+});
 </script> 

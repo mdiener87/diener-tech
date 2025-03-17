@@ -13,3 +13,14 @@
         </UCard>
     </main>
 </template>
+
+<script setup>
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+    title: 'Home',
+    description: 'Personal portfolio and blog showcasing software development, creative projects, and more',
+    type: 'website',
+    canonicalUrl: 'https://diener.tech'
+});
+</script>

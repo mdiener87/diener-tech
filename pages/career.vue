@@ -18,4 +18,13 @@
 
 <script setup lang="ts">
 import SkillsTree from '~/components/career/SkillsTree.vue';
+
+// Add SEO metadata
+const { setPageMeta } = useSeo();
+
+setPageMeta({
+  title: 'Career Journey',
+  description: 'Explore my professional journey, skills, and achievements through interactive visualizations showcasing my experience in software development.',
+  type: 'profile'
+});
 </script>
