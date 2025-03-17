@@ -20,6 +20,23 @@ yarn install
 bun install
 ```
 
+## Environment Setup
+
+This project uses environment variables for sensitive configuration. To set up your environment:
+
+1. Copy the example environment file:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. Edit `.env` and update the values:
+   ```bash
+   # Required for analytics
+   NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-actual-token
+   ```
+
+> **Note**: Never commit the `.env` file to version control. It's already in `.gitignore`.
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:
