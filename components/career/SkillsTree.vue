@@ -310,11 +310,17 @@ function initializeSkillsTree() {
   setTimeout(() => expandLevel(1), 500);
 
   // Information panel functions
+  let hideTimeout: NodeJS.Timeout | null = null;
+
   function showNodeInfo(d: d3.HierarchyNode<SkillNode>) {
     if (!d.data.name || !infoPanelContent.value) return;
     
     if (!isInfoPanelExpanded.value) {
       return;
+    }
+    
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
     }
 
     let content = `<h3 class="text-sm font-semibold mb-2">${d.data.name}</h3>`;
@@ -338,18 +344,47 @@ function initializeSkillsTree() {
       `;
     }
 
+    if (d.data.description) {
+      content += `
+        <ul class="mt-2 list-disc pl-4">
+          ${d.data.description.map(desc => `<li class="text-sm text-gray-600 dark:text-gray-400">${desc}</li>`).join('')}
+        </ul>
+      `;
+    }
+
     infoPanelContent.value.innerHTML = content;
   }
 
+
   function hideNodeInfo() {
     if (!infoPanelContent.value) return;
-    
-    infoPanelContent.value.innerHTML = `
-      <h3 class="text-sm font-semibold mb-2">Hover over nodes to see details</h3>
-      <div class="text-sm text-gray-600 dark:text-gray-400">
-        Click nodes to expand/collapse branches
-      </div>
-    `;
+
+    // Clear any existing timeout
+    if (hideTimeout) {
+      clearTimeout(hideTimeout);
+    }
+
+    // Set new timeout to hide info after 7 seconds
+    hideTimeout = setTimeout(() => {
+      if (!infoPanelContent.value) return;
+
+      // Add fade out class
+      const content = infoPanelContent.value;
+      content.style.opacity = '0';
+      content.style.transition = 'opacity 0.3s ease';
+
+      // After fade, update content and fade back in
+      setTimeout(() => {
+        content.innerHTML = `
+          <h3 class="text-sm font-semibold mb-2">Hover over nodes to see details</h3>
+          <div class="text-sm text-gray-600 dark:text-gray-400">
+            Click nodes to expand/collapse branches
+          </div>
+        `;
+        content.style.opacity = '1';
+      }, 300);
+
+    }, 1500);
   }
 }
 </script>
