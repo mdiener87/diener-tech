@@ -11,7 +11,7 @@
             <img 
               :src="project.image" 
               :alt="project.title"
-              class="w-full h-48 object-cover rounded-t-lg"
+              class="w-full h-48 object-cover object-center rounded-t-lg"
             />
             <div class="absolute top-2 right-2 space-x-2">
               <UBadge 
@@ -58,7 +58,20 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <UCard v-for="project in otherProjects" :key="project.id" class="flex flex-col">
         <template #header>
-          <h3 class="text-lg font-semibold">{{ project.title }}</h3>
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold">{{ project.title }}</h3>
+            <div class="space-x-2">
+              <UBadge
+                v-for="tech in project.technologies"
+                :key="tech"
+                :color="getBadgeColor(tech)"
+                variant="solid"
+                size="sm"
+              >
+                {{ tech }}
+              </UBadge>
+            </div>
+          </div>
         </template>
         <p class="mb-4">{{ project.description }}</p>
         <div class="mt-auto">
@@ -90,28 +103,26 @@ interface Project {
   url?: string;
 }
 
-// Example featured projects
 const featuredProjects: Project[] = [
   {
     id: 1,
     title: "Personal Website",
-    description: "My personal website and blog built with Nuxt 3, featuring a modern UI, dark mode, and content management system.",
-    image: "/projects/website.jpg", // Add actual image
+    description: "You are here! My personal website and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode, and d3.js visualizations!",
+    image: "/projects/dienertech.webp",
     technologies: ["Vue", "Nuxt", "TypeScript"],
     demoUrl: "https://diener.tech",
-    githubUrl: "https://github.com/yourusername/website"
+    githubUrl: "https://github.com/mdiener87/diener-tech"
   },
-  // Add more featured projects
 ];
 
 // Example other projects
 const otherProjects: Project[] = [
   {
     id: 1,
-    title: "CLI Tool",
-    description: "A command-line tool for automating development workflows.",
-    technologies: ["Node.js", "TypeScript"],
-    githubUrl: "https://github.com/yourusername/cli-tool"
+    title: "Python Scripting",
+    description: "Cool and useful Python scripts!",
+    technologies: ["Python"],
+    githubUrl: "https://github.com/mdiener87/python-scripts"
   },
   // Add more projects
 ];
