@@ -1,7 +1,7 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <div class="min-h-screen flex flex-col bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 ui-transition">
     <!-- Fixed Header with Background -->
-    <div class="fixed top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-lg">
+    <div class="fixed top-0 left-0 w-full z-50 bg-white/95 dark:bg-gray-900/95 shadow-md backdrop-blur-lg card-transition">
       <UContainer>
         <Header />
       </UContainer>
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Footer -->
-    <Footer class="shadow-md backdrop-blur-lg bg-white/95 dark:bg-gray-900/95" />
+    <Footer class="shadow-md backdrop-blur-lg bg-white/95 dark:bg-gray-900/95 card-transition" />
   </div>
 </template>
 
@@ -28,12 +28,34 @@ html {
               color 0.25s ease;
 }
 
-/* Apply transitions to all elements */
-*, *::before, *::after {
+/* Common UI element transitions */
+.ui-transition {
+  transition: background-color 0.25s ease,
+              color 0.25s ease;
+}
+
+/* Card transitions */
+.card-transition {
   transition: background-color 0.25s ease,
               border-color 0.25s ease,
-              color 0.25s ease,
               box-shadow 0.25s ease;
+}
+
+/* Button transitions */
+.button-transition {
+  transition: background-color 0.25s ease,
+              border-color 0.25s ease,
+              color 0.25s ease;
+}
+
+/* Text transitions */
+.text-transition {
+  transition: color 0.25s ease;
+}
+
+/* Border transitions */
+.border-transition {
+  transition: border-color 0.25s ease;
 }
 
 /* Page Transition */
