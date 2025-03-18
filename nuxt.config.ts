@@ -43,6 +43,12 @@ export default defineNuxtConfig({
       ]
     }
   },
+  // Error Handling Configuration
+  error: {
+    // Use our custom error page
+    statusCode: 500,
+    message: 'An unexpected error occurred'
+  },
   // SEO Configuration
   site: {
     url: 'https://diener.tech',
