@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="120" cy="120" r="120" fill="#E0E7FF"/>
+    
+    <!-- Warning Icon -->
+    <g transform="translate(120, 120)">
+        <!-- Triangle -->
+        <path d="M0 -60 L52 30 L-52 30 Z" fill="#6366F1"/>
+        
+        <!-- Exclamation Mark -->
+        <rect x="-6" y="-30" width="12" height="35" fill="white" rx="2"/>
+        <rect x="-6" y="15" width="12" height="12" fill="white" rx="6"/>
+    </g>
+    
+    <!-- "Error" Text -->
+    <text x="120" y="200" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#6366F1" text-anchor="middle">Error</text>
+</svg> 
