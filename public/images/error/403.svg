@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="120" cy="120" r="120" fill="#FEF3C7"/>
+    
+    <!-- Lock Icon -->
+    <g transform="translate(120, 120)">
+        <!-- Lock Body -->
+        <rect x="-30" y="-10" width="60" height="50" rx="10" fill="#D97706"/>
+        
+        <!-- Lock Shackle -->
+        <path d="M-20 -10 L-20 -30 Q-20 -50, 0 -50 Q20 -50, 20 -30 L20 -10" 
+              stroke="#D97706" stroke-width="12" fill="none" stroke-linecap="round"/>
+        
+        <!-- Keyhole -->
+        <circle cx="0" cy="10" r="8" fill="#FEF3C7"/>
+        <rect x="-2" y="10" width="4" height="15" fill="#FEF3C7"/>
+    </g>
+    
+    <!-- "403" Text -->
+    <text x="120" y="200" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#D97706" text-anchor="middle">403</text>
+</svg> 
