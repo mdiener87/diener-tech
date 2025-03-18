@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="240" height="240" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Background Circle -->
+    <circle cx="120" cy="120" r="120" fill="#FEE2E2"/>
+    
+    <!-- Gear Icon -->
+    <g transform="translate(120, 120)">
+        <!-- Outer Gear -->
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(0)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(45)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(90)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(135)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(180)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(225)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(270)"/>
+        <path d="M0 -60 L10 -60 L15 -40 L-15 -40 L-10 -60 Z" fill="#DC2626" transform="rotate(315)"/>
+        
+        <!-- Inner Circle -->
+        <circle cx="0" cy="0" r="30" fill="#DC2626"/>
+        
+        <!-- Sad Face -->
+        <circle cx="-10" cy="-10" r="4" fill="white"/>
+        <circle cx="10" cy="-10" r="4" fill="white"/>
+        <path d="M-15 15 Q 0 5, 15 15" stroke="white" stroke-width="4" fill="none"/>
+    </g>
+    
+    <!-- "500" Text -->
+    <text x="120" y="200" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="#DC2626" text-anchor="middle">500</text>
+</svg> 
