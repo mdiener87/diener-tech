@@ -43,12 +43,6 @@ export default defineNuxtConfig({
       ]
     }
   },
-  // Error Handling Configuration
-  error: {
-    // Use our custom error page
-    statusCode: 500,
-    message: 'An unexpected error occurred'
-  },
   // SEO Configuration
   site: {
     url: 'https://diener.tech',
@@ -92,4 +86,22 @@ export default defineNuxtConfig({
       xxl: 1536,
     },
   },
+  nitro: {
+    preset: 'cloudflare-pages',
+    storage: {
+      kv: {
+        driver: process.env.NODE_ENV === 'development' ? 'memory' : 'cloudflare-kv-binding',
+        binding: 'CONTACT_FORM_KV'
+      }
+    }
+  },
+  runtimeConfig: {
+    // Private keys that are exposed to the server
+    recaptchaSecret: process.env.RECAPTCHA_SECRET_KEY,
+    
+    // Public keys that are exposed to the client
+    public: {
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY
+    }
+  }
 });

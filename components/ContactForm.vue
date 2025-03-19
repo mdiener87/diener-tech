@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="handleSubmit" class="max-w-lg mx-auto space-y-6">
-    <div v-if="remainingAttempts !== null" class="text-sm text-gray-500 dark:text-gray-400 hidden">
+    <div v-if="remainingAttempts !== null" class="text-sm text-gray-500 dark:text-gray-400">
       {{ remainingAttempts }} submissions remaining this hour
     </div>
 
