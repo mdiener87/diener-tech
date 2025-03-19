@@ -2,14 +2,36 @@ import { H3Event } from 'h3'
 import { RateLimiter } from '~/utils/rateLimit'
 import { generateContactEmailHtml, generateContactEmailText } from '~/utils/emailTemplates'
 
-// Initialize rate limiter with KV namespace
-const rateLimiter = new RateLimiter(process.env.CONTACT_FORM_KV, {
-  maxAttempts: 3,
-  windowSeconds: 3600 // 1 hour
-})
+interface ReCaptchaResponse {
+  success: boolean;
+  score: number;
+  action: string;
+  challenge_ts: string;
+  hostname: string;
+  error_codes?: string[];
+}
 
 export default defineEventHandler(async (event: H3Event) => {
   try {
+    // Get runtime config
+    const config = useRuntimeConfig()
+    
+    // Get KV storage from Nitro context
+    const storage = useStorage()
+    if (!storage) {
+      console.error('Storage not available')
+      throw createError({
+        statusCode: 500,
+        message: 'Storage configuration error'
+      })
+    }
+
+    // Initialize rate limiter with storage
+    const rateLimiter = new RateLimiter(storage, {
+      maxAttempts: 3,
+      windowSeconds: 3600 // 1 hour
+    })
+
     const body = await readBody(event)
     const ip = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
 
@@ -22,18 +44,67 @@ export default defineEventHandler(async (event: H3Event) => {
       })
     }
 
-    // Verify reCAPTCHA
-    const recaptchaResponse = await fetch(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${body.recaptchaToken}`,
-      { method: 'POST' }
-    )
-    
-    const recaptchaData = await recaptchaResponse.json()
-    if (!recaptchaData.success || recaptchaData.score < 0.5) {
-      return createError({
-        statusCode: 400,
-        message: 'Invalid captcha verification'
-      })
+    // Verify reCAPTCHA - but skip in development mode
+    if (process.env.NODE_ENV !== 'development') {
+      if (!body.recaptchaToken) {
+        console.error('Missing reCAPTCHA token')
+        return createError({
+          statusCode: 400,
+          message: 'reCAPTCHA verification required'
+        })
+      }
+      
+      try {
+        // Get site verification from Google
+        const recaptchaResponse = await fetch(
+          'https://www.google.com/recaptcha/api/siteverify',
+          { 
+            method: 'POST', 
+            body: new URLSearchParams({
+              'secret': config.recaptchaSecret,
+              'response': body.recaptchaToken,
+              'remoteip': ip
+            })
+          }
+        )
+        
+        if (!recaptchaResponse.ok) {
+          console.error('reCAPTCHA API error:', await recaptchaResponse.text())
+          return createError({
+            statusCode: 500,
+            message: 'Error verifying reCAPTCHA'
+          })
+        }
+        
+        const recaptchaData = await recaptchaResponse.json() as ReCaptchaResponse
+        console.log('reCAPTCHA response:', recaptchaData)
+        
+        // For v3 reCAPTCHA, success might be true but with a low score
+        if (!recaptchaData.success) {
+          console.error('reCAPTCHA verification failed:', recaptchaData)
+          return createError({
+            statusCode: 400,
+            message: 'Failed to verify reCAPTCHA'
+          })
+        }
+        
+        // Check score only if it exists (v3 only)
+        if (recaptchaData.score !== undefined && recaptchaData.score < 0.5) {
+          console.error('reCAPTCHA score too low:', recaptchaData.score)
+          return createError({
+            statusCode: 400,
+            message: 'Security check failed'
+          })
+        }
+      } catch (error) {
+        console.error('reCAPTCHA verification error:', error)
+        return createError({
+          statusCode: 500,
+          message: 'Error processing reCAPTCHA verification'
+        })
+      }
+    } else {
+      console.log('Development mode: Skipping reCAPTCHA verification')
     }
 
     // Honeypot check

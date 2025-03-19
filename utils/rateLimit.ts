@@ -47,7 +47,13 @@ export class RateLimiter {
     const windowStart = now - (this.config.windowSeconds * 1000);
 
     // Get current attempts
-    const attempts = await this.storage.get(key) as number[] || [];
+    let attempts = await this.storage.get(key) as number[] || [];
+    
+    // Ensure attempts is an array
+    if (!Array.isArray(attempts)) {
+      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
+      attempts = [];
+    }
     
     // Filter attempts within window
     const recentAttempts = attempts.filter(timestamp => timestamp > windowStart);
@@ -71,7 +77,14 @@ export class RateLimiter {
     const now = Date.now();
     const windowStart = now - (this.config.windowSeconds * 1000);
 
-    const attempts = await this.storage.get(key) as number[] || [];
+    let attempts = await this.storage.get(key) as number[] || [];
+    
+    // Ensure attempts is an array
+    if (!Array.isArray(attempts)) {
+      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
+      attempts = [];
+    }
+    
     const recentAttempts = attempts.filter(timestamp => timestamp > windowStart);
 
     return Math.max(0, this.config.maxAttempts - recentAttempts.length);
