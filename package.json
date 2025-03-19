@@ -25,5 +25,8 @@
     "nuxt-schema-org": "^3.3.4",
     "vue": "latest",
     "vue-router": "latest"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250317.0"
   }
 }
