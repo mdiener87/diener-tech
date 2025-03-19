@@ -72,12 +72,46 @@
       :title="status.type === 'success' ? 'Success!' : 'Error'"
       :description="status.message"
     />
+
+    <!-- Debug section - only visible in development -->
+    <div v-if="isDev" class="mt-8 p-4 border border-gray-200 rounded-lg dark:border-gray-700">
+      <h3 class="text-sm font-semibold mb-2">Debug Tools</h3>
+      <div class="space-y-2">
+        <div class="flex space-x-2">
+          <UButton size="xs" @click="checkReCaptchaStatus" color="gray">Check reCAPTCHA Status</UButton>
+          <UButton size="xs" @click="loadReCaptcha" color="gray" :loading="isLoading">
+            {{ isLoaded ? 'Reload reCAPTCHA' : 'Load reCAPTCHA' }}
+          </UButton>
+        </div>
+        <div v-if="recaptchaStatusData" class="text-xs space-y-1 mt-2">
+          <div><span class="font-medium">Site Key:</span> {{ recaptchaStatusData.hasSiteKey ? '✓' : '✗' }} (length: {{ recaptchaStatusData.siteKeyLength }})</div>
+          <div><span class="font-medium">Secret Key:</span> {{ recaptchaStatusData.hasSecretKey ? '✓' : '✗' }} (length: {{ recaptchaStatusData.secretKeyLength }})</div>
+          <div><span class="font-medium">Client Status:</span> {{ isLoaded ? 'Loaded ✓' : 'Not Loaded ✗' }}</div>
+        </div>
+      </div>
+    </div>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useReCaptcha } from '~/composables/useReCaptcha'
+
+interface ContactFormResponse {
+  remainingAttempts: number;
+  message?: string;
+}
+
+interface ReCaptchaStatusResponse {
+  status: string;
+  data: {
+    hasSecretKey: boolean;
+    secretKeyLength: number;
+    hasSiteKey: boolean;
+    siteKeyLength: number;
+    timestamp: string;
+  };
+}
 
 const form = ref({
   name: '',
@@ -87,22 +121,49 @@ const form = ref({
 })
 
 const isSubmitting = ref(false)
+const isVerifying = ref(false)
 const status = ref<{ type: 'success' | 'error', message: string } | null>(null)
 const remainingAttempts = ref<number | null>(null)
-const { executeReCaptcha } = useReCaptcha()
+const { executeReCaptcha, isLoaded, isLoading } = useReCaptcha()
+const recaptchaStatusData = ref<ReCaptchaStatusResponse['data'] | null>(null)
+
+// Check if we're in development mode
+const isDev = process.env.NODE_ENV === 'development'
 
 const handleSubmit = async () => {
   try {
     status.value = null
     isSubmitting.value = true
+    isVerifying.value = true
 
     // Honeypot check
     if (form.value.website) {
       throw new Error('Invalid submission')
     }
 
-    // Get reCAPTCHA token
-    const recaptchaToken = await executeReCaptcha('submit_contact')
+    let recaptchaToken = '';
+    
+    // Only execute reCAPTCHA in production
+    if (process.env.NODE_ENV !== 'development') {
+      console.log('Executing reCAPTCHA verification...')
+      // Get reCAPTCHA token
+      try {
+        recaptchaToken = await executeReCaptcha('submit_contact')
+        console.log('reCAPTCHA token received:', recaptchaToken.substring(0, 20) + '...')
+      } catch (error) {
+        console.error('reCAPTCHA error:', error)
+        throw new Error('Failed to verify reCAPTCHA. Please try again.')
+      }
+
+      // Validate token is not empty
+      if (!recaptchaToken) {
+        throw new Error('Invalid reCAPTCHA response. Please try again.')
+      }
+    } else {
+      console.log('Development mode: Skipping reCAPTCHA verification')
+    }
+    
+    isVerifying.value = false
 
     const response = await fetch('/api/contact', {
       method: 'POST',
@@ -115,7 +176,7 @@ const handleSubmit = async () => {
       })
     })
 
-    const data = await response.json()
+    const data = await response.json() as ContactFormResponse
 
     if (!response.ok) {
       throw new Error(data.message || 'Failed to send message')
@@ -139,12 +200,41 @@ const handleSubmit = async () => {
       }
     }
   } catch (error) {
+    console.error('Form submission error:', error)
     status.value = {
       type: 'error',
       message: error instanceof Error ? error.message : 'Failed to send message. Please try again later.'
     }
   } finally {
     isSubmitting.value = false
+    isVerifying.value = false
+  }
+}
+
+// Debug function to check reCAPTCHA status
+const checkReCaptchaStatus = async () => {
+  try {
+    const response = await fetch('/api/recaptcha-status')
+    if (!response.ok) {
+      console.error('Failed to fetch reCAPTCHA status:', await response.text())
+      return
+    }
+    const data = await response.json() as ReCaptchaStatusResponse
+    recaptchaStatusData.value = data.data
+    console.log('reCAPTCHA status:', data.data)
+  } catch (error) {
+    console.error('Failed to check reCAPTCHA status:', error)
+  }
+}
+
+// Load reCAPTCHA manually for debugging
+const loadReCaptcha = async () => {
+  try {
+    console.log('Manually loading reCAPTCHA...')
+    await executeReCaptcha('load_test')
+    console.log('reCAPTCHA loaded successfully')
+  } catch (error) {
+    console.error('Failed to manually load reCAPTCHA:', error)
   }
 }
 
@@ -152,8 +242,13 @@ const handleSubmit = async () => {
 onMounted(async () => {
   try {
     const response = await fetch('/api/contact/rate-limit')
-    const data = await response.json()
+    const data = await response.json() as ContactFormResponse
     remainingAttempts.value = data.remainingAttempts
+    
+    // In development, check reCAPTCHA status on load
+    if (isDev) {
+      await checkReCaptchaStatus()
+    }
   } catch (error) {
     console.error('Failed to fetch rate limit info:', error)
   }
