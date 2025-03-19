@@ -12,54 +12,7 @@
       <template #header>
         <h2 class="text-2xl font-semibold">Send Me a Message</h2>
       </template>
-      <form @submit.prevent="submitForm" class="space-y-6">
-        <!-- Name Input -->
-        <div>
-          <label for="name" class="block font-medium mb-2">Name</label>
-          <input
-            v-model="form.name"
-            type="text"
-            id="name"
-            required
-            placeholder="Your name"
-            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <!-- Email Input -->
-        <div>
-          <label for="email" class="block font-medium mb-2">Email</label>
-          <input
-            v-model="form.email"
-            type="email"
-            id="email"
-            required
-            placeholder="Your email"
-            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          />
-        </div>
-
-        <!-- Message Input -->
-        <div>
-          <label for="message" class="block font-medium mb-2">Message</label>
-          <textarea
-            v-model="form.message"
-            id="message"
-            rows="5"
-            required
-            placeholder="Your message"
-            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
-          ></textarea>
-        </div>
-
-        <!-- Submit Button -->
-        <button
-          type="submit"
-          class="w-full text-white font-semibold py-2 px-4 rounded"
-        >
-          Send Message
-        </button>
-      </form>
+      <ContactForm />
     </UCard>
 
     <!-- Contact Info Section -->
@@ -71,10 +24,10 @@
         </template>
         <p class="">Prefer to reach out directly? Drop me an email at:</p>
         <a
-          href="mailto:youremail@example.com"
-          class="hover:underline mt-2 inline-block"
+          href="mailto:contact@diener.tech"
+          class="text-primary-600 hover:text-primary-700 hover:underline mt-2 inline-block"
         >
-          youremail@example.com
+          contact@diener.tech
         </a>
       </UCard>
 
@@ -89,8 +42,10 @@
             <a
               href="https://github.com/mdiener87"
               target="_blank"
-              class="hover:underline"
+              rel="noopener noreferrer"
+              class="text-primary-600 hover:text-primary-700 hover:underline inline-flex items-center"
             >
+              <Icon name="mdi:github" class="w-5 h-5 mr-2" />
               GitHub
             </a>
           </li>
@@ -98,8 +53,10 @@
             <a
               href="https://linkedin.com/in/mdiener87/"
               target="_blank"
-              class="hover:underline"
+              rel="noopener noreferrer"
+              class="text-primary-600 hover:text-primary-700 hover:underline inline-flex items-center"
             >
+              <Icon name="mdi:linkedin" class="w-5 h-5 mr-2" />
               LinkedIn
             </a>
           </li>
@@ -109,27 +66,7 @@
   </div>
 </template>
 
-<script setup>
-import { reactive } from "vue";
-
-// Form data
-const form = reactive({
-  name: "",
-  email: "",
-  message: "",
-});
-
-// Form submission handler
-const submitForm = () => {
-  // Placeholder functionality
-  alert(`Thank you, ${form.name}! Your message has been sent.`);
-
-  // Reset form
-  form.name = "";
-  form.email = "";
-  form.message = "";
-};
-
+<script setup lang="ts">
 // Add SEO metadata
 const { setPageMeta } = useSeo();
 
