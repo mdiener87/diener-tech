@@ -124,12 +124,14 @@
         Rate limit reached. Please try again in an hour.
       </div>
       
-      <!-- reCAPTCHA Notice -->
-      <p class="text-xs text-center text-gray-500 dark:text-gray-400 mt-4">
-        This site is protected by reCAPTCHA and the
-        <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Google Privacy Policy</a> and
-        <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Terms of Service</a> apply.
-      </p>
+      <!-- reCAPTCHA Notice - Required when hiding the badge -->
+      <div class="text-xs text-center text-gray-500 dark:text-gray-400 mt-4 border-t border-gray-100 dark:border-gray-800 pt-4">
+        <p>
+          This site is protected by reCAPTCHA and the
+          <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Google Privacy Policy</a> and
+          <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Terms of Service</a> apply.
+        </p>
+      </div>
     </div>
 
     <!-- Status Messages -->
