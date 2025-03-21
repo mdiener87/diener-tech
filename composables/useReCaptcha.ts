@@ -26,15 +26,11 @@ export function useReCaptcha() {
         scriptTag.remove()
       }
       
-      // Remove badge container if it exists
-      const badgeContainer = document.getElementById(badgeId)
-      if (badgeContainer) {
-        badgeContainer.remove()
+      // Remove the badge style
+      const badgeStyle = document.getElementById('recaptcha-badge-style')
+      if (badgeStyle) {
+        badgeStyle.remove()
       }
-      
-      // Remove any other reCAPTCHA elements that might be present
-      const recaptchaElements = document.querySelectorAll('.grecaptcha-badge')
-      recaptchaElements.forEach(el => el.remove())
       
       // Reset loaded state
       isLoaded.value = false
@@ -74,12 +70,6 @@ export function useReCaptcha() {
       // Start loading
       isLoading.value = true
 
-      // Create badge container to control visibility
-      const badgeContainer = document.createElement('div')
-      badgeContainer.id = badgeId
-      badgeContainer.style.cssText = 'position: fixed; bottom: 0; right: 0; z-index: 1000;'
-      document.body.appendChild(badgeContainer)
-
       // Create and append script
       const script = document.createElement('script')
       script.id = scriptId
@@ -93,16 +83,18 @@ export function useReCaptcha() {
           isLoaded.value = true
           isLoading.value = false
           
-          // Move the reCAPTCHA badge into our container for better control
-          setTimeout(() => {
-            const badges = document.querySelectorAll('.grecaptcha-badge')
-            badges.forEach(badge => {
-              // Only move badge if not already in our container
-              if (badge.parentElement !== badgeContainer) {
-                badgeContainer.appendChild(badge)
-              }
-            })
-          }, 1000)
+          // Hide the reCAPTCHA badge with CSS instead of DOM manipulation
+          // This is more reliable than trying to move it
+          const style = document.createElement('style')
+          style.textContent = `
+            .grecaptcha-badge { 
+              visibility: hidden !important;
+              opacity: 0 !important;
+              pointer-events: none !important;
+            }
+          `
+          style.id = 'recaptcha-badge-style'
+          document.head.appendChild(style)
           
           resolve()
         })
