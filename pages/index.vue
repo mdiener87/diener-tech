@@ -54,11 +54,31 @@
           </p>
         </div>
         
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6 text-center">
-          <div v-for="tech in technologies" :key="tech.name" class="p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:shadow-md flex flex-col items-center card-transition">
-            <UIcon :name="tech.icon" class="w-8 h-8 mb-2 text-primary" />
-            <span class="font-medium">{{ tech.name }}</span>
-          </div>
+        <div class="tech-carousel relative overflow-hidden py-8 px-4">
+          <!-- Visible technologies -->
+          <TransitionGroup
+            name="tech-shuffle"
+            tag="div"
+            class="flex flex-wrap justify-center gap-6 min-h-[260px]"
+          >
+            <div 
+              v-for="tech in visibleTechs" 
+              :key="tech.name"
+              class="tech-card relative p-5 rounded-xl flex flex-col items-center transform transition-all duration-300 ease-in-out"
+              :class="tech.colorClass"
+              @mouseenter="onTechHover(tech)"
+              @mouseleave="resetTechHover"
+            >
+              <div class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-all duration-300">
+                <UIcon 
+                  :name="tech.icon" 
+                  class="w-10 h-10 transition-transform duration-300" 
+                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+                />
+              </div>
+              <span class="font-medium text-white drop-shadow-md">{{ tech.name }}</span>
+            </div>
+          </TransitionGroup>
         </div>
       </UContainer>
     </section>
@@ -203,21 +223,49 @@ const featuredProject = {
   githubUrl: 'https://github.com/username/portfolio'
 };
 
-// Technologies list
+// Technologies list with color classes
 const technologies = [
-  { name: 'Vue.js', icon: 'i-heroicons-code-bracket' },
-  { name: 'Nuxt 3', icon: 'i-heroicons-code-bracket' },
-  { name: 'Tailwind', icon: 'i-heroicons-swatch' },
-  { name: 'JavaScript', icon: 'i-heroicons-code-bracket' },
-  { name: 'TypeScript', icon: 'i-heroicons-code-bracket' },
-  { name: 'Node.js', icon: 'i-heroicons-server' },
-  { name: 'Git', icon: 'i-heroicons-arrow-path' },
-  { name: 'Cloudflare', icon: 'i-heroicons-cloud' },
-  { name: 'API Design', icon: 'i-heroicons-squares-2x2' },
-  { name: 'UI/UX', icon: 'i-heroicons-rectangle-group' },
-  { name: 'SQL', icon: 'i-heroicons-table-cells' },
-  { name: 'NoSQL', icon: 'i-heroicons-circle-stack' }
+  { name: 'Vue.js', icon: 'i-heroicons-code-bracket', colorClass: 'bg-emerald-500 hover:bg-emerald-600' },
+  { name: 'Nuxt 3', icon: 'i-heroicons-code-bracket', colorClass: 'bg-green-500 hover:bg-green-600' },
+  { name: 'Tailwind', icon: 'i-heroicons-swatch', colorClass: 'bg-sky-500 hover:bg-sky-600' },
+  { name: 'JavaScript', icon: 'i-heroicons-code-bracket', colorClass: 'bg-yellow-500 hover:bg-yellow-600' },
+  { name: 'TypeScript', icon: 'i-heroicons-code-bracket', colorClass: 'bg-blue-500 hover:bg-blue-600' },
+  { name: 'Node.js', icon: 'i-heroicons-server', colorClass: 'bg-green-600 hover:bg-green-700' },
+  { name: 'Git', icon: 'i-heroicons-arrow-path', colorClass: 'bg-orange-500 hover:bg-orange-600' },
+  { name: 'Cloudflare', icon: 'i-heroicons-cloud', colorClass: 'bg-orange-400 hover:bg-orange-500' },
+  { name: 'API Design', icon: 'i-heroicons-squares-2x2', colorClass: 'bg-indigo-500 hover:bg-indigo-600' },
+  { name: 'UI/UX', icon: 'i-heroicons-rectangle-group', colorClass: 'bg-purple-500 hover:bg-purple-600' },
+  { name: 'SQL', icon: 'i-heroicons-table-cells', colorClass: 'bg-blue-600 hover:bg-blue-700' },
+  { name: 'NoSQL', icon: 'i-heroicons-circle-stack', colorClass: 'bg-amber-500 hover:bg-amber-600' }
 ];
+
+// Tech display logic
+const visibleTechs = ref([]);
+const hoveredTech = ref(null);
+const DISPLAY_COUNT = 6; // Number of techs to display at once
+
+// Initialize with random technologies
+onMounted(() => {
+  shuffleTechs();
+  // Set up interval to shuffle techs
+  setInterval(shuffleTechs, 5000);
+});
+
+// Shuffle and select random technologies to display
+function shuffleTechs() {
+  const shuffled = [...technologies].sort(() => 0.5 - Math.random());
+  visibleTechs.value = shuffled.slice(0, DISPLAY_COUNT);
+}
+
+// Handle tech hover
+function onTechHover(tech) {
+  hoveredTech.value = tech.name;
+}
+
+// Reset tech hover
+function resetTechHover() {
+  hoveredTech.value = null;
+}
 
 // Format date function
 function formatDate(date) {
@@ -238,3 +286,39 @@ setPageMeta({
   canonicalUrl: 'https://diener.tech'
 });
 </script>
+
+<style scoped>
+.tech-card {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  height: 120px;
+  width: 140px;
+  transition: all 0.4s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+}
+
+.tech-icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+/* Transition animations for tech cards entering/leaving */
+.tech-shuffle-enter-active,
+.tech-shuffle-leave-active {
+  transition: all 0.6s ease;
+}
+
+.tech-shuffle-enter-from {
+  opacity: 0;
+  transform: translateY(30px) scale(0.8);
+}
+
+.tech-shuffle-leave-to {
+  opacity: 0;
+  transform: translateY(-30px) scale(0.8);
+}
+</style>
