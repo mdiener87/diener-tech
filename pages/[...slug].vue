@@ -61,6 +61,18 @@
                 <div class="max-w-3xl mx-auto">
                   <div class="prose dark:prose-invert prose-lg max-w-none">
                     <ContentRenderer :value="doc" />
+                    
+                    <!-- Display referenced projects after the blog content -->
+                    <div v-if="doc.relatedProjects && doc.relatedProjects.length > 0" class="mt-12 pt-6 border-t border-gray-200 dark:border-gray-700">
+                      <h3 class="text-xl font-bold mb-6">Related Projects</h3>
+                      <div class="space-y-8">
+                        <ProjectReference 
+                          v-for="projectId in doc.relatedProjects" 
+                          :key="projectId" 
+                          :project-id="projectId" 
+                        />
+                      </div>
+                    </div>
                   </div>
                   
                   <!-- Social Sharing Links -->
