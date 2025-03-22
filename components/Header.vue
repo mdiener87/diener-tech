@@ -1,9 +1,6 @@
 <template>
   <header class="w-full py-4 shadow-md bg-gray">
     <UContainer class="flex items-center justify-between">
-      <!-- <NuxtLink to="/" class="text-2xl font-bold text-primary">
-        DienerTech
-      </NuxtLink> -->
       <NuxtLink
         to="/"
         class="dienertech-logo group relative inline-block overflow-hidden"
@@ -17,6 +14,7 @@
           >
           <span
             class="logo-tech inline-block italic text-indigo-500 transform translate-x-[1em] transition-all duration-300 group-hover:text-primary group-hover:translate-x-0"
+            :class="randomColorClass"
             >Tech</span
           >
         </span>
@@ -65,6 +63,9 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
 const navLinks = [
   { label: "Home", to: "/" },
   { label: "Career", to: "/career" },
@@ -73,6 +74,45 @@ const navLinks = [
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
+
+// Define a list of attractive Tailwind color classes
+const colorOptions = [
+  "text-indigo-500",
+  "text-emerald-500",
+  "text-violet-500",
+  "text-amber-500",
+  "text-teal-500",
+  "text-rose-500",
+  "text-cyan-500",
+  "text-fuchsia-500",
+  "text-lime-500",
+  "text-sky-500",
+];
+
+// Create a reactive reference for the current color class
+const randomColorClass = ref("");
+
+// Function to select a random color from the options
+const selectRandomColor = () => {
+  let newIndex;
+  do {
+    newIndex = Math.floor(Math.random() * colorOptions.length);
+  } while (colorOptions[newIndex] === randomColorClass.value);
+  randomColorClass.value = colorOptions[newIndex];
+};
+
+// Initialize with a random color on component mount
+onMounted(() => {
+  selectRandomColor();
+});
+
+// Change color on route change if using Vue Router
+const router = useRouter();
+if (router) {
+  router.afterEach(() => {
+    selectRandomColor();
+  });
+}
 </script>
 
 <style scoped>
