@@ -43,11 +43,11 @@
             <div
               class="w-64 h-64 bg-primary/10 rounded-full flex items-center justify-center border-4 border-primary/20"
             >
-              <UIcon
+              <!-- <UIcon
                 name="i-heroicons-user-circle"
                 class="w-32 h-32 text-primary/50"
-              />
-              <!-- Replace with: <UImage src="/img/profile.jpg" alt="Michael Diener" width="256" height="256" class="rounded-full" /> -->
+              /> -->
+              <NuxtImg src="/images/pics/diener_headshot.jpg" alt="Michael Diener" width="256" height="256" class="rounded-full" />
             </div>
           </div>
         </div>
