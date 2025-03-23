@@ -7,13 +7,11 @@
           <!-- Profile Photo Container -->
           <div class="md:w-1/3 flex justify-center">
             <div class="relative overflow-hidden rounded-2xl border-4 border-white dark:border-gray-700 shadow-xl w-64 h-64 md:w-80 md:h-80">
-              <!-- Placeholder for profile photo - to be replaced later -->
-              <div class="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 dark:from-primary-900 dark:to-gray-800 flex items-center justify-center">
-                <UIcon name="i-heroicons-user-circle" class="w-32 h-32 text-primary/50" />
-                <span class="absolute bottom-0 left-0 right-0 bg-gray-800/60 text-white text-xs text-center py-1">
-                  Photo placeholder - will add later
-                </span>
-              </div>
+              <NuxtImg
+                src="/images/pics/diener_windy_peak.jpg"
+                alt="Profile Photo"
+                class="object-cover w-full h-full rounded-2xl"
+              />              
             </div>
           </div>
           
