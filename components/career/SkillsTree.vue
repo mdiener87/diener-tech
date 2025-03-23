@@ -6,7 +6,7 @@
     <!-- Info Panel -->
     <div
       ref="infoPanel"
-      class="absolute top-4 right-4 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+      class="absolute top-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
     >
       <button
         class="w-full p-4 flex items-center justify-between font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-t-lg"

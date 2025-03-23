@@ -1,99 +1,127 @@
 <template>
-  <div class="container mx-auto py-10 px-6">
-    <div class="mb-8">
-      <h1 class="text-4xl font-bold mb-4">Career Journey</h1>
-      <p class="text-lg text-gray-600 dark:text-gray-300">
-        Explore my professional journey, skills, and achievements through
-        interactive visualizations
-      </p>
-    </div>
+  <main class="flex-grow">
+    <!-- Career Header Section -->
+    <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition">
+      <UContainer>
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6">Career Journey</h1>
+          <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
+            Explore my professional journey, skills, and achievements through
+            interactive visualizations
+          </p>
+          
+          <!-- Visualization Selector -->
+          <div class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 flex flex-wrap justify-center gap-4 card-transition">
+            <UButtonGroup>
+              <UButton
+                v-for="(viz, index) in visualizations"
+                :key="viz.id"
+                :color="activeViz === viz.id ? 'primary' : 'gray'"
+                :variant="activeViz === viz.id ? 'solid' : 'ghost'"
+                @click="activeViz = viz.id"
+                class="px-4 py-2"
+              >
+                {{ viz.label }}
+              </UButton>
+            </UButtonGroup>
+          </div>
+        </div>
+      </UContainer>
+    </section>
 
-    <!-- Visualization Selector -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-8">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
-        <h2 class="text-2xl font-semibold mb-2 sm:mb-0">Career Visualizations</h2>
-        <UButtonGroup class="mt-2 sm:mt-0">
-          <UButton
-            v-for="(viz, index) in visualizations"
-            :key="viz.id"
-            :color="activeViz === viz.id ? 'primary' : 'gray'"
-            :variant="activeViz === viz.id ? 'solid' : 'ghost'"
-            @click="activeViz = viz.id"
-            class="px-4 py-2"
-          >
-            {{ viz.label }}
-          </UButton>
-        </UButtonGroup>
-      </div>
-      
-      <p class="text-gray-600 dark:text-gray-300 mb-6" v-if="activeVisualization">
-        {{ activeVisualization.description }}
-      </p>
-    </div>
+    <!-- Visualization Description -->
+    <section class="py-6 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <UContainer>
+        <div class="max-w-4xl mx-auto text-center">
+          <p class="text-gray-600 dark:text-gray-300" v-if="activeVisualization">
+            {{ activeVisualization.description }}
+          </p>
+        </div>
+      </UContainer>
+    </section>
 
     <!-- Visualization Container -->
-    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-12 min-h-[800px]">
-      <div v-if="activeViz === 'skills'" class="h-full">
-        <SkillsTree />
-      </div>
-      
-      <div v-else-if="activeViz === 'timeline'" class="h-full flex items-center justify-center">
-        <div class="text-center p-8">
-          <UIcon name="i-heroicons-clock" class="text-5xl mb-4 text-gray-400" />
-          <h3 class="text-xl font-semibold mb-2">Career Timeline</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Coming soon! A chronological visualization of my professional journey.
-          </p>
-        </div>
-      </div>
-      
-      <div v-else-if="activeViz === 'projects'" class="h-full flex items-center justify-center">
-        <div class="text-center p-8">
-          <UIcon name="i-heroicons-rocket-launch" class="text-5xl mb-4 text-gray-400" />
-          <h3 class="text-xl font-semibold mb-2">Project Showcase</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-4">
-            Coming soon! An interactive showcase of key projects I've worked on.
-          </p>
-        </div>
-      </div>
-    </div>
+    <section class="py-8 bg-white dark:bg-gray-900">
+      <UContainer>
+        <UCard class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800">
+          <div v-if="activeViz === 'skills'" class="h-full">
+            <SkillsTree />
+          </div>
+          
+          <div v-else-if="activeViz === 'timeline'" class="h-full flex items-center justify-center">
+            <div class="text-center p-8">
+              <UIcon name="i-heroicons-clock" class="text-5xl mb-4 text-gray-400" />
+              <h3 class="text-xl font-semibold mb-2">Career Timeline</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">
+                Coming soon! A chronological visualization of my professional journey.
+              </p>
+            </div>
+          </div>
+          
+          <div v-else-if="activeViz === 'projects'" class="h-full flex items-center justify-center">
+            <div class="text-center p-8">
+              <UIcon name="i-heroicons-rocket-launch" class="text-5xl mb-4 text-gray-400" />
+              <h3 class="text-xl font-semibold mb-2">Project Showcase</h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">
+                Coming soon! An interactive showcase of key projects I've worked on.
+              </p>
+            </div>
+          </div>
+        </UCard>
+      </UContainer>
+    </section>
     
     <!-- Additional Career Information -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">Core Competencies</h2>
-        <ul class="space-y-3">
-          <li v-for="(skill, index) in coreSkills" :key="index" class="flex items-start">
-            <UIcon :name="skill.icon" class="mr-3 mt-1 text-primary-500" />
-            <div>
-              <h3 class="font-medium">{{ skill.name }}</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400">{{ skill.description }}</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      
-      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
-        <h2 class="text-2xl font-semibold mb-4">Career Philosophy</h2>
-        <div class="space-y-4 text-gray-700 dark:text-gray-300">
-          <p>
-            I believe that great software is built by developers who understand both 
-            the technical aspects and the business needs they're serving.
-          </p>
-          <p>
-            Throughout my career, I've focused on bridging the gap between complex 
-            technical implementations and tangible business value. This approach has
-            allowed me to deliver solutions that not only work well technically, but
-            also drive meaningful results.
-          </p>
-          <p>
-            I'm passionate about continuous learning and embracing new technologies
-            while maintaining a pragmatic approach to solving real-world problems.
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div class="text-center mb-8">
+          <h2 class="text-2xl md:text-3xl font-bold mb-4">Career Insights</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+            My expertise, approach, and professional philosophy that have shaped my journey
           </p>
         </div>
-      </div>
-    </div>
-  </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <UCard class="h-full hover:shadow-lg card-transition">
+            <template #header>
+              <h2 class="text-2xl font-semibold">Core Competencies</h2>
+            </template>
+            <ul class="space-y-4 mt-2">
+              <li v-for="(skill, index) in coreSkills" :key="index" class="flex items-start">
+                <UIcon :name="skill.icon" class="mr-3 mt-1 text-primary" />
+                <div>
+                  <h3 class="font-medium">{{ skill.name }}</h3>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ skill.description }}</p>
+                </div>
+              </li>
+            </ul>
+          </UCard>
+          
+          <UCard class="h-full hover:shadow-lg card-transition">
+            <template #header>
+              <h2 class="text-2xl font-semibold">Career Philosophy</h2>
+            </template>
+            <div class="space-y-4 text-gray-700 dark:text-gray-300 mt-2">
+              <p>
+                I believe that great software is built by developers who understand both 
+                the technical aspects and the business needs they're serving.
+              </p>
+              <p>
+                Throughout my career, I've focused on bridging the gap between complex 
+                technical implementations and tangible business value. This approach has
+                allowed me to deliver solutions that not only work well technically, but
+                also drive meaningful results.
+              </p>
+              <p>
+                I'm passionate about continuous learning and embracing new technologies
+                while maintaining a pragmatic approach to solving real-world problems.
+              </p>
+            </div>
+          </UCard>
+        </div>
+      </UContainer>
+    </section>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -165,3 +193,30 @@ const coreSkills = [
   }
 ];
 </script>
+
+<style scoped>
+.card-transition {
+  transition: all 0.3s ease;
+}
+
+/* Hover animations for cards */
+.card-transition:hover {
+  transform: translateY(-2px);
+}
+
+/* Fade animation for loading content */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .card-transition {
+    transition: none;
+  }
+  .card-transition:hover {
+    transform: none;
+  }
+}
+</style>
