@@ -1,7 +1,9 @@
 <template>
   <main class="flex-grow">
     <!-- Career Header Section -->
-    <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition">
+    <section
+      class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition"
+    >
       <UContainer>
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">Career Journey</h1>
@@ -9,9 +11,11 @@
             Explore my professional journey, skills, and achievements through
             interactive visualizations
           </p>
-          
+
           <!-- Visualization Selector -->
-          <div class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 flex flex-wrap justify-center gap-4 card-transition">
+          <div
+            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 flex flex-wrap justify-center gap-4 card-transition"
+          >
             <UButtonGroup>
               <UButton
                 v-for="(viz, index) in visualizations"
@@ -30,10 +34,15 @@
     </section>
 
     <!-- Visualization Description -->
-    <section class="py-6 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+    <section
+      class="py-6 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
+    >
       <UContainer>
         <div class="max-w-4xl mx-auto text-center">
-          <p class="text-gray-600 dark:text-gray-300" v-if="activeVisualization">
+          <p
+            class="text-gray-600 dark:text-gray-300"
+            v-if="activeVisualization"
+          >
             {{ activeVisualization.description }}
           </p>
         </div>
@@ -43,78 +52,112 @@
     <!-- Visualization Container -->
     <section class="py-8 bg-white dark:bg-gray-900">
       <UContainer>
-        <UCard class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800">
+        <UCard
+          class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800"
+        >
           <div v-if="activeViz === 'skills'" class="h-full">
             <SkillsTree />
           </div>
-          
-          <div v-else-if="activeViz === 'timeline'" class="h-full flex items-center justify-center">
+
+          <div
+            v-else-if="activeViz === 'timeline'"
+            class="h-full flex items-center justify-center"
+          >
             <div class="text-center p-8">
-              <UIcon name="i-heroicons-clock" class="text-5xl mb-4 text-gray-400" />
+              <UIcon
+                name="i-heroicons-clock"
+                class="text-5xl mb-4 text-gray-400"
+              />
               <h3 class="text-xl font-semibold mb-2">Career Timeline</h3>
               <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Coming soon! A chronological visualization of my professional journey.
+                Coming soon! A chronological visualization of my professional
+                journey.
               </p>
             </div>
           </div>
-          
-          <div v-else-if="activeViz === 'projects'" class="h-full flex items-center justify-center">
+
+          <div
+            v-else-if="activeViz === 'projects'"
+            class="h-full flex items-center justify-center"
+          >
             <div class="text-center p-8">
-              <UIcon name="i-heroicons-rocket-launch" class="text-5xl mb-4 text-gray-400" />
+              <UIcon
+                name="i-heroicons-rocket-launch"
+                class="text-5xl mb-4 text-gray-400"
+              />
               <h3 class="text-xl font-semibold mb-2">Project Showcase</h3>
               <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Coming soon! An interactive showcase of key projects I've worked on.
+                Coming soon! An interactive showcase of key projects I've worked
+                on.
               </p>
             </div>
           </div>
         </UCard>
       </UContainer>
     </section>
-    
+
     <!-- Additional Career Information -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="text-center mb-8">
           <h2 class="text-2xl md:text-3xl font-bold mb-4">Career Insights</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            My expertise, approach, and professional philosophy that have shaped my journey
+            My expertise, approach, and professional philosophy that have shaped
+            my journey
           </p>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <UCard class="h-full hover:shadow-lg card-transition">
             <template #header>
               <h2 class="text-2xl font-semibold">Core Competencies</h2>
             </template>
             <ul class="space-y-4 mt-2">
-              <li v-for="(skill, index) in coreSkills" :key="index" class="flex items-start">
-                <UIcon :name="skill.icon" class="mr-3 mt-1 text-primary" />
+              <li
+                v-for="(skill, index) in coreSkills"
+                :key="index"
+                class="flex items-start"
+              >
+                <UIcon
+                  :name="skill.icon"
+                  class="mr-3 mt-1 text-primary w-6 h-6 flex-shrink-0"
+                  size="24"
+                />
                 <div>
                   <h3 class="font-medium">{{ skill.name }}</h3>
-                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ skill.description }}</p>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ skill.description }}
+                  </p>
                 </div>
               </li>
             </ul>
           </UCard>
-          
+
           <UCard class="h-full hover:shadow-lg card-transition">
             <template #header>
               <h2 class="text-2xl font-semibold">Career Philosophy</h2>
             </template>
             <div class="space-y-4 text-gray-700 dark:text-gray-300 mt-2">
               <p>
-                I believe that great software is built by developers who understand both 
-                the technical aspects and the business needs they're serving.
+                I believe exceptional software development blends technical
+                skill with empathy, creativity, and a deep understanding of the
+                end user's needs. Great products emerge not just from mastering
+                technologies, but from genuinely caring about the problems they
+                solve and the people they serve.
               </p>
               <p>
-                Throughout my career, I've focused on bridging the gap between complex 
-                technical implementations and tangible business value. This approach has
-                allowed me to deliver solutions that not only work well technically, but
-                also drive meaningful results.
+                Throughout my career, I’ve found fulfillment in bridging
+                technical complexity and practical usability. I prioritize
+                elegant, maintainable solutions that deliver measurable business
+                value, always keeping the human element at the core of my work.
               </p>
               <p>
-                I'm passionate about continuous learning and embracing new technologies
-                while maintaining a pragmatic approach to solving real-world problems.
+                I deeply value continuous learning, exploration, and
+                growth—embracing new technologies not only to stay ahead
+                professionally but also to satisfy my natural curiosity and
+                passion for innovation. My goal isn't just to write code but to
+                create impactful, meaningful software that genuinely makes
+                people's lives better.
               </p>
             </div>
           </UCard>
@@ -125,72 +168,87 @@
 </template>
 
 <script setup lang="ts">
-import SkillsTree from '~/components/career/SkillsTree.vue';
-import { ref, computed } from 'vue';
+import SkillsTree from "~/components/career/SkillsTree.vue";
+import { ref, computed } from "vue";
 
 // Add SEO metadata
 const { setPageMeta } = useSeo();
 
 setPageMeta({
-  title: 'Career Journey',
-  description: 'Explore my professional journey, skills, and achievements through interactive visualizations showcasing my experience in software development.',
-  type: 'profile'
+  title: "Career Journey",
+  description:
+    "Explore my professional journey, skills, and achievements through interactive visualizations showcasing my experience in software development.",
+  type: "profile",
 });
 
 // Visualization types
 const visualizations = [
   {
-    id: 'skills',
-    label: 'Skills Tree',
-    description: 'An interactive visualization of my technical skills and professional experience. Click nodes to expand branches and hover for details.'
+    id: "skills",
+    label: "Skills Tree",
+    description:
+      "An interactive visualization of my technical skills and professional experience. Click nodes to expand branches and hover for details.",
   },
   {
-    id: 'timeline',
-    label: 'Career Timeline',
-    description: 'A chronological visualization of my professional journey, highlighting key milestones and achievements.'
+    id: "timeline",
+    label: "Career Timeline",
+    description:
+      "A chronological visualization of my professional journey, highlighting key milestones and achievements.",
   },
   {
-    id: 'projects',
-    label: 'Project Showcase',
-    description: 'An interactive showcase of key projects I\'ve worked on, highlighting technologies used and outcomes achieved.'
-  }
+    id: "projects",
+    label: "Project Showcase",
+    description:
+      "An interactive showcase of key projects I've worked on, highlighting technologies used and outcomes achieved.",
+  },
 ];
 
 // Default active visualization
-const activeViz = ref('skills');
+const activeViz = ref("skills");
 
 // Computed property to get the active visualization details
-const activeVisualization = computed(() => 
-  visualizations.find(viz => viz.id === activeViz.value)
+const activeVisualization = computed(() =>
+  visualizations.find((viz) => viz.id === activeViz.value)
 );
 
 // Core skills list with icons
 const coreSkills = [
   {
-    name: 'Frontend Development',
-    description: 'Building responsive, accessible, and performant user interfaces with modern JavaScript frameworks.',
-    icon: 'i-heroicons-code-bracket'
+    name: "Frontend Engineering & Design",
+    description:
+      "Crafting intuitive, responsive, and performant interfaces using modern frameworks like Vue, Nuxt, and AngularJS, emphasizing usability and user-centric design principles.",
+    icon: "i-heroicons-code-bracket",
   },
   {
-    name: 'User Experience Design',
-    description: 'Creating intuitive user experiences that balance aesthetics with functionality.',
-    icon: 'i-heroicons-paint-brush'
+    name: "User Experience Design",
+    description:
+      "Creating intuitive user experiences that balance aesthetics with functionality.",
+    icon: "i-heroicons-paint-brush",
   },
   {
-    name: 'Full-Stack Development',
-    description: 'End-to-end implementation from database design to API development to frontend interfaces.',
-    icon: 'i-heroicons-server-stack'
+    name: "Full-Stack Development",
+    description:
+      "Leveraging a versatile skill set that bridges the gap between frontend expertise and backend logic, particularly with Node.js and Python backends, and experience with SQL database design.",
+    icon: "i-heroicons-server-stack",
   },
   {
-    name: 'Technical Leadership',
-    description: 'Leading development teams, mentoring junior developers, and driving technical decisions.',
-    icon: 'i-heroicons-user-group'
+    name: "Technical Leadership & Mentorship",
+    description:
+      "Guiding engineering teams by fostering collaboration, facilitating knowledge sharing, and mentoring junior developers to grow their technical abilities and professional confidence.",
+    icon: "i-heroicons-user-group",
   },
   {
-    name: 'Problem Solving',
-    description: 'Breaking down complex problems into manageable solutions with elegant implementations.',
-    icon: 'i-heroicons-puzzle-piece'
-  }
+    name: "Creative Problem Solving",
+    description:
+      "Tackling complex, ambiguous technical challenges with a pragmatic and structured approach—breaking them down systematically into clear, implementable solutions.",
+    icon: "i-heroicons-puzzle-piece",
+  },
+  {
+    name: "AI Integration & Exploration",
+    description:
+      "Passionate about integrating cutting-edge AI and machine learning capabilities into practical applications, including experience prototyping and implementing AI-driven features.",
+    icon: "i-heroicons-cpu-chip",
+  },
 ];
 </script>
 
@@ -206,8 +264,14 @@ const coreSkills = [
 
 /* Fade animation for loading content */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Accessibility */
