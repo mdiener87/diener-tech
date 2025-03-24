@@ -8,12 +8,30 @@
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">Career Journey</h1>
           <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
-            Explore my professional journey, skills, and achievements through
-            interactive visualizations
+            Explore my professional journey, skills, and achievements
           </p>
 
-          <!-- Visualization Selector -->
+          <!-- Content Type Selector -->
           <div
+            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 card-transition mb-6"
+          >
+            <UButtonGroup>
+              <UButton
+                v-for="(type, index) in contentTypes"
+                :key="type.id"
+                :color="activeContentType === type.id ? 'primary' : 'gray'"
+                :variant="activeContentType === type.id ? 'solid' : 'ghost'"
+                @click="activeContentType = type.id"
+                class="px-4 py-2"
+              >
+                {{ type.label }}
+              </UButton>
+            </UButtonGroup>
+          </div>
+
+          <!-- Visualization Type Selector (only shown when Visualizations content type is active) -->
+          <div
+            v-if="activeContentType === 'visualizations'"
             class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 flex flex-wrap justify-center gap-4 card-transition"
           >
             <UButtonGroup>
@@ -33,8 +51,9 @@
       </UContainer>
     </section>
 
-    <!-- Visualization Description -->
+    <!-- Description Section (only for visualizations) -->
     <section
+      v-if="activeContentType === 'visualizations'"
       class="py-6 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
     >
       <UContainer>
@@ -49,8 +68,8 @@
       </UContainer>
     </section>
 
-    <!-- Visualization Container -->
-    <section class="py-8 bg-white dark:bg-gray-900">
+    <!-- Visualization Content (when visualizations is selected) -->
+    <section v-if="activeContentType === 'visualizations'" class="py-8 bg-white dark:bg-gray-900">
       <UContainer>
         <UCard
           class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800"
@@ -96,21 +115,219 @@
       </UContainer>
     </section>
 
-    <!-- Additional Career Information -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <!-- Text Content (when experience or philosophy is selected) -->
+    <section v-if="activeContentType === 'experience'" class="py-12 bg-white dark:bg-gray-900">
       <UContainer>
-        <div class="text-center mb-8">
-          <h2 class="text-2xl md:text-3xl font-bold mb-4">Career Insights</h2>
-          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-            My expertise, approach, and professional philosophy that have shaped
-            my journey
-          </p>
-        </div>
+        <h2 class="text-3xl font-bold mb-10 text-center">
+          Skills & Experience
+        </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <UCard class="h-full hover:shadow-lg card-transition">
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Professional Experience -->
+          <UCard class="h-full transition-all hover:shadow-lg">
             <template #header>
-              <h2 class="text-2xl font-semibold">Core Competencies</h2>
+              <div class="flex items-center gap-3 mb-2">
+                <div
+                  class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center"
+                >
+                  <UIcon
+                    name="i-heroicons-briefcase"
+                    class="w-6 h-6 text-blue-600 dark:text-blue-400"
+                  />
+                </div>
+                <h3 class="text-xl font-bold">Professional Experience</h3>
+              </div>
+            </template>
+
+            <div class="space-y-6">
+              <!-- Experience Item -->
+              <div class="experience-item">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="font-bold text-gray-900 dark:text-white">
+                    Senior Software Engineer
+                  </h4>
+                  <UBadge color="blue" variant="subtle">2021 - Present</UBadge>
+                </div>
+                <h5 class="text-primary font-medium mb-2">Company Name</h5>
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                  [Brief description of your role, responsibilities, and key
+                  achievements. Focus on impact and results.]
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >Vue.js</UBadge
+                  >
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >Node.js</UBadge
+                  >
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >TypeScript</UBadge
+                  >
+                </div>
+              </div>
+
+              <UDivider />
+
+              <!-- Experience Item -->
+              <div class="experience-item">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="font-bold text-gray-900 dark:text-white">
+                    Software Engineer
+                  </h4>
+                  <UBadge color="blue" variant="subtle">2018 - 2021</UBadge>
+                </div>
+                <h5 class="text-primary font-medium mb-2">Previous Company</h5>
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                  [Brief description of your role, responsibilities, and key
+                  achievements. Focus on impact and results.]
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >JavaScript</UBadge
+                  >
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >Python</UBadge
+                  >
+                  <UBadge color="gray" variant="subtle" size="xs">.NET</UBadge>
+                </div>
+              </div>
+            </div>
+          </UCard>
+
+          <!-- Technical Skills -->
+          <div class="grid gap-6">
+            <!-- Expertise Card -->
+            <UCard class="transition-all hover:shadow-lg">
+              <template #header>
+                <div class="flex items-center gap-3 mb-2">
+                  <div
+                    class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center"
+                  >
+                    <UIcon
+                      name="i-heroicons-code-bracket"
+                      class="w-6 h-6 text-green-600 dark:text-green-400"
+                    />
+                  </div>
+                  <h3 class="text-xl font-bold">Technical Expertise</h3>
+                </div>
+              </template>
+
+              <div class="grid grid-cols-2 gap-4">
+                <!-- Skill Category -->
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
+                    Frontend
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>Vue.js / Nuxt</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>JavaScript / TypeScript</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>Responsive Design</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>UI/UX Principles</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Skill Category -->
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
+                    Backend
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>Node.js</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>Python</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>.NET</span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-check-circle"
+                        class="w-5 h-5 text-green-500"
+                      />
+                      <span>RESTful APIs</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </UCard>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
+    <!-- Philosophy Content -->
+    <section v-if="activeContentType === 'philosophy'" class="py-12 bg-white dark:bg-gray-900">
+      <UContainer>
+        <div class="max-w-4xl mx-auto">
+          <h2 class="text-3xl font-bold mb-8 text-center">Career Philosophy</h2>
+          
+          <UCard class="mb-8">
+            <div class="space-y-4 text-gray-700 dark:text-gray-300">
+              <p>
+                I believe exceptional software development blends technical
+                skill with empathy, creativity, and a deep understanding of the
+                end user's needs. Great products emerge not just from mastering
+                technologies, but from genuinely caring about the problems they
+                solve and the people they serve.
+              </p>
+              <p>
+                Throughout my career, I've found fulfillment in bridging
+                technical complexity and practical usability. I prioritize
+                elegant, maintainable solutions that deliver measurable business
+                value, always keeping the human element at the core of my work.
+              </p>
+              <p>
+                I deeply value continuous learning, exploration, and
+                growth—embracing new technologies not only to stay ahead
+                professionally but also to satisfy my natural curiosity and
+                passion for innovation. My goal isn't just to write code but to
+                create impactful, meaningful software that genuinely makes
+                people's lives better.
+              </p>
+            </div>
+          </UCard>
+          
+          <UCard>
+            <template #header>
+              <h2 class="text-xl font-semibold">Core Competencies</h2>
             </template>
             <ul class="space-y-4 mt-2">
               <li
@@ -132,35 +349,6 @@
               </li>
             </ul>
           </UCard>
-
-          <UCard class="h-full hover:shadow-lg card-transition">
-            <template #header>
-              <h2 class="text-2xl font-semibold">Career Philosophy</h2>
-            </template>
-            <div class="space-y-4 text-gray-700 dark:text-gray-300 mt-2">
-              <p>
-                I believe exceptional software development blends technical
-                skill with empathy, creativity, and a deep understanding of the
-                end user's needs. Great products emerge not just from mastering
-                technologies, but from genuinely caring about the problems they
-                solve and the people they serve.
-              </p>
-              <p>
-                Throughout my career, I’ve found fulfillment in bridging
-                technical complexity and practical usability. I prioritize
-                elegant, maintainable solutions that deliver measurable business
-                value, always keeping the human element at the core of my work.
-              </p>
-              <p>
-                I deeply value continuous learning, exploration, and
-                growth—embracing new technologies not only to stay ahead
-                professionally but also to satisfy my natural curiosity and
-                passion for innovation. My goal isn't just to write code but to
-                create impactful, meaningful software that genuinely makes
-                people's lives better.
-              </p>
-            </div>
-          </UCard>
         </div>
       </UContainer>
     </section>
@@ -180,6 +368,25 @@ setPageMeta({
     "Explore my professional journey, skills, and achievements through interactive visualizations showcasing my experience in software development.",
   type: "profile",
 });
+
+// Content type selection
+const contentTypes = [
+  {
+    id: "visualizations",
+    label: "Interactive Visualizations",
+  },
+  {
+    id: "experience",
+    label: "Skills & Experience",
+  },
+  {
+    id: "philosophy",
+    label: "Career Philosophy",
+  },
+];
+
+// Default active content type
+const activeContentType = ref("visualizations");
 
 // Visualization types
 const visualizations = [
@@ -262,6 +469,22 @@ const coreSkills = [
   transform: translateY(-2px);
 }
 
+/* Experience items hover effect */
+.experience-item {
+  transition: transform 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+}
+
+.experience-item:hover {
+  background-color: rgba(var(--color-primary-50), 0.5);
+  transform: translateX(4px);
+}
+
+.dark .experience-item:hover {
+  background-color: rgba(var(--color-primary-900), 0.2);
+}
+
 /* Fade animation for loading content */
 @keyframes fadeIn {
   from {
@@ -280,6 +503,9 @@ const coreSkills = [
     transition: none;
   }
   .card-transition:hover {
+    transform: none;
+  }
+  .experience-item:hover {
     transform: none;
   }
 }

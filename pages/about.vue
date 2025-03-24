@@ -97,8 +97,8 @@
               />
               <div>
                 <p class="italic text-gray-700 dark:text-gray-300">
-                  “The only way to make sense out of change is to plunge into
-                  it, move with it, and join the dance.”
+                  "The only way to make sense out of change is to plunge into
+                  it, move with it, and join the dance."
                 </p>
                 <p class="mt-2 font-medium text-primary">— Alan Watts</p>
               </div>
@@ -108,15 +108,50 @@
       </UContainer>
     </section>
 
-    <!-- Skills & Experience Section -->
+    <!-- Beyond Coding Section (Expanded) -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <h2 class="text-3xl font-bold mb-10 text-center">
-          Skills & Experience
+          Beyond Coding
         </h2>
 
-        <div class="grid md:grid-cols-2 gap-8">
-          <!-- Professional Experience -->
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Gaming & D&D Card -->
+          <UCard class="h-full transition-all hover:shadow-lg">
+            <template #header>
+              <div class="flex items-center gap-3 mb-2">
+                <div
+                  class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center"
+                >
+                  <UIcon
+                    name="i-heroicons-sparkles"
+                    class="w-6 h-6 text-purple-600 dark:text-purple-400"
+                  />
+                </div>
+                <h3 class="text-xl font-bold">Gaming & Imagination</h3>
+              </div>
+            </template>
+
+            <div class="space-y-4">
+              <p class="text-gray-700 dark:text-gray-300">
+                I've been an avid Dungeon Master for over a decade, running rich, narrative-driven campaigns that blend strategy, storytelling, and collaborative worldbuilding.
+              </p>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-bolt" class="w-5 h-5 text-purple-500" />
+                <span>Homebrew campaign creator</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-puzzle-piece" class="w-5 h-5 text-purple-500" />
+                <span>Strategy & board game enthusiast</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-computer-desktop" class="w-5 h-5 text-purple-500" />
+                <span>PC gaming & simulation experiences</span>
+              </div>
+            </div>
+          </UCard>
+
+          <!-- Outdoor Activities Card -->
           <UCard class="h-full transition-all hover:shadow-lg">
             <template #header>
               <div class="flex items-center gap-3 mb-2">
@@ -124,222 +159,67 @@
                   class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center"
                 >
                   <UIcon
-                    name="i-heroicons-briefcase"
+                    name="i-heroicons-fire"
                     class="w-6 h-6 text-blue-600 dark:text-blue-400"
                   />
                 </div>
-                <h3 class="text-xl font-bold">Professional Experience</h3>
+                <h3 class="text-xl font-bold">Outdoor Pursuits</h3>
               </div>
             </template>
 
-            <div class="space-y-6">
-              <!-- Experience Item -->
-              <div class="experience-item">
-                <div class="flex justify-between items-start mb-2">
-                  <h4 class="font-bold text-gray-900 dark:text-white">
-                    Senior Software Engineer
-                  </h4>
-                  <UBadge color="blue" variant="subtle">2021 - Present</UBadge>
-                </div>
-                <h5 class="text-primary font-medium mb-2">Company Name</h5>
-                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                  [Brief description of your role, responsibilities, and key
-                  achievements. Focus on impact and results.]
-                </p>
-                <div class="flex flex-wrap gap-2">
-                  <UBadge color="gray" variant="subtle" size="xs"
-                    >Vue.js</UBadge
-                  >
-                  <UBadge color="gray" variant="subtle" size="xs"
-                    >Node.js</UBadge
-                  >
-                  <UBadge color="gray" variant="subtle" size="xs"
-                    >TypeScript</UBadge
-                  >
-                </div>
+            <div class="space-y-4">
+              <p class="text-gray-700 dark:text-gray-300">
+                Living in Colorado provides endless opportunities to explore the outdoors. I'm passionate about hiking, fitness, and experiencing natural wonders.
+              </p>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-map" class="w-5 h-5 text-blue-500" />
+                <span>14er peak climbing</span>
               </div>
-
-              <UDivider />
-
-              <!-- Experience Item -->
-              <div class="experience-item">
-                <div class="flex justify-between items-start mb-2">
-                  <h4 class="font-bold text-gray-900 dark:text-white">
-                    Software Engineer
-                  </h4>
-                  <UBadge color="blue" variant="subtle">2018 - 2021</UBadge>
-                </div>
-                <h5 class="text-primary font-medium mb-2">Previous Company</h5>
-                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                  [Brief description of your role, responsibilities, and key
-                  achievements. Focus on impact and results.]
-                </p>
-                <div class="flex flex-wrap gap-2">
-                  <UBadge color="gray" variant="subtle" size="xs"
-                    >JavaScript</UBadge
-                  >
-                  <UBadge color="gray" variant="subtle" size="xs"
-                    >Python</UBadge
-                  >
-                  <UBadge color="gray" variant="subtle" size="xs">.NET</UBadge>
-                </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-arrow-trending-up" class="w-5 h-5 text-blue-500" />
+                <span>Weightlifting & strength training</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-camera" class="w-5 h-5 text-blue-500" />
+                <span>Nature photography</span>
               </div>
             </div>
           </UCard>
 
-          <!-- Technical Skills -->
-          <div class="grid gap-6">
-            <!-- Expertise Card -->
-            <UCard class="transition-all hover:shadow-lg">
-              <template #header>
-                <div class="flex items-center gap-3 mb-2">
-                  <div
-                    class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center"
-                  >
-                    <UIcon
-                      name="i-heroicons-code-bracket"
-                      class="w-6 h-6 text-green-600 dark:text-green-400"
-                    />
-                  </div>
-                  <h3 class="text-xl font-bold">Technical Expertise</h3>
+          <!-- Creative & Technical Hobbies Card -->
+          <UCard class="h-full transition-all hover:shadow-lg">
+            <template #header>
+              <div class="flex items-center gap-3 mb-2">
+                <div
+                  class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center"
+                >
+                  <UIcon
+                    name="i-heroicons-light-bulb"
+                    class="w-6 h-6 text-green-600 dark:text-green-400"
+                  />
                 </div>
-              </template>
-
-              <div class="grid grid-cols-2 gap-4">
-                <!-- Skill Category -->
-                <div>
-                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
-                    Frontend
-                  </h4>
-                  <ul class="space-y-2">
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>Vue.js / Nuxt</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>JavaScript / TypeScript</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>Responsive Design</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>UI/UX Principles</span>
-                    </li>
-                  </ul>
-                </div>
-
-                <!-- Skill Category -->
-                <div>
-                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
-                    Backend
-                  </h4>
-                  <ul class="space-y-2">
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>Node.js</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>Python</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>.NET</span>
-                    </li>
-                    <li class="flex items-center gap-2">
-                      <UIcon
-                        name="i-heroicons-check-circle"
-                        class="w-5 h-5 text-green-500"
-                      />
-                      <span>RESTful APIs</span>
-                    </li>
-                  </ul>
-                </div>
+                <h3 class="text-xl font-bold">Creative Projects</h3>
               </div>
-            </UCard>
+            </template>
 
-            <!-- Personal Interests Card -->
-            <UCard class="transition-all hover:shadow-lg">
-              <template #header>
-                <div class="flex items-center gap-3 mb-2">
-                  <div
-                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center"
-                  >
-                    <UIcon
-                      name="i-heroicons-heart"
-                      class="w-6 h-6 text-purple-600 dark:text-purple-400"
-                    />
-                  </div>
-                  <h3 class="text-xl font-bold">Beyond Coding</h3>
-                </div>
-              </template>
-
-              <p class="text-gray-700 dark:text-gray-300 mb-4">
-                When I'm not crafting code, you'll find me engaged in a variety
-                of activities that fuel my creativity and well-being:
+            <div class="space-y-4">
+              <p class="text-gray-700 dark:text-gray-300">
+                I enjoy merging technology with creativity through various hands-on projects and continuous learning.
               </p>
-
-              <div class="grid grid-cols-2 gap-4">
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-center gap-2">
-                    <UIcon
-                      name="i-heroicons-globe-alt"
-                      class="w-5 h-5 text-purple-500"
-                    />
-                    <span>Exploring new technologies</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <UIcon
-                      name="i-heroicons-cube"
-                      class="w-5 h-5 text-purple-500"
-                    />
-                    <span>3D printing creations</span>
-                  </div>
-                </div>
-
-                <div class="flex flex-col gap-3">
-                  <div class="flex items-center gap-2">
-                    <UIcon
-                      name="i-heroicons-fire"
-                      class="w-5 h-5 text-purple-500"
-                    />
-                    <span>Weightlifting & hiking</span>
-                  </div>
-                  <div class="flex items-center gap-2">
-                    <UIcon
-                      name="i-heroicons-sparkles"
-                      class="w-5 h-5 text-purple-500"
-                    />
-                    <span>Hosting D&D campaigns</span>
-                  </div>
-                </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-cube" class="w-5 h-5 text-green-500" />
+                <span>3D printing & modeling</span>
               </div>
-            </UCard>
-          </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-academic-cap" class="w-5 h-5 text-green-500" />
+                <span>Learning game development</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <UIcon name="i-heroicons-beaker" class="w-5 h-5 text-green-500" />
+                <span>Experimenting with AI tools</span>
+              </div>
+            </div>
+          </UCard>
         </div>
       </UContainer>
     </section>
@@ -417,14 +297,25 @@
             Whether you want to discuss a project, talk about technology, or
             just say hello, I'd love to hear from you!
           </p>
-          <UButton
-            to="/contact"
-            color="primary"
-            size="lg"
-            icon="i-heroicons-envelope"
-          >
-            Get in Touch
-          </UButton>
+          <div class="flex flex-wrap justify-center gap-4">
+            <UButton
+              to="/contact"
+              color="primary"
+              size="lg"
+              icon="i-heroicons-envelope"
+            >
+              Get in Touch
+            </UButton>
+            <UButton
+              to="/career"
+              color="gray"
+              variant="outline"
+              size="lg"
+              icon="i-heroicons-briefcase"
+            >
+              View Career
+            </UButton>
+          </div>
         </div>
       </UContainer>
     </section>
@@ -455,7 +346,7 @@ const { setPageMeta } = useSeo();
 setPageMeta({
   title: "About Me",
   description:
-    "Learn about my experience as a software developer, my skills in Vue.js and Node.js, and my personal interests including hiking, 3D printing, and running D&D campaigns.",
+    "Learn about my personal interests including gaming, hiking, 3D printing, and running D&D campaigns.",
   type: "profile",
 });
 </script>
@@ -480,30 +371,31 @@ setPageMeta({
   }
 }
 
-/* Experience items hover effect */
-.experience-item {
-  transition: transform 0.3s ease;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-}
-
-.experience-item:hover {
-  background-color: rgba(var(--color-primary-50), 0.5);
-  transform: translateX(4px);
-}
-
-.dark .experience-item:hover {
-  background-color: rgba(var(--color-primary-900), 0.2);
-}
-
-/* Skill items animations */
+/* Hover effects */
 .text-green-500,
-.text-purple-500 {
+.text-purple-500,
+.text-blue-500 {
   transition: transform 0.2s ease;
 }
 
-li:hover .text-green-500,
-div:hover .text-purple-500 {
+div:hover .text-green-500,
+div:hover .text-purple-500,
+div:hover .text-blue-500 {
   transform: scale(1.2);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .card-transition {
+    transition: none;
+  }
+  .card-transition:hover {
+    transform: none;
+  }
+  div:hover .text-green-500,
+  div:hover .text-purple-500,
+  div:hover .text-blue-500 {
+    transform: none;
+  }
 }
 </style>
