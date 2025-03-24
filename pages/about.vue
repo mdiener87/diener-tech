@@ -97,10 +97,10 @@
               />
               <div>
                 <p class="italic text-gray-700 dark:text-gray-300">
-                  "Your favorite quote or personal philosophy about development,
-                  creativity, or life in general."
+                  “The only way to make sense out of change is to plunge into
+                  it, move with it, and join the dance.”
                 </p>
-                <p class="mt-2 font-medium text-primary">— Your Name</p>
+                <p class="mt-2 font-medium text-primary">— Alan Watts</p>
               </div>
             </div>
           </UCard>
