@@ -69,7 +69,10 @@
     </section>
 
     <!-- Visualization Content (when visualizations is selected) -->
-    <section v-if="activeContentType === 'visualizations'" class="py-8 bg-white dark:bg-gray-900">
+    <section
+      v-if="activeContentType === 'visualizations'"
+      class="py-8 bg-white dark:bg-gray-900"
+    >
       <UContainer>
         <UCard
           class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800"
@@ -116,7 +119,10 @@
     </section>
 
     <!-- Text Content (when experience or philosophy is selected) -->
-    <section v-if="activeContentType === 'experience'" class="py-12 bg-white dark:bg-gray-900">
+    <section
+      v-if="activeContentType === 'experience'"
+      class="py-12 bg-white dark:bg-gray-900"
+    >
       <UContainer>
         <h2 class="text-3xl font-bold mb-10 text-center">
           Skills & Experience
@@ -144,25 +150,29 @@
               <div class="experience-item">
                 <div class="flex justify-between items-start mb-2">
                   <h4 class="font-bold text-gray-900 dark:text-white">
-                    Senior Software Engineer
+                    Software Engineer
                   </h4>
-                  <UBadge color="blue" variant="subtle">2021 - Present</UBadge>
+                  <UBadge color="blue" variant="subtle">2022 - Present</UBadge>
                 </div>
-                <h5 class="text-primary font-medium mb-2">Company Name</h5>
+                <h5 class="text-primary font-medium mb-2">HeadSpin</h5>
                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                  [Brief description of your role, responsibilities, and key
-                  achievements. Focus on impact and results.]
+                  Architected scalable frontend solutions, transforming features
+                  into flexible components. Developed a custom Vue component
+                  library standardizing design and enabling faster development
+                  cycles. Led feature enhancements across all SDLC stages with
+                  rigorous test coverage.
                 </p>
                 <div class="flex flex-wrap gap-2">
                   <UBadge color="gray" variant="subtle" size="xs"
                     >Vue.js</UBadge
                   >
                   <UBadge color="gray" variant="subtle" size="xs"
-                    >Node.js</UBadge
+                    >JavaScript</UBadge
                   >
                   <UBadge color="gray" variant="subtle" size="xs"
                     >TypeScript</UBadge
                   >
+                  <UBadge color="gray" variant="subtle" size="xs">Jest</UBadge>
                 </div>
               </div>
 
@@ -174,21 +184,51 @@
                   <h4 class="font-bold text-gray-900 dark:text-white">
                     Software Engineer
                   </h4>
-                  <UBadge color="blue" variant="subtle">2018 - 2021</UBadge>
+                  <UBadge color="blue" variant="subtle">2021 - 2022</UBadge>
                 </div>
-                <h5 class="text-primary font-medium mb-2">Previous Company</h5>
+                <h5 class="text-primary font-medium mb-2">Sopheon</h5>
                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
-                  [Brief description of your role, responsibilities, and key
-                  achievements. Focus on impact and results.]
+                  Enhanced UX and GDPR compliance of a multi-tenant cloud
+                  application through full-stack web feature development.
+                  Created a REST API integrating a new web application with
+                  Sopheon's core product. Optimized front-end and back-end
+                  architecture.
                 </p>
                 <div class="flex flex-wrap gap-2">
                   <UBadge color="gray" variant="subtle" size="xs"
                     >JavaScript</UBadge
                   >
                   <UBadge color="gray" variant="subtle" size="xs"
-                    >Python</UBadge
+                    >REST API</UBadge
                   >
-                  <UBadge color="gray" variant="subtle" size="xs">.NET</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">C#</UBadge>
+                </div>
+              </div>
+
+              <UDivider />
+
+              <!-- Experience Item -->
+              <div class="experience-item">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="font-bold text-gray-900 dark:text-white">
+                    Senior Technical Consultant
+                  </h4>
+                  <UBadge color="blue" variant="subtle">2017 - 2021</UBadge>
+                </div>
+                <h5 class="text-primary font-medium mb-2">Sopheon</h5>
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                  Spearheaded client success as lead engineer for enterprise
+                  clients including Lockheed Martin and P&G. Innovated a
+                  reusable JavaScript component library enhancing the product's
+                  front-end capabilities. Developed custom C# plugins and SQL
+                  scripts to augment core product functionalities.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <UBadge color="gray" variant="subtle" size="xs"
+                    >JavaScript</UBadge
+                  >
+                  <UBadge color="gray" variant="subtle" size="xs">C#</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">SQL</UBadge>
                 </div>
               </div>
             </div>
@@ -224,7 +264,7 @@
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>Vue.js / Nuxt</span>
+                      <span>Vue.js / React / Angular</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
@@ -238,14 +278,14 @@
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>Responsive Design</span>
+                      <span>Jest / Testing Library</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>UI/UX Principles</span>
+                      <span>D3 / JQuery / Knockout</span>
                     </li>
                   </ul>
                 </div>
@@ -268,23 +308,91 @@
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>Python</span>
+                      <span>Python / Flask / Tornado</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>.NET</span>
+                      <span>C# / .NET Core / MVC</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>RESTful APIs</span>
+                      <span>SQL / Entity Framework</span>
                     </li>
                   </ul>
+                </div>
+              </div>
+
+            </UCard>
+
+            <!-- Awards & Education Card -->
+            <UCard class="transition-all hover:shadow-lg">
+              <template #header>
+                <div class="flex items-center gap-3 mb-2">
+                  <div
+                    class="w-10 h-10 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center"
+                  >
+                    <UIcon
+                      name="i-heroicons-academic-cap"
+                      class="w-6 h-6 text-purple-600 dark:text-purple-400"
+                    />
+                  </div>
+                  <h3 class="text-xl font-bold">Awards & Education</h3>
+                </div>
+              </template>
+
+              <div class="space-y-4">
+                <!-- Awards -->
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
+                    Recognition
+                  </h4>
+                  <ul class="space-y-2">
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-trophy"
+                        class="w-5 h-5 text-amber-500"
+                      />
+                      <span
+                        >Sopheon Outstanding Implementations - Merck & 3M
+                        Projects</span
+                      >
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <UIcon
+                        name="i-heroicons-trophy"
+                        class="w-5 h-5 text-amber-500"
+                      />
+                      <span
+                        >Sopheon Outstanding Contribution - JavaScript Component
+                        Library</span
+                      >
+                    </li>
+                  </ul>
+                </div>
+
+                <UDivider />
+
+                <!-- Education -->
+                <div>
+                  <h4 class="font-medium text-gray-900 dark:text-white mb-3">
+                    Education
+                  </h4>
+                  <div class="flex items-center gap-2 mb-1">
+                    <UIcon
+                      name="i-heroicons-building-library"
+                      class="w-5 h-5 text-blue-500"
+                    />
+                    <span class="font-medium">Colorado State University</span>
+                  </div>
+                  <p class="text-gray-700 dark:text-gray-300 text-sm pl-7">
+                    BA in Political Science
+                  </p>
                 </div>
               </div>
             </UCard>
@@ -294,11 +402,14 @@
     </section>
 
     <!-- Philosophy Content -->
-    <section v-if="activeContentType === 'philosophy'" class="py-12 bg-white dark:bg-gray-900">
+    <section
+      v-if="activeContentType === 'philosophy'"
+      class="py-12 bg-white dark:bg-gray-900"
+    >
       <UContainer>
         <div class="max-w-4xl mx-auto">
           <h2 class="text-3xl font-bold mb-8 text-center">Career Philosophy</h2>
-          
+
           <UCard class="mb-8">
             <div class="space-y-4 text-gray-700 dark:text-gray-300">
               <p>
@@ -324,7 +435,7 @@
               </p>
             </div>
           </UCard>
-          
+
           <UCard>
             <template #header>
               <h2 class="text-xl font-semibold">Core Competencies</h2>
