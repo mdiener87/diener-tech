@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-      </UContainer>
+      </UContainer> 
     </section>
 
     <!-- Technologies Display Component -->
