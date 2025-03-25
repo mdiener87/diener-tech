@@ -43,7 +43,13 @@
             <div
               class="w-64 h-64 bg-primary/10 rounded-full flex items-center justify-center border-4 border-primary/20"
             >
-              <NuxtImg src="/images/pics/diener_headshot.jpg" alt="Michael Diener" width="256" height="256" class="rounded-full" />
+              <NuxtImg
+                src="/images/pics/diener_headshot.jpg"
+                alt="Michael Diener"
+                width="256"
+                height="256"
+                class="rounded-full"
+              />
             </div>
           </div>
         </div>
@@ -63,6 +69,24 @@
             My tech stack is constantly evolving. Here are some of the
             technologies I'm currently using.
           </p>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="flex flex-wrap justify-center gap-3 mb-6">
+          <UBadge
+            v-for="category in categories"
+            :key="category"
+            color="primary"
+            variant="soft"
+            size="lg"
+            class="cursor-pointer transition-all"
+            :class="selectedCategory === category ? 'ring-2 ring-primary' : ''"
+            @click="filterByCategory(category)"
+            @mouseenter="filterByCategory(category)"
+            @mouseleave="clearCategoryFilter"
+          >
+            {{ category.charAt(0).toUpperCase() + category.slice(1) }}
+          </UBadge>
         </div>
 
         <div
@@ -300,7 +324,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 
 // Fetch latest blog posts
 const latestPosts = await queryContent("blog")
@@ -352,6 +376,18 @@ const technologies = [
     name: "d3.js",
     icon: "i-heroicons-chart-bar",
     colorClass: "bg-orange-600 hover:bg-orange-700",
+    category: "frontend",
+  },
+  {
+    name: "JQuery",
+    icon: "i-heroicons-bolt",
+    colorClass: "bg-blue-300 hover:bg-blue-400",
+    category: "frontend",
+  },
+  {
+    name: "Knockout",
+    icon: "i-heroicons-puzzle-piece",
+    colorClass: "bg-purple-400 hover:bg-purple-500",
     category: "frontend",
   },
 
@@ -432,6 +468,48 @@ const technologies = [
     colorClass: "bg-yellow-600 hover:bg-yellow-700",
     category: "backend",
   },
+  {
+    name: "ASP.NET MVC",
+    icon: "i-heroicons-window",
+    colorClass: "bg-indigo-600 hover:bg-indigo-700",
+    category: "backend",
+  },
+  {
+    name: ".NET Core",
+    icon: "i-heroicons-globe-alt",
+    colorClass: "bg-purple-500 hover:bg-purple-600",
+    category: "backend",
+  },
+  {
+    name: "Flask",
+    icon: "i-heroicons-beaker",
+    colorClass: "bg-slate-600 hover:bg-slate-700",
+    category: "backend",
+  },
+  {
+    name: "Tornado",
+    icon: "i-heroicons-arrow-path-rounded-square",
+    colorClass: "bg-cyan-600 hover:bg-cyan-700",
+    category: "backend",
+  },
+  {
+    name: "Entity Framework",
+    icon: "i-heroicons-link",
+    colorClass: "bg-blue-800 hover:bg-blue-900",
+    category: "backend",
+  },
+  {
+    name: "SQL Server",
+    icon: "i-heroicons-server-stack",
+    colorClass: "bg-red-700 hover:bg-red-800",
+    category: "backend",
+  },
+  {
+    name: "SQL Workbench",
+    icon: "i-heroicons-wrench-screwdriver",
+    colorClass: "bg-orange-700 hover:bg-orange-800",
+    category: "backend",
+  },
 
   // Development Tools
   {
@@ -458,6 +536,72 @@ const technologies = [
     colorClass: "bg-emerald-600 hover:bg-emerald-700",
     category: "devtools",
   },
+  {
+    name: "Visual Studio",
+    icon: "i-heroicons-computer-desktop",
+    colorClass: "bg-violet-500 hover:bg-violet-600",
+    category: "devtools",
+  },
+  {
+    name: "Docker",
+    icon: "i-heroicons-cube",
+    colorClass: "bg-sky-600 hover:bg-sky-700",
+    category: "devtools",
+  },
+  {
+    name: "GitHub",
+    icon: "i-heroicons-code-bracket",
+    colorClass: "bg-slate-800 hover:bg-slate-900",
+    category: "devtools",
+  },
+  {
+    name: "TFS",
+    icon: "i-heroicons-archive-box",
+    colorClass: "bg-blue-600 hover:bg-blue-700",
+    category: "devtools",
+  },
+
+  // Testing & Quality Assurance
+  {
+    name: "Jest",
+    icon: "i-heroicons-check-badge",
+    colorClass: "bg-red-400 hover:bg-red-500",
+    category: "testing",
+  },
+  {
+    name: "Testing Library",
+    icon: "i-heroicons-clipboard-document-check",
+    colorClass: "bg-rose-600 hover:bg-rose-700",
+    category: "testing",
+  },
+  {
+    name: "Cypress",
+    icon: "i-heroicons-bug-ant",
+    colorClass: "bg-green-800 hover:bg-green-900",
+    category: "testing",
+  },
+
+  // DevOps & CI/CD
+  {
+    name: "GitHub Actions",
+    icon: "i-heroicons-play",
+    colorClass: "bg-gray-700 hover:bg-gray-800",
+    category: "devops",
+  },
+  {
+    name: "CI/CD",
+    icon: "i-heroicons-arrow-path",
+    colorClass: "bg-blue-700 hover:bg-blue-800",
+    category: "devops",
+  },
+
+  // Project Management
+  {
+    name: "Jira",
+    icon: "i-heroicons-clipboard-document-list",
+    colorClass: "bg-blue-500 hover:bg-blue-600",
+    category: "management",
+  },
 
   // AI & Services
   {
@@ -470,6 +614,18 @@ const technologies = [
     name: "Cloudflare",
     icon: "i-heroicons-cloud-arrow-up",
     colorClass: "bg-orange-400 hover:bg-orange-500",
+    category: "services",
+  },
+  {
+    name: "REST API",
+    icon: "i-heroicons-arrows-right-left",
+    colorClass: "bg-teal-600 hover:bg-teal-700",
+    category: "services",
+  },
+  {
+    name: "Microservices",
+    icon: "i-heroicons-puzzle-piece",
+    colorClass: "bg-emerald-500 hover:bg-emerald-600",
     category: "services",
   },
   {
@@ -523,8 +679,15 @@ const visibleTechs = ref([]);
 const hoveredTech = ref(null);
 const techCarouselRef = ref(null);
 const containerWidth = ref(0);
+const hoveredTechCategory = ref(null);
 const CARD_WIDTH = 140; // Width of each card
 const CARD_MARGIN = 24; // Space between cards
+const preventBackToBackTechs = ref(true); // Toggle to prevent back-to-back tech display
+const lastDisplayedTechs = ref([]); // Keep track of last displayed techs
+const categories = computed(() => [
+  ...new Set(technologies.map((tech) => tech.category)),
+]); // Get unique categories
+const selectedCategory = ref(null); // Currently selected category
 
 // Calculate how many cards can fit based on container width
 function calculateDisplayCount() {
@@ -584,8 +747,41 @@ function shuffleTechs() {
 
   const displayCount = Math.min(calculateDisplayCount(), technologies.length);
 
-  const shuffled = [...technologies].sort(() => 0.5 - Math.random());
+  // Filter technologies by category if one is selected
+  const techPool = selectedCategory.value
+    ? technologies.filter((tech) => tech.category === selectedCategory.value)
+    : technologies;
+
+  // If selected category doesn't have enough techs, fall back to all
+  // if (techPool.length < displayCount) {
+  //   selectedCategory.value = null;
+  //   return shuffleTechs();
+  // }
+
+  let shuffled = [...techPool].sort(() => 0.5 - Math.random());
+
+  // If preventing back-to-back techs, filter out the last displayed techs
+  if (
+    preventBackToBackTechs.value &&
+    lastDisplayedTechs.value.length > 0 &&
+    !selectedCategory.value
+  ) {
+    // Get names of last displayed techs
+    const lastNames = lastDisplayedTechs.value.map((t) => t.name);
+    // Filter out techs that were last displayed
+    const filtered = shuffled.filter((tech) => !lastNames.includes(tech.name));
+
+    // If we have enough techs after filtering, use the filtered list
+    if (filtered.length >= displayCount) {
+      shuffled = filtered;
+    }
+    // Otherwise, use the original shuffled list (fallback if too few techs remain)
+  }
+
   const selectedTechs = shuffled.slice(0, displayCount);
+
+  // Save current selection for next shuffle
+  lastDisplayedTechs.value = [...selectedTechs];
 
   // Calculate positions for each card
   const totalWidth =
@@ -609,6 +805,18 @@ function onTechHover(tech) {
 // Reset tech hover
 function resetTechHover() {
   hoveredTech.value = null;
+}
+
+// Filter by category
+function filterByCategory(category) {
+  selectedCategory.value = category;
+  shuffleTechs();
+}
+
+// Clear category filter
+function clearCategoryFilter() {
+  selectedCategory.value = null;
+  shuffleTechs();
 }
 
 // Format date function
