@@ -19,11 +19,11 @@
         <UBadge
           v-for="category in categories"
           :key="category"
-          color="primary"
+          :color="categoryColors[category]?.buttonColor || 'primary'"
           variant="soft"
           size="lg"
           class="cursor-pointer transition-all"
-          :class="selectedCategory === category ? 'ring-2 ring-primary' : ''"
+          :class="selectedCategory === category ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}` : ''"
           @click="filterByCategory(category)"
           @mouseenter="filterByCategory(category)"
           @mouseleave="clearCategoryFilter"
@@ -53,7 +53,7 @@
               @mouseleave="resetTechHover"
             >
               <div
-                class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-3 transition-all duration-300"
+                class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-all duration-300"
               >
                 <UIcon
                   :name="tech.icon"
@@ -61,7 +61,7 @@
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 />
               </div>
-              <span class="font-medium text-white drop-shadow-md">{{
+              <span class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm">{{
                 tech.name
               }}</span>
             </div>
@@ -745,6 +745,52 @@ const categorySortOrder = [
 //   },
 // ];
 
+// Category color mapping
+const categoryColors = {
+  "Frontend & UI": {
+    base: "bg-sky-500 hover:bg-sky-600",
+    lighter: "bg-sky-400 hover:bg-sky-500",
+    darker: "bg-sky-600 hover:bg-sky-700",
+    accent: "bg-indigo-500 hover:bg-indigo-600",
+    buttonColor: "primary" // Using the existing primary color for buttons
+  },
+  "Languages": {
+    base: "bg-amber-500 hover:bg-amber-600",
+    lighter: "bg-amber-400 hover:bg-amber-500",
+    darker: "bg-amber-600 hover:bg-amber-700",
+    accent: "bg-yellow-500 hover:bg-yellow-600",
+    buttonColor: "amber"
+  },
+  "Backend & Infrastructure": {
+    base: "bg-emerald-500 hover:bg-emerald-600",
+    lighter: "bg-emerald-400 hover:bg-emerald-500",
+    darker: "bg-emerald-600 hover:bg-emerald-700",
+    accent: "bg-green-500 hover:bg-green-600",
+    buttonColor: "emerald"
+  },
+  "Dev Tools & Ops": {
+    base: "bg-violet-500 hover:bg-violet-600",
+    lighter: "bg-violet-400 hover:bg-violet-500",
+    darker: "bg-violet-600 hover:bg-violet-700",
+    accent: "bg-purple-500 hover:bg-purple-600",
+    buttonColor: "violet"
+  },
+  "2D & 3D Media": {
+    base: "bg-cyan-500 hover:bg-cyan-600",
+    lighter: "bg-cyan-400 hover:bg-cyan-500",
+    darker: "bg-cyan-600 hover:bg-cyan-700",
+    accent: "bg-teal-500 hover:bg-teal-600",
+    buttonColor: "cyan"
+  },
+  "AI & Emerging Tech": {
+    base: "bg-rose-500 hover:bg-rose-600",
+    lighter: "bg-rose-400 hover:bg-rose-500",
+    darker: "bg-rose-600 hover:bg-rose-700",
+    accent: "bg-pink-500 hover:bg-pink-600",
+    buttonColor: "rose"
+  }
+};
+
 // Tech display logic
 const visibleTechs = ref([]);
 const hoveredTech = ref(null);
@@ -864,9 +910,26 @@ function shuffleTechs() {
 
   visibleTechs.value = selectedTechs.map((tech, index) => {
     const position = startX + index * (CARD_WIDTH + CARD_MARGIN);
+    
+    // Apply color based on category
+    const category = tech.category;
+    const colorSet = categoryColors[category];
+    
+    // Distribute technologies across different shades within the same category
+    // Using the index to make technologies within the same category have different shades
+    let colorClass;
+    if (index % 3 === 0) {
+      colorClass = colorSet?.base || tech.colorClass;
+    } else if (index % 3 === 1) {
+      colorClass = colorSet?.lighter || tech.colorClass;
+    } else {
+      colorClass = colorSet?.darker || tech.colorClass;
+    }
+    
     return {
       ...tech,
       position: position,
+      colorClass: colorClass // Override the original colorClass with the category-based one
     };
   });
 }
@@ -902,6 +965,8 @@ function clearCategoryFilter() {
   width: 140px;
   position: absolute;
   transition: all 0.6s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .tech-card:hover {
