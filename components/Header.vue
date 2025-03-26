@@ -13,7 +13,7 @@
             >Diener</span
           >
           <span
-            class="logo-tech inline-block italic text-indigo-500 transform translate-x-[1em] transition-all duration-300 group-hover:text-primary group-hover:translate-x-0"
+            class="logo-tech inline-block italic transform translate-x-[1em] transition-all duration-300 group-hover:text-primary group-hover:translate-x-0"
             :class="randomColorClass"
             >Tech</span
           >
@@ -111,6 +111,7 @@ const router = useRouter();
 if (router) {
   router.afterEach(() => {
     selectRandomColor();
+    console.log("Color changed!", randomColorClass.value);
   });
 }
 </script>
