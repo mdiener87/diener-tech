@@ -53,7 +53,7 @@
             </div>
           </div>
         </div>
-      </UContainer> 
+      </UContainer>
     </section>
 
     <!-- Technologies Display Component -->
@@ -86,7 +86,7 @@
                   name="i-heroicons-code-bracket-square"
                   class="w-16 h-16 text-primary/50"
                 />
-                <!-- Replace with: <UImage src="/img/projects/featured.jpg" alt="Featured Project" width="600" height="338" class="rounded-lg" /> -->
+                <NuxtImg :src="featuredProject.img" alt="Featured Project" width="600" height="338" class="rounded-lg" />
               </div>
             </div>
 
@@ -273,7 +273,8 @@ const featuredProject = {
   additionalInfo:
     "This project includes content management, responsive design, and SEO optimization.",
   demoUrl: "https://diener.tech",
-  githubUrl: "https://github.com/username/portfolio",
+  githubUrl: "https://github.com/mdiener87/diener-tech",
+  img: "/images/projects/diener-tech.png",
 };
 
 // Format date function

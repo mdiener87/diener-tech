@@ -1,18 +1,28 @@
 <template>
   <main class="flex-grow">
     <!-- Project Header Section -->
-    <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition">
+    <section
+      class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition"
+    >
       <UContainer>
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">My Projects</h1>
           <p class="text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            A showcase of my work spanning from full-stack web applications to experimental side projects. Each project represents a unique challenge and learning opportunity.
+            A showcase of my work spanning from full-stack web applications to
+            experimental side projects. Each project represents a unique
+            challenge and learning opportunity.
           </p>
-          
+
           <!-- Projects Filter -->
           <div class="mt-8 flex flex-wrap justify-center gap-2">
             <UButton
-              v-for="category in ['All', 'Web', 'Mobile', 'Backend', 'Experiment']"
+              v-for="category in [
+                'All',
+                'Web',
+                'Mobile',
+                'Backend',
+                'Experiment',
+              ]"
               :key="category"
               :variant="selectedCategory === category ? 'solid' : 'soft'"
               :color="selectedCategory === category ? 'primary' : 'gray'"
@@ -35,28 +45,30 @@
             Key projects that showcase my technical skills and creative approach
           </p>
         </div>
-        
+
         <div class="grid md:grid-cols-2 gap-8">
-          <UCard 
-            v-for="project in filteredFeaturedProjects" 
-            :key="project.id" 
+          <UCard
+            v-for="project in filteredFeaturedProjects"
+            :key="project.id"
             class="project-card flex flex-col overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-300"
             :ui="{ body: { padding: 'p-0' } }"
           >
             <!-- Project Image -->
             <div class="relative overflow-hidden project-image-container">
-              <img 
-                :src="project.image || '/images/default-social.svg'" 
+              <img
+                :src="project.image || '/images/default-social.svg'"
                 :alt="project.title"
                 class="w-full h-64 object-cover project-image transition-all duration-500"
               />
-              
+
               <!-- Overlay with tech stack -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6 text-white opacity-0 hover:opacity-100 transition-opacity duration-300">
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
+              >
                 <div class="flex flex-wrap gap-2 mb-3">
-                  <UBadge 
-                    v-for="tech in project.technologies" 
-                    :key="tech" 
+                  <UBadge
+                    v-for="tech in project.technologies"
+                    :key="tech"
                     :color="getBadgeColor(tech)"
                     variant="outline"
                     class="backdrop-blur-sm"
@@ -65,37 +77,60 @@
                   </UBadge>
                 </div>
                 <h3 class="text-xl font-bold">{{ project.title }}</h3>
-                <p class="text-sm text-gray-200 mt-1 line-clamp-2">{{ project.description }}</p>
+                <p class="text-sm text-gray-200 mt-1 line-clamp-2">
+                  {{ project.description }}
+                </p>
               </div>
             </div>
-            
+
             <!-- Project Details -->
             <div class="p-6 flex flex-col flex-grow">
               <div class="flex justify-between items-start mb-4">
                 <h3 class="text-xl font-bold">{{ project.title }}</h3>
-                <UBadge :color="getProjectTypeColor(project.type || 'Web')" variant="soft">
-                  {{ project.type || 'Web' }}
+                <UBadge
+                  :color="getProjectTypeColor(project.type || 'Web')"
+                  variant="soft"
+                >
+                  {{ project.type || "Web" }}
                 </UBadge>
               </div>
-              
-              <p class="text-gray-600 dark:text-gray-400 mb-6">{{ project.description }}</p>
-              
+
+              <p class="text-gray-600 dark:text-gray-400 mb-6">
+                {{ project.description }}
+              </p>
+
               <!-- Feature highlights (if any) -->
-              <div v-if="project.highlights && project.highlights.length" class="mb-6">
-                <h4 class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 mb-2">Key Features</h4>
+              <div
+                v-if="project.highlights && project.highlights.length"
+                class="mb-6"
+              >
+                <h4
+                  class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 mb-2"
+                >
+                  Key Features
+                </h4>
                 <ul class="space-y-1">
-                  <li v-for="(highlight, idx) in project.highlights" :key="idx" class="flex items-start gap-2">
-                    <UIcon name="i-heroicons-check-circle" class="w-5 h-5 text-green-500 mt-0.5 shrink-0" />
-                    <span class="text-sm text-gray-600 dark:text-gray-300">{{ highlight }}</span>
+                  <li
+                    v-for="(highlight, idx) in project.highlights"
+                    :key="idx"
+                    class="flex items-start gap-2"
+                  >
+                    <UIcon
+                      name="i-heroicons-check-circle"
+                      class="w-5 h-5 text-green-500 mt-0.5 shrink-0"
+                    />
+                    <span class="text-sm text-gray-600 dark:text-gray-300">{{
+                      highlight
+                    }}</span>
                   </li>
                 </ul>
               </div>
-              
+
               <!-- Tech stack pills -->
               <div class="flex flex-wrap gap-2 mb-6">
-                <UBadge 
-                  v-for="tech in project.technologies" 
-                  :key="tech" 
+                <UBadge
+                  v-for="tech in project.technologies"
+                  :key="tech"
                   :color="getBadgeColor(tech)"
                   variant="subtle"
                   size="sm"
@@ -103,7 +138,7 @@
                   {{ tech }}
                 </UBadge>
               </div>
-              
+
               <!-- Project links -->
               <div class="mt-auto flex gap-3">
                 <UButton
@@ -138,31 +173,37 @@
         <div class="mb-10">
           <h2 class="text-3xl font-bold mb-4">More Projects</h2>
           <p class="text-gray-600 dark:text-gray-400">
-            Additional projects showcasing my range and versatility across different platforms
+            Additional projects showcasing my range and versatility across
+            different platforms
           </p>
         </div>
-        
+
         <div class="grid md:grid-cols-3 gap-6">
-          <UCard 
-            v-for="project in filteredOtherProjects" 
-            :key="project.id" 
+          <UCard
+            v-for="project in filteredOtherProjects"
+            :key="project.id"
             class="other-project-card flex flex-col h-full hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
           >
             <template #header>
               <div class="flex justify-between items-center">
-                <UBadge :color="getProjectTypeColor(project.type || 'Experiment')" variant="subtle">
-                  {{ project.type || 'Experiment' }}
+                <UBadge
+                  :color="getProjectTypeColor(project.type || 'Experiment')"
+                  variant="subtle"
+                >
+                  {{ project.type || "Experiment" }}
                 </UBadge>
               </div>
               <h3 class="text-xl font-bold mt-3">{{ project.title }}</h3>
             </template>
-            
-            <p class="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">{{ project.description }}</p>
-            
+
+            <p class="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
+              {{ project.description }}
+            </p>
+
             <div class="flex flex-wrap gap-2 mb-6">
-              <UBadge 
-                v-for="tech in project.technologies" 
-                :key="tech" 
+              <UBadge
+                v-for="tech in project.technologies"
+                :key="tech"
                 :color="getBadgeColor(tech)"
                 variant="subtle"
                 size="xs"
@@ -170,7 +211,7 @@
                 {{ tech }}
               </UBadge>
             </div>
-            
+
             <div class="mt-auto flex gap-3">
               <UButton
                 v-if="project.url || project.githubUrl"
@@ -186,15 +227,35 @@
             </div>
           </UCard>
         </div>
-        
+
         <!-- Project availability notice -->
-        <div v-if="selectedCategory !== 'All' && (filteredOtherProjects.length === 0 && filteredFeaturedProjects.length === 0)" class="text-center py-16">
-          <UIcon name="i-heroicons-folder-open" class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
-          <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">No {{ selectedCategory }} projects yet</h3>
+        <div
+          v-if="
+            selectedCategory !== 'All' &&
+            filteredOtherProjects.length === 0 &&
+            filteredFeaturedProjects.length === 0
+          "
+          class="text-center py-16"
+        >
+          <UIcon
+            name="i-heroicons-folder-open"
+            class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4"
+          />
+          <h3
+            class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2"
+          >
+            No {{ selectedCategory }} projects yet
+          </h3>
           <p class="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
-            I don't have any {{ selectedCategory.toLowerCase() }} projects to show at the moment. Check back later or explore other categories!
+            I don't have any {{ selectedCategory.toLowerCase() }} projects to
+            show at the moment. Check back later or explore other categories!
           </p>
-          <UButton color="primary" variant="soft" class="mt-6" @click="filterProjects('All')">
+          <UButton
+            color="primary"
+            variant="soft"
+            class="mt-6"
+            @click="filterProjects('All')"
+          >
             View All Projects
           </UButton>
         </div>
@@ -202,15 +263,28 @@
     </section>
 
     <!-- Collaboration CTA Section -->
-    <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800 card-transition">
+    <section
+      class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-900 dark:to-gray-800 card-transition"
+    >
       <UContainer>
         <div class="max-w-3xl mx-auto text-center">
-          <UIcon name="i-heroicons-sparkles" class="w-16 h-16 text-primary mx-auto mb-6" />
+          <UIcon
+            name="i-heroicons-sparkles"
+            class="w-16 h-16 text-primary mx-auto mb-6"
+          />
           <h2 class="text-3xl font-bold mb-4">Have a Project in Mind?</h2>
-          <p class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            I'm always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
+          <p
+            class="text-lg text-gray-700 dark:text-gray-300 mb-8 max-w-2xl mx-auto"
+          >
+            I'm always open to discussing new projects, creative ideas, or
+            opportunities to be part of your vision.
           </p>
-          <UButton to="/contact" color="primary" size="lg" icon="i-heroicons-envelope">
+          <UButton
+            to="/contact"
+            color="primary"
+            size="lg"
+            icon="i-heroicons-envelope"
+          >
             Let's Collaborate
           </UButton>
         </div>
@@ -220,7 +294,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
 interface Project {
   id: number;
@@ -231,20 +305,21 @@ interface Project {
   demoUrl?: string;
   githubUrl?: string;
   url?: string;
-  type?: 'Web' | 'Mobile' | 'Backend' | 'Experiment';
+  type?: "Web" | "Mobile" | "Backend" | "Experiment";
   highlights?: string[];
 }
 
 // Selected category for filtering
-const selectedCategory = ref('All');
+const selectedCategory = ref("All");
 
 // Enhanced featured projects with more details
 const featuredProjects: Project[] = [
   {
     id: 1,
     title: "DienerTech Personal Website",
-    description: "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
-    image: "/projects/dienertech.webp",
+    description:
+      "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
+    image: "/images/projects/diener-tech.png",
     technologies: ["Vue", "Nuxt", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://diener.tech",
     githubUrl: "https://github.com/mdiener87/diener-tech",
@@ -252,24 +327,10 @@ const featuredProjects: Project[] = [
     highlights: [
       "Responsive design optimized for all devices",
       "Dark mode support with smooth transitions",
-      "Interactive components with animations",
-      "Content management system for blog posts"
-    ]
-  },
-  {
-    id: 2,
-    title: "Task Management Dashboard",
-    description: "A comprehensive task management application with team collaboration features, real-time updates, and customizable workflows.",
-    image: "/images/default-social.svg",
-    technologies: ["Vue", "Node.js", "MongoDB", "WebSockets"],
-    type: "Web",
-    highlights: [
-      "Real-time collaboration with WebSockets",
-      "Drag-and-drop task organization",
-      "Role-based user permissions",
-      "Custom workflow creation"
-    ]
-  },
+      "Interactive data visualization with D3.js",
+      "Content management system for blog posts",
+    ],
+  }
 ];
 
 // Enhanced other projects with more details and types
@@ -277,51 +338,59 @@ const otherProjects: Project[] = [
   {
     id: 1,
     title: "Python Automation Scripts",
-    description: "A collection of Python scripts for automating common development tasks, data processing, and system maintenance.",
-    technologies: ["Python", "Pandas", "BeautifulSoup"],
+    description:
+      "A collection of Python scripts I've developed for automating specific tasks.",
+    technologies: ["Python", "Tesseract", "asyncio"],
     githubUrl: "https://github.com/mdiener87/python-scripts",
-    type: "Backend"
+    type: "Backend",
   },
-  {
-    id: 2,
-    title: "Weather Forecasting App",
-    description: "A mobile app that provides accurate weather forecasting with interactive maps, hourly predictions, and severe weather alerts.",
-    technologies: ["React Native", "JavaScript", "REST APIs"],
-    type: "Mobile"
-  },
-  {
-    id: 3,
-    title: "E-commerce API",
-    description: "A robust RESTful API for e-commerce platforms with support for product management, user authentication, and order processing.",
-    technologies: ["Node.js", "Express", "MongoDB"],
-    type: "Backend"
-  },
-  {
-    id: 4,
-    title: "Interactive Data Visualization",
-    description: "An experimental project showcasing interactive data visualizations using D3.js with real-time data updates and customizable charts.",
-    technologies: ["D3.js", "JavaScript", "SVG"],
-    type: "Experiment"
-  },
-  {
-    id: 5,
-    title: "Content Management System",
-    description: "A flexible headless CMS built for developers with a focus on performance, customization, and developer experience.",
-    technologies: ["Node.js", "GraphQL", "MongoDB"],
-    type: "Web"
-  },
-  {
-    id: 6,
-    title: "IoT Dashboard",
-    description: "A dashboard for monitoring and controlling IoT devices with real-time data visualization and automated alerts.",
-    technologies: ["Vue", "MQTT", "Chart.js"],
-    type: "Web"
-  }
 ];
 
 // Function to determine badge color based on technology
-function getBadgeColor(tech: string): "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary" {
-  const colorMap: Record<string, "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary"> = {
+function getBadgeColor(
+  tech: string
+):
+  | "gray"
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "indigo"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose"
+  | "primary" {
+  const colorMap: Record<
+    string,
+    | "gray"
+    | "red"
+    | "orange"
+    | "amber"
+    | "yellow"
+    | "lime"
+    | "green"
+    | "emerald"
+    | "teal"
+    | "cyan"
+    | "sky"
+    | "blue"
+    | "indigo"
+    | "violet"
+    | "purple"
+    | "fuchsia"
+    | "pink"
+    | "rose"
+    | "primary"
+  > = {
     Vue: "emerald",
     Nuxt: "green",
     TypeScript: "blue",
@@ -342,18 +411,60 @@ function getBadgeColor(tech: string): "gray" | "red" | "orange" | "amber" | "yel
     BeautifulSoup: "indigo",
     "REST APIs": "violet",
     SVG: "rose",
-    WebSockets: "indigo"
+    WebSockets: "indigo",
   };
   return colorMap[tech] || "gray";
 }
 
 // Function to determine color based on project type
-function getProjectTypeColor(type: string): "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary" {
-  const typeColorMap: Record<string, "gray" | "red" | "orange" | "amber" | "yellow" | "lime" | "green" | "emerald" | "teal" | "cyan" | "sky" | "blue" | "indigo" | "violet" | "purple" | "fuchsia" | "pink" | "rose" | "primary"> = {
+function getProjectTypeColor(
+  type: string
+):
+  | "gray"
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "indigo"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose"
+  | "primary" {
+  const typeColorMap: Record<
+    string,
+    | "gray"
+    | "red"
+    | "orange"
+    | "amber"
+    | "yellow"
+    | "lime"
+    | "green"
+    | "emerald"
+    | "teal"
+    | "cyan"
+    | "sky"
+    | "blue"
+    | "indigo"
+    | "violet"
+    | "purple"
+    | "fuchsia"
+    | "pink"
+    | "rose"
+    | "primary"
+  > = {
     Web: "blue",
     Mobile: "cyan",
     Backend: "indigo",
-    Experiment: "purple"
+    Experiment: "purple",
   };
   return typeColorMap[type] || "gray";
 }
@@ -365,26 +476,31 @@ function filterProjects(category: string) {
 
 // Computed properties for filtered projects
 const filteredFeaturedProjects = computed(() => {
-  if (selectedCategory.value === 'All') {
+  if (selectedCategory.value === "All") {
     return featuredProjects;
   }
-  return featuredProjects.filter(project => project.type === selectedCategory.value);
+  return featuredProjects.filter(
+    (project) => project.type === selectedCategory.value
+  );
 });
 
 const filteredOtherProjects = computed(() => {
-  if (selectedCategory.value === 'All') {
+  if (selectedCategory.value === "All") {
     return otherProjects;
   }
-  return otherProjects.filter(project => project.type === selectedCategory.value);
+  return otherProjects.filter(
+    (project) => project.type === selectedCategory.value
+  );
 });
 
 // Add SEO metadata
 const { setPageMeta } = useSeo();
 
 setPageMeta({
-  title: 'Projects',
-  description: 'Explore my portfolio of web development projects featuring Vue.js, Nuxt, TypeScript, and Python applications.',
-  type: 'website'
+  title: "Projects",
+  description:
+    "Explore my portfolio of web development projects featuring Vue.js, Nuxt, TypeScript, and Python applications.",
+  type: "website",
 });
 </script>
 
@@ -452,7 +568,8 @@ li:hover .text-green-500 {
   }
 }
 
-.project-card, .other-project-card {
+.project-card,
+.other-project-card {
   animation: fadeInUp 0.6s ease-out forwards;
   opacity: 0;
 }
