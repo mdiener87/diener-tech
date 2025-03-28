@@ -249,7 +249,6 @@ const handleSubmit = async () => {
     if (process.env.NODE_ENV !== 'development') {
       try {
         recaptchaToken = await executeReCaptcha('submit_contact')
-        console.log('reCAPTCHA token received')
       } catch (error) {
         console.error('reCAPTCHA error:', error)
         throw new Error('Failed to verify security check. Please refresh the page and try again.')
@@ -339,7 +338,6 @@ const checkReCaptchaStatus = async () => {
     }
     const data = await response.json() as ReCaptchaStatusResponse
     recaptchaStatusData.value = data.data
-    console.log('reCAPTCHA status:', data.data)
   } catch (error) {
     console.error('Failed to check reCAPTCHA status:', error)
   }
@@ -348,9 +346,7 @@ const checkReCaptchaStatus = async () => {
 // Load reCAPTCHA manually for debugging
 const loadReCaptcha = async () => {
   try {
-    console.log('Manually loading reCAPTCHA...')
     await executeReCaptcha('load_test')
-    console.log('reCAPTCHA loaded successfully')
   } catch (error) {
     console.error('Failed to manually load reCAPTCHA:', error)
   }

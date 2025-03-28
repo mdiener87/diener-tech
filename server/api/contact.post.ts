@@ -77,7 +77,6 @@ export default defineEventHandler(async (event: H3Event) => {
         }
         
         const recaptchaData = await recaptchaResponse.json() as ReCaptchaResponse
-        console.log('reCAPTCHA response:', recaptchaData)
         
         // For v3 reCAPTCHA, success might be true but with a low score
         if (!recaptchaData.success) {
