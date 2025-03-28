@@ -4,7 +4,7 @@ description: "An introduction to my personal website."
 date: "2024-12-08"
 category: "technology"
 tags: ["diener.tech", "web", "blogging"]
-titleImage: "/images/projects/diener-tech.png"
+titleImage: "/images/blog/hello-world.png"
 ---
 
 
