@@ -6,24 +6,24 @@
           <!-- Blog Post Layout -->
           <template v-if="isBlogPost">
             <!-- Blog Post Header -->
-            <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
+            <section class="pt-8 pb-0 sm:py-10 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
               <UContainer>
                 <div class="max-w-4xl mx-auto">
                   <!-- Back to Blog Link -->
-                  <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-8 transition-colors">
+                  <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-4 transition-colors">
                     <UIcon name="i-heroicons-arrow-left" class="w-5 h-5" />
                     <span>Back to Blog</span>
                   </NuxtLink>
                   
                   <!-- Blog Header Card -->
-                  <UCard class="animate-fade-in overflow-hidden" :ui="{ body: { padding: 'p-0' } }">
+                  <UCard class="animate-fade-in overflow-hidden shadow-md" :ui="{ body: { padding: 'p-0' } }">
                     <div class="flex flex-col md:flex-row">
                       <!-- Title Image (Left Side on Desktop) -->
                       <div v-if="doc.titleImage" class="md:w-1/3 order-2 md:order-1 overflow-hidden flex items-center justify-center p-4">
                         <NuxtImg 
                           :src="doc.titleImage" 
                           :alt="doc.title" 
-                          class="w-full object-contain max-h-[350px] sm:max-h-[400px] md:max-h-[450px]"
+                          class="w-full object-contain max-h-[300px] sm:max-h-[320px] md:max-h-[350px]"
                           format="webp"
                           loading="eager"
                           placeholder
@@ -37,11 +37,11 @@
                           {{ doc.category }}
                         </UBadge>
                         
-                        <h1 class="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
+                        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
                           {{ doc.title }}
                         </h1>
                         
-                        <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-6">
+                        <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
                           <!-- Date -->
                           <div v-if="doc.date" class="flex items-center gap-2">
                             <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
@@ -69,15 +69,15 @@
             </section>
             
             <!-- Blog Content Section -->
-            <section class="py-12 bg-white dark:bg-gray-900">
+            <section class="pt-0 pb-10 bg-white dark:bg-gray-900">
               <UContainer>
                 <div class="max-w-3xl mx-auto">
-                  <div class="prose dark:prose-invert prose-lg max-w-none">
+                  <div class="prose dark:prose-invert prose-lg max-w-none px-0 md:px-4">
                     <ContentRenderer :value="doc" />
                   </div>
                   
                   <!-- Social Sharing Links -->
-                  <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+                  <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
                     <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Share this post</h3>
                     <div class="flex gap-4">
                       <UButton 
@@ -115,7 +115,7 @@
             </section>
             
             <!-- Related Articles Section (if available) -->
-            <section v-if="relatedPosts.length" class="py-12 bg-gray-50 dark:bg-gray-800">
+            <section v-if="relatedPosts.length" class="py-8 bg-gray-50 dark:bg-gray-800">
               <UContainer>
                 <div class="max-w-6xl mx-auto">
                   <h2 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white">You might also like</h2>
