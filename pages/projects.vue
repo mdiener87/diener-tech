@@ -13,8 +13,8 @@
             challenge and learning opportunity.
           </p>
 
-          <!-- Projects Filter -->
-          <div class="mt-8 flex flex-wrap justify-center gap-2">
+          <!-- Projects Filter -- disabled until we add more projects to filter against -->
+          <!-- <div class="mt-8 flex flex-wrap justify-center gap-2">
             <UButton
               v-for="category in [
                 'All',
@@ -31,7 +31,7 @@
             >
               {{ category }}
             </UButton>
-          </div>
+          </div> -->
         </div>
       </UContainer>
     </section>
