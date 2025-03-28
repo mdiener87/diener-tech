@@ -28,24 +28,24 @@
                 >
                   Filter
                   <template #trailing>
-                    <UBadge v-if="selectedCategory" color="primary" variant="subtle" size="xs" class="ml-2">
-                      1
+                    <UBadge v-if="selectedTags.length" color="primary" variant="subtle" size="xs" class="ml-2">
+                      {{ selectedTags.length }}
                     </UBadge>
                   </template>
                 </UButton>
                 <template #panel>
                   <div class="p-4 w-64">
-                    <p class="font-medium mb-2">Categories</p>
+                    <p class="font-medium mb-2">Tags</p>
                     <div class="flex flex-wrap gap-2">
                       <UButton
-                        v-for="category in categories"
-                        :key="category"
-                        :variant="selectedCategory === category ? 'solid' : 'ghost'"
-                        :color="selectedCategory === category ? 'primary' : 'gray'"
+                        v-for="tag in tags"
+                        :key="tag"
+                        :variant="tag === 'All' ? 'ghost' : (selectedTags.includes(tag) ? 'solid' : 'ghost')"
+                        :color="tag === 'All' ? 'gray' : (selectedTags.includes(tag) ? 'primary' : 'gray')"
                         size="xs"
-                        @click="selectCategory(category)"
+                        @click="toggleTag(tag)"
                       >
-                        {{ category }}
+                        {{ tag }}
                       </UButton>
                     </div>
                   </div>
@@ -67,7 +67,7 @@
     </section>
 
     <!-- Featured Post Section -->
-    <section v-if="featuredPost && !searchQuery && !selectedCategory" class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section v-if="featuredPost && !searchQuery && !selectedTags.length" class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="max-w-4xl mx-auto">
           <div class="flex items-center gap-2 mb-4">
@@ -117,6 +117,20 @@
                   </span>
                 </div>
                 
+                <!-- Tags for Featured Post -->
+                <div v-if="featuredPost.tags && featuredPost.tags.length" class="flex flex-wrap gap-2 mb-4">
+                  <UBadge 
+                    v-for="tag in featuredPost.tags" 
+                    :key="tag" 
+                    color="gray" 
+                    variant="subtle"
+                    class="cursor-pointer"
+                    @click.stop="toggleTag(tag)"
+                  >
+                    {{ tag }}
+                  </UBadge>
+                </div>
+                
                 <p class="text-gray-600 dark:text-gray-300 mb-6">
                   {{ featuredPost.description || 'No description available.' }}
                 </p>
@@ -140,7 +154,7 @@
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <!-- Active Filters Display -->
-        <div v-if="searchQuery || selectedCategory" class="mb-8 flex items-center flex-wrap gap-2">
+        <div v-if="searchQuery || selectedTags.length" class="mb-8 flex items-center flex-wrap gap-2">
           <span class="text-sm text-gray-500 dark:text-gray-400">Active filters:</span>
           <UBadge v-if="searchQuery" color="gray" class="flex items-center gap-1">
             <span>Search: "{{ searchQuery }}"</span>
@@ -153,17 +167,24 @@
               @click="searchQuery = ''"
             />
           </UBadge>
-          <UBadge v-if="selectedCategory" color="primary" class="flex items-center gap-1">
-            <span>Category: {{ selectedCategory }}</span>
-            <UButton 
+          <template v-if="selectedTags.length">
+            <UBadge 
+              v-for="tag in selectedTags" 
+              :key="tag" 
               color="primary" 
-              variant="link" 
-              icon="i-heroicons-x-mark" 
-              size="xs" 
-              class="ml-1" 
-              @click="selectedCategory = ''"
-            />
-          </UBadge>
+              class="flex items-center gap-1"
+            >
+              <span>Tag: {{ tag }}</span>
+              <UButton 
+                color="primary" 
+                variant="link" 
+                icon="i-heroicons-x-mark" 
+                size="xs" 
+                class="ml-1" 
+                @click="removeTag(tag)"
+              />
+            </UBadge>
+          </template>
         </div>
         
         <!-- Posts Grid -->
@@ -199,6 +220,7 @@
                 
                 <div class="px-5">
                   <div class="mb-1">
+                    <!-- Category Badge -->
                     <UBadge 
                       v-if="post.category" 
                       color="primary" 
@@ -208,6 +230,21 @@
                     >
                       {{ post.category }}
                     </UBadge>
+                    
+                    <!-- Tags -->
+                    <div v-if="post.tags && post.tags.length" class="flex flex-wrap gap-1 mb-2">
+                      <UBadge 
+                        v-for="tag in post.tags" 
+                        :key="tag" 
+                        color="gray" 
+                        variant="subtle" 
+                        size="xs"
+                        class="cursor-pointer"
+                        @click.stop="toggleTag(tag)"
+                      >
+                        {{ tag }}
+                      </UBadge>
+                    </div>
                   </div>
                   
                   <h2 class="text-xl font-bold text-gray-900 dark:text-white">
@@ -252,10 +289,10 @@
           <UIcon name="i-heroicons-inbox" class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
           <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">No posts found</h3>
           <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
-            {{ searchQuery || selectedCategory ? 'Try adjusting your search or filter criteria.' : 'Check back soon for new content.' }}
+            {{ searchQuery || selectedTags.length ? 'Try adjusting your search or filter criteria.' : 'Check back soon for new content.' }}
           </p>
           
-          <UButton v-if="searchQuery || selectedCategory" color="gray" @click="resetFilters">
+          <UButton v-if="searchQuery || selectedTags.length" color="gray" @click="resetFilters">
             Clear Filters
           </UButton>
         </div>
@@ -271,12 +308,13 @@ interface BlogPost {
   description?: string;
   date: string;
   category?: string;
+  tags?: string[];
   readingTime?: number;
   titleImage?: string;
 }
 
 const searchQuery = ref('');
-const selectedCategory = ref('');
+const selectedTags = ref<string[]>([]);
 
 // Fetch posts
 const posts = await queryContent<BlogPost>('blog')
@@ -284,10 +322,11 @@ const posts = await queryContent<BlogPost>('blog')
   .sort({ date: -1 })
   .find();
 
-// Get unique categories from posts
-const categories = computed(() => {
-  const cats = new Set(['All', ...posts.map(post => post.category || '').filter(Boolean)]);
-  return Array.from(cats);
+// Get unique tags from posts
+const tags = computed(() => {
+  const allTags = posts.flatMap(post => post.tags || []);
+  const uniqueTags = new Set(['All', ...allTags.filter(Boolean)]);
+  return Array.from(uniqueTags);
 });
 
 // Featured post (most recent)
@@ -298,7 +337,7 @@ const filteredPosts = computed(() => {
   let filtered = [...posts];
   
   // Remove featured post from regular list when showing featured section
-  if (!searchQuery.value && !selectedCategory.value) {
+  if (!searchQuery.value && !selectedTags.value.length) {
     filtered = filtered.slice(1);
   }
   
@@ -307,26 +346,45 @@ const filteredPosts = computed(() => {
     const query = searchQuery.value.toLowerCase();
     filtered = filtered.filter(post => 
       (post.title || '').toLowerCase().includes(query) ||
-      (post.description || '').toLowerCase().includes(query)
+      (post.description || '').toLowerCase().includes(query) ||
+      // Search in tags
+      (post.tags || []).some(tag => tag.toLowerCase().includes(query))
     );
   }
   
-  // Apply category filter
-  if (selectedCategory.value && selectedCategory.value !== 'All') {
-    filtered = filtered.filter(post => post.category === selectedCategory.value);
+  // Apply tag filters (OR logic - post must contain at least one selected tag)
+  if (selectedTags.value.length) {
+    filtered = filtered.filter(post => 
+      post.tags?.some(tag => selectedTags.value.includes(tag))
+    );
   }
   
   return filtered;
 });
 
 // Methods
-function selectCategory(category: string) {
-  selectedCategory.value = category === 'All' ? '' : category;
+function toggleTag(tag: string) {
+  // If "All" is clicked, clear all selected tags
+  if (tag === 'All') {
+    selectedTags.value = [];
+    return;
+  }
+
+  // Toggle the tag - add if not present, remove if already selected
+  if (selectedTags.value.includes(tag)) {
+    removeTag(tag);
+  } else {
+    selectedTags.value.push(tag);
+  }
+}
+
+function removeTag(tag: string) {
+  selectedTags.value = selectedTags.value.filter(t => t !== tag);
 }
 
 function resetFilters() {
   searchQuery.value = '';
-  selectedCategory.value = '';
+  selectedTags.value = [];
 }
 
 function formatDate(date: string) {
