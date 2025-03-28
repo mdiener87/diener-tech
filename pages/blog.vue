@@ -81,7 +81,7 @@
           >
             <div class="grid md:grid-cols-5 gap-0">
               <!-- Featured Image (Clickable) -->
-              <NuxtLink :to="featuredPost._path" class="md:col-span-2 relative group bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-4 h-full min-h-[300px] max-h-[400px] overflow-hidden cursor-pointer">
+              <NuxtLink :to="featuredPost._path" class="md:col-span-2 relative group bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-6 h-full min-h-[300px] max-h-[400px] overflow-hidden cursor-pointer rounded-l-lg">
                 <template v-if="featuredPost.titleImage">
                   <div class="w-full h-full flex items-center justify-center">
                     <NuxtImg 
@@ -100,7 +100,18 @@
               </NuxtLink>
               
               <!-- Content -->
-              <div class="md:col-span-3 p-6">
+              <div class="md:col-span-3 p-6 flex flex-col">
+                <!-- Category Badge -->
+                <UBadge 
+                  v-if="featuredPost.category" 
+                  color="primary" 
+                  variant="subtle" 
+                  size="sm"
+                  class="mb-2 self-start"
+                >
+                  {{ featuredPost.category }}
+                </UBadge>
+                
                 <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
                   {{ featuredPost.title || 'Untitled' }}
                 </h3>
@@ -131,18 +142,20 @@
                   </UBadge>
                 </div>
                 
-                <p class="text-gray-600 dark:text-gray-300 mb-6">
+                <p class="text-gray-600 dark:text-gray-300 mb-6 line-clamp-3">
                   {{ featuredPost.description || 'No description available.' }}
                 </p>
                 
-                <NuxtLink :to="featuredPost._path">
-                  <UButton color="primary" class="mt-auto">
-                    Read Article
-                    <template #trailing>
-                      <UIcon name="i-heroicons-arrow-right" />
-                    </template>
-                  </UButton>
-                </NuxtLink>
+                <div class="mt-auto">
+                  <NuxtLink :to="featuredPost._path">
+                    <UButton color="primary">
+                      Read Article
+                      <template #trailing>
+                        <UIcon name="i-heroicons-arrow-right" />
+                      </template>
+                    </UButton>
+                  </NuxtLink>
+                </div>
               </div>
             </div>
           </UCard>
@@ -193,33 +206,34 @@
             <UCard
               v-for="post in filteredPosts"
               :key="post._path"
-              class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden"
+              class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-200 dark:border-gray-800"
               :ui="{ 
                 ring: '', 
-                header: { padding: post.titleImage ? 'p-0 pb-5' : 'p-5' },
-                body: { padding: 'px-5 py-3' },
-                footer: { padding: 'p-5' }
+                base: 'h-full',
+                body: { padding: 'p-5' },
+                footer: { padding: 'px-5 pb-5' }
               }"
             >
-              <template #header>
-                <!-- Title Image (Clickable) -->
-                <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[250px] overflow-hidden relative group mb-4 cursor-pointer">
-                  <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+              <div class="flex flex-col h-full">
+                <!-- Title Image (Clickable) with consistent padding -->
+                <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[220px] overflow-hidden relative group mb-4 cursor-pointer">
+                  <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
                     <NuxtImg 
                       :src="post.titleImage" 
                       :alt="post.title" 
-                      class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 p-2"
                       loading="lazy"
                       format="webp"
                       placeholder
                     />
                   </div>
                   <!-- Optional hover overlay -->
-                  <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"></div>
                 </NuxtLink>
                 
-                <div class="px-5">
-                  <div class="mb-1">
+                <!-- Meta section -->
+                <div class="grow flex flex-col">
+                  <div class="mb-3">
                     <!-- Category Badge -->
                     <UBadge 
                       v-if="post.category" 
@@ -245,41 +259,40 @@
                         {{ tag }}
                       </UBadge>
                     </div>
-                  </div>
                   
-                  <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-                    {{ post.title || 'Untitled' }}
-                  </h2>
+                    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                      {{ post.title || 'Untitled' }}
+                    </h2>
+                    
+                    <div class="flex items-center gap-3 mb-3 text-sm text-gray-500 dark:text-gray-400">
+                      <span class="flex items-center gap-1">
+                        <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
+                        {{ formatDate(post.date) }}
+                      </span>
+                      <span>•</span>
+                      <span class="flex items-center gap-1">
+                        <UIcon name="i-heroicons-clock" class="w-4 h-4" />
+                        {{ post.readingTime || '5' }} min read
+                      </span>
+                    </div>
+                  </div>
+                
+                  <p class="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+                    {{ post.description || 'No description available.' }}
+                  </p>
+                  
+                  <!-- Continue reading link at bottom -->
+                  <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-800">
+                    <NuxtLink
+                      :to="post._path"
+                      class="text-primary hover:text-primary-700 font-medium flex items-center gap-1 transition-colors"
+                    >
+                      Continue reading
+                      <UIcon name="i-heroicons-arrow-right" class="w-4 h-4" />
+                    </NuxtLink>
+                  </div>
                 </div>
-              </template>
-              
-              <div class="flex items-center gap-3 mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span class="flex items-center gap-1">
-                  <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
-                  {{ formatDate(post.date) }}
-                </span>
-                <span>•</span>
-                <span class="flex items-center gap-1">
-                  <UIcon name="i-heroicons-clock" class="w-4 h-4" />
-                  {{ post.readingTime || '5' }} min read
-                </span>
               </div>
-              
-              <p class="text-gray-600 dark:text-gray-300 mb-4 line-clamp-3">
-                {{ post.description || 'No description available.' }}
-              </p>
-              
-              <template #footer>
-                <div class="border-t border-gray-100 dark:border-gray-800 pt-4 mt-auto">
-                  <NuxtLink
-                    :to="post._path"
-                    class="text-primary hover:text-primary-700 font-medium flex items-center gap-1 transition-colors"
-                  >
-                    Continue reading
-                    <UIcon name="i-heroicons-arrow-right" class="w-4 h-4" />
-                  </NuxtLink>
-                </div>
-              </template>
             </UCard>
           </div>
         </div>
