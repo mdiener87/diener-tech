@@ -4,6 +4,7 @@ description: "Engineering in the Age of AI"
 date: "2025-02-10"
 category: "technology"
 tags: ["diener.tech", "web", "blogging", "vibe coding", "software engineering"]
+titleImage: "/images/blog/ship-of-thesus.png"
 ---
 
 ## Catching a Vibe
