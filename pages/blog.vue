@@ -17,7 +17,12 @@
               placeholder="Search posts..."
               class="flex-grow"
               size="lg"
-            />
+              :trailing="searchQuery ? true : undefined"
+            >
+              <template #trailing v-if="searchQuery">
+                <UButton color="gray" variant="link" icon="i-heroicons-x-mark" @click="searchQuery = ''" />
+              </template>
+            </UInput>
             <div class="flex items-center justify-between gap-4">
               <UPopover mode="click" :popper="{ placement: 'bottom-end' }">
                 <UButton
@@ -41,8 +46,9 @@
                         v-for="tag in tags"
                         :key="tag"
                         :variant="tag === 'All' ? 'ghost' : (selectedTags.includes(tag) ? 'solid' : 'ghost')"
-                        :color="tag === 'All' ? 'gray' : (selectedTags.includes(tag) ? 'primary' : 'gray')"
+                        :color="tag === 'All' ? 'gray' : 'primary'"
                         size="xs"
+                        class="transition-colors"
                         @click="toggleTag(tag)"
                       >
                         {{ tag }}
@@ -133,9 +139,9 @@
                   <UBadge 
                     v-for="tag in featuredPost.tags" 
                     :key="tag" 
-                    color="gray" 
+                    color="primary" 
                     variant="subtle"
-                    class="cursor-pointer"
+                    class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
                     @click.stop="toggleTag(tag)"
                   >
                     {{ tag }}
@@ -169,15 +175,16 @@
         <!-- Active Filters Display -->
         <div v-if="searchQuery || selectedTags.length" class="mb-8 flex items-center flex-wrap gap-2">
           <span class="text-sm text-gray-500 dark:text-gray-400">Active filters:</span>
-          <UBadge v-if="searchQuery" color="gray" class="flex items-center gap-1">
+          <UBadge 
+            v-if="searchQuery" 
+            color="primary" 
+            class="flex items-center gap-1 cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+            @click="searchQuery = ''"
+          >
             <span>Search: "{{ searchQuery }}"</span>
-            <UButton 
-              color="gray" 
-              variant="link" 
-              icon="i-heroicons-x-mark" 
-              size="xs" 
-              class="ml-1" 
-              @click="searchQuery = ''"
+            <UIcon 
+              name="i-heroicons-x-mark" 
+              class="w-4 h-4 ml-1"
             />
           </UBadge>
           <template v-if="selectedTags.length">
@@ -185,16 +192,13 @@
               v-for="tag in selectedTags" 
               :key="tag" 
               color="primary" 
-              class="flex items-center gap-1"
+              class="flex items-center gap-1 cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+              @click="removeTag(tag)"
             >
               <span>Tag: {{ tag }}</span>
-              <UButton 
-                color="primary" 
-                variant="link" 
-                icon="i-heroicons-x-mark" 
-                size="xs" 
-                class="ml-1" 
-                @click="removeTag(tag)"
+              <UIcon 
+                name="i-heroicons-x-mark" 
+                class="w-4 h-4 ml-1"
               />
             </UBadge>
           </template>
@@ -250,10 +254,10 @@
                       <UBadge 
                         v-for="tag in post.tags" 
                         :key="tag" 
-                        color="gray" 
+                        color="primary" 
                         variant="subtle" 
                         size="xs"
-                        class="cursor-pointer"
+                        class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
                         @click.stop="toggleTag(tag)"
                       >
                         {{ tag }}
