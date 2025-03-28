@@ -80,9 +80,23 @@
             :ui="{ body: { padding: 'p-0' } }"
           >
             <div class="grid md:grid-cols-5 gap-0">
-              <!-- Featured Image Placeholder -->
-              <div class="md:col-span-2 bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-6 h-full min-h-[220px]">
-                <UIcon name="i-heroicons-document-text" class="w-20 h-20 text-primary/30" />
+              <!-- Featured Image -->
+              <div class="md:col-span-2 relative group bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-0 h-full min-h-[220px] overflow-hidden">
+                <template v-if="featuredPost.titleImage">
+                  <NuxtImg 
+                    :src="featuredPost.titleImage" 
+                    :alt="featuredPost.title" 
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="eager"
+                    format="webp"
+                    placeholder
+                  />
+                  <!-- Overlay with subtle gradient for text contrast -->
+                  <div class="absolute inset-0 md:hidden bg-gradient-to-t from-black/40 to-transparent"></div>
+                  <!-- Hover effect overlay -->
+                  <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </template>
+                <UIcon v-else name="i-heroicons-document-text" class="w-20 h-20 text-primary/30" />
               </div>
               
               <!-- Content -->
@@ -161,27 +175,43 @@
               class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden"
               :ui="{ 
                 ring: '', 
-                header: { padding: 'p-5' },
+                header: { padding: post.titleImage ? 'p-0 pb-5' : 'p-5' },
                 body: { padding: 'px-5 py-3' },
                 footer: { padding: 'p-5' }
               }"
             >
               <template #header>
-                <div class="mb-1">
-                  <UBadge 
-                    v-if="post.category" 
-                    color="primary" 
-                    variant="subtle" 
-                    size="sm"
-                    class="mb-2"
-                  >
-                    {{ post.category }}
-                  </UBadge>
+                <!-- Title Image -->
+                <div v-if="post.titleImage" class="w-full aspect-video overflow-hidden relative group mb-4">
+                  <NuxtImg 
+                    :src="post.titleImage" 
+                    :alt="post.title" 
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    loading="lazy"
+                    format="webp"
+                    placeholder
+                  />
+                  <!-- Optional hover overlay -->
+                  <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white">
-                  {{ post.title || 'Untitled' }}
-                </h2>
+                <div class="px-5">
+                  <div class="mb-1">
+                    <UBadge 
+                      v-if="post.category" 
+                      color="primary" 
+                      variant="subtle" 
+                      size="sm"
+                      class="mb-2"
+                    >
+                      {{ post.category }}
+                    </UBadge>
+                  </div>
+                  
+                  <h2 class="text-xl font-bold text-gray-900 dark:text-white">
+                    {{ post.title || 'Untitled' }}
+                  </h2>
+                </div>
               </template>
               
               <div class="flex items-center gap-3 mb-2 text-sm text-gray-500 dark:text-gray-400">
@@ -240,6 +270,7 @@ interface BlogPost {
   date: string;
   category?: string;
   readingTime?: number;
+  titleImage?: string;
 }
 
 const searchQuery = ref('');
