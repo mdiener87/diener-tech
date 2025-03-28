@@ -80,24 +80,24 @@
             :ui="{ body: { padding: 'p-0' } }"
           >
             <div class="grid md:grid-cols-5 gap-0">
-              <!-- Featured Image -->
-              <div class="md:col-span-2 relative group bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-0 h-full min-h-[220px] overflow-hidden">
+              <!-- Featured Image (Clickable) -->
+              <NuxtLink :to="featuredPost._path" class="md:col-span-2 relative group bg-gradient-to-br from-primary-100 to-primary-50 dark:from-primary-900 dark:to-gray-900 flex items-center justify-center p-4 h-full min-h-[300px] max-h-[400px] overflow-hidden cursor-pointer">
                 <template v-if="featuredPost.titleImage">
-                  <NuxtImg 
-                    :src="featuredPost.titleImage" 
-                    :alt="featuredPost.title" 
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="eager"
-                    format="webp"
-                    placeholder
-                  />
-                  <!-- Overlay with subtle gradient for text contrast -->
-                  <div class="absolute inset-0 md:hidden bg-gradient-to-t from-black/40 to-transparent"></div>
+                  <div class="w-full h-full flex items-center justify-center">
+                    <NuxtImg 
+                      :src="featuredPost.titleImage" 
+                      :alt="featuredPost.title" 
+                      class="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      loading="eager"
+                      format="webp"
+                      placeholder
+                    />
+                  </div>
                   <!-- Hover effect overlay -->
                   <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </template>
                 <UIcon v-else name="i-heroicons-document-text" class="w-20 h-20 text-primary/30" />
-              </div>
+              </NuxtLink>
               
               <!-- Content -->
               <div class="md:col-span-3 p-6">
@@ -181,19 +181,21 @@
               }"
             >
               <template #header>
-                <!-- Title Image -->
-                <div v-if="post.titleImage" class="w-full aspect-video overflow-hidden relative group mb-4">
-                  <NuxtImg 
-                    :src="post.titleImage" 
-                    :alt="post.title" 
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                    format="webp"
-                    placeholder
-                  />
+                <!-- Title Image (Clickable) -->
+                <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[250px] overflow-hidden relative group mb-4 cursor-pointer">
+                  <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                    <NuxtImg 
+                      :src="post.titleImage" 
+                      :alt="post.title" 
+                      class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                      format="webp"
+                      placeholder
+                    />
+                  </div>
                   <!-- Optional hover overlay -->
                   <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </div>
+                </NuxtLink>
                 
                 <div class="px-5">
                   <div class="mb-1">
