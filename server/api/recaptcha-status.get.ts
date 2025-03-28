@@ -4,12 +4,6 @@ export default defineEventHandler(async (event: H3Event) => {
   // Get runtime config
   const config = useRuntimeConfig()
   
-  // Log for server-side debugging
-  console.log('reCAPTCHA config check:', {
-    secretKeyPresent: !!config.recaptchaSecret,
-    siteKeyPresent: !!config.public.recaptchaSiteKey
-  })
-  
   const recaptchaStatus = {
     hasSecretKey: !!config.recaptchaSecret,
     secretKeyLength: config.recaptchaSecret ? config.recaptchaSecret.length : 0,

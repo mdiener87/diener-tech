@@ -111,7 +111,6 @@ const router = useRouter();
 if (router) {
   router.afterEach(() => {
     selectRandomColor();
-    console.log("Color changed!", randomColorClass.value);
   });
 }
 </script>
