@@ -6,7 +6,11 @@
           <!-- Blog Post Layout -->
           <template v-if="isBlogPost">
             <!-- Blog Post Header -->
-            <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
+            <section :class="[
+                'py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900',
+                {'pb-0': doc.titleImage}
+              ]"
+            >
               <UContainer>
                 <div class="max-w-3xl mx-auto">
                   <!-- Back to Blog Link -->
@@ -16,35 +20,33 @@
                   </NuxtLink>
                   
                   <article class="animate-fade-in">
-                    <!-- Category -->
-                    <UBadge v-if="doc.category" color="primary" variant="subtle" size="md" class="mb-4">
-                      {{ doc.category }}
-                    </UBadge>
-                    
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                      {{ doc.title }}
-                    </h1>
-                    
-                    <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-8">
-                      <!-- Date -->
-                      <div v-if="doc.date" class="flex items-center gap-2">
-                        <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
-                        <time :datetime="doc.date">{{ formatDate(doc.date) }}</time>
-                      </div>
+                    <!-- Top Content -->
+                    <div class="mb-8">
+                      <!-- Category -->
+                      <UBadge v-if="doc.category" color="primary" variant="subtle" size="md" class="mb-4">
+                        {{ doc.category }}
+                      </UBadge>
                       
-                      <!-- Reading Time -->
-                      <div class="flex items-center gap-2">
-                        <UIcon name="i-heroicons-clock" class="w-5 h-5" />
-                        <span>{{ doc.readingTime || '5' }} min read</span>
+                      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
+                        {{ doc.title }}
+                      </h1>
+                      
+                      <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400">
+                        <!-- Date -->
+                        <div v-if="doc.date" class="flex items-center gap-2">
+                          <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
+                          <time :datetime="doc.date">{{ formatDate(doc.date) }}</time>
+                        </div>
+                        
+                        <!-- Reading Time -->
+                        <div class="flex items-center gap-2">
+                          <UIcon name="i-heroicons-clock" class="w-5 h-5" />
+                          <span>{{ doc.readingTime || '5' }} min read</span>
+                        </div>
                       </div>
                     </div>
                     
-                    <!-- Featured Image (if available) -->
-                    <div v-if="doc.image" class="relative w-full aspect-video rounded-xl overflow-hidden mb-8 shadow-lg">
-                      <img :src="doc.image" :alt="doc.title" class="w-full h-full object-cover" />
-                    </div>
-                    
-                    <!-- Tags -->
+                    <!-- Tags (above the image for better visual hierarchy) -->
                     <div v-if="doc.tags && doc.tags.length" class="flex flex-wrap gap-2 mb-8">
                       <UBadge v-for="tag in doc.tags" :key="tag" color="gray" variant="subtle">
                         {{ tag }}
@@ -53,6 +55,24 @@
                   </article>
                 </div>
               </UContainer>
+              
+              <!-- Featured Image (if available) - Full width for visual impact -->
+              <div v-if="doc.titleImage" class="mt-4 w-full overflow-hidden relative">
+                <div class="max-w-6xl mx-auto">
+                  <div class="relative w-full aspect-video rounded-t-xl overflow-hidden shadow-lg">
+                    <NuxtImg 
+                      :src="doc.titleImage" 
+                      :alt="doc.title" 
+                      class="w-full h-full object-cover"
+                      format="webp"
+                      loading="eager"
+                      placeholder
+                    />
+                    <!-- Optional overlay gradient for better text visibility if needed -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-50"></div>
+                  </div>
+                </div>
+              </div>
             </section>
             
             <!-- Blog Content Section -->
@@ -111,10 +131,29 @@
                     <UCard
                       v-for="post in relatedPosts"
                       :key="post._path"
-                      class="hover:shadow-lg transition-all duration-300"
+                      class="hover:shadow-lg transition-all duration-300 overflow-hidden"
+                      :ui="{ 
+                        header: { padding: post.titleImage ? 'p-0 pb-4' : 'p-4' }
+                      }"
                     >
                       <template #header>
-                        <h3 class="text-lg font-semibold">{{ post.title }}</h3>
+                        <!-- Title Image -->
+                        <div v-if="post.titleImage" class="w-full aspect-video overflow-hidden mb-3 relative group">
+                          <NuxtImg 
+                            :src="post.titleImage" 
+                            :alt="post.title" 
+                            class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                            loading="lazy"
+                            format="webp"
+                            placeholder
+                          />
+                          <!-- Hover effect overlay -->
+                          <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </div>
+                        
+                        <div :class="post.titleImage ? 'px-4' : ''">
+                          <h3 class="text-lg font-semibold">{{ post.title }}</h3>
+                        </div>
                       </template>
                       <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
                         <span>{{ formatDate(post.date) }}</span>
@@ -255,7 +294,7 @@ if (data.value && isBlogPost.value) {
     title: data.value.title || 'Blog Post',
     description: data.value.description || 'Blog post on DienerTech',
     type: 'article',
-    image: data.value.image,
+    image: data.value.titleImage,
     publishedTime: data.value.date,
     tags: data.value.tags
   });
