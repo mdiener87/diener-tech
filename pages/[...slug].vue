@@ -6,65 +6,78 @@
           <!-- Blog Post Layout -->
           <template v-if="isBlogPost">
             <!-- Blog Post Header -->
-            <section class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
+            <section class="pt-8 pb-0 sm:py-10 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
               <UContainer>
-                <div class="max-w-3xl mx-auto">
+                <div class="max-w-4xl mx-auto">
                   <!-- Back to Blog Link -->
-                  <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-8 transition-colors">
+                  <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-4 transition-colors">
                     <UIcon name="i-heroicons-arrow-left" class="w-5 h-5" />
                     <span>Back to Blog</span>
                   </NuxtLink>
                   
-                  <article class="animate-fade-in">
-                    <!-- Category -->
-                    <UBadge v-if="doc.category" color="primary" variant="subtle" size="md" class="mb-4">
-                      {{ doc.category }}
-                    </UBadge>
-                    
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 text-gray-900 dark:text-white">
-                      {{ doc.title }}
-                    </h1>
-                    
-                    <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-8">
-                      <!-- Date -->
-                      <div v-if="doc.date" class="flex items-center gap-2">
-                        <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
-                        <time :datetime="doc.date">{{ formatDate(doc.date) }}</time>
+                  <!-- Blog Header Card -->
+                  <UCard class="animate-fade-in overflow-hidden shadow-md" :ui="{ body: { padding: 'p-0' } }">
+                    <div class="flex flex-col md:flex-row">
+                      <!-- Title Image (Left Side on Desktop) -->
+                      <div v-if="doc.titleImage" class="md:w-1/3 order-2 md:order-1 overflow-hidden flex items-center justify-center p-4">
+                        <NuxtImg 
+                          :src="doc.titleImage" 
+                          :alt="doc.title" 
+                          class="w-full object-contain max-h-[300px] sm:max-h-[320px] md:max-h-[350px]"
+                          format="webp"
+                          loading="eager"
+                          placeholder
+                        />
                       </div>
                       
-                      <!-- Reading Time -->
-                      <div class="flex items-center gap-2">
-                        <UIcon name="i-heroicons-clock" class="w-5 h-5" />
-                        <span>{{ doc.readingTime || '5' }} min read</span>
+                      <!-- Content (Right Side on Desktop) -->
+                      <div class="p-6 md:p-8 md:w-2/3 order-1 md:order-2">
+                        <!-- Category -->
+                        <UBadge v-if="doc.category" color="primary" variant="subtle" size="md" class="mb-4">
+                          {{ doc.category }}
+                        </UBadge>
+                        
+                        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+                          {{ doc.title }}
+                        </h1>
+                        
+                        <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
+                          <!-- Date -->
+                          <div v-if="doc.date" class="flex items-center gap-2">
+                            <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
+                            <time :datetime="doc.date">{{ formatDate(doc.date) }}</time>
+                          </div>
+                          
+                          <!-- Reading Time -->
+                          <div class="flex items-center gap-2">
+                            <UIcon name="i-heroicons-clock" class="w-5 h-5" />
+                            <span>{{ doc.readingTime || '5' }} min read</span>
+                          </div>
+                        </div>
+                        
+                        <!-- Tags -->
+                        <div v-if="doc.tags && doc.tags.length" class="flex flex-wrap gap-2">
+                          <UBadge v-for="tag in doc.tags" :key="tag" color="gray" variant="subtle">
+                            {{ tag }}
+                          </UBadge>
+                        </div>
                       </div>
                     </div>
-                    
-                    <!-- Featured Image (if available) -->
-                    <div v-if="doc.image" class="relative w-full aspect-video rounded-xl overflow-hidden mb-8 shadow-lg">
-                      <img :src="doc.image" :alt="doc.title" class="w-full h-full object-cover" />
-                    </div>
-                    
-                    <!-- Tags -->
-                    <div v-if="doc.tags && doc.tags.length" class="flex flex-wrap gap-2 mb-8">
-                      <UBadge v-for="tag in doc.tags" :key="tag" color="gray" variant="subtle">
-                        {{ tag }}
-                      </UBadge>
-                    </div>
-                  </article>
+                  </UCard>
                 </div>
               </UContainer>
             </section>
             
             <!-- Blog Content Section -->
-            <section class="py-12 bg-white dark:bg-gray-900">
+            <section class="pt-0 pb-10 bg-white dark:bg-gray-900">
               <UContainer>
                 <div class="max-w-3xl mx-auto">
-                  <div class="prose dark:prose-invert prose-lg max-w-none">
+                  <div class="prose dark:prose-invert prose-lg max-w-none px-0 md:px-4">
                     <ContentRenderer :value="doc" />
                   </div>
                   
                   <!-- Social Sharing Links -->
-                  <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+                  <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
                     <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Share this post</h3>
                     <div class="flex gap-4">
                       <UButton 
@@ -102,7 +115,7 @@
             </section>
             
             <!-- Related Articles Section (if available) -->
-            <section v-if="relatedPosts.length" class="py-12 bg-gray-50 dark:bg-gray-800">
+            <section v-if="relatedPosts.length" class="py-8 bg-gray-50 dark:bg-gray-800">
               <UContainer>
                 <div class="max-w-6xl mx-auto">
                   <h2 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white">You might also like</h2>
@@ -111,10 +124,31 @@
                     <UCard
                       v-for="post in relatedPosts"
                       :key="post._path"
-                      class="hover:shadow-lg transition-all duration-300"
+                      class="hover:shadow-lg transition-all duration-300 overflow-hidden"
+                      :ui="{ 
+                        header: { padding: post.titleImage ? 'p-0 pb-4' : 'p-4' }
+                      }"
                     >
                       <template #header>
-                        <h3 class="text-lg font-semibold">{{ post.title }}</h3>
+                        <!-- Title Image (Clickable) -->
+                        <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[200px] overflow-hidden mb-3 relative group cursor-pointer">
+                          <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+                            <NuxtImg 
+                              :src="post.titleImage" 
+                              :alt="post.title" 
+                              class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                              loading="lazy"
+                              format="webp"
+                              placeholder
+                            />
+                          </div>
+                          <!-- Hover effect overlay -->
+                          <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        </NuxtLink>
+                        
+                        <div :class="post.titleImage ? 'px-4' : ''">
+                          <h3 class="text-lg font-semibold">{{ post.title }}</h3>
+                        </div>
                       </template>
                       <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
                         <span>{{ formatDate(post.date) }}</span>
@@ -255,7 +289,7 @@ if (data.value && isBlogPost.value) {
     title: data.value.title || 'Blog Post',
     description: data.value.description || 'Blog post on DienerTech',
     type: 'article',
-    image: data.value.image,
+    image: data.value.titleImage,
     publishedTime: data.value.date,
     tags: data.value.tags
   });
