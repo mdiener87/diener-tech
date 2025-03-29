@@ -23,6 +23,7 @@
     "nuxt": "^3.14.1592",
     "nuxt-cloudflare-analytics": "^1.0.8",
     "nuxt-schema-org": "^3.3.4",
+    "vis-timeline": "^7.7.3",
     "vue": "latest",
     "vue-router": "latest"
   },

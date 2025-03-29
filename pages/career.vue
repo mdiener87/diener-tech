@@ -81,21 +81,8 @@
             <SkillsTree />
           </div>
 
-          <div
-            v-else-if="activeViz === 'timeline'"
-            class="h-full flex items-center justify-center"
-          >
-            <div class="text-center p-8">
-              <UIcon
-                name="i-heroicons-clock"
-                class="text-5xl mb-4 text-gray-400"
-              />
-              <h3 class="text-xl font-semibold mb-2">Career Timeline</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Coming soon! A chronological visualization of my professional
-                journey.
-              </p>
-            </div>
+          <div v-else-if="activeViz === 'timeline'" class="h-full">
+            <CareerTimeline />
           </div>
 
           <div
@@ -468,6 +455,7 @@
 
 <script setup lang="ts">
 import SkillsTree from "~/components/career/SkillsTree.vue";
+import CareerTimeline from "~/components/career/CareerTimeline.vue";
 import { ref, computed } from "vue";
 
 // Add SEO metadata
