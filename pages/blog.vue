@@ -24,7 +24,7 @@
               </template>
             </UInput>
             <div class="flex items-center justify-between gap-4">
-              <UPopover mode="click" :popper="{ placement: 'bottom-end' }">
+              <UPopover v-model="filterPopoverOpen" mode="click" :popper="{ placement: 'bottom-end' }">
                 <UButton
                   color="gray" 
                   variant="soft"
@@ -49,7 +49,7 @@
                         :color="tag === 'All' ? 'gray' : 'primary'"
                         size="xs"
                         class="transition-colors"
-                        @click="toggleTag(tag)"
+                        @click="onTagClick(tag)"
                       >
                         {{ tag }}
                       </UButton>
@@ -332,6 +332,13 @@ interface BlogPost {
 
 const searchQuery = ref('');
 const selectedTags = ref<string[]>([]);
+const filterPopoverOpen = ref(false);
+
+// Function to handle tag click and close popover
+function onTagClick(tag: string) {
+  toggleTag(tag);
+  filterPopoverOpen.value = false;
+}
 
 // Fetch posts
 const posts = await queryContent<BlogPost>('blog')
