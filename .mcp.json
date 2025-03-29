@@ -1,0 +1,13 @@
+{
+    "mcpServers": {
+      "think": {
+        "type": "stdio",
+        "command": "/home/mdiener/projects/MCP/MCP/bin/mcp-think-tool",
+        "args": [],
+        "pollingInterval": 30000,
+        "startupTimeout": 30000,
+        "restartOnFailure": true
+      }
+    }
+  }
+  
