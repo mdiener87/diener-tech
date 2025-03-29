@@ -9,7 +9,7 @@ export function project(x: number, y: number): [number, number] {
 
 // Helper function to get link color based on color mode
 export function getLinkColor(isDarkMode: boolean): string {
-  return isDarkMode ? "#9CA3AF" : "#6B7280"; // Gray-400 in dark mode, Gray-500 in light mode
+  return isDarkMode ? "#A1A1AA" : "#71717A"; // Zinc-400 in dark mode, Zinc-500 in light mode - more visible
 }
 
 // Helper function to get text color based on color mode

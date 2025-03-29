@@ -1,12 +1,15 @@
 <template>
   <div class="relative">
-    <div ref="skillsTreeRef" class="w-full h-[800px] overflow-hidden">
+    <div ref="skillsTreeRef" class="skillsTreeRef w-full h-[800px] overflow-hidden">
       <!-- D3 visualization will be rendered here -->
+      <div class="hidden sm:block absolute top-2 left-0 right-0 text-center text-sm text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 py-1 mx-auto w-max px-3 rounded-full z-10 pointer-events-none">
+        Use scroll wheel to zoom, drag to pan
+      </div>
     </div>
     <!-- Info Panel -->
     <div
       ref="infoPanel"
-      class="absolute top-2 right-2 sm:top-0 sm:right-0 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 max-w-[250px] sm:max-w-none"
+      class="absolute top-2 right-2 sm:top-0 sm:right-0 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 max-w-[250px] sm:max-w-none z-20"
     >
       <button
         class="w-full p-3 sm:p-4 flex items-center justify-between font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-t-lg"
@@ -142,11 +145,14 @@ function initializeSkillsTree() {
   const height = skillsTreeRef.value.clientHeight;
   const radius = Math.min(width, height) / 2 - 100;
 
-  // Create the tree layout
+  // Create the tree layout with a larger radius to allow meaningful zoom
+  const baseRadius = Math.min(width, height) / 2 - 100;
+  const enhancedRadius = baseRadius * 1.5; // Increase the layout radius to spread nodes more
+  
   const tree = d3
     .tree<SkillNode>()
-    .size([2 * Math.PI, radius])
-    .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth);
+    .size([2 * Math.PI, enhancedRadius])
+    .separation((a, b) => (a.parent === b.parent ? 1.2 : 2.4) / a.depth);
 
   // Create the root hierarchy and collapse all nodes initially
   const root = d3.hierarchy(skillsData) as TreeNode;
@@ -163,16 +169,169 @@ function initializeSkillsTree() {
   const container = d3
     .select(skillsTreeRef.value as Element)
     .style("position", "relative")
-    .style("overflow-x", "hidden");
+    .style("overflow", "hidden");
 
-  const svg = container
+  // Create SVG element
+  const svgElement = container
     .append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", `0 0 ${width} ${height}`)
-    .attr("preserveAspectRatio", "xMidYMid meet")
-    .append("g")
-    .attr("transform", `translate(${width / 2},${height / 2})`);
+    .attr("preserveAspectRatio", "xMidYMid meet");
+    
+  // Create a group for the entire visualization that will be transformed by zoom
+  // Create a group that will handle all the visualization
+  // Don't apply any initial transform since the zoom will handle this
+  const svg = svgElement
+    .append("g");
+    
+  // Define a larger radius for zooming
+  const zoomableRadius = Math.min(width, height) * 0.7;
+  
+  // Add zoom behavior
+  const zoom = d3.zoom()
+    .scaleExtent([0.3, 3]) // Min and max zoom scale - expanded range for mobile
+    .on("zoom", (event) => {
+      // Use transform to adjust the view according to zoom and pan
+      svg.attr("transform", event.transform);
+    });
+    
+  // Apply zoom behavior to the SVG element
+  svgElement
+    .call(zoom as any)
+    .on("dblclick.zoom", null) // Disable double-click zoom to prevent conflict with node clicking
+    .call(zoom.transform as any, d3.zoomIdentity.translate(width / 2, height / 2));
+  
+  // Add zoom controls
+  const zoomControls = container
+    .append("div")
+    .attr("class", "zoom-controls absolute bottom-4 right-4 flex gap-2 z-20");
+    
+  zoomControls
+    .append("button")
+    .attr("class", "zoom-in bg-white dark:bg-gray-800 p-2 rounded-full shadow-md border border-gray-200 dark:border-gray-700")
+    .attr("aria-label", "Zoom in")
+    .html('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>')
+    .on("click", () => {
+      // Calculate the center point of the viewport
+      const centerX = width / 2;
+      const centerY = height / 2;
+      // Zoom in at the center point
+      svgElement.transition().duration(300).call(
+        zoom.scaleBy as any, 
+        1.4, 
+        [centerX, centerY]
+      );
+    });
+    
+  zoomControls
+    .append("button")
+    .attr("class", "zoom-out bg-white dark:bg-gray-800 p-2 rounded-full shadow-md border border-gray-200 dark:border-gray-700")
+    .attr("aria-label", "Zoom out")
+    .html('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>')
+    .on("click", () => {
+      // Calculate the center point of the viewport
+      const centerX = width / 2;
+      const centerY = height / 2;
+      // Zoom out from the center point
+      svgElement.transition().duration(300).call(
+        zoom.scaleBy as any, 
+        0.7, 
+        [centerX, centerY]
+      );
+    });
+    
+  zoomControls
+    .append("button")
+    .attr("class", "zoom-reset bg-white dark:bg-gray-800 p-2 rounded-full shadow-md border border-gray-200 dark:border-gray-700")
+    .attr("aria-label", "Reset zoom")
+    .html('<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path></svg>')
+    .on("click", () => {
+      // Reset to the initial transform with the proper scale for this device
+      let scale = 0.9; // Default desktop
+      if (width < 640) scale = 0.5; // Mobile
+      else if (width < 768) scale = 0.7; // Tablet
+      
+      svgElement.transition().duration(300).call(
+        zoom.transform as any, 
+        d3.zoomIdentity.translate(width / 2, height / 2).scale(scale)
+      );
+    });
+    
+  // Set initial zoom level based on screen size
+  const initialTransform = d3.zoomIdentity.translate(width / 2, height / 2);
+  
+  if (width < 640) { // Mobile devices
+    setTimeout(() => {
+      svgElement.call(zoom.transform as any, initialTransform.scale(0.5));
+    }, 500);
+  } else if (width < 768) { // Tablet devices
+    setTimeout(() => {
+      svgElement.call(zoom.transform as any, initialTransform.scale(0.7));
+    }, 500);
+  } else { // Desktop
+    setTimeout(() => {
+      svgElement.call(zoom.transform as any, initialTransform.scale(0.9));
+    }, 500);
+  }
+  
+  // Helper function to handle touch events for mobile
+  function enableTouchZoomPan() {
+    let touchCount = 0;
+    let touchDistance = 0;
+    let initialScale = 1;
+    let touchCenter = [0, 0];
+    
+    svgElement
+      .on("touchstart", (event) => {
+        touchCount = event.touches.length;
+        if (touchCount === 2) {
+          // Calculate initial distance between two touch points
+          const touch1 = event.touches[0];
+          const touch2 = event.touches[1];
+          
+          // Calculate the center point of the two touches
+          touchCenter = [
+            (touch1.clientX + touch2.clientX) / 2,
+            (touch1.clientY + touch2.clientY) / 2
+          ];
+          
+          touchDistance = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+          initialScale = d3.zoomTransform(svgElement.node() as any).k;
+          
+          // Prevent default to disable page scrolling during pinch-zoom
+          event.preventDefault();
+        }
+      })
+      .on("touchmove", (event) => {
+        if (touchCount === 2) {
+          // Prevent default to disable page scrolling
+          event.preventDefault();
+          
+          // Calculate new distance and scale
+          const touch1 = event.touches[0];
+          const touch2 = event.touches[1];
+          
+          // Update the center point
+          const newTouchCenter = [
+            (touch1.clientX + touch2.clientX) / 2,
+            (touch1.clientY + touch2.clientY) / 2
+          ];
+          
+          const newDistance = Math.hypot(touch2.clientX - touch1.clientX, touch2.clientY - touch1.clientY);
+          const scaleFactor = newDistance / touchDistance;
+          
+          // Apply new scale centered at the touch point
+          const newScale = initialScale * scaleFactor;
+          if (newScale >= 0.3 && newScale <= 3) {
+            svgElement.call(zoom.scaleTo as any, newScale, newTouchCenter);
+          }
+        }
+      });
+  }
+  
+  // Enable enhanced touch handling
+  enableTouchZoomPan();
 
   // Function to update the visualization
   function update(source: TreeNode) {
@@ -195,7 +354,7 @@ function initializeSkillsTree() {
       .attr("class", "link")
       .attr("fill", "none")
       .attr("stroke", getLinkColor(isDarkMode.value))
-      .attr("stroke-width", 1.5)
+      .attr("stroke-width", 2) // Thicker links for better visibility
       .attr("d", (d) => {
         const o = { x: source.x0 ?? Math.PI, y: source.y0 ?? 0 };
         return d3
@@ -268,13 +427,13 @@ function initializeSkillsTree() {
       .attr("dy", "0.31em")
       .attr("x", (d: any) => {
         const angle = d.x - Math.PI / 2;
-        return angle > Math.PI / 2 || angle < -Math.PI / 2 ? -8 : 8;
+        return angle > Math.PI / 2 || angle < -Math.PI / 2 ? -12 : 12; // Increase text offset from node
       })
       .attr("text-anchor", (d: any) => {
         const angle = d.x - Math.PI / 2;
         return angle > Math.PI / 2 || angle < -Math.PI / 2 ? "end" : "start";
       })
-      .attr("class", "node-text")
+      .attr("class", "node-text font-medium") // Add font-medium for better readability
       .attr("fill", getTextColor(isDarkMode.value))
       .text((d) => d.data.name);
 
@@ -288,7 +447,7 @@ function initializeSkillsTree() {
 
     nodeUpdate
       .select("circle")
-      .attr("r", (d) => (d.data.experience ? 6 : 8))
+      .attr("r", (d) => (d.data.experience ? 8 : 10)) // Larger circles for better visibility
       .attr("fill", (d) => getNodeColor(d.data, d));
 
     nodeUpdate.select("text").attr("fill", getTextColor(isDarkMode.value));
@@ -458,6 +617,28 @@ function initializeSkillsTree() {
 }
 
 .node-text {
-  font-size: 0.875rem;
+  font-size: 0.9rem;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.7), 0 0 3px rgba(255, 255, 255, 0.7); /* Add text shadow for better readability */
+}
+
+.dark .node-text {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.7), 0 0 3px rgba(0, 0, 0, 0.7); /* Darker shadow for dark mode */
+}
+
+/* Zoom controls styling */
+.zoom-controls button {
+  @apply text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors;
+}
+
+.zoom-controls button:focus {
+  @apply outline-none ring-2 ring-primary ring-opacity-50;
+}
+
+/* Add helper text for mobile */
+@media (max-width: 640px) {
+  .skillsTreeRef::before {
+    content: "Pinch to zoom and drag to pan";
+    @apply absolute top-2 left-0 right-0 text-center text-sm text-gray-500 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 py-1 mx-auto w-max px-3 rounded-full z-10;
+  }
 }
 </style>
