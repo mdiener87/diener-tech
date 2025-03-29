@@ -13,16 +13,16 @@
 
           <!-- Content Type Selector -->
           <div
-            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 card-transition mb-6"
+            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 card-transition mb-6 overflow-x-auto"
           >
-            <UButtonGroup>
+            <UButtonGroup class="flex-wrap sm:flex-nowrap justify-center">
               <UButton
                 v-for="(type, index) in contentTypes"
                 :key="type.id"
                 :color="activeContentType === type.id ? 'primary' : 'gray'"
                 :variant="activeContentType === type.id ? 'solid' : 'ghost'"
                 @click="activeContentType = type.id"
-                class="px-4 py-2"
+                class="px-2 sm:px-4 py-2 min-w-max"
               >
                 {{ type.label }}
               </UButton>
@@ -32,16 +32,16 @@
           <!-- Visualization Type Selector (only shown when Visualizations content type is active) -->
           <div
             v-if="activeContentType === 'visualizations'"
-            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 flex flex-wrap justify-center gap-4 card-transition"
+            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 overflow-x-auto card-transition"
           >
-            <UButtonGroup>
+            <UButtonGroup class="flex-wrap sm:flex-nowrap justify-center">
               <UButton
                 v-for="(viz, index) in visualizations"
                 :key="viz.id"
                 :color="activeViz === viz.id ? 'primary' : 'gray'"
                 :variant="activeViz === viz.id ? 'solid' : 'ghost'"
                 @click="activeViz = viz.id"
-                class="px-4 py-2"
+                class="px-2 sm:px-4 py-2 min-w-max"
               >
                 {{ viz.label }}
               </UButton>

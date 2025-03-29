@@ -13,7 +13,7 @@
             >Diener</span
           >
           <span
-            class="logo-tech inline-block italic transform translate-x-[1em] transition-all duration-300 group-hover:text-primary group-hover:translate-x-0"
+            class="logo-tech inline-block italic transform sm:translate-x-[1em] transition-all duration-300 group-hover:text-primary group-hover:translate-x-0"
             :class="randomColorClass"
             >Tech</span
           >
@@ -32,6 +32,7 @@
       <!-- Right: Color Mode + Mobile Menu Button -->
       <div class="flex items-center gap-4">
         <UPopover
+          v-model="mobileMenuOpen"
           mode="click"
           :popper="{ placement: 'bottom-end' }"
           class="sm:hidden"
@@ -47,6 +48,7 @@
                     class="block px-4 py-2 rounded"
                     active-class="text-primary"
                     inactive-class="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                    @click="closeMobileMenu"
                   >
                     {{ link.label }}
                   </ULink>
@@ -74,6 +76,14 @@ const navLinks = [
   { label: "About", to: "/about" },
   { label: "Contact", to: "/contact" },
 ];
+
+// Mobile menu state
+const mobileMenuOpen = ref(false);
+
+// Function to close mobile menu
+const closeMobileMenu = () => {
+  mobileMenuOpen.value = false;
+};
 
 // Define a list of attractive Tailwind color classes
 const colorOptions = [
@@ -111,6 +121,7 @@ const router = useRouter();
 if (router) {
   router.afterEach(() => {
     selectRandomColor();
+    closeMobileMenu(); // Close mobile menu on navigation
   });
 }
 </script>
