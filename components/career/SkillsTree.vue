@@ -6,10 +6,10 @@
     <!-- Info Panel -->
     <div
       ref="infoPanel"
-      class="absolute top-0 right-0 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700"
+      class="absolute top-2 right-2 sm:top-0 sm:right-0 bg-white dark:bg-gray-800 rounded-lg shadow-md border border-gray-200 dark:border-gray-700 max-w-[250px] sm:max-w-none"
     >
       <button
-        class="w-full p-4 flex items-center justify-between font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-t-lg"
+        class="w-full p-3 sm:p-4 flex items-center justify-between font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors rounded-t-lg"
         @click="isInfoPanelExpanded = !isInfoPanelExpanded"
       >
         <span>Node Details</span>
@@ -24,7 +24,7 @@
         class="overflow-hidden transition-[max-height,padding] duration-200 ease-in-out"
         :class="[isInfoPanelExpanded ? 'max-h-[300px] p-4' : 'max-h-0 p-0']"
       >
-        <div ref="infoPanelContent" class="w-64 min-h-[100px]">
+        <div ref="infoPanelContent" class="sm:w-64 min-h-[100px]">
           <h3 class="text-sm font-semibold mb-2">
             Hover over nodes to see details
           </h3>
@@ -169,6 +169,8 @@ function initializeSkillsTree() {
     .append("svg")
     .attr("width", width)
     .attr("height", height)
+    .attr("viewBox", `0 0 ${width} ${height}`)
+    .attr("preserveAspectRatio", "xMidYMid meet")
     .append("g")
     .attr("transform", `translate(${width / 2},${height / 2})`);
 
