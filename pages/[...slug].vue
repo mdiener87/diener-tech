@@ -421,7 +421,7 @@ if (!data.value) {
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
+/* 
 :deep(.prose a) {
   color: var(--color-primary-600);
   text-decoration: none;
@@ -431,7 +431,7 @@ if (!data.value) {
 
 :deep(.prose a:hover) {
   border-color: transparent;
-}
+} */
 
 :deep(.prose blockquote) {
   font-style: italic;
