@@ -12,7 +12,7 @@
               class="relative overflow-hidden rounded-2xl border-4 border-white dark:border-gray-700 shadow-xl w-64 h-64 md:w-80 md:h-80"
             >
               <NuxtImg
-                src="/images/pics/diener_windy_peak.jpg"
+                src="/images/pics/diener-mountain.jpg"
                 alt="Profile Photo"
                 class="object-cover w-full h-full rounded-2xl"
               />
