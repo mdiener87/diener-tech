@@ -31,7 +31,7 @@ scripts/hooks/pre-commit text eol=lf
 *.mp4      binary
 *.mov      binary
 *.webp     binary
-*.svg      text  # SVGs *can* be text, but be cautious
+*.svg      text
 
 # Lock down archive formats
 *.zip      binary
