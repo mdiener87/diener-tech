@@ -3,6 +3,6 @@ repos:
     hooks:
       - id: strip-image-metadata
         name: Strip EXIF metadata from staged images
-        entry: ./scripts/hooks/pre-commit
-        language: system
+        entry: bash scripts/hooks/pre-commit
+        language: script
         types: [image]

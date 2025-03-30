@@ -1,0 +1,46 @@
+# ==================================================
+# 💡 Normalize line endings for all text files
+# ==================================================
+* text=auto
+
+# Force LF line endings for Unix-based files (avoids CRLF issues)
+*.sh       text eol=lf
+*.bash     text eol=lf
+*.py       text eol=lf
+*.js       text eol=lf
+*.ts       text eol=lf
+*.vue      text eol=lf
+*.json     text eol=lf
+*.yml      text eol=lf
+*.yaml     text eol=lf
+*.md       text eol=lf
+*.html     text eol=lf
+*.css      text eol=lf
+*.scss     text eol=lf
+
+# Make sure our hook script never has CRLF line endings (critical!)
+scripts/hooks/pre-commit text eol=lf
+
+# Prevent binary/image files from being normalized
+*.jpg      binary
+*.jpeg     binary
+*.png      binary
+*.gif      binary
+*.ico      binary
+*.pdf      binary
+*.mp4      binary
+*.mov      binary
+*.webp     binary
+*.svg      text  # SVGs *can* be text, but be cautious
+
+# Lock down archive formats
+*.zip      binary
+*.tar      binary
+*.gz       binary
+*.7z       binary
+
+# ==================================================
+# Optional: Treat shell scripts as executable (Git doesn’t enforce this, but this is good doc)
+# ==================================================
+*.sh       eol=lf
+scripts/hooks/pre-commit eol=lf
