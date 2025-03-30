@@ -37,6 +37,22 @@ This project uses environment variables for sensitive configuration. To set up y
 
 > **Note**: Never commit the `.env` file to version control. It's already in `.gitignore`.
 
+
+## 🧼 Git Metadata Hygiene
+
+This project uses [`pre-commit`](https://pre-commit.com) to automatically strip EXIF metadata (e.g., GPS, camera info) from images before they are committed.
+
+### Setup
+
+1. Install `pre-commit` (Python 3 required):
+
+   ```bash
+   pip install pre-commit
+   pre-commit install
+   ```
+
+
+
 ## Development Server
 
 Start the development server on `http://localhost:3000`:

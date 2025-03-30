@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Always log to a known path, relative to the Git repo root
+REPO_ROOT=$(git rev-parse --show-toplevel)
+LOG_FILE="$REPO_ROOT/pre-commit.log"
+
+echo "🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
+
+STAGED_IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(jpg|jpeg|png)$')
+
+for file in $STAGED_IMAGES; do
+  if [ -f "$file" ]; then
+    echo "➡️  Cleaning $file" >> "$LOG_FILE"
+    exiftool -overwrite_original -all= "$file"
+    git add "$file"  # re-stage the clean version
+  fi
+done
+
+echo "✅ [HOOK] Done." >> "$LOG_FILE"
