@@ -4,7 +4,7 @@
 REPO_ROOT=$(git rev-parse --show-toplevel)
 LOG_FILE="$REPO_ROOT/pre-commit.log"
 
-echo "🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
+echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') — 🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
 
 STAGED_IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(jpg|jpeg|png)$')
 
