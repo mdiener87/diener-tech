@@ -38,7 +38,7 @@
           <!-- Contact Information -->
           <div class="md:col-span-2 flex flex-col gap-6">
             <!-- Email Card -->
-            <UCard class="bg-gradient-to-br from-sky-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 h-full flex-1 transition-all hover:shadow-xl">
+            <!-- <UCard class="bg-gradient-to-br from-sky-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 h-full flex-1 transition-all hover:shadow-xl">
               <div class="flex flex-col h-full">
                 <div class="flex items-center gap-3 mb-4">
                   <div class="w-12 h-12 rounded-full bg-sky-100 dark:bg-sky-900 flex items-center justify-center">
@@ -61,7 +61,7 @@
                   </a>
                 </div>
               </div>
-            </UCard>
+            </UCard> -->
 
             <!-- Social Links Card -->
             <UCard class="bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 h-full flex-1 transition-all hover:shadow-xl">
@@ -115,7 +115,7 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <!-- <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="max-w-3xl mx-auto">
           <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
@@ -130,7 +130,7 @@
           }" />
         </div>
       </UContainer>
-    </section>
+    </section> -->
   </main>
 </template>
 
