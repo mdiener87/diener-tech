@@ -6,8 +6,8 @@ export default defineNuxtConfig({
     autoImport: true,
   },
   modules: [
-    "@nuxt/content", 
-    "@nuxt/ui", 
+    "@nuxt/content",
+    "@nuxt/ui",
     "@nuxtjs/color-mode",
     "@nuxtjs/sitemap",
     "@nuxtjs/robots",
@@ -17,38 +17,59 @@ export default defineNuxtConfig({
   ],
   // Configure modules
   cloudflareAnalytics: {
-    token: process.env.NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN
+    token: process.env.NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN,
   },
   ui: {
     global: true,
   },
   colorMode: {
-    classSuffix: '',
-    fallback: 'light',
-    storageKey: 'nuxt-color-mode'
+    classSuffix: "",
+    fallback: "light",
+    storageKey: "nuxt-color-mode",
   },
   app: {
+    baseURL: "/",
     pageTransition: {
-      name: 'page',
-      mode: 'out-in',
-      appear: true
+      name: "page",
+      mode: "out-in",
+      appear: true,
     },
     head: {
       link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-        { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon-16x16.png' },
-        { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon-32x32.png' },
-        { rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-        { rel: 'alternate', type: 'application/rss+xml', title: 'DienerTech Blog RSS Feed', href: '/feed.xml' }
-      ]
-    }
+        { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "16x16",
+          href: "/favicon-16x16.png",
+        },
+        {
+          rel: "icon",
+          type: "image/png",
+          sizes: "32x32",
+          href: "/favicon-32x32.png",
+        },
+        {
+          rel: "apple-touch-icon",
+          sizes: "180x180",
+          href: "/apple-touch-icon.png",
+        },
+        {
+          rel: "alternate",
+          type: "application/rss+xml",
+          title: "DienerTech Blog RSS Feed",
+          href: "/feed.xml",
+        },
+      ],
+    },
   },
   // SEO Configuration
   site: {
-    url: 'https://diener.tech',
-    name: 'DienerTech',
-    description: 'Personal portfolio and blog showcasing software development, creative projects, and more.',
-    defaultLocale: 'en',
+    url: "https://diener.tech",
+    name: "DienerTech",
+    description:
+      "Personal portfolio and blog showcasing software development, creative projects, and more.",
+    defaultLocale: "en",
   },
   sitemap: {
     // Sitemap configuration
@@ -57,26 +78,26 @@ export default defineNuxtConfig({
   },
   robots: {
     // Robots.txt configuration for v4
-    sitemap: ['https://diener.tech/sitemap.xml'],
+    sitemap: ["https://diener.tech/sitemap.xml"],
     groups: [
       {
-        userAgent: '*',
-        allow: ['/']
-      }
+        userAgent: "*",
+        allow: ["/"],
+      },
     ],
     disallowNonIndexableRoutes: true,
   },
   schemaOrg: {
     // Schema.org configuration
     identity: {
-      type: 'Person',
-      name: 'Michael Diener',
-      url: 'https://diener.tech',
-    }
+      type: "Person",
+      name: "Michael Diener",
+      url: "https://diener.tech",
+    },
   },
   image: {
     // Image optimization
-    provider: 'ipx',
+    provider: "ipx",
     screens: {
       xs: 320,
       sm: 640,
@@ -87,27 +108,30 @@ export default defineNuxtConfig({
     },
   },
   ssr: true,
-  target: 'server',
+  target: "server",
   nitro: {
-    preset: 'cloudflare-pages',
+    preset: "cloudflare-pages",
     output: {
-      dir: '.output',
-      publicDir: '.output/public'
+      dir: ".output",
+      publicDir: ".output/public",
     },
     storage: {
       kv: {
-        driver: process.env.NODE_ENV === 'development' ? 'memory' : 'cloudflare-kv-binding',
-        binding: 'CONTACT_FORM_KV'
-      }
-    }
+        driver:
+          process.env.NODE_ENV === "development"
+            ? "memory"
+            : "cloudflare-kv-binding",
+        binding: "CONTACT_FORM_KV",
+      },
+    },
   },
   runtimeConfig: {
     // Private keys that are exposed to the server
     recaptchaSecret: process.env.RECAPTCHA_SECRET_KEY,
-    
+
     // Public keys that are exposed to the client
     public: {
-      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY
-    }
-  }
+      recaptchaSiteKey: process.env.NUXT_PUBLIC_RECAPTCHA_SITE_KEY,
+    },
+  },
 });
