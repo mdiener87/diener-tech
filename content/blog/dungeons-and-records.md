@@ -1,7 +1,7 @@
 ---
 title: "Dungeons and Records"
 description: "Navigating records in a 7+ Year D&D Campaign"
-date: "2025-03-25"
+date: "2025-03-29"
 category: "technology"
 tags: ["D&D", "records", "scripting", "python", "notion", "campaign management", "data migration", "gaming"]
 titleImage: "/images/blog/dungeons-and-records.png"
