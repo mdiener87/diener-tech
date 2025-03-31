@@ -342,7 +342,7 @@ function onTagClick(tag: string) {
 
 // Fetch posts
 const posts = await queryContent<BlogPost>('blog')
-  .where({ _partial: false })
+  .where({ _partial: false, draft: { $ne: true } })
   .sort({ date: -1 })
   .find();
 

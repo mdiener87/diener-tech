@@ -6,58 +6,92 @@
           <!-- Blog Post Layout -->
           <template v-if="isBlogPost">
             <!-- Blog Post Header -->
-            <section class="pt-8 pb-0 sm:py-10 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900">
+            <section
+              class="pt-8 pb-0 sm:py-10 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900"
+            >
               <UContainer>
                 <div class="max-w-4xl mx-auto">
                   <!-- Back to Blog Link -->
-                  <NuxtLink to="/blog" class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-4 transition-colors">
+                  <NuxtLink
+                    to="/blog"
+                    class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-4 transition-colors"
+                  >
                     <UIcon name="i-heroicons-arrow-left" class="w-5 h-5" />
                     <span>Back to Blog</span>
                   </NuxtLink>
-                  
+
                   <!-- Blog Header Card -->
-                  <UCard class="animate-fade-in overflow-hidden shadow-md" :ui="{ body: { padding: 'p-0' } }">
+                  <UCard
+                    class="animate-fade-in overflow-hidden shadow-md"
+                    :ui="{ body: { padding: 'p-0' } }"
+                  >
                     <div class="flex flex-col md:flex-row">
                       <!-- Title Image (Left Side on Desktop) -->
-                      <div v-if="doc.titleImage" class="md:w-1/3 order-2 md:order-1 overflow-hidden flex items-center justify-center p-4">
-                        <NuxtImg 
-                          :src="doc.titleImage" 
-                          :alt="doc.title" 
+                      <div
+                        v-if="doc.titleImage"
+                        class="md:w-1/3 order-2 md:order-1 overflow-hidden flex items-center justify-center p-4"
+                      >
+                        <NuxtImg
+                          :src="doc.titleImage"
+                          :alt="doc.title"
                           class="w-full object-contain max-h-[300px] sm:max-h-[320px] md:max-h-[350px]"
                           format="webp"
                           loading="eager"
                           placeholder
                         />
                       </div>
-                      
+
                       <!-- Content (Right Side on Desktop) -->
                       <div class="p-6 md:p-8 md:w-2/3 order-1 md:order-2">
                         <!-- Category -->
-                        <UBadge v-if="doc.category" color="primary" variant="subtle" size="md" class="mb-4">
+                        <UBadge
+                          v-if="doc.category"
+                          color="primary"
+                          variant="subtle"
+                          size="md"
+                          class="mb-4"
+                        >
                           {{ doc.category }}
                         </UBadge>
-                        
-                        <h1 class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">
+
+                        <h1
+                          class="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white"
+                        >
                           {{ doc.title }}
                         </h1>
-                        
-                        <div class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-4">
+
+                        <div
+                          class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-4"
+                        >
                           <!-- Date -->
                           <div v-if="doc.date" class="flex items-center gap-2">
-                            <UIcon name="i-heroicons-calendar" class="w-5 h-5" />
-                            <time :datetime="doc.date">{{ formatDate(doc.date) }}</time>
+                            <UIcon
+                              name="i-heroicons-calendar"
+                              class="w-5 h-5"
+                            />
+                            <time :datetime="doc.date">{{
+                              formatDate(doc.date)
+                            }}</time>
                           </div>
-                          
+
                           <!-- Reading Time -->
                           <div class="flex items-center gap-2">
                             <UIcon name="i-heroicons-clock" class="w-5 h-5" />
-                            <span>{{ doc.readingTime || '5' }} min read</span>
+                            <span>{{ doc.readingTime || "5" }} min read</span>
                           </div>
                         </div>
-                        
+
                         <!-- Tags -->
-                        <div v-if="doc.tags && doc.tags.length" class="flex flex-wrap gap-2">
-                          <UBadge v-for="tag in doc.tags" :key="tag" color="gray" variant="subtle">
+                        <div
+                          v-if="doc.tags && doc.tags.length"
+                          class="flex flex-wrap gap-2"
+                        >
+                          <UBadge
+                            v-for="tag in doc.tags"
+                            :key="tag"
+                            color="gray"
+                            variant="subtle"
+                          >
                             {{ tag }}
                           </UBadge>
                         </div>
@@ -67,45 +101,63 @@
                 </div>
               </UContainer>
             </section>
-            
+
             <!-- Blog Content Section -->
             <section class="pt-0 pb-10 bg-white dark:bg-gray-900">
               <UContainer>
                 <div class="max-w-3xl mx-auto">
-                  <div class="prose dark:prose-invert prose-lg max-w-none px-0 md:px-4">
+                  <div
+                    class="prose dark:prose-invert prose-lg max-w-none px-0 md:px-4"
+                  >
                     <ContentRenderer :value="doc" />
                   </div>
-                  
+
                   <!-- Social Sharing Links -->
-                  <div class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800">
-                    <h3 class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Share this post</h3>
+                  <div
+                    class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800"
+                  >
+                    <h3
+                      class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200"
+                    >
+                      Share this post
+                    </h3>
                     <div class="flex gap-4">
-                      <UButton 
-                        color="gray" 
-                        variant="soft" 
-                        icon="i-heroicons-link" 
+                      <UButton
+                        color="gray"
+                        variant="soft"
+                        icon="i-heroicons-link"
                         square
                         @click="copyPageUrl"
                       />
                       <UTooltip :text="copySuccess ? 'Copied!' : 'Copy link'">
                         <div></div>
                       </UTooltip>
-                      <a 
-                        :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(pageUrl)}&text=${encodeURIComponent(doc.title)}`" 
-                        target="_blank" 
+                      <a
+                        :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                          pageUrl
+                        )}&text=${encodeURIComponent(doc.title)}`"
+                        target="_blank"
                         rel="noopener noreferrer"
                       >
                         <UButton color="sky" variant="soft" square>
-                          <UIcon name="i-heroicons-chat-bubble-oval-left-ellipsis" class="w-5 h-5" />
+                          <UIcon
+                            name="i-heroicons-chat-bubble-oval-left-ellipsis"
+                            class="w-5 h-5"
+                          />
                         </UButton>
                       </a>
-                      <a 
-                        :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}`" 
-                        target="_blank" 
+                      <a
+                        :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                          pageUrl
+                        )}`"
+                        target="_blank"
                         rel="noopener noreferrer"
                       >
                         <UButton color="blue" variant="soft" square>
-                          <UIcon name="i-heroicons-square-2-stack" class="w-5 h-5" />
+                          <UIcon
+                            name="i-heroicons-square-2-stack"
+                            class="w-5 h-5"
+                          />
                         </UButton>
                       </a>
                     </div>
@@ -113,29 +165,44 @@
                 </div>
               </UContainer>
             </section>
-            
+
             <!-- Related Articles Section (if available) -->
-            <section v-if="relatedPosts.length" class="py-8 bg-gray-50 dark:bg-gray-800">
+            <section
+              v-if="relatedPosts.length"
+              class="py-8 bg-gray-50 dark:bg-gray-800"
+            >
               <UContainer>
                 <div class="max-w-6xl mx-auto">
-                  <h2 class="text-2xl font-bold mb-8 text-gray-900 dark:text-white">You might also like</h2>
-                  
+                  <h2
+                    class="text-2xl font-bold mb-8 text-gray-900 dark:text-white"
+                  >
+                    You might also like
+                  </h2>
+
                   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <UCard
                       v-for="post in relatedPosts"
                       :key="post._path"
                       class="hover:shadow-lg transition-all duration-300 overflow-hidden"
-                      :ui="{ 
-                        header: { padding: post.titleImage ? 'p-0 pb-4' : 'p-4' }
+                      :ui="{
+                        header: {
+                          padding: post.titleImage ? 'p-0 pb-4' : 'p-4',
+                        },
                       }"
                     >
                       <template #header>
                         <!-- Title Image (Clickable) -->
-                        <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[200px] overflow-hidden mb-3 relative group cursor-pointer">
-                          <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800">
-                            <NuxtImg 
-                              :src="post.titleImage" 
-                              :alt="post.title" 
+                        <NuxtLink
+                          :to="post._path"
+                          v-if="post.titleImage"
+                          class="block w-full h-[200px] overflow-hidden mb-3 relative group cursor-pointer"
+                        >
+                          <div
+                            class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800"
+                          >
+                            <NuxtImg
+                              :src="post.titleImage"
+                              :alt="post.title"
                               class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                               loading="lazy"
                               format="webp"
@@ -143,19 +210,27 @@
                             />
                           </div>
                           <!-- Hover effect overlay -->
-                          <div class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                          <div
+                            class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                          ></div>
                         </NuxtLink>
-                        
+
                         <div :class="post.titleImage ? 'px-4' : ''">
-                          <h3 class="text-lg font-semibold">{{ post.title }}</h3>
+                          <h3 class="text-lg font-semibold">
+                            {{ post.title }}
+                          </h3>
                         </div>
                       </template>
-                      <div class="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                      <div
+                        class="flex items-center gap-2 text-sm text-gray-500 mb-2"
+                      >
                         <span>{{ formatDate(post.date) }}</span>
                         <span>•</span>
-                        <span>{{ post.readingTime || '5' }} min read</span>
+                        <span>{{ post.readingTime || "5" }} min read</span>
                       </div>
-                      <p class="text-gray-600 dark:text-gray-300 line-clamp-2 mb-3">
+                      <p
+                        class="text-gray-600 dark:text-gray-300 line-clamp-2 mb-3"
+                      >
                         {{ post.description }}
                       </p>
                       <NuxtLink
@@ -170,13 +245,15 @@
               </UContainer>
             </section>
           </template>
-          
+
           <!-- Default Content Page Layout -->
           <template v-else>
             <section class="py-12">
               <UContainer>
                 <div class="max-w-4xl mx-auto prose dark:prose-invert prose-lg">
-                  <h1 class="text-3xl md:text-4xl font-bold mb-8">{{ doc.title }}</h1>
+                  <h1 class="text-3xl md:text-4xl font-bold mb-8">
+                    {{ doc.title }}
+                  </h1>
                   <ContentRenderer :value="doc" />
                 </div>
               </UContainer>
@@ -192,54 +269,59 @@
 </template>
 
 <script setup lang="ts">
-import { notFound } from '~/utils/error';
-import { ref, computed, onMounted } from 'vue';
+import { notFound } from "~/utils/error";
+import { ref, computed, onMounted } from "vue";
 
 // Handle 404 errors for non-content routes
 const route = useRoute();
-const slug = Array.isArray(route.params.slug) 
-  ? route.params.slug.join('/') 
+const slug = Array.isArray(route.params.slug)
+  ? route.params.slug.join("/")
   : route.params.slug;
 
 // Check if the current path is a blog post
-const isBlogPost = computed(() => slug.startsWith('blog/') && slug !== 'blog');
+const isBlogPost = computed(() => slug.startsWith("blog/") && slug !== "blog");
 
 // Page URL for social sharing
 const pageUrl = computed(() => {
-  if (process.client) {
-    return window.location.href;
-  }
-  return `https://diener.tech/${slug}`;
+  // if (process.client) {
+  //   return window.location.href;
+  // }
+  // return `https://diener.tech/${slug}`;
+  const requestURL = useRequestURL();
+  const baseUrl = `${requestURL.protocol}//${requestURL.host}`;
+  const fullUrl = `${baseUrl}${useRoute().path}`;
+  return fullUrl;
 });
 
 // Copy to clipboard functionality
 const copySuccess = ref(false);
 function copyPageUrl() {
   if (process.client) {
-    navigator.clipboard.writeText(pageUrl.value)
-      .then(() => {
-        copySuccess.value = true;
-        setTimeout(() => {
-          copySuccess.value = false;
-        }, 2000);
-      });
+    navigator.clipboard.writeText(pageUrl.value).then(() => {
+      copySuccess.value = true;
+      setTimeout(() => {
+        copySuccess.value = false;
+      }, 2000);
+    });
   }
 }
 
 // Format date for blog posts
 function formatDate(dateString: string) {
-  if (!dateString) return '';
+  if (!dateString) return "";
   const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
 // Check if this is a content route
 const { data } = await useAsyncData(`content-${slug}`, () => {
-  return queryContent().where({ _path: `/${slug}` }).findOne();
+  return queryContent()
+    .where({ _path: `/${slug}` })
+    .findOne();
 });
 
 // Fetch related posts for blog posts
@@ -250,29 +332,31 @@ onMounted(async () => {
     // Get the current post's category or tags if available
     const category = data.value.category;
     const tags = data.value.tags || [];
-    
+
     // Query posts with same category or tags, excluding current post
-    const related = await queryContent('blog')
+    const related = await queryContent("blog")
       .where({ _partial: false, _path: { $ne: `/${slug}` } })
       .sort({ date: -1 })
       .limit(3)
       .find();
-    
+
     // If we have a category or tags, sort by relevance
     if (category || tags.length) {
       // Score posts by relevance (same category or matching tags)
-      const scored = related.map(post => {
+      const scored = related.map((post) => {
         let score = 0;
         if (category && post.category === category) score += 3;
         if (tags.length && post.tags) {
-          const matchingTags = post.tags.filter(tag => tags.includes(tag));
+          const matchingTags = post.tags.filter((tag) => tags.includes(tag));
           score += matchingTags.length;
         }
         return { ...post, score };
       });
-      
+
       // Sort by relevance score (high to low), then by date
-      scored.sort((a, b) => b.score - a.score || new Date(b.date) - new Date(a.date));
+      scored.sort(
+        (a, b) => b.score - a.score || new Date(b.date) - new Date(a.date)
+      );
       relatedPosts.value = scored.slice(0, 3);
     } else {
       // If no category/tags, just use most recent
@@ -284,14 +368,14 @@ onMounted(async () => {
 // Set SEO metadata for blog posts
 if (data.value && isBlogPost.value) {
   const { setPageMeta } = useSeo();
-  
+
   setPageMeta({
-    title: data.value.title || 'Blog Post',
-    description: data.value.description || 'Blog post on DienerTech',
-    type: 'article',
+    title: data.value.title || "Blog Post",
+    description: data.value.description || "Blog post on DienerTech",
+    type: "article",
     image: data.value.titleImage,
     publishedTime: data.value.date,
-    tags: data.value.tags
+    tags: data.value.tags,
   });
 }
 
@@ -307,8 +391,14 @@ if (!data.value) {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Enhance typography for blog posts */
@@ -331,7 +421,7 @@ if (!data.value) {
   border-radius: 0.5rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
+/* 
 :deep(.prose a) {
   color: var(--color-primary-600);
   text-decoration: none;
@@ -341,7 +431,7 @@ if (!data.value) {
 
 :deep(.prose a:hover) {
   border-color: transparent;
-}
+} */
 
 :deep(.prose blockquote) {
   font-style: italic;
