@@ -110,7 +110,7 @@ export default defineNuxtConfig({
   ssr: true,
   target: "server",
   nitro: {
-    preset: "cloudflare-pages",
+    preset: "cloudflare",
     output: {
       dir: ".output",
       publicDir: ".output/public",
