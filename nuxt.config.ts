@@ -86,6 +86,7 @@ export default defineNuxtConfig({
       xxl: 1536,
     },
   },
+  ssr: true,
   nitro: {
     preset: 'cloudflare-pages',
     storage: {
