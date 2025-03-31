@@ -87,8 +87,13 @@ export default defineNuxtConfig({
     },
   },
   ssr: true,
+  target: 'server',
   nitro: {
     preset: 'cloudflare-pages',
+    output: {
+      dir: '.output',
+      publicDir: '.output/public'
+    },
     storage: {
       kv: {
         driver: process.env.NODE_ENV === 'development' ? 'memory' : 'cloudflare-kv-binding',
