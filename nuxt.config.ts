@@ -128,6 +128,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     // Private keys that are exposed to the server
     recaptchaSecret: process.env.RECAPTCHA_SECRET_KEY,
+    resendApiKey: process.env.RESEND_API_KEY,
 
     // Public keys that are exposed to the client
     public: {
