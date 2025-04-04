@@ -27,6 +27,13 @@
                 <p class="text-gray-600 dark:text-gray-400 mt-2">
                   Fill out the form below and I'll get back to you as soon as possible.
                 </p>
+                <div class="flex items-center gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-2">
+                  <UIcon name="i-heroicons-exclamation-triangle" class="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+                  <p class="text-yellow-700 dark:text-yellow-300 text-sm">
+                  Important! The contact form has just been fixed to correctly send messages. Please try again if you have sent a message before 4/3/25.
+                  Thank you for your patience!
+                  </p>
+                </div>
               </template>
               
               <div class="py-4">
