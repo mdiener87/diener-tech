@@ -27,6 +27,13 @@
                 <p class="text-gray-600 dark:text-gray-400 mt-2">
                   Fill out the form below and I'll get back to you as soon as possible.
                 </p>
+                <div class="flex items-center gap-2 p-3 bg-yellow-50 dark:bg-yellow-900/30 rounded-lg border border-yellow-200 dark:border-yellow-800 mt-2">
+                  <UIcon name="i-heroicons-exclamation-triangle" class="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0" />
+                  <p class="text-yellow-700 dark:text-yellow-300 text-sm">
+                  Important! The contact form has just been fixed to correctly send messages. Please try again if you have sent a message before 4/3/25.
+                  Thank you for your patience!
+                  </p>
+                </div>
               </template>
               
               <div class="py-4">
@@ -37,32 +44,6 @@
           
           <!-- Contact Information -->
           <div class="md:col-span-2 flex flex-col gap-6">
-            <!-- Email Card -->
-            <!-- <UCard class="bg-gradient-to-br from-sky-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 h-full flex-1 transition-all hover:shadow-xl">
-              <div class="flex flex-col h-full">
-                <div class="flex items-center gap-3 mb-4">
-                  <div class="w-12 h-12 rounded-full bg-sky-100 dark:bg-sky-900 flex items-center justify-center">
-                    <UIcon name="i-heroicons-at-symbol" class="w-6 h-6 text-sky-600 dark:text-sky-400" />
-                  </div>
-                  <h3 class="text-xl font-bold">Email</h3>
-                </div>
-                
-                <p class="text-gray-600 dark:text-gray-400 mb-4">
-                  Prefer to reach out directly? You can send me an email at:
-                </p>
-                
-                <div class="mt-auto">
-                  <a
-                    href="mailto:contact@diener.tech"
-                    class="inline-flex items-center gap-2 text-primary hover:text-primary-700 font-medium transition-colors"
-                  >
-                    contact@diener.tech
-                    <UIcon name="i-heroicons-arrow-up-right" class="w-4 h-4" />
-                  </a>
-                </div>
-              </div>
-            </UCard> -->
-
             <!-- Social Links Card -->
             <UCard class="bg-gradient-to-br from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900 shadow-lg border border-gray-200 dark:border-gray-800 h-full flex-1 transition-all hover:shadow-xl">
               <div class="flex flex-col h-full">
@@ -113,24 +94,6 @@
         </div>
       </UContainer>
     </section>
-
-    <!-- FAQ Section -->
-    <!-- <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
-      <UContainer>
-        <div class="max-w-3xl mx-auto">
-          <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Frequently Asked Questions</h2>
-          
-          <UAccordion :items="faqs" :ui="{
-            wrapper: 'divide-y divide-gray-200 dark:divide-gray-700 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden',
-            item: {
-              wrapper: 'bg-white dark:bg-gray-900',
-              trigger: 'p-4 md:p-6 w-full flex items-center gap-3',
-              content: 'p-4 md:p-6 pt-0 md:pt-0'
-            }
-          }" />
-        </div>
-      </UContainer>
-    </section> -->
   </main>
 </template>
 

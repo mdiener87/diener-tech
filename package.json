@@ -7,7 +7,8 @@
     "dev": "nuxt dev",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "serve": "wrangler dev"
+    "serve": "wrangler dev",
+    "build:serve": "NODE_ENV=development nuxt build && NODE_ENV=development wrangler dev"
   },
   "dependencies": {
     "@nuxt/content": "^2.13.4",
@@ -23,10 +24,12 @@
     "nuxt": "^3.16.1",
     "nuxt-cloudflare-analytics": "^1.0.8",
     "nuxt-schema-org": "^3.3.4",
+    "resend": "^4.2.0",
     "vue": "latest",
     "vue-router": "latest"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250317.0"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

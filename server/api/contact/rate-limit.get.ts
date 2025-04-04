@@ -6,10 +6,10 @@ export default defineEventHandler(async (event: H3Event) => {
     // Get runtime config
     const runtime = useRuntimeConfig()
     
-    // Get KV storage from Nitro context
-    const storage = useStorage()
-    if (!storage) {
-      console.error('Storage not available')
+    // Get KV storage from Nitro context - specifically use the 'kv' namespace
+    const kvStorage = useStorage('kv')
+    if (!kvStorage) {
+      console.error('KV storage not available')
       throw createError({
         statusCode: 500,
         message: 'Storage configuration error'
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event: H3Event) => {
     }
 
     // Initialize rate limiter with storage
-    const rateLimiter = new RateLimiter(storage, {
+    const rateLimiter = new RateLimiter(kvStorage, {
       maxAttempts: 3,
       windowSeconds: 3600 // 1 hour
     })
@@ -27,13 +27,13 @@ export default defineEventHandler(async (event: H3Event) => {
 
     return {
       remainingAttempts,
-      ip: process.env.NODE_ENV === 'development' ? ip : undefined // Only show IP in development
+      ip: process.dev ? ip : undefined // Only show IP in development
     }
   } catch (error: any) {
     console.error('Rate limit check error:', error)
     throw createError({
       statusCode: 500,
-      message: process.env.NODE_ENV === 'development' 
+      message: process.dev
         ? `Failed to check rate limit: ${error?.message || 'Unknown error'}`
         : 'Failed to check rate limit'
     })

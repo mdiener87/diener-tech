@@ -1,4 +1,3 @@
-/// <reference types="@cloudflare/workers-types" />
 import type { Storage } from 'unstorage'
 
 export interface RateLimitConfig {
@@ -6,87 +5,136 @@ export interface RateLimitConfig {
   windowSeconds: number;
 }
 
-export interface StorageInterface {
-  get(key: string): Promise<any>;
-  put(key: string, value: string, options?: { expirationTtl?: number }): Promise<void>;
-}
-
 export class RateLimiter {
-  private storage: StorageInterface;
+  private storage: Storage;
   private config: RateLimitConfig;
+  private storagePrefix: string = 'ratelimit:';
 
-  constructor(storage: KVNamespace | Storage, config: RateLimitConfig) {
-    // Create a unified storage interface
-    this.storage = {
-      get: async (key: string) => {
-        if ('getItem' in storage) {
-          // Nitro storage
-          const value = await (storage as Storage).getItem(key);
-          return value ? JSON.parse(value as string) : null;
-        } else {
-          // Cloudflare KV
-          return await (storage as KVNamespace).get(key, 'json');
-        }
-      },
-      put: async (key: string, value: string, options?: { expirationTtl?: number }) => {
-        if ('setItem' in storage) {
-          // Nitro storage
-          await (storage as Storage).setItem(key, value);
-        } else {
-          // Cloudflare KV
-          await (storage as KVNamespace).put(key, value, options);
-        }
-      }
-    };
+  constructor(storage: Storage, config: RateLimitConfig) {
+    this.storage = storage;
     this.config = config;
   }
 
+  /**
+   * Create a storage key for the given IP
+   */
+  private getStorageKey(ip: string): string {
+    return `${this.storagePrefix}${ip}`;
+  }
+
+  /**
+   * Get attempts for a given IP
+   */
+  private async getAttempts(ip: string): Promise<number[]> {
+    const key = this.getStorageKey(ip);
+    try {
+      // Get data from storage
+      const data = await this.storage.getItem(key);
+      console.log('Raw storage data:', { key, data });
+
+      if (!data) {
+        return [];
+      }
+
+      // Parse the data
+      let attempts: number[];
+      if (typeof data === 'string') {
+        try {
+          attempts = JSON.parse(data);
+          if (!Array.isArray(attempts)) {
+            console.warn('Attempts data is not an array, resetting', { key, data });
+            return [];
+          }
+        } catch (error) {
+          console.error('Failed to parse attempts data', { key, data, error });
+          return [];
+        }
+      } else if (Array.isArray(data)) {
+        attempts = data;
+      } else {
+        console.warn('Unexpected attempts data format, resetting', { key, data });
+        return [];
+      }
+
+      return attempts;
+    } catch (error) {
+      console.error('Error getting attempts from storage', { key, error });
+      return [];
+    }
+  }
+
+  /**
+   * Store attempts for a given IP
+   */
+  private async storeAttempts(ip: string, attempts: number[]): Promise<void> {
+    const key = this.getStorageKey(ip);
+    try {
+      // Ensure we're storing a valid array
+      if (!Array.isArray(attempts)) {
+        console.error('Attempted to store invalid attempts data', { attempts });
+        attempts = [];
+      }
+
+      // Store as JSON string
+      const dataString = JSON.stringify(attempts);
+      console.log('Storing attempts:', { key, attempts, dataString });
+      
+      // Set with expiration
+      await this.storage.setItem(key, dataString, {
+        // Set expiration only on KV storage (optional for other types)
+        ttl: this.config.windowSeconds
+      });
+    } catch (error) {
+      console.error('Failed to store attempts', { key, attempts, error });
+    }
+  }
+
+  /**
+   * Check if IP is rate limited
+   */
   async isRateLimited(ip: string): Promise<boolean> {
-    const key = `ratelimit:${ip}`;
     const now = Date.now();
     const windowStart = now - (this.config.windowSeconds * 1000);
 
     // Get current attempts
-    let attempts = await this.storage.get(key) as number[] || [];
+    let attempts = await this.getAttempts(ip);
+    console.log('Retrieved attempts:', { ip, attempts });
     
-    // Ensure attempts is an array
-    if (!Array.isArray(attempts)) {
-      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
-      attempts = [];
-    }
-    
-    // Filter attempts within window
+    // Filter to only include recent attempts
     const recentAttempts = attempts.filter(timestamp => timestamp > windowStart);
+    console.log('Recent attempts:', { ip, recentAttempts, count: recentAttempts.length });
     
     // Check if rate limited
     if (recentAttempts.length >= this.config.maxAttempts) {
       return true;
     }
 
-    // Add new attempt
+    // Add the current attempt
     recentAttempts.push(now);
-    await this.storage.put(key, JSON.stringify(recentAttempts), {
-      expirationTtl: this.config.windowSeconds
-    });
+    
+    // Store updated attempts
+    await this.storeAttempts(ip, recentAttempts);
 
     return false;
   }
 
+  /**
+   * Get remaining attempts for an IP
+   */
   async getRemainingAttempts(ip: string): Promise<number> {
-    const key = `ratelimit:${ip}`;
     const now = Date.now();
     const windowStart = now - (this.config.windowSeconds * 1000);
 
-    let attempts = await this.storage.get(key) as number[] || [];
+    // Get current attempts
+    const attempts = await this.getAttempts(ip);
     
-    // Ensure attempts is an array
-    if (!Array.isArray(attempts)) {
-      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
-      attempts = [];
-    }
-    
+    // Filter to only include recent attempts
     const recentAttempts = attempts.filter(timestamp => timestamp > windowStart);
-
-    return Math.max(0, this.config.maxAttempts - recentAttempts.length);
+    
+    // Calculate remaining attempts
+    const remaining = Math.max(0, this.config.maxAttempts - recentAttempts.length);
+    console.log('Remaining attempts:', { ip, remaining, recentAttempts });
+    
+    return remaining;
   }
 } 
