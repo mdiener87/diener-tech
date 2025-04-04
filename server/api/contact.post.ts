@@ -21,10 +21,10 @@ export default defineEventHandler(async (event: H3Event) => {
     console.log("conact form event handler");
     const config = useRuntimeConfig();
 
-    // Get KV storage from Nitro context
-    const storage = useStorage();
-    if (!storage) {
-      console.error("Storage not available");
+    // Get KV storage from Nitro context - specifically use the 'kv' namespace
+    const kvStorage = useStorage('kv');
+    if (!kvStorage) {
+      console.error("KV storage not available");
       throw createError({
         statusCode: 500,
         message: "Storage configuration error",
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event: H3Event) => {
     }
 
     // Initialize rate limiter with storage
-    const rateLimiter = new RateLimiter(storage, {
+    const rateLimiter = new RateLimiter(kvStorage, {
       maxAttempts: 3,
       windowSeconds: 3600, // 1 hour
     });
