@@ -46,14 +46,29 @@ export class RateLimiter {
     const now = Date.now();
     const windowStart = now - (this.config.windowSeconds * 1000);
 
-    // Get current attempts
-    let attempts = await this.storage.get(key) as number[] || [];
+    // Get current attempts - handle different possible response formats
+    let data = await this.storage.get(key);
+    console.log('Rate limit data raw:', { key, data });
     
-    // Ensure attempts is an array
-    if (!Array.isArray(attempts)) {
-      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
+    let attempts: number[] = [];
+    
+    // Handle different possible formats of stored data
+    if (data === null || data === undefined) {
+      // No data found, initialize empty array
+      attempts = [];
+    } else if (Array.isArray(data)) {
+      // Data is already an array of timestamps
+      attempts = data;
+    } else if (typeof data === 'object' && 'attempts' in data && Array.isArray(data.attempts)) {
+      // Data is an object with attempts array property
+      attempts = data.attempts;
+    } else {
+      // Any other format - log and reset
+      console.warn('Rate limit data was in an unexpected format, resetting', { key, data });
       attempts = [];
     }
+    
+    console.log('Parsed attempts:', attempts);
     
     // Filter attempts within window
     const recentAttempts = attempts.filter(timestamp => timestamp > windowStart);
@@ -65,8 +80,12 @@ export class RateLimiter {
 
     // Add new attempt
     recentAttempts.push(now);
+    
+    // Store the attempts array directly
     await this.storage.put(key, JSON.stringify(recentAttempts), {
       expirationTtl: this.config.windowSeconds
+    }).catch((error) => {
+      console.error('Failed to update rate limit data', { key, error });
     });
 
     return false;
@@ -77,11 +96,21 @@ export class RateLimiter {
     const now = Date.now();
     const windowStart = now - (this.config.windowSeconds * 1000);
 
-    let attempts = await this.storage.get(key) as number[] || [];
+    // Get current attempts - handle different possible response formats
+    let data = await this.storage.get(key);
+    console.log('Rate limit data raw (remaining):', { key, data });
     
-    // Ensure attempts is an array
-    if (!Array.isArray(attempts)) {
-      console.warn('Rate limit data was not an array, resetting', { key, data: attempts });
+    let attempts: number[] = [];
+    
+    // Handle different possible formats of stored data - same logic as isRateLimited
+    if (data === null || data === undefined) {
+      attempts = [];
+    } else if (Array.isArray(data)) {
+      attempts = data;
+    } else if (typeof data === 'object' && 'attempts' in data && Array.isArray(data.attempts)) {
+      attempts = data.attempts;
+    } else {
+      console.warn('Rate limit data was in an unexpected format, resetting', { key, data });
       attempts = [];
     }
     

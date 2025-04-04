@@ -27,13 +27,13 @@ export default defineEventHandler(async (event: H3Event) => {
 
     return {
       remainingAttempts,
-      ip: process.env.NODE_ENV === 'development' ? ip : undefined // Only show IP in development
+      ip: process.dev ? ip : undefined // Only show IP in development
     }
   } catch (error: any) {
     console.error('Rate limit check error:', error)
     throw createError({
       statusCode: 500,
-      message: process.env.NODE_ENV === 'development' 
+      message: process.dev
         ? `Failed to check rate limit: ${error?.message || 'Unknown error'}`
         : 'Failed to check rate limit'
     })
