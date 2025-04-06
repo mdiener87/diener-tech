@@ -21,8 +21,12 @@ Anyone who has tried to coordinate D&D campaigns knows the particular struggle t
   alt="A dramatic battlemap scene from the campaign">
 </BlogImage>
 
-As soon as our work duties were completed on a Wednesday, we sprung into action. Beer and burritos were swiftly acquired from nearby restaurants. I would break out a large canvas battlemap, and draw the current landscape. The session would begin, the night's drama would unfold. The party quickly established a name for themselves - **The Order of Sun & Moon**. Heroes sworn to upholding the good, they would engage in every form of chaotic mischief on their way to save the Kingdom of Dawn from orcs, dragons, and lost Elven artifacts alike. The party transformed from business colleagues to lifelong friends, and the game even picked up a mystique of its own! Office gossip was always interested in the latest exploits of the party, or what that strange planar map left on the whiteboard represented! ![Planar Map](planar-map.jpg)
+As soon as our work duties were completed on a Wednesday, we sprung into action. Beer and burritos were swiftly acquired from nearby restaurants. I would break out a large canvas battlemap, and draw the current landscape. The session would begin, the night's drama would unfold. The party quickly established a name for themselves - **The Order of Sun & Moon**. Heroes sworn to upholding the good, they would engage in every form of chaotic mischief on their way to save the Kingdom of Dawn from orcs, dragons, and lost Elven artifacts alike. The party transformed from business colleagues to lifelong friends, and the game even picked up a mystique of its own! Office gossip was always interested in the latest exploits of the party, or what that strange planar map left on the whiteboard represented!
 
+<BlogImage
+  src="planar-map.jpg"
+  alt="You are here">
+</BlogImage>
 
 I was totally unprepared for this game's runaway success. From August 2018 through the end of 2019, we ran **53** game sessions! Assuming that represents around 73 weeks total, our campaign met on 73% of all possible weeks. If we took out holidays and vacations, and this percentage would grow even higher. This was a truly amazing period of D&D gaming! Practically every week without fail we would be rolling dice; its now my personal high-water mark for D&D Campaigning!
 
