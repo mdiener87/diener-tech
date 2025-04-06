@@ -1,11 +1,12 @@
 <template>
   <figure class="image-with-caption">
-    <img :src="src" :alt="alt" />
+    <img :src="useAsset(src)" :alt="alt" />
     <figcaption v-if="calcCaption.length">{{ calcCaption }}</figcaption>
   </figure>
 </template>
 
 <script setup>
+import useAsset from "nuxt/content/runtime/utils/useAsset";
 const props = defineProps({
   src: String,
   alt: String,
