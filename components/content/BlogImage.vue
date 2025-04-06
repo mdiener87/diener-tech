@@ -10,7 +10,7 @@
         @load="handleImageLoad"
         :class="{ 
           'image-error': hasError,
-          'image-loading': !isLoaded 
+          'image-loading': !isLoaded
         }"
         :srcset="props.srcset"
         :sizes="props.sizes"
@@ -177,8 +177,22 @@ const calcCaption = computed(() => {
 
 // Track image loading states
 const hasError = ref(false);
-const isLoaded = ref(false);
+const isLoaded = ref(false); // Start as not loaded
 const showLightbox = ref(false);
+
+// If image is already in browser cache, it might load before onLoad event fires
+onMounted(() => {
+  // Give a small delay to check if the image is already loaded from cache
+  setTimeout(() => {
+    const img = new Image();
+    img.src = resolvedSrc.value;
+    
+    // If image is complete and has a naturalWidth, it's already loaded
+    if (img.complete && img.naturalWidth > 0) {
+      isLoaded.value = true;
+    }
+  }, 50);
+});
 
 // Handle image loading events
 function handleImageError() {
@@ -187,6 +201,7 @@ function handleImageError() {
 }
 
 function handleImageLoad() {
+  console.log(`Image loaded: ${props.src}`);
   isLoaded.value = true;
 }
 
@@ -210,19 +225,41 @@ const imageStyle = computed(() => {
   // Apply maxWidth if provided
   if (props.maxWidth) {
     // Add 'px' suffix if it's a number without unit
-    style.maxWidth = typeof props.maxWidth === 'number' || /^\d+$/.test(props.maxWidth)
+    const width = typeof props.maxWidth === 'number' || /^\d+$/.test(props.maxWidth)
       ? `${props.maxWidth}px`
       : props.maxWidth;
+    
+    // Apply as both max-width and width for better browser compatibility
+    style.maxWidth = width;
+    // Only set explicit width if a specific pixel value is provided
+    if (/px$/.test(width)) {
+      style.width = width;
+    }
   }
   
   // Apply maxHeight if provided
   if (props.maxHeight) {
     // Add 'px' suffix if it's a number without unit
-    style.maxHeight = typeof props.maxHeight === 'number' || /^\d+$/.test(props.maxHeight)
+    const height = typeof props.maxHeight === 'number' || /^\d+$/.test(props.maxHeight)
       ? `${props.maxHeight}px`
       : props.maxHeight;
+    
+    // Apply as both max-height and height for better browser compatibility
+    style.maxHeight = height; 
+    // Only set explicit height if a specific pixel value is provided
+    if (/px$/.test(height)) {
+      style.height = height;
+    }
   }
   
+  // Add !important to override any conflicting styles
+  for (const key in style) {
+    if (typeof style[key] === 'string' && !style[key].includes('!important')) {
+      style[key] = `${style[key]} !important`;
+    }
+  }
+  
+  console.log('Computed image style:', style);
   return style;
 });
 
@@ -250,8 +287,9 @@ const computedImageStyle = computed(() => {
 .image-with-caption img {
   display: block;
   margin: 0 auto;
-  max-width: 100%;
-  height: auto;
+  width: auto; /* Allow the width to be determined by the image or max constraints */
+  height: auto; /* Allow the height to be determined by the image or max constraints */
+  max-width: 100%; /* Default max-width, will be overridden by inline styles if maxWidth prop is provided */
   object-fit: contain; /* Maintains aspect ratio */
   border-radius: 4px; /* Slightly rounded corners */
 }
@@ -268,7 +306,8 @@ const computedImageStyle = computed(() => {
   transition: opacity 0.3s ease;
 }
 
-.image-with-caption .image-loading {
+/* Apply opacity to images that are still loading */
+.image-with-caption img.image-loading {
   opacity: 0.7;
 }
 
