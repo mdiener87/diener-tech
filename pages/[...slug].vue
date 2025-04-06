@@ -32,7 +32,7 @@
                         class="md:w-1/3 order-2 md:order-1 overflow-hidden flex items-center justify-center p-4"
                       >
                         <NuxtImg
-                          :src="doc.titleImage"
+                          :src="resolvedTitleImage"
                           :alt="doc.title"
                           class="w-full object-contain max-h-[300px] sm:max-h-[320px] md:max-h-[350px]"
                           format="webp"
@@ -201,7 +201,7 @@
                             class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800"
                           >
                             <NuxtImg
-                              :src="post.titleImage"
+                              :src="resolveRelatedPostImagePath(post)"
                               :alt="post.title"
                               class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
                               loading="lazy"
@@ -271,6 +271,7 @@
 <script setup lang="ts">
 import { notFound } from "~/utils/error";
 import { ref, computed, onMounted } from "vue";
+import { useImagePath } from "~/composables/useImagePath";
 
 // Handle 404 errors for non-content routes
 const route = useRoute();
@@ -280,6 +281,9 @@ const slug = Array.isArray(route.params.slug)
 
 // Check if the current path is a blog post
 const isBlogPost = computed(() => slug.startsWith("blog/") && slug !== "blog");
+
+// Get image path resolver
+const { resolveImage } = useImagePath();
 
 // Page URL for social sharing
 const pageUrl = computed(() => {
@@ -324,8 +328,20 @@ const { data } = await useAsyncData(`content-${slug}`, () => {
     .findOne();
 });
 
+// Get the resolved title image path
+const resolvedTitleImage = computed(() => {
+  if (!data.value?.titleImage) return undefined;
+  return resolveImage(data.value.titleImage);
+});
+
 // Fetch related posts for blog posts
 const relatedPosts = ref([]);
+
+// Helper function to resolve image paths for related posts
+function resolveRelatedPostImagePath(post) {
+  if (!post.titleImage) return undefined;
+  return resolveImage(post.titleImage, post._path.replace(/^\//, ''));
+}
 
 onMounted(async () => {
   if (isBlogPost.value && data.value) {
@@ -373,7 +389,7 @@ if (data.value && isBlogPost.value) {
     title: data.value.title || "Blog Post",
     description: data.value.description || "Blog post on DienerTech",
     type: "article",
-    image: data.value.titleImage,
+    image: resolvedTitleImage.value,
     publishedTime: data.value.date,
     tags: data.value.tags,
   });
