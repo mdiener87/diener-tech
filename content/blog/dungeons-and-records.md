@@ -16,10 +16,10 @@ In the fall of 2018, while working as a Technical Consultant at Sopheon, I had t
 
 Anyone who has tried to coordinate D&D campaigns knows the particular struggle this represents. For a game to truly come alive, a certain commitment is required. Everything works best when you have a reliable player base meeting regularly. Even if people are interested to start, commitment is key. I've participated in countless games that start out strong, but by session five have all but petered out. So I was totally unprepared when this after-work game I began broke through five games. Then ten. Twenty followed swiftly. Our game quickly picked up momentum, and a regular cadence was established. 
 
-<ImageWithCaption
+<BlogImage
   src="battlemap-encounter.jpg"
   alt="A dramatic battlemap scene from the campaign">
-</ImageWithCaption>
+</BlogImage>
 
 As soon as our work duties were completed on a Wednesday, we sprung into action. Beer and burritos were swiftly acquired from nearby restaurants. I would break out a large canvas battlemap, and draw the current landscape. The session would begin, the night's drama would unfold. The party quickly established a name for themselves - **The Order of Sun & Moon**. Heroes sworn to upholding the good, they would engage in every form of chaotic mischief on their way to save the Kingdom of Dawn from orcs, dragons, and lost Elven artifacts alike. The party transformed from business colleagues to lifelong friends, and the game even picked up a mystique of its own! Office gossip was always interested in the latest exploits of the party, or what that strange planar map left on the whiteboard represented! ![Planar Map](planar-map.jpg)
 
@@ -32,11 +32,11 @@ When the pandemic hit, our office closed. While this represented a very difficul
 
 *ALL of my notes are on a work laptop!*
 
-<ImageWithCaption
+<BlogImage
   src="work-laptop-dnd-notes.jpg"
   alt="The laptop where over five years of D&D notes were stored"
   caption="The work laptop in question - holding over five years of D&D notes!">
-</ImageWithCaption>
+</BlogImage>
 
 
 ### A Vanishing Tome
@@ -51,11 +51,11 @@ This seemed like a good idea at the time. If I ever lost access to my Google acc
 
 I did go on to use Google Keep for a while further, out of some stubborn insistence that this is fine. So fine! But it wasn't fine. I'm not sure what use case Google Keep is actually supposed to solve for, but a complex D&D campaign is not it. Eventually my players got tired of my constant complaining about Google Keep, and they encouraged me to explore [Obsidian](https://obsidian.md/) and [Notion](https://www.notion.so/) as potential alternatives.
 
-<ImageWithCaption
+<BlogImage
   src="gkeep-insanity.png"
   alt="A chaotic, disorganized wall of Google Keep notes"
   caption="How did I ever live like this?">
-</ImageWithCaption>
+</BlogImage>
 
 I explored Obsidian, and while it has some really cool ideas, I couldn't seem to enjoy it. A lifetime of Excel usage has damaged my brain, and I really like to keep things in nice, orderly, structured formats. Obsidian felt too gooey in my hands. Notion, however, I immediately fell for. Creating an elaborately structured and deeply nested file system is an old (ongoing) passion of mine, and I quickly set Notion to work at this task. All of my new gameplay notes would be based out of Notion, and it is still the system I use today for this campaign.
 

@@ -14,10 +14,10 @@ In the previous blog entry, [Dungeons & Records](/blog/dungeons-and-records), I 
 
 This solution became [gkeep-to-notion](link). At first, I thought the scripting requirements would be relatively lightweight. Working with [ChatGPT](link), I quickly prototyped a Python-based solution that would process the Google takeout `.json` files, and create simple `.html` documents with the combo of image and text data that represented the note in Google Keep. Naturally, as I worked through the script, the scope expanded. And expanded. Like giving a mouse a cookie, soon it wanted a glass of milk. Except the cookie was Python, and the milk was [pytesseract OCR](link)! 
 
-<ImageWithCaption
+<BlogImage
   src="give-a-mouse-python.png"
   alt="Maybe add a side of asyncio?">
-</ImageWithCaption>
+</BlogImage>
 
 Before I knew it, I had a full blown solution on my hands. gkeep-to-notion could now process all of the Google takeout files. It would use both pytesseract *and* ChatGPT API for OCR translation of images to text data. I also added a caching ability for each, so as to not re-process the same work as I adjusted other parts of the script. It would also output both html and markdown files, just to add options for import or later processing. 
 
@@ -25,9 +25,9 @@ Using Claude, I would go on to refactor the script. The singular python file had
 
 All the while, I was creating the output artifacts that needed to be imported into Notion. Run after run, their formatting and sophistication improved. The terminal output was quick and satisfying to behold!
 
-<ImageWithCaption
+<BlogImage
   src="terminal-beauty.png"
   alt="Over 200 source notes processed!">
-</ImageWithCaption>
+</BlogImage>
 
 ## Moving Day

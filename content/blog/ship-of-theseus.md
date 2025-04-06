@@ -32,10 +32,10 @@ If I were chasing home-grown, organic code, perhaps I'd go a very manual route, 
 
 Even basic HTML tags today represent groundbreaking technology invented decades ago. The very act of using these common tools is already standing on the shoulders of giants. Even before AI came into the mix, every language I've ever learned represents a high level abstraction or another. Naturally, there is an XKCD for this:
 
-<ImageWithCaption
+<BlogImage
   src="https://imgs.xkcd.com/comics/real_programmers.png"
   alt="Real Programmers (https://xkcd.com/378/)">
-</ImageWithCaption>
+</BlogImage>
 
 The alternative to the digital nihilism discussed above is perhaps even bolder to contemplate. Maybe, just maybe.. *all* of this work is mine. Regardless of the tooling used to build it, this website represents the culmination of a significant amount of effort. If we count some early prototypes and experiments with different front end technologies, then I've been at work on this for several years. My work output has certainly intensified the last month or two, and I will happily cite generative coding for both the inspirational energy and force-multiplier for that effect. 
 

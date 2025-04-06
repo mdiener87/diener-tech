@@ -26,12 +26,12 @@ The site uses a utility to handle image path resolution:
 
 ## Components
 
-### ImageWithCaption
+### BlogImage
 
-The `ImageWithCaption` component automatically resolves image paths based on the current route:
+The `BlogImage` component automatically resolves image paths based on the current route:
 
 ```md
-<ImageWithCaption 
+<BlogImage 
   src="image.png" 
   alt="My Image" 
   caption="Optional caption text"
@@ -44,7 +44,7 @@ For a post at `/blog/my-post`, this will display the image from:
 You can also provide an explicit context:
 
 ```md
-<ImageWithCaption 
+<BlogImage 
   src="image.png" 
   context="custom-folder" 
   alt="My Image"
