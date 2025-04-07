@@ -91,7 +91,7 @@
                 <template v-if="featuredPost.titleImage">
                   <div class="w-full h-full flex items-center justify-center">
                     <NuxtImg 
-                      :src="featuredPost.titleImage" 
+                      :src="featuredPost.resolvedTitleImage" 
                       :alt="featuredPost.title" 
                       class="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
                       loading="eager"
@@ -223,7 +223,7 @@
                 <NuxtLink :to="post._path" v-if="post.titleImage" class="block w-full h-[220px] overflow-hidden relative group mb-4 cursor-pointer">
                   <div class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg">
                     <NuxtImg 
-                      :src="post.titleImage" 
+                      :src="post.resolvedTitleImage" 
                       :alt="post.title" 
                       class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 p-2"
                       loading="lazy"
@@ -319,6 +319,8 @@
 </template>
 
 <script setup lang="ts">
+import { useImagePath } from '~/composables/useImagePath';
+
 interface BlogPost {
   _path: string;
   title?: string;
@@ -328,11 +330,13 @@ interface BlogPost {
   tags?: string[];
   readingTime?: number;
   titleImage?: string;
+  resolvedTitleImage?: string; // Added resolved image path
 }
 
 const searchQuery = ref('');
 const selectedTags = ref<string[]>([]);
 const filterPopoverOpen = ref(false);
+const { resolveBlogImage } = useImagePath();
 
 // Function to handle tag click and close popover
 function onTagClick(tag: string) {
@@ -341,24 +345,36 @@ function onTagClick(tag: string) {
 }
 
 // Fetch posts
-const posts = await queryContent<BlogPost>('blog')
+const rawPosts = await queryContent<BlogPost>('blog')
   .where({ _partial: false, draft: { $ne: true } })
   .sort({ date: -1 })
   .find();
 
+// Process posts to resolve image paths
+const posts = computed(() => {
+  return rawPosts.map(post => {
+    return {
+      ...post,
+      resolvedTitleImage: post.titleImage 
+        ? resolveBlogImage(post.titleImage, post._path)
+        : undefined
+    };
+  });
+});
+
 // Get unique tags from posts
 const tags = computed(() => {
-  const allTags = posts.flatMap(post => post.tags || []);
+  const allTags = posts.value.flatMap(post => post.tags || []);
   const uniqueTags = new Set(['All', ...allTags.filter(Boolean)]);
   return Array.from(uniqueTags);
 });
 
 // Featured post (most recent)
-const featuredPost = computed(() => posts[0]);
+const featuredPost = computed(() => posts.value[0]);
 
 // Filtered posts
 const filteredPosts = computed(() => {
-  let filtered = [...posts];
+  let filtered = [...posts.value];
   
   // Remove featured post from regular list when showing featured section
   if (!searchQuery.value && !selectedTags.value.length) {
