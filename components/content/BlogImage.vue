@@ -201,7 +201,6 @@ function handleImageError() {
 }
 
 function handleImageLoad() {
-  console.log(`Image loaded: ${props.src}`);
   isLoaded.value = true;
 }
 
@@ -259,7 +258,6 @@ const imageStyle = computed(() => {
     }
   }
   
-  console.log('Computed image style:', style);
   return style;
 });
 
