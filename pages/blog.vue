@@ -27,9 +27,10 @@
               <UPopover v-model="filterPopoverOpen" mode="click" :popper="{ placement: 'bottom-end' }">
                 <UButton
                   color="gray" 
-                  variant="soft"
+                  variant="ghost"
                   icon="i-heroicons-adjustments-horizontal"
                   size="lg"
+                  class="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm"
                 >
                   Filter
                   <template #trailing>
@@ -40,13 +41,38 @@
                 </UButton>
                 <template #panel>
                   <div class="p-4 w-64">
+                    <!-- Filter Type Buttons - All and Featured in their own row -->
+                    <div class="mb-4">
+                      <div class="flex gap-2 mb-1">
+                        <UButton
+                          :variant="!showFeaturedOnly && selectedTags.length === 0 ? 'solid' : 'ghost'"
+                          :color="!showFeaturedOnly && selectedTags.length === 0 ? 'primary' : 'gray'"
+                          size="xs"
+                          class="transition-colors flex-1"
+                          @click="resetToAll()"
+                        >
+                          All
+                        </UButton>
+                        <UButton
+                          :variant="showFeaturedOnly ? 'solid' : 'ghost'"
+                          :color="showFeaturedOnly ? 'primary' : 'gray'"
+                          size="xs"
+                          class="transition-colors flex-1"
+                          @click="onFilterTypeClick('featured')"
+                        >
+                          Featured
+                        </UButton>
+                      </div>
+                    </div>
+                    
+                    <!-- Tags Section -->
                     <p class="font-medium mb-2">Tags</p>
                     <div class="flex flex-wrap gap-2">
                       <UButton
-                        v-for="tag in tags"
+                        v-for="tag in filteredTags"
                         :key="tag"
-                        :variant="tag === 'All' ? 'ghost' : (selectedTags.includes(tag) ? 'solid' : 'ghost')"
-                        :color="tag === 'All' ? 'gray' : 'primary'"
+                        :variant="selectedTags.includes(tag) ? 'solid' : 'ghost'"
+                        color="primary"
                         size="xs"
                         class="transition-colors"
                         @click="onTagClick(tag)"
@@ -73,7 +99,7 @@
     </section>
 
     <!-- Featured Post Section -->
-    <section v-if="featuredPost && !searchQuery && !selectedTags.length" class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section v-if="featuredPost && !searchQuery && !selectedTags.length && !showFeaturedOnly" class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="max-w-4xl mx-auto">
           <div class="flex items-center gap-2 mb-4">
@@ -173,7 +199,7 @@
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <!-- Active Filters Display -->
-        <div v-if="searchQuery || selectedTags.length" class="mb-8 flex items-center flex-wrap gap-2">
+        <div v-if="searchQuery || selectedTags.length || showFeaturedOnly" class="mb-8 flex items-center flex-wrap gap-2">
           <span class="text-sm text-gray-500 dark:text-gray-400">Active filters:</span>
           <UBadge 
             v-if="searchQuery" 
@@ -182,6 +208,18 @@
             @click="searchQuery = ''"
           >
             <span>Search: "{{ searchQuery }}"</span>
+            <UIcon 
+              name="i-heroicons-x-mark" 
+              class="w-4 h-4 ml-1"
+            />
+          </UBadge>
+          <UBadge 
+            v-if="showFeaturedOnly" 
+            color="primary" 
+            class="flex items-center gap-1 cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
+            @click="showFeaturedOnly = false"
+          >
+            <span>Featured Only</span>
             <UIcon 
               name="i-heroicons-x-mark" 
               class="w-4 h-4 ml-1"
@@ -306,7 +344,7 @@
           <UIcon name="i-heroicons-inbox" class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-600 mb-4" />
           <h3 class="text-xl font-medium text-gray-900 dark:text-gray-100 mb-2">No posts found</h3>
           <p class="text-gray-500 dark:text-gray-400 mb-6 max-w-md mx-auto">
-            {{ searchQuery || selectedTags.length ? 'Try adjusting your search or filter criteria.' : 'Check back soon for new content.' }}
+            {{ searchQuery || selectedTags.length || showFeaturedOnly ? 'Try adjusting your search or filter criteria.' : 'Check back soon for new content.' }}
           </p>
           
           <UButton v-if="searchQuery || selectedTags.length" color="gray" @click="resetFilters">
@@ -331,16 +369,36 @@ interface BlogPost {
   readingTime?: number;
   titleImage?: string;
   resolvedTitleImage?: string; // Added resolved image path
+  featured?: boolean; // Added featured flag
 }
 
 const searchQuery = ref('');
 const selectedTags = ref<string[]>([]);
+const showFeaturedOnly = ref(false);
 const filterPopoverOpen = ref(false);
 const { resolveBlogImage } = useImagePath();
 
 // Function to handle tag click and close popover
 function onTagClick(tag: string) {
   toggleTag(tag);
+  filterPopoverOpen.value = false;
+}
+
+// Function to handle filter type selection (All or Featured)
+function onFilterTypeClick(type: 'all' | 'featured') {
+  if (type === 'featured') {
+    // Toggle the featured filter when clicking Featured button
+    showFeaturedOnly.value = !showFeaturedOnly.value;
+  } else {
+    showFeaturedOnly.value = false;
+  }
+  filterPopoverOpen.value = false;
+}
+
+// Reset to "All" state (clear all filters)
+function resetToAll() {
+  showFeaturedOnly.value = false;
+  selectedTags.value = [];
   filterPopoverOpen.value = false;
 }
 
@@ -365,19 +423,30 @@ const posts = computed(() => {
 // Get unique tags from posts
 const tags = computed(() => {
   const allTags = posts.value.flatMap(post => post.tags || []);
-  const uniqueTags = new Set(['All', ...allTags.filter(Boolean)]);
+  const uniqueTags = new Set(allTags.filter(Boolean));
   return Array.from(uniqueTags);
 });
 
 // Featured post (most recent)
 const featuredPost = computed(() => posts.value[0]);
 
+// Filtered tags - exclude "All" from the tag list
+const filteredTags = computed(() => {
+  const allTags = posts.value.flatMap(post => post.tags || []);
+  const uniqueTags = new Set(allTags.filter(Boolean));
+  return Array.from(uniqueTags);
+});
+
 // Filtered posts
 const filteredPosts = computed(() => {
   let filtered = [...posts.value];
   
-  // Remove featured post from regular list when showing featured section
-  if (!searchQuery.value && !selectedTags.value.length) {
+  // Apply featured filter
+  if (showFeaturedOnly.value) {
+    filtered = filtered.filter(post => post.featured === true);
+  }
+  // Remove featured post from regular list when showing featured section and not filtering
+  else if (!searchQuery.value && !selectedTags.value.length) {
     filtered = filtered.slice(1);
   }
   
@@ -404,16 +473,11 @@ const filteredPosts = computed(() => {
 
 // Methods
 function toggleTag(tag: string) {
-  // If "All" is clicked, clear all selected tags
-  if (tag === 'All') {
-    selectedTags.value = [];
-    return;
-  }
-
   // Toggle the tag - add if not present, remove if already selected
   if (selectedTags.value.includes(tag)) {
     removeTag(tag);
   } else {
+    // Add the tag without affecting featured mode
     selectedTags.value.push(tag);
   }
 }
@@ -425,6 +489,7 @@ function removeTag(tag: string) {
 function resetFilters() {
   searchQuery.value = '';
   selectedTags.value = [];
+  showFeaturedOnly.value = false;
 }
 
 function formatDate(date: string) {
