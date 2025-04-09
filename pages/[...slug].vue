@@ -129,7 +129,7 @@
             <!-- Related Articles Section (if available) -->
             <section
               v-if="relatedPosts.length"
-              class="py-8 bg-gray-50 dark:bg-gray-800"
+              class="py-12 bg-gray-50 dark:bg-gray-800"
             >
               <UContainer>
                 <div class="max-w-6xl mx-auto">
@@ -143,62 +143,71 @@
                     <UCard
                       v-for="post in relatedPosts"
                       :key="post._path"
-                      class="hover:shadow-lg transition-all duration-300 overflow-hidden"
+                      class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-200 dark:border-gray-700"
                       :ui="{
+                        ring: '',
+                        base: 'h-full bg-white dark:bg-gray-900',
+                        body: { padding: 'px-4 pb-4' },
+                        footer: { padding: 'px-4 pb-4' },
                         header: {
-                          padding: post.titleImage ? 'p-0 pb-4' : 'p-4',
+                          padding: 'p-0',
                         },
                       }"
                     >
                       <template #header>
                         <!-- Title Image (Clickable) -->
-                        <NuxtLink
-                          :to="post._path"
-                          v-if="post.titleImage"
-                          class="block w-full h-[200px] overflow-hidden mb-3 relative group cursor-pointer"
-                        >
-                          <div
-                            class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800"
+                        <div class="p-4 pb-0">
+                          <NuxtLink
+                            :to="post._path"
+                            v-if="post.titleImage"
+                            class="block w-full h-[200px] overflow-hidden relative group cursor-pointer"
                           >
-                            <NuxtImg
-                              :src="resolveRelatedPostImagePath(post)"
-                              :alt="post.title"
-                              class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                              loading="lazy"
-                              format="webp"
-                              placeholder
-                            />
-                          </div>
-                          <!-- Hover effect overlay -->
-                          <div
-                            class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          ></div>
-                        </NuxtLink>
-
-                        <div :class="post.titleImage ? 'px-4' : ''">
-                          <h3 class="text-lg font-semibold">
+                            <div
+                              class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800 rounded-lg"
+                            >
+                              <NuxtImg
+                                :src="resolveRelatedPostImagePath(post)"
+                                :alt="post.title"
+                                class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105 p-2"
+                                loading="lazy"
+                                format="webp"
+                                placeholder
+                              />
+                            </div>
+                            <!-- Hover effect overlay -->
+                            <div
+                              class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-lg"
+                            ></div>
+                          </NuxtLink>
+                          
+                          <h3 class="text-lg font-semibold mt-4">
                             {{ post.title }}
                           </h3>
                         </div>
                       </template>
-                      <div
-                        class="flex items-center gap-2 text-sm text-gray-500 mb-2"
-                      >
-                        <span>{{ formatDate(post.date) }}</span>
-                        <span>•</span>
-                        <span>{{ post.readingTime || "5" }} min read</span>
+                      <div class="flex flex-col">
+                        <div
+                          class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2"
+                        >
+                          <span>{{ formatDate(post.date) }}</span>
+                          <span>•</span>
+                          <span>{{ post.readingTime || "5" }} min read</span>
+                        </div>
+                        <p
+                          class="text-gray-600 dark:text-gray-300 line-clamp-2 mb-4"
+                        >
+                          {{ post.description }}
+                        </p>
+                        <div class="mt-auto">
+                          <NuxtLink
+                            :to="post._path"
+                            class="text-primary hover:text-primary-700 dark:hover:text-primary-400 font-medium flex items-center gap-1 transition-colors"
+                          >
+                            Read more
+                            <UIcon name="i-heroicons-arrow-right" class="w-4 h-4" />
+                          </NuxtLink>
+                        </div>
                       </div>
-                      <p
-                        class="text-gray-600 dark:text-gray-300 line-clamp-2 mb-3"
-                      >
-                        {{ post.description }}
-                      </p>
-                      <NuxtLink
-                        :to="post._path"
-                        class="text-primary hover:underline font-medium"
-                      >
-                        Read more
-                      </NuxtLink>
                     </UCard>
                   </div>
                 </div>
