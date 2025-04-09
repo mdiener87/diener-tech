@@ -116,51 +116,11 @@
                   <div
                     class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800"
                   >
-                    <h3
-                      class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200"
-                    >
-                      Share this post
-                    </h3>
-                    <div class="flex gap-4">
-                      <UButton
-                        color="gray"
-                        variant="soft"
-                        icon="i-heroicons-link"
-                        square
-                        @click="copyPageUrl"
-                      />
-                      <UTooltip :text="copySuccess ? 'Copied!' : 'Copy link'">
-                        <div></div>
-                      </UTooltip>
-                      <a
-                        :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                          pageUrl
-                        )}&text=${encodeURIComponent(doc.title)}`"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <UButton color="sky" variant="soft" square>
-                          <UIcon
-                            name="i-heroicons-chat-bubble-oval-left-ellipsis"
-                            class="w-5 h-5"
-                          />
-                        </UButton>
-                      </a>
-                      <a
-                        :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                          pageUrl
-                        )}`"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <UButton color="blue" variant="soft" square>
-                          <UIcon
-                            name="i-heroicons-square-2-stack"
-                            class="w-5 h-5"
-                          />
-                        </UButton>
-                      </a>
-                    </div>
+                    <SocialShareButtons
+                      :url="pageUrl"
+                      :title="doc.title"
+                      :platforms="['copy', 'linkedin']"
+                    />
                   </div>
                 </div>
               </UContainer>
@@ -272,6 +232,7 @@
 import { notFound } from "~/utils/error";
 import { ref, computed, onMounted } from "vue";
 import { useImagePath } from "~/composables/useImagePath";
+import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 
 // Handle 404 errors for non-content routes
 const route = useRoute();
@@ -297,18 +258,7 @@ const pageUrl = computed(() => {
   return fullUrl;
 });
 
-// Copy to clipboard functionality
-const copySuccess = ref(false);
-function copyPageUrl() {
-  if (process.client) {
-    navigator.clipboard.writeText(pageUrl.value).then(() => {
-      copySuccess.value = true;
-      setTimeout(() => {
-        copySuccess.value = false;
-      }, 2000);
-    });
-  }
-}
+
 
 // Format date for blog posts
 function formatDate(dateString: string) {
