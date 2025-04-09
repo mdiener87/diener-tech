@@ -4,8 +4,9 @@ description: "Programming my way to note-keeping harmony"
 date: "4/6/2025"
 category: "technology"
 tags: ["D&D", "records", "scripting", "python", "notion", "campaign management", "data migration", "gaming"]
-titleImage: "return-of-the-notes.png"
+titleImage: "return-of-the-notes-wide.png"
 readingTime: "10"
+featured: true
 ---
 
 ## Overly Elaborate Solutions
