@@ -49,7 +49,7 @@
                           color="amber"
                           variant="solid"
                           size="md"
-                          class="mb-4 flex items-center gap-1"
+                          class="mb-4 inline-flex items-center gap-1"
                         >
                           <UIcon name="i-heroicons-star" class="w-4 h-4" />
                           Featured Post
@@ -196,7 +196,7 @@
                             color="amber" 
                             variant="solid" 
                             size="sm"
-                            class="mt-2 flex items-center gap-1"
+                            class="mt-2 inline-flex items-center gap-1"
                           >
                             <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
                             Featured Post

@@ -55,11 +55,17 @@
                         </UButton>
                         <UButton
                           :variant="showFeaturedOnly ? 'solid' : 'ghost'"
-                          :color="showFeaturedOnly ? 'primary' : 'gray'"
+                          :color="'amber'"
                           size="xs"
-                          class="transition-colors flex-1"
+                          class="transition-colors flex-1 inline-flex items-center justify-center gap-1"
+                          :class="[
+                            showFeaturedOnly 
+                              ? 'text-amber-900 dark:text-amber-100 border-amber-500' 
+                              : 'hover:bg-amber-100 dark:hover:bg-amber-900 text-amber-600 dark:text-amber-400'
+                          ]"
                           @click="onFilterTypeClick('featured')"
                         >
+                          <UIcon name="i-heroicons-star" class="w-3 h-3" />
                           Featured
                         </UButton>
                       </div>
@@ -144,7 +150,7 @@
                   color="amber" 
                   variant="solid" 
                   size="sm"
-                  class="mb-2 self-start flex items-center gap-1"
+                  class="mb-2 self-start inline-flex items-center gap-1"
                 >
                   <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
                   Featured Post
@@ -293,7 +299,7 @@
                       color="amber" 
                       variant="solid" 
                       size="sm"
-                      class="mb-2 flex items-center gap-1"
+                      class="mb-2 inline-flex items-center gap-1"
                     >
                       <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
                       Featured Post
