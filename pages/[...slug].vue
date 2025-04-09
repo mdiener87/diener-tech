@@ -43,15 +43,16 @@
 
                       <!-- Content (Right Side on Desktop) -->
                       <div class="p-6 md:p-8 md:w-2/3 order-1 md:order-2">
-                        <!-- Category -->
+                        <!-- Featured Badge -->
                         <UBadge
-                          v-if="doc.category"
-                          color="primary"
-                          variant="subtle"
+                          v-if="doc.featured"
+                          color="amber"
+                          variant="solid"
                           size="md"
-                          class="mb-4"
+                          class="mb-4 flex items-center gap-1"
                         >
-                          {{ doc.category }}
+                          <UIcon name="i-heroicons-star" class="w-4 h-4" />
+                          Featured Post
                         </UBadge>
 
                         <h1
@@ -143,7 +144,12 @@
                     <UCard
                       v-for="post in relatedPosts"
                       :key="post._path"
-                      class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-200 dark:border-gray-700"
+                      :class="[
+                        'flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full',
+                        post.featured 
+                          ? 'border-2 border-amber-400 dark:border-amber-500 featured-border-glow' 
+                          : 'border border-gray-200 dark:border-gray-700'
+                      ]"
                       :ui="{
                         ring: '',
                         base: 'h-full bg-white dark:bg-gray-900',
@@ -183,6 +189,18 @@
                           <h3 class="text-lg font-semibold mt-4">
                             {{ post.title }}
                           </h3>
+                          
+                          <!-- Featured Post Badge -->
+                          <UBadge 
+                            v-if="post.featured" 
+                            color="amber" 
+                            variant="solid" 
+                            size="sm"
+                            class="mt-2 flex items-center gap-1"
+                          >
+                            <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
+                            Featured Post
+                          </UBadge>
                         </div>
                       </template>
                       <div class="flex flex-col">
@@ -374,6 +392,17 @@ if (!data.value) {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Subtle border animation for featured posts */
+@keyframes borderGlow {
+  0% { border-color: rgba(251, 191, 36, 0.7); }
+  50% { border-color: rgba(251, 191, 36, 1); }
+  100% { border-color: rgba(251, 191, 36, 0.7); }
+}
+
+.featured-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
 }
 
 /* Enhance typography for blog posts */

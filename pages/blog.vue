@@ -103,12 +103,17 @@
       <UContainer>
         <div class="max-w-4xl mx-auto">
           <div class="flex items-center gap-2 mb-4">
-            <UIcon name="i-heroicons-star" class="w-5 h-5 text-amber-500" />
-            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Featured Post</h2>
+            <UIcon name="i-heroicons-clock" class="w-5 h-5 text-primary" />
+            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100">Latest Post</h2>
           </div>
           
           <UCard 
-            class="overflow-hidden border border-gray-200 dark:border-gray-800 hover:shadow-xl transition-shadow duration-300"
+            :class="[
+              'overflow-hidden hover:shadow-xl transition-shadow duration-300',
+              featuredPost.featured
+                ? 'border-2 border-amber-400 dark:border-amber-500 featured-border-glow'
+                : 'border border-gray-200 dark:border-gray-800'
+            ]"
             :ui="{ body: { padding: 'p-0' } }"
           >
             <div class="grid md:grid-cols-5 gap-0">
@@ -133,15 +138,16 @@
               
               <!-- Content -->
               <div class="md:col-span-3 p-6 flex flex-col">
-                <!-- Category Badge -->
+                <!-- Featured Badge (if it's also featured) -->
                 <UBadge 
-                  v-if="featuredPost.category" 
-                  color="primary" 
-                  variant="subtle" 
+                  v-if="featuredPost.featured" 
+                  color="amber" 
+                  variant="solid" 
                   size="sm"
-                  class="mb-2 self-start"
+                  class="mb-2 self-start flex items-center gap-1"
                 >
-                  {{ featuredPost.category }}
+                  <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
+                  Featured Post
                 </UBadge>
                 
                 <h3 class="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
@@ -248,7 +254,12 @@
             <UCard
               v-for="post in filteredPosts"
               :key="post._path"
-              class="flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full border border-gray-200 dark:border-gray-800"
+              :class="[
+                'flex flex-col hover:shadow-lg transition-all duration-300 overflow-hidden h-full',
+                post.featured 
+                  ? 'border-2 border-amber-400 dark:border-amber-500 featured-border-glow'
+                  : 'border border-gray-200 dark:border-gray-800'
+              ]"
               :ui="{ 
                 ring: '', 
                 base: 'h-full',
@@ -276,15 +287,16 @@
                 <!-- Meta section -->
                 <div class="grow flex flex-col">
                   <div class="mb-3">
-                    <!-- Category Badge -->
+                    <!-- Featured Post Badge -->
                     <UBadge 
-                      v-if="post.category" 
-                      color="primary" 
-                      variant="subtle" 
+                      v-if="post.featured" 
+                      color="amber" 
+                      variant="solid" 
                       size="sm"
-                      class="mb-2"
+                      class="mb-2 flex items-center gap-1"
                     >
-                      {{ post.category }}
+                      <UIcon name="i-heroicons-star" class="w-3.5 h-3.5" />
+                      Featured Post
                     </UBadge>
                     
                     <!-- Tags -->
@@ -524,6 +536,17 @@ setPageMeta({
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Subtle border animation for featured posts */
+@keyframes borderGlow {
+  0% { border-color: rgba(251, 191, 36, 0.7); }
+  50% { border-color: rgba(251, 191, 36, 1); }
+  100% { border-color: rgba(251, 191, 36, 0.7); }
+}
+
+.featured-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
 }
 
 .grid > * {
