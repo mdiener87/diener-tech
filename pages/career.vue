@@ -29,24 +29,7 @@
             </UButtonGroup>
           </div>
 
-          <!-- Visualization Type Selector (only shown when Visualizations content type is active) -->
-          <div
-            v-if="activeContentType === 'visualizations'"
-            class="bg-white dark:bg-gray-900 rounded-xl shadow-md p-4 overflow-x-auto card-transition"
-          >
-            <UButtonGroup class="flex-wrap sm:flex-nowrap justify-center">
-              <UButton
-                v-for="(viz, index) in visualizations"
-                :key="viz.id"
-                :color="activeViz === viz.id ? 'primary' : 'gray'"
-                :variant="activeViz === viz.id ? 'solid' : 'ghost'"
-                @click="activeViz = viz.id"
-                class="px-2 sm:px-4 py-2 min-w-max"
-              >
-                {{ viz.label }}
-              </UButton>
-            </UButtonGroup>
-          </div>
+          <!-- Hide visualization options until more are implemented -->
         </div>
       </UContainer>
     </section>
@@ -58,11 +41,8 @@
     >
       <UContainer>
         <div class="max-w-4xl mx-auto text-center">
-          <p
-            class="text-gray-600 dark:text-gray-300"
-            v-if="activeVisualization"
-          >
-            {{ activeVisualization.description }}
+          <p class="text-gray-600 dark:text-gray-300">
+            An interactive visualization of my technical skills and professional experience. Click nodes to expand branches and hover for details.
           </p>
         </div>
       </UContainer>
@@ -77,42 +57,8 @@
         <UCard
           class="overflow-hidden min-h-[800px] border border-gray-200 dark:border-gray-800"
         >
-          <div v-if="activeViz === 'skills'" class="h-full">
+          <div class="h-full">
             <SkillsTree />
-          </div>
-
-          <div
-            v-else-if="activeViz === 'timeline'"
-            class="h-full flex items-center justify-center"
-          >
-            <div class="text-center p-8">
-              <UIcon
-                name="i-heroicons-clock"
-                class="text-5xl mb-4 text-gray-400"
-              />
-              <h3 class="text-xl font-semibold mb-2">Career Timeline</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Coming soon! A chronological visualization of my professional
-                journey.
-              </p>
-            </div>
-          </div>
-
-          <div
-            v-else-if="activeViz === 'projects'"
-            class="h-full flex items-center justify-center"
-          >
-            <div class="text-center p-8">
-              <UIcon
-                name="i-heroicons-rocket-launch"
-                class="text-5xl mb-4 text-gray-400"
-              />
-              <h3 class="text-xl font-semibold mb-2">Project Showcase</h3>
-              <p class="text-gray-600 dark:text-gray-300 mb-4">
-                Coming soon! An interactive showcase of key projects I've worked
-                on.
-              </p>
-            </div>
           </div>
         </UCard>
       </UContainer>
@@ -499,35 +445,8 @@ const contentTypes = [
 // Default active content type
 const activeContentType = ref("visualizations");
 
-// Visualization types
-const visualizations = [
-  {
-    id: "skills",
-    label: "Skills Tree",
-    description:
-      "An interactive visualization of my technical skills and professional experience. Click nodes to expand branches and hover for details.",
-  },
-  {
-    id: "timeline",
-    label: "Career Timeline",
-    description:
-      "A chronological visualization of my professional journey, highlighting key milestones and achievements.",
-  },
-  {
-    id: "projects",
-    label: "Project Showcase",
-    description:
-      "An interactive showcase of key projects I've worked on, highlighting technologies used and outcomes achieved.",
-  },
-];
-
-// Default active visualization
-const activeViz = ref("skills");
-
-// Computed property to get the active visualization details
-const activeVisualization = computed(() =>
-  visualizations.find((viz) => viz.id === activeViz.value)
-);
+// Note: Removed the visualization type selection as we're only showing Skills Tree for now
+// This will be expanded when more visualizations are implemented
 
 // Core skills list with icons
 const coreSkills = [
