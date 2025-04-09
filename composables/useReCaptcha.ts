@@ -17,7 +17,7 @@ export function useReCaptcha() {
   const scriptId = 'recaptcha-script'
   const badgeId = 'recaptcha-badge-container'
 
-  // Cleanup function to remove reCAPTCHA elements from DOM
+  // Enhanced cleanup function to remove reCAPTCHA elements from DOM
   const cleanup = () => {
     if (process.client) {
       // Remove script tag
@@ -32,6 +32,21 @@ export function useReCaptcha() {
         badgeStyle.remove()
       }
       
+      // Aggressively hide any remaining badge elements
+      const badges = document.getElementsByClassName('grecaptcha-badge')
+      if (badges && badges.length > 0) {
+        for (let i = 0; i < badges.length; i++) {
+          const badge = badges[i] as HTMLElement
+          badge.style.visibility = 'hidden'
+          badge.style.opacity = '0'
+          badge.style.display = 'none'
+        }
+      }
+      
+      // Remove any reCAPTCHA iframes
+      const iframes = document.querySelectorAll('iframe[src*="recaptcha"]')
+      iframes.forEach(iframe => iframe.remove())
+      
       // Reset loaded state
       isLoaded.value = false
       isLoading.value = false
@@ -45,6 +60,25 @@ export function useReCaptcha() {
           console.warn('Could not undefine window.grecaptcha')
         }
       }
+      
+      // Add the style back to ensure badges stay hidden
+      setTimeout(() => {
+        const newStyle = document.createElement('style')
+        newStyle.id = 'recaptcha-badge-style'
+        newStyle.textContent = `
+          .grecaptcha-badge { 
+            visibility: hidden !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            left: -9999px !important;
+          }
+        `
+        document.head.appendChild(newStyle)
+      }, 100)
     }
   }
 
@@ -83,18 +117,44 @@ export function useReCaptcha() {
           isLoaded.value = true
           isLoading.value = false
           
-          // Hide the reCAPTCHA badge with CSS instead of DOM manipulation
-          // This is more reliable than trying to move it
+          // Hide the reCAPTCHA badge with aggressive CSS and periodic checks
+          // This ensures it stays hidden even when navigating between pages
           const style = document.createElement('style')
           style.textContent = `
             .grecaptcha-badge { 
               visibility: hidden !important;
               opacity: 0 !important;
               pointer-events: none !important;
+              display: none !important;
+              width: 0 !important;
+              height: 0 !important;
+              position: absolute !important;
+              left: -9999px !important;
             }
           `
           style.id = 'recaptcha-badge-style'
           document.head.appendChild(style)
+          
+          // Set up a periodic check to ensure the badge stays hidden
+          // This handles cases where the badge is recreated after our CSS is applied
+          const ensureBadgeHidden = () => {
+            const badges = document.getElementsByClassName('grecaptcha-badge')
+            if (badges && badges.length > 0) {
+              for (let i = 0; i < badges.length; i++) {
+                const badge = badges[i] as HTMLElement
+                badge.style.visibility = 'hidden'
+                badge.style.opacity = '0'
+                badge.style.display = 'none'
+              }
+            }
+          }
+          
+          // Run immediately
+          ensureBadgeHidden()
+          
+          // Then check periodically for 10 seconds after load
+          const intervalId = setInterval(ensureBadgeHidden, 500)
+          setTimeout(() => clearInterval(intervalId), 10000)
           
           resolve()
         })
