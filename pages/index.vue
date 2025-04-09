@@ -160,77 +160,13 @@
     </section>
 
     <!-- Latest Blog Posts Section -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
-      <UContainer>
-        <div class="flex justify-between items-center mb-8">
-          <div>
-            <h2 class="text-2xl md:text-3xl font-bold mb-2">
-              Latest from the Blog
-            </h2>
-            <p class="text-gray-600 dark:text-gray-400">
-              Thoughts, tutorials, and insights from my development journey.
-            </p>
-          </div>
-          <UButton
-            to="/blog"
-            color="primary"
-            variant="ghost"
-            icon="i-heroicons-arrow-right"
-            icon-right
-          >
-            View All Posts
-          </UButton>
-        </div>
-
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <UCard
-            v-for="post in latestPosts"
-            :key="post._path"
-            class="flex flex-col hover:shadow-lg card-transition"
-          >
-            <template #header>
-              <h3 class="text-xl font-semibold">
-                {{ post.title || "Untitled" }}
-              </h3>
-              <div class="flex items-center gap-2 mt-2 text-sm text-gray-500">
-                <span>{{ formatDate(post.date) }}</span>
-                <span>•</span>
-                <span>{{ post.readingTime || "5" }} min read</span>
-              </div>
-            </template>
-            <p class="mb-4">
-              {{ post.description || "No description available." }}
-            </p>
-            <div class="mt-auto">
-              <NuxtLink
-                :to="post._path"
-                class="inline-block hover:underline font-semibold text-primary"
-              >
-                Read More
-              </NuxtLink>
-            </div>
-          </UCard>
-
-          <UCard
-            v-if="latestPosts.length === 0"
-            class="flex flex-col items-center justify-center p-6"
-          >
-            <UIcon
-              name="i-heroicons-document-text"
-              class="w-12 h-12 text-gray-300 dark:text-gray-600 mb-4"
-            />
-            <h3
-              class="text-lg font-medium text-gray-700 dark:text-gray-300 mb-2"
-            >
-              No posts yet
-            </h3>
-            <p class="text-gray-500 dark:text-gray-400 text-center">
-              Blog posts will appear here once published.
-            </p>
-          </UCard>
-        </div>
-      </UContainer>
-    </section>
+    <BlogPostRecommendations
+      title="Latest from the Blog"
+      subtitle="Thoughts, tutorials, and insights from my development journey."
+      :posts="latestPosts"
+      viewAllLink="/blog"
+      bgClass="bg-gray-50 dark:bg-gray-800 card-transition"
+    />
 
     <!-- Contact CTA Section -->
     <section class="py-12 bg-primary/5 dark:bg-gray-900 card-transition">
@@ -257,13 +193,26 @@
 
 <script setup>
 import { ref } from "vue";
+import BlogPostRecommendations from '~/components/blog/BlogPostRecommendations.vue';
+
+// Import the useImagePath composable
+import { useImagePath } from '~/composables/useImagePath';
+const { resolveBlogImage } = useImagePath();
 
 // Fetch latest blog posts
-const latestPosts = await queryContent("blog")
+const rawLatestPosts = await queryContent("blog")
   .where({ _partial: false })
   .sort({ date: -1 })
   .limit(3)
   .find();
+
+// Process posts to resolve image paths
+const latestPosts = rawLatestPosts.map(post => ({
+  ...post,
+  resolvedTitleImage: post.titleImage 
+    ? resolveBlogImage(post.titleImage, post._path)
+    : undefined
+}));
 
 // Featured project data (placeholder until you build out a projects collection)
 const featuredProject = {
