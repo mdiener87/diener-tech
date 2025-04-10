@@ -43,15 +43,16 @@
 
                       <!-- Content (Right Side on Desktop) -->
                       <div class="p-6 md:p-8 md:w-2/3 order-1 md:order-2">
-                        <!-- Category -->
+                        <!-- Featured Badge -->
                         <UBadge
-                          v-if="doc.category"
-                          color="primary"
-                          variant="subtle"
+                          v-if="doc.featured"
+                          color="amber"
+                          variant="solid"
                           size="md"
-                          class="mb-4"
+                          class="mb-4 inline-flex items-center gap-1"
                         >
-                          {{ doc.category }}
+                          <UIcon name="i-heroicons-star" class="w-4 h-4" />
+                          Featured Post
                         </UBadge>
 
                         <h1
@@ -116,134 +117,25 @@
                   <div
                     class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800"
                   >
-                    <h3
-                      class="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200"
-                    >
-                      Share this post
-                    </h3>
-                    <div class="flex gap-4">
-                      <UButton
-                        color="gray"
-                        variant="soft"
-                        icon="i-heroicons-link"
-                        square
-                        @click="copyPageUrl"
-                      />
-                      <UTooltip :text="copySuccess ? 'Copied!' : 'Copy link'">
-                        <div></div>
-                      </UTooltip>
-                      <a
-                        :href="`https://twitter.com/intent/tweet?url=${encodeURIComponent(
-                          pageUrl
-                        )}&text=${encodeURIComponent(doc.title)}`"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <UButton color="sky" variant="soft" square>
-                          <UIcon
-                            name="i-heroicons-chat-bubble-oval-left-ellipsis"
-                            class="w-5 h-5"
-                          />
-                        </UButton>
-                      </a>
-                      <a
-                        :href="`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-                          pageUrl
-                        )}`"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <UButton color="blue" variant="soft" square>
-                          <UIcon
-                            name="i-heroicons-square-2-stack"
-                            class="w-5 h-5"
-                          />
-                        </UButton>
-                      </a>
-                    </div>
+                    <SocialShareButtons
+                      :url="pageUrl"
+                      :title="doc.title"
+                      :platforms="['copy', 'linkedin']"
+                    />
                   </div>
                 </div>
               </UContainer>
             </section>
 
             <!-- Related Articles Section (if available) -->
-            <section
+            <BlogPostRecommendations
               v-if="relatedPosts.length"
-              class="py-8 bg-gray-50 dark:bg-gray-800"
-            >
-              <UContainer>
-                <div class="max-w-6xl mx-auto">
-                  <h2
-                    class="text-2xl font-bold mb-8 text-gray-900 dark:text-white"
-                  >
-                    You might also like
-                  </h2>
-
-                  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <UCard
-                      v-for="post in relatedPosts"
-                      :key="post._path"
-                      class="hover:shadow-lg transition-all duration-300 overflow-hidden"
-                      :ui="{
-                        header: {
-                          padding: post.titleImage ? 'p-0 pb-4' : 'p-4',
-                        },
-                      }"
-                    >
-                      <template #header>
-                        <!-- Title Image (Clickable) -->
-                        <NuxtLink
-                          :to="post._path"
-                          v-if="post.titleImage"
-                          class="block w-full h-[200px] overflow-hidden mb-3 relative group cursor-pointer"
-                        >
-                          <div
-                            class="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-gray-800"
-                          >
-                            <NuxtImg
-                              :src="resolveRelatedPostImagePath(post)"
-                              :alt="post.title"
-                              class="w-full h-full object-contain transition-transform duration-500 group-hover:scale-105"
-                              loading="lazy"
-                              format="webp"
-                              placeholder
-                            />
-                          </div>
-                          <!-- Hover effect overlay -->
-                          <div
-                            class="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          ></div>
-                        </NuxtLink>
-
-                        <div :class="post.titleImage ? 'px-4' : ''">
-                          <h3 class="text-lg font-semibold">
-                            {{ post.title }}
-                          </h3>
-                        </div>
-                      </template>
-                      <div
-                        class="flex items-center gap-2 text-sm text-gray-500 mb-2"
-                      >
-                        <span>{{ formatDate(post.date) }}</span>
-                        <span>•</span>
-                        <span>{{ post.readingTime || "5" }} min read</span>
-                      </div>
-                      <p
-                        class="text-gray-600 dark:text-gray-300 line-clamp-2 mb-3"
-                      >
-                        {{ post.description }}
-                      </p>
-                      <NuxtLink
-                        :to="post._path"
-                        class="text-primary hover:underline font-medium"
-                      >
-                        Read more
-                      </NuxtLink>
-                    </UCard>
-                  </div>
-                </div>
-              </UContainer>
-            </section>
+              title="You might also like"
+              :posts="relatedPosts"
+              viewAllLink=""
+              bgClass="bg-gray-50 dark:bg-gray-800"
+              readMoreText="Read more"
+            />
           </template>
 
           <!-- Default Content Page Layout -->
@@ -272,6 +164,8 @@
 import { notFound } from "~/utils/error";
 import { ref, computed, onMounted } from "vue";
 import { useImagePath } from "~/composables/useImagePath";
+import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
+import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 
 // Handle 404 errors for non-content routes
 const route = useRoute();
@@ -297,18 +191,7 @@ const pageUrl = computed(() => {
   return fullUrl;
 });
 
-// Copy to clipboard functionality
-const copySuccess = ref(false);
-function copyPageUrl() {
-  if (process.client) {
-    navigator.clipboard.writeText(pageUrl.value).then(() => {
-      copySuccess.value = true;
-      setTimeout(() => {
-        copySuccess.value = false;
-      }, 2000);
-    });
-  }
-}
+
 
 // Format date for blog posts
 function formatDate(dateString: string) {
@@ -337,11 +220,11 @@ const resolvedTitleImage = computed(() => {
 // Fetch related posts for blog posts
 const relatedPosts = ref([]);
 
-// Helper function to resolve image paths for related posts
-function resolveRelatedPostImagePath(post) {
-  if (!post.titleImage) return undefined;
-  return resolveImage(post.titleImage, post._path.replace(/^\//, ''));
-}
+// We don't need this helper function anymore since we're preprocessing the images
+// function resolveRelatedPostImagePath(post) {
+//   if (!post.titleImage) return undefined;
+//   return resolveImage(post.titleImage, post._path.replace(/^\//, ''));
+// }
 
 onMounted(async () => {
   if (isBlogPost.value && data.value) {
@@ -356,10 +239,18 @@ onMounted(async () => {
       .limit(3)
       .find();
 
+    // Preprocess the related posts to resolve image paths
+    const processedRelated = related.map(post => ({
+      ...post,
+      resolvedTitleImage: post.titleImage 
+        ? resolveImage(post.titleImage, post._path.replace(/^\//, ''))
+        : undefined
+    }));
+
     // If we have a category or tags, sort by relevance
     if (category || tags.length) {
       // Score posts by relevance (same category or matching tags)
-      const scored = related.map((post) => {
+      const scored = processedRelated.map((post) => {
         let score = 0;
         if (category && post.category === category) score += 3;
         if (tags.length && post.tags) {
@@ -376,7 +267,7 @@ onMounted(async () => {
       relatedPosts.value = scored.slice(0, 3);
     } else {
       // If no category/tags, just use most recent
-      relatedPosts.value = related.slice(0, 3);
+      relatedPosts.value = processedRelated.slice(0, 3);
     }
   }
 });
@@ -415,6 +306,17 @@ if (!data.value) {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Subtle border animation for featured posts */
+@keyframes borderGlow {
+  0% { border-color: rgba(251, 191, 36, 0.7); }
+  50% { border-color: rgba(251, 191, 36, 1); }
+  100% { border-color: rgba(251, 191, 36, 0.7); }
+}
+
+.featured-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
 }
 
 /* Enhance typography for blog posts */

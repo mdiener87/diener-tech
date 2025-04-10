@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   imports: {
     autoImport: true,
   },
+  css: ["~/assets/css/global.css"],
   modules: [
     "@nuxt/content",
     "@nuxt/ui",

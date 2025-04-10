@@ -227,59 +227,30 @@
     <!-- Featured Blog Posts Section -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
-        <div class="max-w-4xl mx-auto text-center">
+        <div class="max-w-4xl mx-auto text-center mb-8">
           <h2 class="text-3xl font-bold mb-3">My Thoughts</h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+          <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             Get to know me better through my writing. Here are some selected
             articles I've written recently.
           </p>
+        </div>
 
-          <div
-            v-if="latestPosts.length > 0"
-            class="grid md:grid-cols-2 gap-6 mt-8"
-          >
-            <UCard
-              v-for="post in latestPosts"
-              :key="post._path"
-              class="text-left hover:shadow-lg transition-all duration-300"
-            >
-              <template #header>
-                <h3 class="text-xl font-bold">
-                  {{ post.title || "Untitled" }}
-                </h3>
-              </template>
-
-              <p class="text-gray-600 dark:text-gray-400 mb-4 line-clamp-2">
-                {{ post.description || "No description available." }}
-              </p>
-
-              <div class="flex justify-between items-center">
-                <UBadge color="gray" variant="subtle">{{
-                  formatDate(post.date)
-                }}</UBadge>
-                <NuxtLink
-                  :to="post._path"
-                  class="text-primary font-medium hover:underline"
-                >
-                  Read More
-                </NuxtLink>
-              </div>
-            </UCard>
+        <div class="max-w-6xl mx-auto">
+          <BlogPostRecommendations
+            title="From My Blog"
+            subtitle="A collection of articles that reflect my interests, experiences, and technical journey"
+            :posts="latestPosts"
+            viewAllLink="/blog"
+            bgClass=""
+            readMoreText="Read More"
+            noPostsMessage="Blog posts coming soon!"
+          />
+          
+          <div class="text-center mt-8">
+            <UButton to="/blog" color="primary" variant="outline">
+              View All Posts
+            </UButton>
           </div>
-
-          <div v-else class="text-center py-8">
-            <UIcon
-              name="i-heroicons-document-text"
-              class="w-16 h-16 mx-auto text-gray-300 dark:text-gray-700 mb-4"
-            />
-            <p class="text-gray-600 dark:text-gray-400">
-              Blog posts coming soon!
-            </p>
-          </div>
-
-          <UButton to="/blog" color="primary" variant="outline" class="mt-8">
-            View All Posts
-          </UButton>
         </div>
       </UContainer>
     </section>
@@ -323,12 +294,25 @@
 </template>
 
 <script setup>
+import BlogPostRecommendations from '~/components/blog/BlogPostRecommendations.vue';
+// Import the useImagePath composable
+import { useImagePath } from '~/composables/useImagePath';
+const { resolveBlogImage } = useImagePath();
+
 // Fetch latest blog posts for the "My Thoughts" section
-const latestPosts = await queryContent("blog")
+const rawLatestPosts = await queryContent("blog")
   .where({ _partial: false })
   .sort({ date: -1 })
-  .limit(2)
+  .limit(3)
   .find();
+
+// Process posts to resolve image paths
+const latestPosts = rawLatestPosts.map(post => ({
+  ...post,
+  resolvedTitleImage: post.titleImage 
+    ? resolveBlogImage(post.titleImage, post._path)
+    : undefined
+}));
 
 // Format date function
 function formatDate(date) {

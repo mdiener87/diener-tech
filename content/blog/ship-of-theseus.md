@@ -3,8 +3,9 @@ title: "The Ship of Theseus"
 description: "Engineering in the Age of AI"
 date: "2025-03-23"
 category: "technology"
-tags: ["DienerTech", "web", "blogging", "vibe coding", "software engineering", "ai", "philosophy", "singularity", "digital identity"]
+tags: ["ai", "programming", "philosophy", "technology", "future"]
 titleImage: "ship-of-theseus.png"
+featured: true
 ---
 
 ## Catching a Vibe

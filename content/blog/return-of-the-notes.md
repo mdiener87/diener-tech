@@ -3,9 +3,10 @@ title: "The Return of the Notes"
 description: "Programming my way to note-keeping harmony"
 date: "4/6/2025"
 category: "technology"
-tags: ["D&D", "records", "scripting", "python", "notion", "campaign management", "data migration", "gaming"]
-titleImage: "return-of-the-notes.png"
+tags: ["python", "api", "automation", "productivity", "programming"]
+titleImage: "return-of-the-notes-wide.png"
 readingTime: "10"
+
 ---
 
 ## Overly Elaborate Solutions

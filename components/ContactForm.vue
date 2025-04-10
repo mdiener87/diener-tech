@@ -165,6 +165,7 @@
             <div><span class="font-medium">Secret Key:</span> {{ recaptchaStatusData.hasSecretKey ? '✓' : '✗' }} (length: {{ recaptchaStatusData.secretKeyLength }})</div>
             <div><span class="font-medium">Client Status:</span> {{ isLoaded ? 'Loaded ✓' : 'Not Loaded ✗' }}</div>
             <div><span class="font-medium">Site Key Prefix:</span> {{ recaptchaStatusData.siteKeyPrefix || 'N/A' }}</div>
+            <div><span class="font-medium">Badge Status:</span> Hidden (using disclaimer text instead)</div>
           </div>
         </div>
       </details>
