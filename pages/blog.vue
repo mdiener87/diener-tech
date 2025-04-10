@@ -256,6 +256,14 @@
         
         <!-- Posts Grid -->
         <div v-if="filteredPosts.length">
+            <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
+              More from the Blog
+            </h2>
+            <p class="text-gray-600 dark:text-gray-400">
+              Featured posts, personal insights, or just something worth reading — explore the latest below.
+            </p>
+            </div>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <UCard
               v-for="post in filteredPosts"
