@@ -1,108 +1,92 @@
-# Nuxt Minimal Starter
+# DienerTech
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+This repository contains the code for [DienerTech](https://www.diener.tech), my personal website and blog.
 
-## Setup
+![DienerTech Screenshot](/public/website-screenshot.png)
 
-Make sure to install dependencies:
+## About
 
-```bash
-# npm
-npm install
+DienerTech is my personal platform for sharing technical deep dives, reflections on software engineering, and creative projects. The site is built using modern web technologies, focusing on performance, accessibility, and design.
 
-# pnpm
-pnpm install
+## Technologies
 
-# yarn
-yarn install
+- **Framework**: [Nuxt 3](https://nuxt.com/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Content**: [Nuxt Content](https://content.nuxtjs.org/)
+- **Deployment**: Cloudflare Pages
+- **Analytics**: Cloudflare Analytics
 
-# bun
-bun install
-```
+## Development Setup
 
-## Environment Setup
+### Prerequisites
 
-This project uses environment variables for sensitive configuration. To set up your environment:
+- Node.js (v18+)
+- npm or yarn
 
-1. Copy the example environment file:
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/diener-tech.git
+   cd diener-tech
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Configure environment variables:
    ```bash
    cp .env.example .env
    ```
+   Then edit `.env` with your specific configuration.
 
-2. Edit `.env` and update the values:
+4. Start the development server:
    ```bash
-   # Required for analytics
-   NUXT_PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN=your-actual-token
+   npm run dev
    ```
 
-> **Note**: Never commit the `.env` file to version control. It's already in `.gitignore`.
+The site will be available at `http://localhost:3000`.
 
+### Image Metadata Hygiene
 
-## 🧼 Git Metadata Hygiene
-
-This project uses [`pre-commit`](https://pre-commit.com) to automatically strip EXIF metadata (e.g., GPS, camera info) from images before they are committed.
-
-### Setup
-
-1. Install `pre-commit` (Python 3 required):
-
-   ```bash
-   pip install pre-commit
-   pre-commit install
-   ```
-
-
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+This project uses `pre-commit` to automatically strip EXIF metadata from images before committing them:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+# Install pre-commit (Python 3 required)
+pip install pre-commit
+pre-commit install
 ```
 
-## Production
+## Project Structure
 
-Build the application for production:
+- `/content/blog/` - Blog posts written in Markdown
+- `/components/` - Vue components
+- `/pages/` - Application pages
+- `/public/` - Static assets
+- `/assets/` - CSS and other processed assets
 
-```bash
-# npm
-npm run build
+## Contributing
 
-# pnpm
-pnpm build
+Contributions are welcome! This project is open-sourced to:
 
-# yarn
-yarn build
+- Serve as a learning resource for others building personal websites
+- Allow community improvements to the platform (not the content)
+- Encourage best practices through collaborative development
 
-# bun
-bun run build
-```
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
 
-Locally preview production build:
+**Note:** While the codebase is open-source under the MIT license, all blog content is copyrighted. See [LICENSE](LICENSE) for details.
 
-```bash
-# npm
-npm run preview
+## Deployment
 
-# pnpm
-pnpm preview
+The site is deployed to Cloudflare Pages. Any push to the main branch will trigger a new build and deployment.
 
-# yarn
-yarn preview
+## License
 
-# bun
-bun run preview
-```
+This project has a dual license:
+- **Code**: MIT License
+- **Content**: Copyright © 2025 Michael Diener, all rights reserved
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+See the [LICENSE](LICENSE) file for details.
