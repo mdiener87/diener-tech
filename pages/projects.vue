@@ -360,7 +360,7 @@ const otherProjects: Project[] = [
       "Convert your exported Google Keep notes (from Google Takeout) into clean, import-ready Markdown and HTML files for use in Notion — complete with OCR image processing and optional ChatGPT formatting.",
     technologies: ["Python", "pytesseract", "asyncio", "chatgpt"],
     image: "/images/projects/gkeep-to-notion.png",
-    githubUrl: "https://github.com/mdiener87/python-scripts",
+    githubUrl: "https://github.com/mdiener87/gkeep-to-notion",
     type: "Backend",
   },
 ];
