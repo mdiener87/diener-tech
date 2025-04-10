@@ -4,7 +4,7 @@ description: "Programming my way to note-keeping harmony"
 date: "4/6/2025"
 category: "technology"
 tags: ["python", "api", "automation", "productivity", "programming"]
-titleImage: "return-of-the-notes-wide.png"
+titleImage: "return-of-the-notes.png"
 readingTime: "10"
 
 ---

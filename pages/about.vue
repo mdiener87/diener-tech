@@ -111,9 +111,7 @@
     <!-- Beyond Coding Section (Expanded) -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
-        <h2 class="text-3xl font-bold mb-10 text-center">
-          Beyond Coding
-        </h2>
+        <h2 class="text-3xl font-bold mb-10 text-center">Beyond Coding</h2>
 
         <div class="grid md:grid-cols-3 gap-8">
           <!-- Gaming & D&D Card -->
@@ -134,19 +132,30 @@
 
             <div class="space-y-4">
               <p class="text-gray-700 dark:text-gray-300">
-                I've been an avid Dungeon Master for over a decade, running rich, narrative-driven campaigns that blend strategy, storytelling, and collaborative worldbuilding.
+                I've been an avid Dungeon Master for over a decade, running
+                rich, narrative-driven campaigns that blend strategy,
+                storytelling, and collaborative worldbuilding.
               </p>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-bolt" class="w-5 h-5 text-purple-500" />
+                <UIcon
+                  name="i-heroicons-bolt"
+                  class="w-5 h-5 text-purple-500"
+                />
                 <span>Homebrew campaign creator</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-puzzle-piece" class="w-5 h-5 text-purple-500" />
-                <span>Strategy & board game enthusiast</span>
+                <UIcon
+                  name="i-heroicons-puzzle-piece"
+                  class="w-5 h-5 text-purple-500"
+                />
+                <span>Strategy, space, and mecha enthusiast</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-computer-desktop" class="w-5 h-5 text-purple-500" />
-                <span>PC gaming & simulation experiences</span>
+                <UIcon
+                  name="i-heroicons-computer-desktop"
+                  class="w-5 h-5 text-purple-500"
+                />
+                <span>PC gaming & VR simulation experiences</span>
               </div>
             </div>
           </UCard>
@@ -169,19 +178,24 @@
 
             <div class="space-y-4">
               <p class="text-gray-700 dark:text-gray-300">
-                Living in Colorado provides endless opportunities to explore the outdoors. I'm passionate about hiking, fitness, and experiencing natural wonders.
+                Living in Colorado provides endless opportunities to explore the
+                outdoors. I'm passionate about hiking, fitness, and experiencing
+                natural wonders.
               </p>
               <div class="flex items-center gap-2">
                 <UIcon name="i-heroicons-map" class="w-5 h-5 text-blue-500" />
-                <span>14er peak climbing</span>
+                <span>Hiking and camping</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-arrow-trending-up" class="w-5 h-5 text-blue-500" />
+                <UIcon
+                  name="i-heroicons-arrow-trending-up"
+                  class="w-5 h-5 text-blue-500"
+                />
                 <span>Weightlifting & strength training</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-camera" class="w-5 h-5 text-blue-500" />
-                <span>Nature photography</span>
+                <UIcon name="i-heroicons-bolt" class="w-5 h-5 text-blue-500" />
+                <span>Boxing, running - let's get moving</span>
               </div>
             </div>
           </UCard>
@@ -204,18 +218,25 @@
 
             <div class="space-y-4">
               <p class="text-gray-700 dark:text-gray-300">
-                I enjoy merging technology with creativity through various hands-on projects and continuous learning.
+                I enjoy merging technology with creativity through various
+                hands-on projects and continuous learning.
               </p>
               <div class="flex items-center gap-2">
                 <UIcon name="i-heroicons-cube" class="w-5 h-5 text-green-500" />
                 <span>3D printing & modeling</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-academic-cap" class="w-5 h-5 text-green-500" />
+                <UIcon
+                  name="i-heroicons-academic-cap"
+                  class="w-5 h-5 text-green-500"
+                />
                 <span>Learning game development</span>
               </div>
               <div class="flex items-center gap-2">
-                <UIcon name="i-heroicons-beaker" class="w-5 h-5 text-green-500" />
+                <UIcon
+                  name="i-heroicons-beaker"
+                  class="w-5 h-5 text-green-500"
+                />
                 <span>Experimenting with AI tools</span>
               </div>
             </div>
@@ -245,12 +266,6 @@
             readMoreText="Read More"
             noPostsMessage="Blog posts coming soon!"
           />
-          
-          <div class="text-center mt-8">
-            <UButton to="/blog" color="primary" variant="outline">
-              View All Posts
-            </UButton>
-          </div>
         </div>
       </UContainer>
     </section>
@@ -294,9 +309,9 @@
 </template>
 
 <script setup>
-import BlogPostRecommendations from '~/components/blog/BlogPostRecommendations.vue';
+import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 // Import the useImagePath composable
-import { useImagePath } from '~/composables/useImagePath';
+import { useImagePath } from "~/composables/useImagePath";
 const { resolveBlogImage } = useImagePath();
 
 // Fetch latest blog posts for the "My Thoughts" section
@@ -307,11 +322,11 @@ const rawLatestPosts = await queryContent("blog")
   .find();
 
 // Process posts to resolve image paths
-const latestPosts = rawLatestPosts.map(post => ({
+const latestPosts = rawLatestPosts.map((post) => ({
   ...post,
-  resolvedTitleImage: post.titleImage 
+  resolvedTitleImage: post.titleImage
     ? resolveBlogImage(post.titleImage, post._path)
-    : undefined
+    : undefined,
 }));
 
 // Format date function
