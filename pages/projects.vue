@@ -160,7 +160,6 @@
                   color="gray"
                   variant="soft"
                   icon="i-simple-icons-github"
-                  disabled
                 >
                   View Project
                 </UButton>
@@ -240,7 +239,6 @@
               variant="soft"
               size="sm"
               icon="i-heroicons-arrow-top-right-on-square"
-              disabled
               >
               View Project
               </UButton>

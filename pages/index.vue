@@ -137,7 +137,6 @@
                   color="gray"
                   variant="ghost"
                   icon="i-heroicons-code-bracket"
-                  disabled
                 >
                   GitHub
                 </UButton>
