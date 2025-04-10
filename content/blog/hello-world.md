@@ -3,9 +3,8 @@ title: "Hello World"
 description: "An introduction to my personal website."
 date: "2025-03-16"
 category: "technology"
-tags: ["DienerTech", "web", "blogging", "personal journey", "software engineering", "career", "dev blog", "self-reflection"]
+tags: ["webdev", "programming", "career", "blogging", "introduction"]
 titleImage: "hello-world.png"
-featured: true
 ---
 
 
