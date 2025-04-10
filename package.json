@@ -1,7 +1,23 @@
 {
   "name": "diener-tech",
+  "version": "1.0.0",
+  "description": "Personal website and blog showcasing software development, creative projects, and technical insights",
   "private": true,
   "type": "module",
+  "author": "Michael Diener",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://diener.tech",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mdiener87/diener-tech"
+  },
+  "keywords": [
+    "blog",
+    "personal-website",
+    "nuxt",
+    "vue",
+    "software-engineering"
+  ],
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
