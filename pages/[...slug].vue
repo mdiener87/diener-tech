@@ -96,6 +96,13 @@
                             {{ tag }}
                           </UBadge>
                         </div>
+                        <!-- Subtitle / Description -->
+                        <p
+                          v-if="doc.description"
+                          class="text-lg text-gray-700 dark:text-gray-300 my-4"
+                        >
+                          {{ doc.description }}
+                        </p>
                       </div>
                     </div>
                   </UCard>
@@ -219,12 +226,6 @@ const resolvedTitleImage = computed(() => {
 
 // Fetch related posts for blog posts
 const relatedPosts = ref([]);
-
-// We don't need this helper function anymore since we're preprocessing the images
-// function resolveRelatedPostImagePath(post) {
-//   if (!post.titleImage) return undefined;
-//   return resolveImage(post.titleImage, post._path.replace(/^\//, ''));
-// }
 
 onMounted(async () => {
   if (isBlogPost.value && data.value) {
