@@ -312,6 +312,8 @@
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 // Import the useImagePath composable
 import { useImagePath } from "~/composables/useImagePath";
+import { formatDate as formatDateUtil } from "~/utils/dateFormatter";
+
 const { resolveBlogImage } = useImagePath();
 
 // Fetch latest blog posts for the "My Thoughts" section
@@ -332,11 +334,7 @@ const latestPosts = rawLatestPosts.map((post) => ({
 // Format date function
 function formatDate(date) {
   if (!date) return "";
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  return formatDateUtil(date, { month: "short" });
 }
 
 // Add SEO metadata

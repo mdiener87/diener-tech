@@ -469,6 +469,7 @@
 
 <script setup lang="ts">
 import { useImagePath } from "~/composables/useImagePath";
+import { formatDate as formatDateUtil } from "~/utils/dateFormatter";
 
 interface BlogPost {
   _path: string;
@@ -604,12 +605,9 @@ function resetFilters() {
   showFeaturedOnly.value = false;
 }
 
+// Remove the local formatDate function since it's causing recursion
 function formatDate(date: string) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  return formatDateUtil(date);
 }
 
 // Add SEO metadata
