@@ -1,7 +1,7 @@
 ---
 title: "Shipping Day"
 description: "Taking DienerTech from Localhost to Launch"
-date: "05/06/2025"
+date: "2025-06-05"
 category: "DienerTech"
 tags: []
 titleImage: "shipping-day.png"
@@ -56,9 +56,9 @@ The other takeaway is that my girlfriend was right - this website *was* ready to
 
 I've taken a short, but well earned reprieve following the launch, and subsequent updates, of DienerTech. As I look towards my next projects, there are several that I'm cooking up:
 
-**Docker & Local AI Inference** - How to build your very own AI Lab! 
-**Project Triskelyon** - My most ambitious project to date! An orchestration platform for Agentic AI. 
-**DienerTech LLC** - It's not just a website - we've gone corporate! 
+- **Docker & Local AI Inference** - How to build your very own AI Lab! 
+- **Project Triskelyon** - My most ambitious project to date! An orchestration platform for Agentic AI. 
+- **DienerTech LLC** - It's not just a website - we've gone corporate! 
 
 If any of that sounds interesting, stick around - there’s plenty more coming.
 
