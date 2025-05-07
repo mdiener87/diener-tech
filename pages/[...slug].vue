@@ -173,6 +173,22 @@ import { ref, computed, onMounted } from "vue";
 import { useImagePath } from "~/composables/useImagePath";
 import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
+import { formatDate } from '~/utils/dateFormatter';
+
+// Add interfaces at the top of the script section
+interface BlogPost {
+  _path: string;
+  title?: string;
+  description?: string;
+  date: string;
+  category?: string;
+  tags?: string[];
+  readingTime?: number;
+  titleImage?: string;
+  resolvedTitleImage?: string;
+  featured?: boolean;
+  _id: string;
+}
 
 // Handle 404 errors for non-content routes
 const route = useRoute();
@@ -188,28 +204,11 @@ const { resolveImage } = useImagePath();
 
 // Page URL for social sharing
 const pageUrl = computed(() => {
-  // if (process.client) {
-  //   return window.location.href;
-  // }
-  // return `https://diener.tech/${slug}`;
   const requestURL = useRequestURL();
   const baseUrl = `${requestURL.protocol}//${requestURL.host}`;
   const fullUrl = `${baseUrl}${useRoute().path}`;
   return fullUrl;
 });
-
-
-
-// Format date for blog posts
-function formatDate(dateString: string) {
-  if (!dateString) return "";
-  const date = new Date(dateString);
-  return date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
 
 // Check if this is a content route
 const { data } = await useAsyncData(`content-${slug}`, () => {
@@ -225,7 +224,7 @@ const resolvedTitleImage = computed(() => {
 });
 
 // Fetch related posts for blog posts
-const relatedPosts = ref([]);
+const relatedPosts = ref<BlogPost[]>([]);
 
 onMounted(async () => {
   if (isBlogPost.value && data.value) {
@@ -234,7 +233,7 @@ onMounted(async () => {
     const tags = data.value.tags || [];
 
     // Query posts with same category or tags, excluding current post
-    const related = await queryContent("blog")
+    const related = await queryContent<BlogPost>("blog")
       .where({ _partial: false, _path: { $ne: `/${slug}` } })
       .sort({ date: -1 })
       .limit(3)
@@ -243,7 +242,7 @@ onMounted(async () => {
     // Preprocess the related posts to resolve image paths
     const processedRelated = related.map(post => ({
       ...post,
-      resolvedTitleImage: post.titleImage 
+      resolvedTitleImage: post.titleImage && post._path
         ? resolveImage(post.titleImage, post._path.replace(/^\//, ''))
         : undefined
     }));
@@ -255,7 +254,7 @@ onMounted(async () => {
         let score = 0;
         if (category && post.category === category) score += 3;
         if (tags.length && post.tags) {
-          const matchingTags = post.tags.filter((tag) => tags.includes(tag));
+          const matchingTags = post.tags.filter((t: string) => tags.includes(t));
           score += matchingTags.length;
         }
         return { ...post, score };
@@ -263,7 +262,8 @@ onMounted(async () => {
 
       // Sort by relevance score (high to low), then by date
       scored.sort(
-        (a, b) => b.score - a.score || new Date(b.date) - new Date(a.date)
+        (a, b) => (b.score as number) - (a.score as number) || 
+          (new Date(b.date).getTime() - new Date(a.date).getTime())
       );
       relatedPosts.value = scored.slice(0, 3);
     } else {

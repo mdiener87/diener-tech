@@ -198,6 +198,9 @@ import BlogPostRecommendations from '~/components/blog/BlogPostRecommendations.v
 import { useImagePath } from '~/composables/useImagePath';
 const { resolveBlogImage } = useImagePath();
 
+// Import the unified date formatter
+import { formatDate } from '~/utils/dateFormatter';
+
 // Fetch latest blog posts
 const rawLatestPosts = await queryContent("blog")
   .where({ _partial: false })
@@ -225,15 +228,6 @@ const featuredProject = {
   githubUrl: "https://github.com/mdiener87/diener-tech",
   img: "/images/projects/diener-tech.png",
 };
-
-// Format date function
-function formatDate(date) {
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
 
 // SEO metadata
 const { setPageMeta } = useSeo();
