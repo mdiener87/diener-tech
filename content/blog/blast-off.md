@@ -5,6 +5,7 @@ date: "2025-05-07"
 category: "projects"
 tags: ["blogging", "webdev", "career", "productivity", "programming"]
 titleImage: "blast-off.png"
+shareImage: "blast-off-wide.png"
 readingTime: "5"
 ---
 

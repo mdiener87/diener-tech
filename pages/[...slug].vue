@@ -223,6 +223,11 @@ const resolvedTitleImage = computed(() => {
   return resolveImage(data.value.titleImage);
 });
 
+const resolvedShareImage = computed(() => {
+  if (data.value?.shareImage) return resolveImage(data.value.shareImage);
+  return resolvedTitleImage.value;
+});
+
 // Fetch related posts for blog posts
 const relatedPosts = ref<BlogPost[]>([]);
 
@@ -281,7 +286,7 @@ if (data.value && isBlogPost.value) {
     title: data.value.title || "Blog Post",
     description: data.value.description || "Blog post on DienerTech",
     type: "article",
-    image: resolvedTitleImage.value,
+    image: resolvedShareImage.value,
     publishedTime: data.value.date,
     tags: data.value.tags,
   });
