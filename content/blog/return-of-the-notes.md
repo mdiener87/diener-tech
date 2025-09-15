@@ -3,7 +3,7 @@ title: "The Return of the Notes"
 description: "Programming my way to note-keeping harmony"
 date: "2025-04-06"
 category: "technology"
-tags: ["python", "api", "automation", "productivity", "programming"]
+tags: ["python", "api", "automation", "productivity", "programming", "D&D"]
 titleImage: "return-of-the-notes-wide.png"
 readingTime: "10"
 
