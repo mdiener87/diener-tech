@@ -82,11 +82,13 @@
               <div
                 class="aspect-video w-full bg-primary/10 rounded-lg flex items-center justify-center"
               >
-                <UIcon
-                  name="i-heroicons-code-bracket-square"
-                  class="w-16 h-16 text-primary/50"
+                <NuxtImg
+                  :src="featuredProject.img"
+                  alt="Featured Project"
+                  width="438"
+                  height="338"
+                  class="rounded-lg"
                 />
-                <NuxtImg :src="featuredProject.img" alt="Featured Project" width="600" height="338" class="rounded-lg" />
               </div>
             </div>
 
@@ -192,14 +194,14 @@
 
 <script setup>
 import { ref } from "vue";
-import BlogPostRecommendations from '~/components/blog/BlogPostRecommendations.vue';
+import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 
 // Import the useImagePath composable
-import { useImagePath } from '~/composables/useImagePath';
+import { useImagePath } from "~/composables/useImagePath";
 const { resolveBlogImage } = useImagePath();
 
 // Import the unified date formatter
-import { formatDate } from '~/utils/dateFormatter';
+import { formatDate } from "~/utils/dateFormatter";
 
 // Fetch latest blog posts
 const rawLatestPosts = await queryContent("blog")
@@ -209,24 +211,23 @@ const rawLatestPosts = await queryContent("blog")
   .find();
 
 // Process posts to resolve image paths
-const latestPosts = rawLatestPosts.map(post => ({
+const latestPosts = rawLatestPosts.map((post) => ({
   ...post,
-  resolvedTitleImage: post.titleImage 
+  resolvedTitleImage: post.titleImage
     ? resolveBlogImage(post.titleImage, post._path)
-    : undefined
+    : undefined,
 }));
 
 // Featured project data (placeholder until you build out a projects collection)
 const featuredProject = {
-  title: "Personal Portfolio Website",
+  title: "Frame Finder",
   description:
-    "A modern, responsive personal website built with Nuxt 3 and Tailwind CSS showcasing projects and blog content with dark mode support.",
-  technologies: ["Vue.js", "Nuxt 3", "Tailwind CSS", "Cloudflare"],
+    "Utilize reference images to locate their occurrence within videos",
+  technologies: ["Flask", "Python", "OpenCV", "FFmpeg"],
   additionalInfo:
-    "This project includes content management, responsive design, and SEO optimization.",
-  demoUrl: "https://diener.tech",
-  githubUrl: "https://github.com/mdiener87/diener-tech",
-  img: "/images/projects/diener-tech.png",
+    "Featuring advanced image processing techniques, this tool helps users find specific frames in videos using reference images. Ideal for video editors and content creators.",
+  githubUrl: "https://github.com/mdiener87/frame-finder",
+  img: "/projects/frame-finder-logo.png",
 };
 
 // SEO metadata
