@@ -5,8 +5,10 @@ date: "2025-09-14"
 category: "technology"
 tags:
   ["ai", "machine learning", "computer vision", "fandom", "sci-fi", "star trek"]
-titleImage: "the-artificial-intelligence-conspiracy.png"
+titleImage: "the-artificial-intelligence-conspiracy-voyager-wide.png"
 readingTime: "10"
+featured: true
+
 ---
 
 ## Fall Vibes

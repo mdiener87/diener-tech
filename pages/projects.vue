@@ -44,9 +44,6 @@
           <p class="text-gray-600 dark:text-gray-400">
             Key projects that showcase my technical skills and creative approach
           </p>
-          <p class="text-gray-600 dark:text-gray-400 italic">
-            GitHub repositories will be available soon!
-          </p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
@@ -58,11 +55,11 @@
           >
             <!-- Project Image -->
             <div class="relative overflow-hidden project-image-container">
-              <img
+                <NuxtImg
                 :src="project.image || '/images/default-social.svg'"
                 :alt="project.title"
-                class="w-full h-64 object-cover project-image transition-all duration-500"
-              />
+                class="w-full h-full object-contain project-image transition-all duration-500"
+                />
 
               <!-- Overlay with tech stack -->
               <div
@@ -182,35 +179,35 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-6">
-            <UCard
+          <UCard
             v-for="project in filteredOtherProjects"
             :key="project.id"
             class="other-project-card flex flex-col h-full hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-            >
+          >
             <template #header>
               <div class="flex justify-between items-center">
-              <UBadge
-                :color="getProjectTypeColor(project.type || 'Experiment')"
-                variant="subtle"
-              >
-                {{ project.type || "Experiment" }}
-              </UBadge>
+                <UBadge
+                  :color="getProjectTypeColor(project.type || 'Experiment')"
+                  variant="subtle"
+                >
+                  {{ project.type || "Experiment" }}
+                </UBadge>
               </div>
               <div class="flex gap-4 items-center mt-3">
-              <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
-                <NuxtImg
-                v-if="project.image"
-                :src="project.image"
-                :alt="project.title"
-                class="w-full h-full object-cover"
-                />
-                <UIcon
-                v-else
-                name="i-heroicons-code-bracket-square"
-                class="w-full h-full text-gray-400 dark:text-gray-600 p-3"
-                />
-              </div>
-              <h3 class="text-xl font-bold">{{ project.title }}</h3>
+                <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
+                  <NuxtImg
+                    v-if="project.image"
+                    :src="project.image"
+                    :alt="project.title"
+                    class="w-full h-full object-cover"
+                  />
+                  <UIcon
+                    v-else
+                    name="i-heroicons-code-bracket-square"
+                    class="w-full h-full text-gray-400 dark:text-gray-600 p-3"
+                  />
+                </div>
+                <h3 class="text-xl font-bold">{{ project.title }}</h3>
               </div>
             </template>
 
@@ -220,30 +217,30 @@
 
             <div class="flex flex-wrap gap-2 mb-6">
               <UBadge
-              v-for="tech in project.technologies"
-              :key="tech"
-              :color="getBadgeColor(tech)"
-              variant="subtle"
-              size="xs"
+                v-for="tech in project.technologies"
+                :key="tech"
+                :color="getBadgeColor(tech)"
+                variant="subtle"
+                size="xs"
               >
-              {{ tech }}
+                {{ tech }}
               </UBadge>
             </div>
 
             <div class="mt-auto flex gap-3">
               <UButton
-              v-if="project.url || project.githubUrl"
-              :to="project.url || project.githubUrl"
-              target="_blank"
-              color="gray"
-              variant="soft"
-              size="sm"
-              icon="i-heroicons-arrow-top-right-on-square"
+                v-if="project.url || project.githubUrl"
+                :to="project.url || project.githubUrl"
+                target="_blank"
+                color="gray"
+                variant="soft"
+                size="sm"
+                icon="i-heroicons-arrow-top-right-on-square"
               >
-              View Project
+                View Project
               </UButton>
             </div>
-            </UCard>
+          </UCard>
         </div>
 
         <!-- Project availability notice -->
@@ -333,6 +330,22 @@ const selectedCategory = ref("All");
 // Enhanced featured projects with more details
 const featuredProjects: Project[] = [
   {
+    id: 2,
+    title: "Frame Finder",
+    description:
+      "Utilize reference images to locate their occurrence within videos",
+    image: "/projects/frame-finder-logo.png",
+    technologies: ["Flask", "Python", "OpenCV", "FFmpeg"],
+    githubUrl: "https://github.com/mdiener87/frame-finder",
+    type: "Web",
+    highlights: [
+      "Accurate frame matching using advanced image processing",
+      "User-friendly web interface for uploading and managing videos",
+      "Efficient processing with asynchronous task handling and GPU acceleration",
+      "Detailed results with timestamps and extracted images from matching frames",
+    ],
+  },
+  {
     id: 1,
     title: "DienerTech Personal Website",
     description:
@@ -348,7 +361,7 @@ const featuredProjects: Project[] = [
       "Interactive data visualization with D3.js",
       "Content management system for blog posts",
     ],
-  }
+  },
 ];
 
 // Enhanced other projects with more details and types
