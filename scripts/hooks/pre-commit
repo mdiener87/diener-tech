@@ -6,7 +6,7 @@ LOG_FILE="$REPO_ROOT/pre-commit.log"
 
 echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') — 🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
 
-STAGED_IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(jpg|jpeg|png)$')
+STAGED_IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(jpg|jpeg|png|webp)$')
 
 for file in $STAGED_IMAGES; do
   if [ -f "$file" ]; then
