@@ -3,7 +3,7 @@
 
 set -e
 
-IMG_DIR="../../public/images"
+IMG_DIR="../../public/"
 
 printf "%-30s %12s %12s %10s\n" "File" "Original" "WebP" "Savings"
 

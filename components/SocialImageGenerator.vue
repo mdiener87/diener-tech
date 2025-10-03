@@ -26,7 +26,7 @@ onMounted(async () => {
     
     // You can download or use this image data
     const link = document.createElement('a');
-    link.download = 'default-social.jpg';
+    link.download = 'default-social.webp';
     link.href = imageData;
     link.click();
   }

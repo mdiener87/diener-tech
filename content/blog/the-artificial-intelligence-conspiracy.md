@@ -5,7 +5,7 @@ date: "2025-09-14"
 category: "technology"
 tags:
   ["ai", "machine learning", "computer vision", "fandom", "sci-fi", "star trek"]
-titleImage: "the-artificial-intelligence-conspiracy-voyager-wide.png"
+titleImage: "the-artificial-intelligence-conspiracy-voyager-wide.webp"
 readingTime: "10"
 featured: true
 
@@ -20,7 +20,7 @@ I have a personal bit of fan headcanon involving Voyager. It begins in a late Se
 One of the think tank’s members always stood out to me: the so-called “Artificial Intelligence.” While it had very little screen time in its debut, the prop would show up several more times throughout the series. Here begins my fan conspiracy theory - and unlike Janeway, I wasn’t about to solve it the reasonable way!
 
 <BlogImage
-  src="artificial-intelligence.png"
+  src="artificial-intelligence.webp"
   alt="It's giving 'naming your Squirtle, Squirtle' energy"
   max-height="400px">
 </BlogImage>
@@ -32,7 +32,7 @@ This is where I get out my red ball of twine and start to make a mess of my offi
 Whatever the case, it is clearly successful - the Artificial Intelligence can be found again and again in the background of Voyager episodes. While its final vengeance will prove elusive, the Artificial Intelligence proves determined in its cause.
 
 <BlogImage
-  src="conspiracy-theory-guy-meme.jpg"
+  src="conspiracy-theory-guy-meme.webp"
   alt="I haven't even mentioned the Vidiians yet"
   max-height="300px">
 </BlogImage>
@@ -46,7 +46,7 @@ Call this the reasonable approach.
 Or... I could take an entirely unreasonable approach. In the search for Artificial Intelligence, I could employ my own, modern, AI, using computer vision to hunt the Artificial Intelligence itself. This would elevate the quest from mere fan-theory to _ironical overkill_, and that's the best kind of fandom! A Trekkie, looking to prove his obscure fan theory involving AIs, _with_ AI? Beam me on up!
 
 <BlogImage
-  src="tuvix.jpg"
+  src="tuvix.webp"
   alt="Just don't beam up poor Tuvix"
   max-height="400px">
 </BlogImage>
@@ -59,7 +59,7 @@ This fan theory has led me to create [Frame Finder](https://github.com/mdiener87
   name="Frame Finder" 
   url="https://github.com/mdiener87/frame-finder"
   description="Utilize reference images to locate their occurrence within videos"
-  src="/projects/frame-finder-logo.png">
+  src="/projects/frame-finder-logo.webp">
 </GithubProject>
 
 <details>
@@ -82,7 +82,7 @@ At the outset of this project, I made use of Qwen 3 Coder with Kilo Code plugin.
 Using [ffmpeg](https://ffmpeg.org/) (a powerful utility for working with video files), I had extracted two short clips from the _Think Tank_ episode. These would serve as a positive and negative control test for the analysis logic. Ideally, the positive test case would result in a very high confidence match, while the negative test case would result in a very low confidence test match. In practice, I was finding that the confidence values of both tests were practically identical:
 
 <BlogImage
-  src="frame-finder-ambiguous-analysis.png"
+  src="frame-finder-ambiguous-analysis.webp"
   alt="These results aren't very useful at all"
   max-height="400px">
 </BlogImage>
@@ -92,7 +92,7 @@ It doesn't matter if the rest of the Flask app worked perfectly - if the analysi
 In our search for the Artificial Intelligence, this project also underlined the danger on programming that relies on Artificial Intelligence. When I built [DienerTech](http://diener.tech), I made use of 'vibe coding'. As a software engineer with years of web dev experience, I already knew what libraries I wanted to use, how they should interact, and could quickly review any AI code for accuracy and completeness. By contrast, the analysis logic for Frame Finder was _Vibe Coding_. I haven't written feature extraction and image comparison logic before. I don't know what the fundamental principles behind such algorithms are. Each time I had the AI create a new algorithm from scratch, it all looked the same to me: plausible. I had truly entered the truth of this meme:
 
 <BlogImage
-  src="my-code-works.jpg"
+  src="my-code-works.webp"
   alt="Until observed, the code both works and fails simultaneously"
   max-height="300px">
 </BlogImage>
@@ -102,7 +102,7 @@ Sometimes, a negative result is how a project works out. It wouldn't be very sat
 So, I channeled my inner Janeway, and made an appeal to a different LLM. Rather than utilize Qwen 3 Coder, I swapped to OpenAI's Codex with GPT-5.
 
 <BlogImage
-  src="appeal-to-the-devil.jpg"
+  src="appeal-to-the-devil.webp"
   alt="If ChatGPT is the Borg, does that make Claude the Dominion?"
   max-height="400px">
 </BlogImage>
@@ -112,7 +112,7 @@ I tasked Codex with the purpose of the project, and the desire to scrap and re-i
 Powered with this new ORB based approach, Frame Finder provided distinct results between positive and negative test cases:
 
 <BlogImage
-  src="frame-finder-working-analysis.png"
+  src="frame-finder-working-analysis.webp"
   alt="Now that's a clear result!"
   max-height="400px">
 </BlogImage>
@@ -140,7 +140,7 @@ With Frame Finder now producing useful results, it can be used on Voyager's epis
 As a final test, let's try out Frame Finder out on a new target: [The Blue Sun](https://firefly.fandom.com/wiki/Blue_Sun_Corporation) from [Firefly](https://www.imdb.com/title/tt0303461/). The Blue Sun logo can be found throughout the Firefly universe, often hiding in plain sight. The (un)official wiki has a helpful listing of [appearances](https://firefly.fandom.com/wiki/Blue_Sun_Corporation#Appearances). Can we find any other uses of the Blue Sun logo in the pilot episode?
 
 <BlogImage
-  src="frame-finder-firefly.png"
+  src="frame-finder-firefly.webp"
   alt="The Blue Sun is everywhere"
   max-height="400px">
 </BlogImage>

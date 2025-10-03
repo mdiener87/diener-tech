@@ -4,8 +4,8 @@ description: "From localhost to liftoff: metrics, mishaps, and lessons from ship
 date: "2025-05-07"
 category: "projects"
 tags: ["blogging", "webdev", "career", "productivity", "programming"]
-titleImage: "blast-off.png"
-shareImage: "blast-off-wide.png"
+titleImage: "blast-off.webp"
+shareImage: "blast-off-wide.webp"
 readingTime: "5"
 ---
 
