@@ -4,7 +4,7 @@ description: "Engineering in the Age of AI"
 date: "2025-03-23"
 category: "technology"
 tags: ["ai", "programming", "philosophy", "technology", "future"]
-titleImage: "ship-of-theseus.png"
+titleImage: "ship-of-theseus.webp"
 featured: true
 ---
 

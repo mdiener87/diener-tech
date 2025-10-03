@@ -334,7 +334,7 @@ const featuredProjects: Project[] = [
     title: "Frame Finder",
     description:
       "Utilize reference images to locate their occurrence within videos",
-    image: "/projects/frame-finder-logo.png",
+    image: "/projects/frame-finder-logo.webp",
     technologies: ["Flask", "Python", "OpenCV", "FFmpeg"],
     githubUrl: "https://github.com/mdiener87/frame-finder",
     type: "Web",
@@ -350,7 +350,7 @@ const featuredProjects: Project[] = [
     title: "DienerTech Personal Website",
     description:
       "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
-    image: "/images/projects/diener-tech.png",
+    image: "/images/projects/diener-tech.webp",
     technologies: ["Vue", "Nuxt", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://diener.tech",
     githubUrl: "https://github.com/mdiener87/diener-tech",
@@ -372,7 +372,7 @@ const otherProjects: Project[] = [
     description:
       "Convert your exported Google Keep notes (from Google Takeout) into clean, import-ready Markdown and HTML files for use in Notion — complete with OCR image processing and optional ChatGPT formatting.",
     technologies: ["Python", "pytesseract", "asyncio", "chatgpt"],
-    image: "/images/projects/gkeep-to-notion.png",
+    image: "/images/projects/gkeep-to-notion.webp",
     githubUrl: "https://github.com/mdiener87/gkeep-to-notion",
     type: "Backend",
   },

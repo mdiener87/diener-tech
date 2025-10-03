@@ -2,7 +2,7 @@
 
 This repository contains the code for [DienerTech](https://www.diener.tech), my personal website and blog.
 
-![DienerTech Screenshot](/public/website-screenshot.png)
+![DienerTech Screenshot](/public/website-screenshot.webp)
 
 ## About
 

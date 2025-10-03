@@ -44,7 +44,7 @@
               class="w-64 h-64 bg-primary/10 rounded-full flex items-center justify-center border-4 border-primary/20"
             >
               <NuxtImg
-                src="/images/pics/diener-headshot.jpg"
+                src="/images/pics/diener-headshot.webp"
                 alt="Michael Diener"
                 width="256"
                 height="256"
@@ -227,7 +227,7 @@ const featuredProject = {
   additionalInfo:
     "Featuring advanced image processing techniques, this tool helps users find specific frames in videos using reference images. Ideal for video editors and content creators.",
   githubUrl: "https://github.com/mdiener87/frame-finder",
-  img: "/projects/frame-finder-logo.png",
+  img: "/projects/frame-finder-logo.webp",
 };
 
 // SEO metadata

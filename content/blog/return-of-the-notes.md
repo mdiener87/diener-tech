@@ -4,7 +4,7 @@ description: "Programming my way to note-keeping harmony"
 date: "2025-04-06"
 category: "technology"
 tags: ["python", "api", "automation", "productivity", "programming", "D&D"]
-titleImage: "return-of-the-notes-wide.png"
+titleImage: "return-of-the-notes-wide.webp"
 readingTime: "10"
 
 ---
@@ -16,7 +16,7 @@ In the previous blog entry, [Dungeons & Records](/blog/dungeons-and-records), I 
 This solution became [gkeep-to-notion](https://github.com/mdiener87/gkeep-to-notion). At first, I thought the scripting requirements would be relatively lightweight. Working with [ChatGPT](https://chatgpt.com/), I quickly prototyped a Python-based solution that would process the Google takeout `.json` files, and create simple `.html` documents with the combo of image and text data that represented the note in Google Keep. Naturally, as I worked through the script, the scope expanded. And expanded. Like giving a mouse a cookie, soon it wanted a glass of milk. Except the cookie was Python, and the milk was [pytesseract OCR](https://pypi.org/project/pytesseract/)! 
 
 <BlogImage
-  src="give-a-mouse-python.png"
+  src="give-a-mouse-python.webp"
   alt="Maybe add a side of asyncio?"
   max-height="500px">
 </BlogImage>
@@ -28,7 +28,7 @@ Using Claude, I would go on to refactor the script. The singular python file had
 All the while, I was creating the output artifacts that needed to be imported into Notion. Run after run, their formatting and sophistication improved. The terminal output was quick and satisfying to behold!
 
 <BlogImage
-  src="terminal-beauty.png"
+  src="terminal-beauty.webp"
   alt="Over 200 source notes processed!">
 </BlogImage>
 
@@ -47,7 +47,7 @@ Notion can accept a `.zip` file of content. It readily accepted a `.zip` archive
 The end result was... chaotic.
 
 <BlogImage
-  src="notion-pls.png"
+  src="notion-pls.webp"
   alt="Notion cares not for your organization"
   max-height="500px">
 </BlogImage>
@@ -67,14 +67,14 @@ Honestly, this is a cool demonstration of what generative AI can do for you. Wri
 With notion-importer in hand, I let it rip. Uploading the files one-by-one via the API was considerably slower than the native zip importer, but I was in no rush. The program merrily did its thing, and twenty minutes later, my notes had arrived:
 
 <BlogImage
-  src="upload-complete.png"
+  src="upload-complete.webp"
   alt="Upload complete!">
 </BlogImage>
 
 Opening the Notion database revealed our final goal had been achieved. All of the notes had arrived. They were correctly organized, correctly sorted. I can open each one, and see the note content derived from OCR. At long last, all of my D&D notes for this campaign exist in one place!
 
 <BlogImage
-  src="notion-finished-result.png"
+  src="notion-finished-result.webp"
   alt="The Return of the Notes">
 </BlogImage>
 
@@ -99,16 +99,16 @@ Here is the rasterized image that GKeep kept from my original OneNote notes. Whi
 Please enjoy each image equally.
 
 <BlogImage
-  src="consequences.png"
+  src="consequences.webp"
   alt="Season 1, Session 17 final boss encounter">
 </BlogImage>
 
 <BlogImage
-  src="ocr-result.png"
+  src="ocr-result.webp"
   alt="pytesseract OCR Result">
 </BlogImage>
 
 <BlogImage
-  src="chatgpt-result.png"
+  src="chatgpt-result.webp"
   alt="Chat GPT API OCR Result">
 </BlogImage>

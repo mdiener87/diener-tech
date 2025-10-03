@@ -50,21 +50,21 @@
  * 
  * @example
  * Basic usage:
- * <BlogImage src="image.jpg" alt="Description of the image" />
+ * <BlogImage src="image.webp" alt="Description of the image" />
  * 
  * With size constraints:
- * <BlogImage src="image.jpg" alt="Description" maxWidth="800" maxHeight="600" />
+ * <BlogImage src="image.webp" alt="Description" maxWidth="800" maxHeight="600" />
  * 
  * With responsive images:
  * <BlogImage 
- *   src="image.jpg" 
+ *   src="image.webp" 
  *   alt="Description" 
- *   srcset="image-small.jpg 400w, image-medium.jpg 800w, image-large.jpg 1200w"
+ *   srcset="image-small.webp 400w, image-medium.webp 800w, image-large.webp 1200w"
  *   sizes="(max-width: 600px) 400px, (max-width: 1200px) 800px, 1200px"
  * />
  * 
  * Disable lightbox:
- * <BlogImage src="image.jpg" alt="Description" :lightbox="false" />
+ * <BlogImage src="image.webp" alt="Description" :lightbox="false" />
  */
 import { resolveImagePath } from '~/utils/imagePathResolver';
 
@@ -115,7 +115,7 @@ const props = defineProps({
   
   /**
    * Optional srcset attribute for responsive images.
-   * Example: "image-small.jpg 400w, image-medium.jpg 800w, image-large.jpg 1200w"
+   * Example: "image-small.webp 400w, image-medium.webp 800w, image-large.webp 1200w"
    */
   srcset: {
     type: String,

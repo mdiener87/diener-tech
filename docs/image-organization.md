@@ -13,8 +13,8 @@ public/images/blog/<blog-post-slug>/<image-filename>
 For example, for a blog post with the slug `return-of-the-notes`, the images would be in:
 
 ```
-public/images/blog/return-of-the-notes/image1.png
-public/images/blog/return-of-the-notes/diagram.jpg
+public/images/blog/return-of-the-notes/image1.webp
+public/images/blog/return-of-the-notes/diagram.webp
 ```
 
 ## Image Path Resolution
@@ -22,7 +22,7 @@ public/images/blog/return-of-the-notes/diagram.jpg
 The site uses a utility to handle image path resolution:
 
 1. **Absolute Paths**: If a path starts with `/` or `http`, it's used as-is
-2. **Relative Paths**: For paths like `image.png`, they're resolved to `/images/blog/<blog-post-slug>/image.png`
+2. **Relative Paths**: For paths like `image.webp`, they're resolved to `/images/blog/<blog-post-slug>/image.webp`
 
 ## Components
 
@@ -32,20 +32,20 @@ The `BlogImage` component automatically resolves image paths based on the curren
 
 ```md
 <BlogImage 
-  src="image.png" 
+  src="image.webp" 
   alt="My Image" 
   caption="Optional caption text"
 />
 ```
 
 For a post at `/blog/my-post`, this will display the image from:
-`/images/blog/my-post/image.png`
+`/images/blog/my-post/image.webp`
 
 You can also provide an explicit context:
 
 ```md
 <BlogImage 
-  src="image.png" 
+  src="image.webp" 
   context="custom-folder" 
   alt="My Image"
 />
@@ -59,11 +59,11 @@ Title images for blog posts follow the same resolution logic. In your frontmatte
 ---
 title: My Amazing Post
 date: 2023-01-01
-titleImage: header.jpg
+titleImage: header.webp
 ---
 ```
 
-This will resolve to `/images/blog/my-amazing-post/header.jpg`.
+This will resolve to `/images/blog/my-amazing-post/header.webp`.
 
 ## Implementation Details
 
