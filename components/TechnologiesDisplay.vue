@@ -141,8 +141,7 @@ const technologies = [
   },
   {
     name: "UI/UX",
-    icon: null,
-    asset: "/tech-icons/ui-ux.svg",
+    icon: "i-heroicons-rectangle-group",
     category: "Frontend & UI",
   },
   // Programming Languages
@@ -185,14 +184,12 @@ const technologies = [
   },
   {
     name: "SQL",
-    icon: null,
-    asset: "/tech-icons/sql.svg",
+    icon: "i-heroicons-circle-stack",
     category: "Backend & Infrastructure",
   },
   {
     name: "NoSQL",
-    icon: null,
-    asset: "/tech-icons/nosql.svg",
+    icon: "i-heroicons-server-stack",
     category: "Backend & Infrastructure",
   },
   {
@@ -202,8 +199,7 @@ const technologies = [
   },
   {
     name: "ASP.NET MVC",
-    icon: null,
-    asset: "/tech-icons/aspnet-mvc.svg",
+    icon: "i-heroicons-view-columns",
     category: "Backend & Infrastructure",
   },
   {
@@ -218,14 +214,12 @@ const technologies = [
   },
   {
     name: "Tornado",
-    icon: null,
-    asset: "/tech-icons/tornado.svg",
+    icon: "i-heroicons-arrow-path-rounded-square",
     category: "Backend & Infrastructure",
   },
   {
     name: "Entity Framework",
-    icon: null,
-    asset: "/tech-icons/entity-framework.svg",
+    icon: "i-heroicons-link",
     category: "Backend & Infrastructure",
   },
   {
@@ -278,8 +272,7 @@ const technologies = [
   },
   {
     name: "TFS",
-    icon: null,
-    asset: "/tech-icons/tfs.svg",
+    icon: "i-heroicons-clipboard-document-check",
     category: "Dev Tools & Ops",
   },
   {
@@ -304,8 +297,7 @@ const technologies = [
   },
   {
     name: "CI/CD",
-    icon: null,
-    asset: "/tech-icons/ci-cd.svg",
+    icon: "i-heroicons-arrow-path",
     category: "Dev Tools & Ops",
   },
   {
@@ -315,8 +307,7 @@ const technologies = [
   },
   {
     name: "API Design",
-    icon: null,
-    asset: "/tech-icons/api-design.svg",
+    icon: "i-heroicons-squares-2x2",
     category: "Backend & Infrastructure",
   },
   {
@@ -326,14 +317,12 @@ const technologies = [
   },
   {
     name: "REST API",
-    icon: null,
-    asset: "/tech-icons/rest-api.svg",
+    icon: "i-heroicons-code-bracket-square",
     category: "Backend & Infrastructure",
   },
   {
     name: "Microservices",
-    icon: null,
-    asset: "/tech-icons/microservices.svg",
+    icon: "i-heroicons-command-line",
     category: "Backend & Infrastructure",
   },
 
@@ -351,8 +340,7 @@ const technologies = [
   },
   {
     name: "Model Context Protocol",
-    icon: null,
-    asset: "/tech-icons/model-context-protocol.svg",
+    icon: "i-heroicons-document-text",
     category: "AI & Emerging Tech",
   },
   {
@@ -369,8 +357,7 @@ const technologies = [
   },
   {
     name: "llama.cpp",
-    icon: null,
-    asset: "/tech-icons/llama-cpp.svg",
+    icon: "i-heroicons-cpu-chip",
     category: "AI & Emerging Tech",
   },
   {
@@ -380,8 +367,7 @@ const technologies = [
   },
   {
     name: "DALLE",
-    icon: null,
-    asset: "/tech-icons/dalle.svg",
+    icon: "i-heroicons-sparkles",
     category: "AI & Emerging Tech",
   },
   {
@@ -392,16 +378,14 @@ const technologies = [
   },
   {
     name: "Retrieval Augmented Generation",
-    icon: null,
-    asset: "/tech-icons/rag.svg",
+    icon: "i-heroicons-magnifying-glass-circle",
     category: "AI & Emerging Tech",
   },
 
   // Media & 3D Technologies
   {
     name: "3D Printing",
-    icon: null,
-    asset: "/tech-icons/3d-printing.svg",
+    icon: "i-heroicons-cube",
     category: "2D & 3D Media",
   },
   {
@@ -685,28 +669,18 @@ function clearCategoryFilter() {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
 }
-/* 
-:deep(.dark) .tech-icon {
-  color: rgba(248, 250, 252, 0.95);
-} */
+.tech-icon {
+  color: rgba(255, 255, 255, 0.95);
+}
 
 .tech-icon-image {
-  filter: grayscale(1) brightness(0.45) contrast(1.05);
+  filter: brightness(0) invert(1);
 }
 
-:deep(.dark) .tech-icon-image {
-  filter: grayscale(1) brightness(1.85) contrast(1.05);
-}
-/* 
 .fallback-icon {
-  background: rgba(0, 0, 0, 0.08);
-  color: rgba(17, 24, 39, 0.9);
-} */
-
-/* :deep(.dark) .fallback-icon {
-  background: rgba(255, 255, 255, 0.18);
-  color: rgba(248, 250, 252, 0.95);
-} */
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.95);
+}
 
 /* Transition animations for tech cards entering/leaving */
 .tech-shuffle-enter-active,
