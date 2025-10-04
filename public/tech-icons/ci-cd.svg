@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="cicd" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EC4899" />
+      <stop offset="100%" stop-color="#6366F1" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#cicd)" />
+  <path d="M24 32 C24 26 28 22 32 22 C36 22 40 26 40 32" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="3" fill="none" stroke-linecap="round" />
+  <path d="M40 32 C40 38 36 42 32 42 C28 42 24 38 24 32" stroke="#FFFFFF" stroke-opacity="0.8" stroke-width="3" fill="none" stroke-linecap="round" />
+  <polygon points="32,18 36,22 28,22" fill="#FFFFFF" fill-opacity="0.85" />
+  <polygon points="32,46 36,42 28,42" fill="#FFFFFF" fill-opacity="0.85" />
+</svg>

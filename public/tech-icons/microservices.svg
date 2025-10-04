@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="microservices" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#14B8A6" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#microservices)" />
+  <circle cx="22" cy="32" r="5" fill="#FFFFFF" fill-opacity="0.85" />
+  <circle cx="32" cy="22" r="5" fill="#FFFFFF" fill-opacity="0.9" />
+  <circle cx="42" cy="32" r="5" fill="#FFFFFF" fill-opacity="0.75" />
+  <circle cx="32" cy="42" r="5" fill="#FFFFFF" fill-opacity="0.8" />
+  <path d="M22 32 L32 22 L42 32 L32 42 Z" stroke="#14B8A6" stroke-opacity="0.6" stroke-width="2" fill="none" />
+</svg>

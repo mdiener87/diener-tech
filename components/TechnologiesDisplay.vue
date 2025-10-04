@@ -55,11 +55,26 @@
               <div
                 class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-all duration-300"
               >
+                <img
+                  v-if="tech.asset"
+                  :src="tech.asset"
+                  :alt="`${tech.name} logo`"
+                  class="w-10 h-10 transition-transform duration-300 object-contain"
+                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+                />
                 <UIcon
+                  v-else-if="tech.icon"
                   :name="tech.icon"
                   class="w-10 h-10 transition-transform duration-300"
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 />
+                <div
+                  v-else
+                  class="w-10 h-10 transition-transform duration-300 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold text-white"
+                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+                >
+                  {{ getFallbackLabel(tech.name) }}
+                </div>
               </div>
               <span class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm">{{
                 tech.name
@@ -80,324 +95,353 @@ const technologies = [
   // Frontend Frameworks & Libraries
   {
     name: "Vue.js",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-vuedotjs",
     category: "Frontend & UI",
   },
   {
     name: "Nuxt 3",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-nuxtdotjs",
     category: "Frontend & UI",
   },
   {
     name: "React",
-    icon: "i-heroicons-cube-transparent",
+    icon: "i-simple-icons-react",
     category: "Frontend & UI",
   },
   {
     name: "Angular",
-    icon: "i-heroicons-variable", 
+    icon: "i-simple-icons-angular",
     category: "Frontend & UI",
   },
   {
     name: "d3.js",
-    icon: "i-heroicons-chart-bar",
+    icon: "i-simple-icons-d3dotjs",
     category: "Frontend & UI",
   },
   {
     name: "JQuery",
-    icon: "i-heroicons-bolt",
+    icon: "i-simple-icons-jquery",
     category: "Frontend & UI",
   },
   {
     name: "Knockout",
-    icon: "i-heroicons-puzzle-piece",
+    icon: null,
+    asset: "/tech-icons/knockout.ico",
     category: "Frontend & UI",
   },
   {
     name: "Tailwind",
-    icon: "i-heroicons-swatch",
+    icon: "i-simple-icons-tailwindcss",
     category: "Frontend & UI",
   },
   {
     name: "Bootstrap",
-    icon: "i-heroicons-rectangle-stack",
+    icon: "i-simple-icons-bootstrap",
     category: "Frontend & UI",
   },
   {
     name: "UI/UX",
-    icon: "i-heroicons-rectangle-group",
+    icon: null,
+    asset: "/tech-icons/ui-ux.svg",
     category: "Frontend & UI",
   },
   // Programming Languages
   {
     name: "JavaScript",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-javascript",
     category: "Languages",
   },
   {
     name: "TypeScript",
-    icon: "i-heroicons-document-text",
+    icon: "i-simple-icons-typescript",
     category: "Languages",
   },
   {
     name: "Python",
-    icon: "i-heroicons-command-line",
+    icon: "i-simple-icons-python",
     category: "Languages",
   },
   {
     name: "C#",
-    icon: "i-heroicons-hashtag",
+    icon: "i-simple-icons-csharp",
     category: "Languages",
   },
   {
     name: "Bash",
-    icon: "i-heroicons-command-line",
+    icon: "i-simple-icons-gnubash",
     category: "Languages",
   },
 
   // Backend & Infrastructure
   {
     name: "Node.js",
-    icon: "i-heroicons-server",
+    icon: "i-simple-icons-nodedotjs",
     category: "Backend & Infrastructure",
   },
   {
     name: "Express.js",
-    icon: "i-heroicons-server",
+    icon: "i-simple-icons-express",
     category: "Backend & Infrastructure",
   },
   {
     name: "SQL",
-    icon: "i-heroicons-table-cells",
+    icon: null,
+    asset: "/tech-icons/sql.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "NoSQL",
-    icon: "i-heroicons-circle-stack",
+    icon: null,
+    asset: "/tech-icons/nosql.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "AWS",
-    icon: "i-heroicons-cloud",
+    icon: "i-simple-icons-amazonwebservices",
     category: "Backend & Infrastructure",
   },
   {
     name: "ASP.NET MVC",
-    icon: "i-heroicons-window",
+    icon: null,
+    asset: "/tech-icons/aspnet-mvc.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: ".NET Core",
-    icon: "i-heroicons-globe-alt",
+    icon: "i-simple-icons-dotnet",
     category: "Backend & Infrastructure",
   },
   {
     name: "Flask",
-    icon: "i-heroicons-beaker",
+    icon: "i-simple-icons-flask",
     category: "Backend & Infrastructure",
   },
   {
     name: "Tornado",
-    icon: "i-heroicons-arrow-path-rounded-square",
+    icon: null,
+    asset: "/tech-icons/tornado.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "Entity Framework",
-    icon: "i-heroicons-link",
+    icon: null,
+    asset: "/tech-icons/entity-framework.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "SQL Server",
-    icon: "i-heroicons-server-stack",
+    icon: "i-simple-icons-microsoftsqlserver",
     category: "Backend & Infrastructure",
   },
   {
     name: "SQL Workbench",
-    icon: "i-heroicons-wrench-screwdriver",
+    icon: "i-simple-icons-mysql",
     category: "Backend & Infrastructure",
   },
 
   // Dev Tools & Ops
   {
     name: "Git",
-    icon: "i-heroicons-arrow-path",
+    icon: "i-simple-icons-git",
     category: "Dev Tools & Ops",
   },
   {
     name: "VS Code",
-    icon: "i-heroicons-code-bracket-square",
+    icon: "i-simple-icons-visualstudiocode",
     category: "Dev Tools & Ops",
   },
   {
     name: "Cursor",
-    icon: "i-heroicons-cursor-arrow-rays",
+    icon: null,
+    asset: "/tech-icons/cursor.ico",
     category: "Dev Tools & Ops",
   },
   {
     name: "n8n",
-    icon: "i-heroicons-arrow-path-rounded-square",
+    icon: "i-simple-icons-n8n",
     category: "Dev Tools & Ops",
   },
   {
     name: "Visual Studio",
-    icon: "i-heroicons-computer-desktop",
+    icon: "i-simple-icons-visualstudio",
     category: "Dev Tools & Ops",
   },
   {
     name: "Docker",
-    icon: "i-heroicons-cube",
+    icon: "i-simple-icons-docker",
     category: "Dev Tools & Ops",
   },
   {
     name: "GitHub",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-github",
     category: "Dev Tools & Ops",
   },
   {
     name: "TFS",
-    icon: "i-heroicons-archive-box",
+    icon: null,
+    asset: "/tech-icons/tfs.svg",
     category: "Dev Tools & Ops",
   },
   {
     name: "Jest",
-    icon: "i-heroicons-check-badge",
+    icon: "i-simple-icons-jest",
     category: "Dev Tools & Ops",
   },
   {
     name: "Testing Library",
-    icon: "i-heroicons-clipboard-document-check",
+    icon: "i-simple-icons-testinglibrary",
     category: "Dev Tools & Ops",
   },
   {
     name: "Selenium",
-    icon: "i-heroicons-bug-ant",
+    icon: "i-simple-icons-selenium",
     category: "Dev Tools & Ops",
   },
   {
     name: "GitHub Actions",
-    icon: "i-heroicons-play",
+    icon: "i-simple-icons-githubactions",
     category: "Dev Tools & Ops",
   },
   {
     name: "CI/CD",
-    icon: "i-heroicons-arrow-path",
+    icon: null,
+    asset: "/tech-icons/ci-cd.svg",
     category: "Dev Tools & Ops",
   },
   {
     name: "Jira",
-    icon: "i-heroicons-clipboard-document-list",
+    icon: "i-simple-icons-jira",
     category: "Dev Tools & Ops",
   },
   {
     name: "API Design",
-    icon: "i-heroicons-squares-2x2",
+    icon: null,
+    asset: "/tech-icons/api-design.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "Cloudflare",
-    icon: "i-heroicons-cloud-arrow-up",
+    icon: "i-simple-icons-cloudflare",
     category: "Backend & Infrastructure",
   },
   {
     name: "REST API",
-    icon: "i-heroicons-arrows-right-left",
+    icon: null,
+    asset: "/tech-icons/rest-api.svg",
     category: "Backend & Infrastructure",
   },
   {
     name: "Microservices",
-    icon: "i-heroicons-puzzle-piece",
+    icon: null,
+    asset: "/tech-icons/microservices.svg",
     category: "Backend & Infrastructure",
   },
 
   // AI & Emerging Technologies
   {
     name: "ChatGPT",
-    icon: "i-heroicons-chat-bubble-left-right",
+    icon: "i-simple-icons-openai",
     category: "AI & Emerging Tech",
   },
   {
     name: "Claude",
-    icon: "i-heroicons-sparkles",
+    icon: null,
+    asset: "/tech-icons/claude.ico",
     category: "AI & Emerging Tech",
   },
   {
     name: "Model Context Protocol",
-    icon: "i-heroicons-document-text",
+    icon: null,
+    asset: "/tech-icons/model-context-protocol.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "Stable Diffusion",
-    icon: "i-heroicons-photo",
+    icon: null,
+    asset: "/tech-icons/stable-diffusion.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "Ollama",
-    icon: "i-heroicons-cpu-chip",
+    icon: null,
+    asset: "/tech-icons/ollama.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "llama.cpp",
-    icon: "i-heroicons-cog",
+    icon: null,
+    asset: "/tech-icons/llama-cpp.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "HuggingFace",
-    icon: "i-heroicons-face-smile",
+    icon: "i-simple-icons-huggingface",
     category: "AI & Emerging Tech",
   },
   {
     name: "DALLE",
-    icon: "i-heroicons-paint-brush",
+    icon: null,
+    asset: "/tech-icons/dalle.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "DeepSeek",
-    icon: "i-heroicons-magnifying-glass-circle",
+    icon: null,
+    asset: "/tech-icons/deepseek.png",
     category: "AI & Emerging Tech",
   },
   {
     name: "Retrieval Augmented Generation",
-    icon: "i-heroicons-circle-stack",
+    icon: null,
+    asset: "/tech-icons/rag.svg",
     category: "AI & Emerging Tech",
   },
 
   // Media & 3D Technologies
   {
     name: "3D Printing",
-    icon: "i-heroicons-cube",
+    icon: null,
+    asset: "/tech-icons/3d-printing.svg",
     category: "2D & 3D Media",
   },
   {
     name: "Cura",
-    icon: "i-heroicons-computer-desktop",
+    icon: null,
+    asset: "/tech-icons/cura.svg",
     category: "2D & 3D Media",
   },
   {
     name: "Fusion 360",
-    icon: "i-heroicons-computer-desktop",
+    icon: "i-simple-icons-autodesk",
     category: "2D & 3D Media",
   },
   {
     name: "Creality",
-    icon: "i-heroicons-cube",
+    icon: null,
+    asset: "/tech-icons/creality.svg",
     category: "2D & 3D Media",
   },
   {
     name: "Unity",
-    icon: "i-heroicons-cube-transparent",
+    icon: "i-simple-icons-unity",
     category: "2D & 3D Media",
   },
   {
     name: "Unreal",
-    icon: "i-heroicons-fire",
+    icon: "i-simple-icons-unrealengine",
     category: "2D & 3D Media",
   },
   {
     name: "OBS",
-    icon: "i-heroicons-video-camera",
+    icon: "i-simple-icons-obsstudio",
     category: "2D & 3D Media",
   },
 ];
+
+function getFallbackLabel(name) {
+  const cleaned = name.replace(/[^a-zA-Z0-9+]/g, "");
+  return cleaned.slice(0, 3).toUpperCase();
+}
 
 const categorySortOrder = [
   "Frontend & UI",

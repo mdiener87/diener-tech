@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="uiux" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366F1" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#uiux)" />
+  <text x="32" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">UI</text>
+  <rect x="20" y="29" width="24" height="2" rx="1" fill="#FFFFFF" fill-opacity="0.7" />
+  <text x="32" y="44" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">UX</text>
+</svg>
