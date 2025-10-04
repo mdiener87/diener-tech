@@ -59,18 +59,18 @@
                   v-if="tech.asset"
                   :src="tech.asset"
                   :alt="`${tech.name} logo`"
-                  class="w-10 h-10 transition-transform duration-300 object-contain"
+                  class="tech-icon tech-icon-image w-10 h-10 transition-transform duration-300 object-contain"
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 />
                 <UIcon
                   v-else-if="tech.icon"
                   :name="tech.icon"
-                  class="w-10 h-10 transition-transform duration-300"
+                  class="tech-icon w-10 h-10 transition-transform duration-300"
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 />
                 <div
                   v-else
-                  class="w-10 h-10 transition-transform duration-300 rounded-full bg-white/30 flex items-center justify-center text-sm font-semibold text-white"
+                  class="tech-icon fallback-icon w-10 h-10 transition-transform duration-300 rounded-full flex items-center justify-center text-sm font-semibold"
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 >
                   {{ getFallbackLabel(tech.name) }}
@@ -126,7 +126,7 @@ const technologies = [
   {
     name: "Knockout",
     icon: null,
-    asset: "/tech-icons/knockout.ico",
+    asset: "/tech-icons/knockout.svg",
     category: "Frontend & UI",
   },
   {
@@ -253,7 +253,7 @@ const technologies = [
   {
     name: "Cursor",
     icon: null,
-    asset: "/tech-icons/cursor.ico",
+    asset: "/tech-icons/cursor.svg",
     category: "Dev Tools & Ops",
   },
   {
@@ -346,7 +346,7 @@ const technologies = [
   {
     name: "Claude",
     icon: null,
-    asset: "/tech-icons/claude.ico",
+    asset: "/tech-icons/claude.svg",
     category: "AI & Emerging Tech",
   },
   {
@@ -387,7 +387,7 @@ const technologies = [
   {
     name: "DeepSeek",
     icon: null,
-    asset: "/tech-icons/deepseek.png",
+    asset: "/tech-icons/deepseek.svg",
     category: "AI & Emerging Tech",
   },
   {
@@ -685,6 +685,28 @@ function clearCategoryFilter() {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
 }
+/* 
+:deep(.dark) .tech-icon {
+  color: rgba(248, 250, 252, 0.95);
+} */
+
+.tech-icon-image {
+  filter: grayscale(1) brightness(0.45) contrast(1.05);
+}
+
+:deep(.dark) .tech-icon-image {
+  filter: grayscale(1) brightness(1.85) contrast(1.05);
+}
+/* 
+.fallback-icon {
+  background: rgba(0, 0, 0, 0.08);
+  color: rgba(17, 24, 39, 0.9);
+} */
+
+/* :deep(.dark) .fallback-icon {
+  background: rgba(255, 255, 255, 0.18);
+  color: rgba(248, 250, 252, 0.95);
+} */
 
 /* Transition animations for tech cards entering/leaving */
 .tech-shuffle-enter-active,
