@@ -96,7 +96,7 @@
               <div class="experience-item">
                 <div class="flex justify-between items-start mb-2">
                   <h4 class="font-bold text-gray-900 dark:text-white">
-                    Software Engineer
+                    Senior Software Engineer
                   </h4>
                   <UBadge color="blue" variant="subtle">2022 - Present</UBadge>
                 </div>

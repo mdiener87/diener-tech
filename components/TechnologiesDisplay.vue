@@ -23,7 +23,11 @@
           variant="soft"
           size="lg"
           class="cursor-pointer transition-all"
-          :class="selectedCategory === category ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}` : ''"
+          :class="
+            selectedCategory === category
+              ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}`
+              : ''
+          "
           @click="filterByCategory(category)"
           @mouseenter="filterByCategory(category)"
           @mouseleave="clearCategoryFilter"
@@ -55,15 +59,31 @@
               <div
                 class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-all duration-300"
               >
-                <UIcon
-                  :name="tech.icon"
-                  class="w-10 h-10 transition-transform duration-300"
+                <img
+                  v-if="tech.asset"
+                  :src="tech.asset"
+                  :alt="`${tech.name} logo`"
+                  class="tech-icon tech-icon-image w-10 h-10 transition-transform duration-300 object-contain"
                   :class="hoveredTech === tech.name ? 'scale-125' : ''"
                 />
+                <UIcon
+                  v-else-if="tech.icon"
+                  :name="tech.icon"
+                  class="tech-icon w-10 h-10 transition-transform duration-300"
+                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+                />
+                <div
+                  v-else
+                  class="tech-icon fallback-icon w-10 h-10 transition-transform duration-300 rounded-full flex items-center justify-center text-sm font-semibold"
+                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+                >
+                  {{ getFallbackLabel(tech.name) }}
+                </div>
               </div>
-              <span class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm">{{
-                tech.name
-              }}</span>
+              <span
+                class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm"
+                >{{ tech.name }}</span
+              >
             </div>
           </TransitionGroup>
         </div>
@@ -80,47 +100,42 @@ const technologies = [
   // Frontend Frameworks & Libraries
   {
     name: "Vue.js",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-vuedotjs",
     category: "Frontend & UI",
   },
   {
     name: "Nuxt 3",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-nuxtdotjs",
     category: "Frontend & UI",
   },
   {
     name: "React",
-    icon: "i-heroicons-cube-transparent",
+    icon: "i-simple-icons-react",
     category: "Frontend & UI",
   },
   {
     name: "Angular",
-    icon: "i-heroicons-variable", 
+    icon: "i-simple-icons-angular",
     category: "Frontend & UI",
   },
   {
     name: "d3.js",
-    icon: "i-heroicons-chart-bar",
+    icon: "i-simple-icons-d3dotjs",
     category: "Frontend & UI",
   },
   {
     name: "JQuery",
-    icon: "i-heroicons-bolt",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Knockout",
-    icon: "i-heroicons-puzzle-piece",
+    icon: "i-simple-icons-jquery",
     category: "Frontend & UI",
   },
   {
     name: "Tailwind",
-    icon: "i-heroicons-swatch",
+    icon: "i-simple-icons-tailwindcss",
     category: "Frontend & UI",
   },
   {
     name: "Bootstrap",
-    icon: "i-heroicons-rectangle-stack",
+    icon: "i-simple-icons-bootstrap",
     category: "Frontend & UI",
   },
   {
@@ -131,69 +146,69 @@ const technologies = [
   // Programming Languages
   {
     name: "JavaScript",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-javascript",
     category: "Languages",
   },
   {
     name: "TypeScript",
-    icon: "i-heroicons-document-text",
+    icon: "i-simple-icons-typescript",
     category: "Languages",
   },
   {
     name: "Python",
-    icon: "i-heroicons-command-line",
+    icon: "i-simple-icons-python",
     category: "Languages",
   },
   {
     name: "C#",
-    icon: "i-heroicons-hashtag",
+    icon: "i-simple-icons-csharp",
     category: "Languages",
   },
   {
     name: "Bash",
-    icon: "i-heroicons-command-line",
+    icon: "i-simple-icons-gnubash",
     category: "Languages",
   },
 
   // Backend & Infrastructure
   {
     name: "Node.js",
-    icon: "i-heroicons-server",
+    icon: "i-simple-icons-nodedotjs",
     category: "Backend & Infrastructure",
   },
   {
     name: "Express.js",
-    icon: "i-heroicons-server",
+    icon: "i-simple-icons-express",
     category: "Backend & Infrastructure",
   },
   {
     name: "SQL",
-    icon: "i-heroicons-table-cells",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "NoSQL",
     icon: "i-heroicons-circle-stack",
     category: "Backend & Infrastructure",
   },
   {
+    name: "NoSQL",
+    icon: "i-heroicons-server-stack",
+    category: "Backend & Infrastructure",
+  },
+  {
     name: "AWS",
-    icon: "i-heroicons-cloud",
+    icon: "i-simple-icons-amazonwebservices",
     category: "Backend & Infrastructure",
   },
   {
     name: "ASP.NET MVC",
-    icon: "i-heroicons-window",
+    icon: "i-heroicons-view-columns",
     category: "Backend & Infrastructure",
   },
   {
     name: ".NET Core",
-    icon: "i-heroicons-globe-alt",
+    icon: "i-simple-icons-dotnet",
     category: "Backend & Infrastructure",
   },
   {
     name: "Flask",
-    icon: "i-heroicons-beaker",
+    icon: "i-simple-icons-flask",
     category: "Backend & Infrastructure",
   },
   {
@@ -208,74 +223,75 @@ const technologies = [
   },
   {
     name: "SQL Server",
-    icon: "i-heroicons-server-stack",
+    icon: "i-simple-icons-microsoftsqlserver",
     category: "Backend & Infrastructure",
   },
   {
     name: "SQL Workbench",
-    icon: "i-heroicons-wrench-screwdriver",
+    icon: "i-simple-icons-mysql",
     category: "Backend & Infrastructure",
   },
 
   // Dev Tools & Ops
   {
     name: "Git",
-    icon: "i-heroicons-arrow-path",
+    icon: "i-simple-icons-git",
     category: "Dev Tools & Ops",
   },
   {
     name: "VS Code",
-    icon: "i-heroicons-code-bracket-square",
+    icon: "i-simple-icons-visualstudiocode",
     category: "Dev Tools & Ops",
   },
   {
     name: "Cursor",
-    icon: "i-heroicons-cursor-arrow-rays",
+    icon: null,
+    asset: "/tech-icons/cursor.svg",
     category: "Dev Tools & Ops",
   },
   {
     name: "n8n",
-    icon: "i-heroicons-arrow-path-rounded-square",
+    icon: "i-simple-icons-n8n",
     category: "Dev Tools & Ops",
   },
   {
     name: "Visual Studio",
-    icon: "i-heroicons-computer-desktop",
+    icon: "i-simple-icons-visualstudio",
     category: "Dev Tools & Ops",
   },
   {
     name: "Docker",
-    icon: "i-heroicons-cube",
+    icon: "i-simple-icons-docker",
     category: "Dev Tools & Ops",
   },
   {
     name: "GitHub",
-    icon: "i-heroicons-code-bracket",
+    icon: "i-simple-icons-github",
     category: "Dev Tools & Ops",
   },
   {
     name: "TFS",
-    icon: "i-heroicons-archive-box",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Jest",
-    icon: "i-heroicons-check-badge",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Testing Library",
     icon: "i-heroicons-clipboard-document-check",
     category: "Dev Tools & Ops",
   },
   {
+    name: "Jest",
+    icon: "i-simple-icons-jest",
+    category: "Dev Tools & Ops",
+  },
+  {
+    name: "Testing Library",
+    icon: "i-simple-icons-testinglibrary",
+    category: "Dev Tools & Ops",
+  },
+  {
     name: "Selenium",
-    icon: "i-heroicons-bug-ant",
+    icon: "i-simple-icons-selenium",
     category: "Dev Tools & Ops",
   },
   {
     name: "GitHub Actions",
-    icon: "i-heroicons-play",
+    icon: "i-simple-icons-githubactions",
     category: "Dev Tools & Ops",
   },
   {
@@ -285,7 +301,7 @@ const technologies = [
   },
   {
     name: "Jira",
-    icon: "i-heroicons-clipboard-document-list",
+    icon: "i-simple-icons-jira",
     category: "Dev Tools & Ops",
   },
   {
@@ -295,29 +311,29 @@ const technologies = [
   },
   {
     name: "Cloudflare",
-    icon: "i-heroicons-cloud-arrow-up",
+    icon: "i-simple-icons-cloudflare",
     category: "Backend & Infrastructure",
   },
   {
     name: "REST API",
-    icon: "i-heroicons-arrows-right-left",
+    icon: "i-heroicons-code-bracket-square",
     category: "Backend & Infrastructure",
   },
   {
     name: "Microservices",
-    icon: "i-heroicons-puzzle-piece",
+    icon: "i-heroicons-command-line",
     category: "Backend & Infrastructure",
   },
 
   // AI & Emerging Technologies
   {
     name: "ChatGPT",
-    icon: "i-heroicons-chat-bubble-left-right",
+    icon: "i-simple-icons-openai",
     category: "AI & Emerging Tech",
   },
   {
     name: "Claude",
-    icon: "i-heroicons-sparkles",
+    icon: "i-simple-icons-claude",
     category: "AI & Emerging Tech",
   },
   {
@@ -327,37 +343,46 @@ const technologies = [
   },
   {
     name: "Stable Diffusion",
-    icon: "i-heroicons-photo",
+    icon: null,
+    asset: "/tech-icons/stable-diffusion.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "Ollama",
-    icon: "i-heroicons-cpu-chip",
+    icon: "i-simple-icons-ollama",
     category: "AI & Emerging Tech",
   },
   {
     name: "llama.cpp",
-    icon: "i-heroicons-cog",
+    icon: "i-heroicons-cpu-chip",
     category: "AI & Emerging Tech",
   },
   {
     name: "HuggingFace",
-    icon: "i-heroicons-face-smile",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "DALLE",
-    icon: "i-heroicons-paint-brush",
+    icon: "i-simple-icons-huggingface",
     category: "AI & Emerging Tech",
   },
   {
     name: "DeepSeek",
-    icon: "i-heroicons-magnifying-glass-circle",
+    icon: null,
+    asset: "/tech-icons/deepseek.svg",
+    category: "AI & Emerging Tech",
+  },
+  {
+    name: "Qwen",
+    icon: null,
+    asset: "/tech-icons/qwen.svg",
+    category: "AI & Emerging Tech",
+  },
+    {
+    name: "Comfy UI",
+    icon: null,
+    asset: "/tech-icons/comfyuibw.svg",
     category: "AI & Emerging Tech",
   },
   {
     name: "Retrieval Augmented Generation",
-    icon: "i-heroicons-circle-stack",
+    icon: "i-heroicons-magnifying-glass-circle",
     category: "AI & Emerging Tech",
   },
 
@@ -369,35 +394,42 @@ const technologies = [
   },
   {
     name: "Cura",
-    icon: "i-heroicons-computer-desktop",
+    icon: null,
+    asset: "/tech-icons/cura.svg",
     category: "2D & 3D Media",
   },
   {
     name: "Fusion 360",
-    icon: "i-heroicons-computer-desktop",
+    icon: "i-simple-icons-autodesk",
     category: "2D & 3D Media",
   },
   {
     name: "Creality",
-    icon: "i-heroicons-cube",
+    icon: null,
+    asset: "/tech-icons/creality.svg",
     category: "2D & 3D Media",
   },
   {
     name: "Unity",
-    icon: "i-heroicons-cube-transparent",
+    icon: "i-simple-icons-unity",
     category: "2D & 3D Media",
   },
   {
     name: "Unreal",
-    icon: "i-heroicons-fire",
+    icon: "i-simple-icons-unrealengine",
     category: "2D & 3D Media",
   },
   {
     name: "OBS",
-    icon: "i-heroicons-video-camera",
+    icon: "i-simple-icons-obsstudio",
     category: "2D & 3D Media",
   },
 ];
+
+function getFallbackLabel(name) {
+  const cleaned = name.replace(/[^a-zA-Z0-9+]/g, "");
+  return cleaned.slice(0, 3).toUpperCase();
+}
 
 const categorySortOrder = [
   "Frontend & UI",
@@ -415,43 +447,43 @@ const categoryColors = {
     lighter: "bg-sky-400 hover:bg-sky-500",
     darker: "bg-sky-600 hover:bg-sky-700",
     accent: "bg-indigo-500 hover:bg-indigo-600",
-    buttonColor: "primary" // Using the existing primary color for buttons
+    buttonColor: "primary", // Using the existing primary color for buttons
   },
-  "Languages": {
+  Languages: {
     base: "bg-amber-500 hover:bg-amber-600",
     lighter: "bg-amber-400 hover:bg-amber-500",
     darker: "bg-amber-600 hover:bg-amber-700",
     accent: "bg-yellow-500 hover:bg-yellow-600",
-    buttonColor: "amber"
+    buttonColor: "amber",
   },
   "Backend & Infrastructure": {
     base: "bg-emerald-500 hover:bg-emerald-600",
     lighter: "bg-emerald-400 hover:bg-emerald-500",
     darker: "bg-emerald-600 hover:bg-emerald-700",
     accent: "bg-green-500 hover:bg-green-600",
-    buttonColor: "emerald"
+    buttonColor: "emerald",
   },
   "Dev Tools & Ops": {
     base: "bg-violet-500 hover:bg-violet-600",
     lighter: "bg-violet-400 hover:bg-violet-500",
     darker: "bg-violet-600 hover:bg-violet-700",
     accent: "bg-purple-500 hover:bg-purple-600",
-    buttonColor: "violet"
+    buttonColor: "violet",
   },
   "2D & 3D Media": {
     base: "bg-cyan-500 hover:bg-cyan-600",
     lighter: "bg-cyan-400 hover:bg-cyan-500",
     darker: "bg-cyan-600 hover:bg-cyan-700",
     accent: "bg-teal-500 hover:bg-teal-600",
-    buttonColor: "cyan"
+    buttonColor: "cyan",
   },
   "AI & Emerging Tech": {
     base: "bg-rose-500 hover:bg-rose-600",
     lighter: "bg-rose-400 hover:bg-rose-500",
     darker: "bg-rose-600 hover:bg-rose-700",
     accent: "bg-pink-500 hover:bg-pink-600",
-    buttonColor: "rose"
-  }
+    buttonColor: "rose",
+  },
 };
 
 // Tech display logic
@@ -464,7 +496,9 @@ const CARD_MARGIN = 24; // Space between cards
 const preventBackToBackTechs = ref(true); // Toggle to prevent back-to-back tech display
 const lastDisplayedTechs = ref([]); // Keep track of last displayed techs
 const categories = computed(() => {
-  const uniqueCategories = [...new Set(technologies.map((tech) => tech.category))];
+  const uniqueCategories = [
+    ...new Set(technologies.map((tech) => tech.category)),
+  ];
   return uniqueCategories.sort((a, b) => {
     const indexA = categorySortOrder.indexOf(a);
     const indexB = categorySortOrder.indexOf(b);
@@ -573,11 +607,11 @@ function shuffleTechs() {
 
   visibleTechs.value = selectedTechs.map((tech, index) => {
     const position = startX + index * (CARD_WIDTH + CARD_MARGIN);
-    
+
     // Apply color based on category
     const category = tech.category;
     const colorSet = categoryColors[category];
-    
+
     // Distribute technologies across different shades within the same category
     // Using the index to make technologies within the same category have different shades
     let colorClass;
@@ -588,11 +622,11 @@ function shuffleTechs() {
     } else {
       colorClass = colorSet?.darker || tech.colorClass;
     }
-    
+
     return {
       ...tech,
       position: position,
-      colorClass: colorClass // Override the original colorClass with the category-based one
+      colorClass: colorClass, // Override the original colorClass with the category-based one
     };
   });
 }
@@ -640,6 +674,18 @@ function clearCategoryFilter() {
 .tech-icon-wrapper {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(5px);
+}
+.tech-icon {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.tech-icon-image {
+  filter: brightness(0) invert(1);
+}
+
+.fallback-icon {
+  background: rgba(255, 255, 255, 0.25);
+  color: rgba(255, 255, 255, 0.95);
 }
 
 /* Transition animations for tech cards entering/leaving */

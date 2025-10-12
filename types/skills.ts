@@ -190,7 +190,7 @@ export const skillsData: SkillNode = {
       children: [
         {
           name: "HeadSpin",
-          position: "Software Engineer",
+          position: "Senior Software Engineer",
           duration: "Nov 2022 - Present",
           description: [
             "Led a significant frontend overhaul, greatly improving application responsiveness and decreasing memory usage.",
