@@ -23,7 +23,11 @@
           variant="soft"
           size="lg"
           class="cursor-pointer transition-all"
-          :class="selectedCategory === category ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}` : ''"
+          :class="
+            selectedCategory === category
+              ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}`
+              : ''
+          "
           @click="filterByCategory(category)"
           @mouseenter="filterByCategory(category)"
           @mouseleave="clearCategoryFilter"
@@ -76,9 +80,10 @@
                   {{ getFallbackLabel(tech.name) }}
                 </div>
               </div>
-              <span class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm">{{
-                tech.name
-              }}</span>
+              <span
+                class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm"
+                >{{ tech.name }}</span
+              >
             </div>
           </TransitionGroup>
         </div>
@@ -121,12 +126,6 @@ const technologies = [
   {
     name: "JQuery",
     icon: "i-simple-icons-jquery",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Knockout",
-    icon: null,
-    asset: "/tech-icons/knockout.svg",
     category: "Frontend & UI",
   },
   {
@@ -334,8 +333,7 @@ const technologies = [
   },
   {
     name: "Claude",
-    icon: null,
-    asset: "/tech-icons/claude.svg",
+    icon: "i-simple-icons-claude",
     category: "AI & Emerging Tech",
   },
   {
@@ -351,8 +349,7 @@ const technologies = [
   },
   {
     name: "Ollama",
-    icon: null,
-    asset: "/tech-icons/ollama.svg",
+    icon: "i-simple-icons-ollama",
     category: "AI & Emerging Tech",
   },
   {
@@ -366,14 +363,21 @@ const technologies = [
     category: "AI & Emerging Tech",
   },
   {
-    name: "DALLE",
-    icon: "i-heroicons-sparkles",
-    category: "AI & Emerging Tech",
-  },
-  {
     name: "DeepSeek",
     icon: null,
     asset: "/tech-icons/deepseek.svg",
+    category: "AI & Emerging Tech",
+  },
+  {
+    name: "Qwen",
+    icon: null,
+    asset: "/tech-icons/qwen.svg",
+    category: "AI & Emerging Tech",
+  },
+    {
+    name: "Comfy UI",
+    icon: null,
+    asset: "/tech-icons/comfyuibw.svg",
     category: "AI & Emerging Tech",
   },
   {
@@ -443,43 +447,43 @@ const categoryColors = {
     lighter: "bg-sky-400 hover:bg-sky-500",
     darker: "bg-sky-600 hover:bg-sky-700",
     accent: "bg-indigo-500 hover:bg-indigo-600",
-    buttonColor: "primary" // Using the existing primary color for buttons
+    buttonColor: "primary", // Using the existing primary color for buttons
   },
-  "Languages": {
+  Languages: {
     base: "bg-amber-500 hover:bg-amber-600",
     lighter: "bg-amber-400 hover:bg-amber-500",
     darker: "bg-amber-600 hover:bg-amber-700",
     accent: "bg-yellow-500 hover:bg-yellow-600",
-    buttonColor: "amber"
+    buttonColor: "amber",
   },
   "Backend & Infrastructure": {
     base: "bg-emerald-500 hover:bg-emerald-600",
     lighter: "bg-emerald-400 hover:bg-emerald-500",
     darker: "bg-emerald-600 hover:bg-emerald-700",
     accent: "bg-green-500 hover:bg-green-600",
-    buttonColor: "emerald"
+    buttonColor: "emerald",
   },
   "Dev Tools & Ops": {
     base: "bg-violet-500 hover:bg-violet-600",
     lighter: "bg-violet-400 hover:bg-violet-500",
     darker: "bg-violet-600 hover:bg-violet-700",
     accent: "bg-purple-500 hover:bg-purple-600",
-    buttonColor: "violet"
+    buttonColor: "violet",
   },
   "2D & 3D Media": {
     base: "bg-cyan-500 hover:bg-cyan-600",
     lighter: "bg-cyan-400 hover:bg-cyan-500",
     darker: "bg-cyan-600 hover:bg-cyan-700",
     accent: "bg-teal-500 hover:bg-teal-600",
-    buttonColor: "cyan"
+    buttonColor: "cyan",
   },
   "AI & Emerging Tech": {
     base: "bg-rose-500 hover:bg-rose-600",
     lighter: "bg-rose-400 hover:bg-rose-500",
     darker: "bg-rose-600 hover:bg-rose-700",
     accent: "bg-pink-500 hover:bg-pink-600",
-    buttonColor: "rose"
-  }
+    buttonColor: "rose",
+  },
 };
 
 // Tech display logic
@@ -492,7 +496,9 @@ const CARD_MARGIN = 24; // Space between cards
 const preventBackToBackTechs = ref(true); // Toggle to prevent back-to-back tech display
 const lastDisplayedTechs = ref([]); // Keep track of last displayed techs
 const categories = computed(() => {
-  const uniqueCategories = [...new Set(technologies.map((tech) => tech.category))];
+  const uniqueCategories = [
+    ...new Set(technologies.map((tech) => tech.category)),
+  ];
   return uniqueCategories.sort((a, b) => {
     const indexA = categorySortOrder.indexOf(a);
     const indexB = categorySortOrder.indexOf(b);
@@ -601,11 +607,11 @@ function shuffleTechs() {
 
   visibleTechs.value = selectedTechs.map((tech, index) => {
     const position = startX + index * (CARD_WIDTH + CARD_MARGIN);
-    
+
     // Apply color based on category
     const category = tech.category;
     const colorSet = categoryColors[category];
-    
+
     // Distribute technologies across different shades within the same category
     // Using the index to make technologies within the same category have different shades
     let colorClass;
@@ -616,11 +622,11 @@ function shuffleTechs() {
     } else {
       colorClass = colorSet?.darker || tech.colorClass;
     }
-    
+
     return {
       ...tech,
       position: position,
-      colorClass: colorClass // Override the original colorClass with the category-based one
+      colorClass: colorClass, // Override the original colorClass with the category-based one
     };
   });
 }
