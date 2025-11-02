@@ -5,7 +5,7 @@ date: "2025-03-23"
 category: "technology"
 tags: ["ai", "programming", "philosophy", "technology", "future"]
 titleImage: "ship-of-theseus.webp"
-featured: true
+featured: false
 ---
 
 ## Catching a Vibe
