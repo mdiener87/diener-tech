@@ -6,7 +6,7 @@ date: "2025-11-01"
 category: "technology"
 tags:
   ["ai", "machine learning", "dgx spark", "home lab", "future", "linux"]
-titleImage: "sparking-the-future.png"
+titleImage: "sparking-the-future.webp"
 readingTime: "10"
 featured: true
 
