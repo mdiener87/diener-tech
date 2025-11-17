@@ -8,7 +8,7 @@ tags:
   ["ai", "machine learning", "dgx spark", "home lab", "future", "linux"]
 titleImage: "sparking-the-future.webp"
 readingTime: "10"
-featured: true
+featured: false
 
 ---
 
