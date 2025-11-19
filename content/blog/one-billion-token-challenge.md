@@ -137,7 +137,7 @@ For the fourth attempt, I started v4 as a clean run - no more initalizing from a
 
 | Model              |    Loss |   Perplexity |
 | ------------------ | ------: | -----------: |
-| SparkNet 70M v3    | 14.3165 |    8074.7054 |
+| SparkNet 70M v3    |  8.9965 |    8074.7054 |
 | CodeLion GPT-2 70M |  5.0129 |     150.3469 |
 | GPT-2              |  3.9407 |      51.4545 |
 
@@ -183,7 +183,7 @@ After review, I noted a few major areas for improvement:
 
 | Model              |    Loss |   Perplexity |
 | ------------------ | ------: | -----------: |
-| SparkNet 70M v3    |  5.1489 |   * 172.2377* |
+| SparkNet 70M v3    |  5.1489 |   **172.2377** |
 | CodeLion GPT-2 70M |  5.0129 |     150.3469 |
 | GPT-2              |  3.9407 |      51.4545 |
 
@@ -193,10 +193,37 @@ After review, I noted a few major areas for improvement:
 <BlogImage
   src="its-working.png"
   alt="This is getting out of hand! Now there are two prequel memes!"
+  max-height="200px">
+</BlogImage>
+
+
+172 is an incredibly exciting result! This is very, very close to CodeLion's official release. To better compare how v5 compares to CodeLion and GPT-2, I ran all three through a series of benchmarks to officially test their capacity. Here is a chart of these results. 
+
+ <AccNormBenchmarkChart></AccNormBenchmarkChart>
+
+
+While CodeLion's model consistently scores higher, SparkNet v5 is consisently within the statistical error bands. I'm very happy with this result. Using only CodeLion's data sources, the SparkNet training script has succesfully engineered the recepie to build a comparable model from scratch.
+
+
+To wrap this up, let's look at the v5 grad-norm chart. The addition of the dropout value is really keeping the grad-norm values healthy!
+
+<BlogImage
+  src="v5-grad-norm.png"
+  alt="The healiest grad-norm chart of all runs"
+  max-height="200px">
+</BlogImage>
+
+
+
+Finally, here is all five training run's loss validation over time. Only the v5 run (cyan line) has the value dropping over time.
+
+<BlogImage
+  src="all-runs-loss-eval.png"
+  alt="v5 demonstrates a healthy loss curve - no other run comes close"
   max-height="400px">
 </BlogImage>
 
 
-172 is an incredibly exciting result! This is very close to CodeLion's official and best result. I wanted to better understand how this model compares, and so built a series of benchmarks out to compare the three models in greater depth:
+So there you have it! It took 5 attempts, but the final version of SparkNet is statistically similiar to CodeLion's. The one-billion token challenge has been met! Further tweaks to the exact learning parameters might further close the remaining gap. For now, I'm satisified to let this model stand. SparkNet is the first model I've ever trained from hand, and I'm sure it won't be the last!
 
- <AccNormBenchmarkChart></AccNormBenchmarkChart>
+ - Michael Diener

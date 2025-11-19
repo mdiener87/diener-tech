@@ -1,43 +1,44 @@
 <template>
-  <section class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-    <header class="mb-6 flex flex-col gap-2">
-      <p class="text-sm font-semibold uppercase tracking-wide text-sky-500 dark:text-sky-400">
+  <section class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+    <header class="mb-1 flex flex-col gap-1">
+      <p class="mt-0 mb-0 text-sm font-semibold uppercase tracking-wide text-sky-500 dark:text-sky-400">
         Benchmark Spotlight
       </p>
       <div>
-        <h3 class="text-2xl font-bold text-slate-900 dark:text-white">
+        <h3 class="mt-0 text-2xl font-bold text-slate-900 dark:text-white flex w-full justify-center">
           Normalized Accuracy Across Benchmark Tasks
         </h3>
-        <p class="text-base text-slate-600 dark:text-slate-300">
-          Comparing SparkNet 70M v5 against GPT-2 and CodeLion GPT-2 70M on tasks where normalized accuracy is available.
-        </p>
       </div>
     </header>
 
     <div class="relative">
-      <div ref="chartRef" class="h-[420px] w-full"></div>
+      <div ref="chartRef" class="h-[340px] w-full"></div>
       <div
         ref="tooltipRef"
-        class="pointer-events-none absolute z-10 hidden w-64 rounded-xl border border-slate-200 bg-white/95 p-3 text-xs shadow-xl backdrop-blur dark:border-slate-700 dark:bg-slate-800/90"
+        class="pointer-events-none absolute z-10 hidden w-52 rounded-xl border border-slate-200 bg-white/95 p-2.5 text-[11px] shadow-lg backdrop-blur dark:border-slate-700 dark:bg-slate-800/90"
       ></div>
-    </div>
-
-    <div class="mt-6 flex flex-wrap items-center gap-6 text-sm">
-      <div
-        v-for="model in models"
-        :key="model.key"
-        class="flex items-center gap-2 text-slate-600 dark:text-slate-300"
-      >
-        <span
-          class="inline-block h-3 w-3 rounded-sm"
-          :style="{ backgroundColor: model.color }"
-          :aria-label="`${model.label} color key`"
-        ></span>
-        <span class="font-medium">{{ model.label }}</span>
+      <div class="pointer-events-none absolute right-0 top-0 rounded-lg border border-slate-200/70 bg-white/90 px-3 py-2 text-xs shadow dark:border-slate-700/70 dark:bg-slate-900/80">
+        <p class="mb-1 text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-300">
+          Models
+        </p>
+        <ul class="space-y-1 text-[11px] text-slate-600 dark:text-slate-300">
+          <li
+            v-for="model in models"
+            :key="model.key"
+            class="flex items-center gap-2"
+          >
+            <span
+              class="inline-block h-2.5 w-2.5 rounded-sm"
+              :style="{ backgroundColor: model.color }"
+              :aria-label="`${model.label} color key`"
+            ></span>
+            <span class="font-medium">{{ model.label }}</span>
+          </li>
+        </ul>
       </div>
     </div>
 
-    <p class="mt-4 text-xs text-slate-500 dark:text-slate-400">
+    <p class="mt-3 text-xs text-slate-500 dark:text-slate-400">
       Bars show acc_norm scores (higher is better). Hover to see the underlying stderr and quick context for each benchmark.
     </p>
   </section>
@@ -117,8 +118,8 @@ const drawChart = () => {
     return;
   }
 
-  const margin = { top: 20, right: 12, bottom: 60, left: 56 };
-  const outerHeight = 380;
+  const margin = { top: 12, right: 12, bottom: 48, left: 52 };
+  const outerHeight = 340;
 
   const containerWidth = chartRef.value.clientWidth || 600;
   const width = Math.max(containerWidth - margin.left - margin.right, 200);
@@ -168,7 +169,7 @@ const drawChart = () => {
       if (lines.length > 1) {
         el.text('');
         lines.forEach((line, i) => {
-          el.append('tspan').text(line).attr('x', 0).attr('dy', i ? '1.1em' : 0);
+          el.append('tspan').text(line).attr('x', 0).attr('dy', i ? '1.1em' : 0).attr('y', '1.5em');
         });
       }
     }));
@@ -184,9 +185,9 @@ const drawChart = () => {
     .attr('class', 'text-sm font-semibold fill-slate-700 dark:fill-slate-100')
     .attr('transform', 'rotate(-90)')
     .attr('x', -height / 2)
-    .attr('y', -margin.left + 16)
+    .attr('y', -margin.left + 8)
     .attr('text-anchor', 'middle')
-    .text('acc_norm');
+    .text('Normalized Accuracy (acc_norm)');
 
   const testGroups = plot
     .selectAll('.test-group')
@@ -227,9 +228,9 @@ const drawChart = () => {
   plot
     .append('text')
     .attr('x', width / 2)
-    .attr('y', height + margin.bottom - 10)
+    .attr('y', height + margin.bottom - 14)
     .attr('text-anchor', 'middle')
-    .attr('class', 'text-sm font-semibold fill-slate-700 dark:fill-slate-100')
+    .attr('class', 'text-[13px] font-semibold fill-slate-700 dark:fill-slate-100')
     .text('Benchmark Task');
 };
 
@@ -248,11 +249,11 @@ const showTooltip = (
   }
 
   tooltipRef.value.innerHTML = `
-    <p class="text-sm font-semibold text-slate-900 dark:text-white">${payload.label}</p>
-    <p class="text-[13px] text-slate-600 dark:text-slate-300">${payload.testLabel}</p>
-    <p class="mt-2 text-sm text-slate-900 dark:text-slate-100"><span class="font-semibold">acc_norm:</span> ${(payload.score * 100).toFixed(1)}%</p>
-    <p class="text-[13px] text-slate-500 dark:text-slate-400">stderr ± ${(payload.stderr * 100).toFixed(2)}%</p>
-    <p class="mt-2 text-[12px] leading-snug text-slate-500 dark:text-slate-400">${payload.description}</p>
+    <p class="text-[13px] font-semibold text-slate-900 dark:text-white">${payload.label}</p>
+    <p class="text-[11px] uppercase tracking-wide text-slate-500 dark:text-slate-300">${payload.testLabel}</p>
+    <p class="mt-1 text-[13px] text-slate-900 dark:text-slate-100"><span class="font-semibold">acc_norm:</span> ${(payload.score * 100).toFixed(1)}%</p>
+    <p class="text-[11px] text-slate-500 dark:text-slate-400">stderr ± ${(payload.stderr * 100).toFixed(2)}%</p>
+    <p class="mt-1 text-[11px] leading-snug text-slate-500 dark:text-slate-400">${payload.description}</p>
   `;
 
   const bounds = chartRef.value.getBoundingClientRect();
@@ -270,8 +271,6 @@ const hideTooltip = () => {
 };
 
 onMounted(() => {
-
-  console.log("DEBUG: Drawing chart");
   drawChart();
 
   if (chartRef.value && 'ResizeObserver' in window) {
