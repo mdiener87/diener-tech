@@ -51,9 +51,9 @@ Dataset: WikiText-2 Raw v1 — Samples: 2000
 
 | Model              |    Loss | Perplexity |
 | ------------------ | ------: | ---------: |
-| SparkNet 70M v1    | 10.5697 | 38937.7836 |
-| GPT-2              |  3.9407 |    51.4545 |
+| SparkNet 70M v1    | 10.5697 | 38,937.7836 |
 | CodeLion GPT-2 70M |  5.0129 |   150.3469 |
+| GPT-2              |  3.9407 |    51.4545 |
 
 _Note - GPT-2 has an advantage in this comparison, as it was directly trained on WikiText_
 
@@ -77,9 +77,9 @@ That... didn't really work out.
 
 | Model              |    Loss | Perplexity |
 | ------------------ | ------: | ---------: |
-| SparkNet 70M v2    | 11.4190 | 91033.4041 |
-| GPT-2              |  3.9407 |    51.4545 |
+| SparkNet 70M v2    | 11.4190 | 91,033.4041 |
 | CodeLion GPT-2 70M |  5.0129 |   150.3469 |
+| GPT-2              |  3.9407 |    51.4545 |
 
 The good news - from v2 onwards, improvements to the training script would upgrade our sustained throughput to ~21,500 tokens/second, or 77.4 million tokens/hour. This shaves our total 1 billion training run down to ~13 hours start to finish. CodeLion trained their models on an A100 GPU in ~8 hours; the Spark compares very favorably here, as that A100 is an expensive enterprise-class GPU used in datacenters! With ~13 hours to complete a full 1 billion training run, it was easy to set up a run overnight and analyze the completed results the next morning.
 
@@ -103,13 +103,13 @@ I think the training process had some sort of issue during the v2 run - the Tens
 
 ## SparkNet v3
 
-Entering my third attempt at training, I thought I'd try a different tactic. With v2 feeling a bit under-cooked, I thought I'd try a second round of training on the v2 checkpoint. This would utilize the same 1 billion learning tokens, and let the model get a second attempt at learning from their data, for a total of 2 billion training tokens. The total time spent training v3 would therefore be 26 hours start-to-finish.
+Entering my third attempt at training, I thought I'd try a different tactic. With v2 feeling a bit under-cooked, I thought I'd try a second round of training on the v2 checkpoint. This would utilize the same 1 billion learning tokens, and let the model get a second attempt at learning from their data, for a total of 2 billion training tokens. The total time spent training v3 would therefore be 26 hours start-to-finish, representing 2x 13 hour runs.
 
 | Model              |    Loss |   Perplexity |
 | ------------------ | ------: | -----------: |
-| SparkNet 70M v3    | 14.3165 | 1650392.2805 |
-| GPT-2              |  3.9407 |      51.4545 |
+| SparkNet 70M v3    | 14.3165 | 1,650,392.2805 |
 | CodeLion GPT-2 70M |  5.0129 |     150.3469 |
+| GPT-2              |  3.9407 |      51.4545 |
 
 
 *Oh no*
@@ -120,11 +120,11 @@ Entering my third attempt at training, I thought I'd try a different tactic. Wit
   max-height="200px">
 </BlogImage>
 
-Now I'm surely moving in the wrong direciton with this project. The grad-norm graph here doesn't show the model settling down with additional token exposure - it's making rapid and large changes to its vectors. v2 was a bust, and v3 built on a bad foundation.
+Now I'm surely moving in the wrong direciton with this project. The grad-norm graph here doesn't show the model settling down with additional token exposure - it's making rapid and large changes to its vectors. v2 was a bust, and v3 built on a bad foundation. This is catastrophic model collapse - random tensor weights might honestly do better than whatever this is.
 
 ## SparkNet v4
 
-I'm starting to wonder at this point if I'm not doing something fundementally wrong here. Our Perplexity scores keep going up, up, up! Which is entirely the wrong direction. 
+I'm starting to wonder at this point if I'm not doing something fundementally wrong here. Our Perplexity scores keep going Up, Up, Up! Which is entirely the wrong direction. 
 
 <BlogImage
   src="down-not-up.png"
@@ -132,3 +132,71 @@ I'm starting to wonder at this point if I'm not doing something fundementally wr
   max-height="400px">
 </BlogImage>
 
+
+For the fourth attempt, I started v4 as a clean run - no more initalizing from an existing checkpoint. I continued with the idea of using a 2bil token training run, utilizing 1bil learning tokens seen twice. The model configuration was my best-guess blend of the v2 and v3 arguments. Given this model was trained from zero, it would take ~26 hours to complete on the Spark. This was an excellent long-term stability test for the spark, and it showed no signs of thermal throttling during the long run. When we pulled the model out of the oven, these were the results:
+
+| Model              |    Loss |   Perplexity |
+| ------------------ | ------: | -----------: |
+| SparkNet 70M v3    | 14.3165 |    8074.7054 |
+| CodeLion GPT-2 70M |  5.0129 |     150.3469 |
+| GPT-2              |  3.9407 |      51.4545 |
+
+
+!!! Finally !!!
+
+With a Perplexity of ~8k, v4 is now by far the best training attempt in the series. This result really boosted my confidence - suddenly the 1 billion token challenge didn't feel impossible. The Tensorboard charts tell a much better story for this training as well:
+
+
+<BlogImage
+  src="v4-tokens-sec.png"
+  alt="At almost 22k tokens/sec, v4 had excellent sustained training"
+  max-height="200px">
+</BlogImage>
+
+<BlogImage
+  src="v4-grad-norm.png"
+  alt="No big spikes or sawtooth behavior in grad-norm"
+  max-height="200px">
+</BlogImage>
+
+<BlogImage
+  src="v4-perplexity.png"
+  alt="Gradual decrease in perplexity against validation data"
+  max-height="200px">
+</BlogImage>
+
+
+While v4 represents a major improvement in the training, it is still an order of magnitude away from the CodeLion result. Furthermore, v4 utilized 2bil training tokens - double our target budget. So the question remained - how do I achieve the precision CodeLion's model demonstrates? 
+
+## v5
+
+To train a model to a similiar quality of CodeLion, I went back to the drawing board and re-evaluated all of the underlying assumptions in the training pipeline. v4 represented a major improvement, but it also somewhat cheated the challenge by doubling the amount of training tokens available. To achieve a low-Perplixity model AND stay on-budget would require more than tweaking the learning rate.
+
+After review, I noted a few major areas for improvement:
+
+1) **Tokenizer** - For all previous attempts, I had made use of the original GPT-2 tokenizer. A tokenizer is a map which translates string day (such as charachters, words, special tokens, etc) into a numerical value that the model can work with. GPT-2's tokenizer was build for working with relatively unrefined web text. CodeLion used their own tokenizer for the training run - and here lies a subtle distinction. CodeLion's data sources (the same data sources I'm making use of) include a lot of academic texts wither larger words and longer sentences than raw web text would likely include. The GPT-2 tokenizer, therefore, was likely needing more tokens to represent the training corpus than CodeLion's tokenizer. With a strict 1 billion token budget, a small improvement in tokenizer efficencey might represent big wins. Therefore, for the v5 run, I built my own tokenizer to precisely optimize against my training corpus. 
+2) **Dropout** - A small amount of dropout was added to the model's hyperparameters; this has the effect of randomly zeroing tensor weights during the training process. On small models, it's easy for the training process to overfit rather than generalize. A small amount of Dropout essentially adds noise, forcing the model to generalize rather than overly specialize. 
+3) **Dataset** - In the prior training runs, I made use of a streaming pipeline to dynamically load the training data with low overhead. For v5, I built a pre-compiled database of training tokens, which would gurantee any future runs would all result from a deterministic set of local data.
+
+13 hours and one billion tokens later, v5 came out of the oven...
+
+
+| Model              |    Loss |   Perplexity |
+| ------------------ | ------: | -----------: |
+| SparkNet 70M v3    |  5.1489 |   * 172.2377* |
+| CodeLion GPT-2 70M |  5.0129 |     150.3469 |
+| GPT-2              |  3.9407 |      51.4545 |
+
+!!! **172** !!!
+
+
+<BlogImage
+  src="its-working.png"
+  alt="This is getting out of hand! Now there are two prequel memes!"
+  max-height="400px">
+</BlogImage>
+
+
+172 is an incredibly exciting result! This is very close to CodeLion's official and best result. I wanted to better understand how this model compares, and so built a series of benchmarks out to compare the three models in greater depth:
+
+ <AccNormBenchmarkChart></AccNormBenchmarkChart>
