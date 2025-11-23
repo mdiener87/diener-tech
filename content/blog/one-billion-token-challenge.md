@@ -1,7 +1,7 @@
 ---
 title: "The One Billion Token Challenge"
 description: "The Making of SparkNet GPT-2 70m"
-date: "2025-11-17"
+date: "2025-11-22"
 category: "technology"
 tags:
   [
@@ -20,11 +20,11 @@ featured: true
 
 ## The DGX Spark as an AI Laboratory
 
-When I first introduced the DGX Spark in [Sparking the Future](sparking-the-future.md), many of initial use cases focused around AI inference. That is to say, running an existing AI model, in a process very similar to running any available, off-the-shelf software. However, the DGX Spark is capable of far more than just inference - it's also an excellent platform for training models from scratch. 
+When I first introduced the DGX Spark in [Sparking the Future](sparking-the-future.md), many of initial use cases focused around AI inference. Inference is the act of running an existing AI model, in a process very similar to running any available, off-the-shelf software. However, the DGX Spark is capable of far more than just running existing models - it's also an excellent platform for training models from scratch. This post examines my first from-scratch training efforts, culminating in the creation of SparkNet GPT-2 70m.
 
-[GPT-2](https://en.wikipedia.org/wiki/GPT-2) makes an ideal training target for AI research. This was the second major model that OpenAI trained, before ChatGPT (running GPT-3) made OpenAI into a household name. At the time (circa 2019), GPT-2 represented a major research effort in OpenAI's attempt to scale up transformer architecture. Today, GPT-2 style models can be readily trained on consumer hardware. The legendary Karpathy has previously outlined easy to implement training processes for building these types of models. His contributions include [nanoGPT](https://github.com/karpathy/nanoGPT) and [nanoChat](https://github.com/karpathy/nanochat). 
+[GPT-2](https://en.wikipedia.org/wiki/GPT-2) style-models make for an ideal early training target for AI research. GPT-2 was the second major model that OpenAI trained, before ChatGPT (running GPT-3) made OpenAI into a household name. At the time (circa 2019), GPT-2 represented a major research effort in OpenAI's attempt to scale up transformer architecture. Today, GPT-2 style models can be readily trained on consumer hardware. The legendary Karpathy has previously outlined easy to implement training processes for building these types of models. His contributions include [nanoGPT](https://github.com/karpathy/nanoGPT) and [nanoChat](https://github.com/karpathy/nanochat). 
 
-The training plans Karpathy outline involve working through a large training dataset. The Spark is totally capable of handling such a task, but it would probably take several days per run. I was considering this limitation, when I came across a blog post by CodeLion on HuggingFace: [The One Billion Token Challenge](https://huggingface.co/blog/codelion/optimal-dataset-mixing). In it, CodeLion (Asankhaya Sharma) outlines their effort to produce a GPT-2 style model, while 'only' using 1 Billion training tokens. This represents a tenth of the original training set that GPT-2 utilized. CodeLion's research focused on a quality over quantity approach: by utilizing only very high quality training texts, they hoped to maximize the impact of every single token. 
+The training plans Karpathy outline involve working through a large training dataset. The Spark is totally capable of handling such a task, but it would probably take several days per run. I was considering this limitation, when I came across a blog post by CodeLion on HuggingFace: [The One Billion Token Challenge](https://huggingface.co/blog/codelion/optimal-dataset-mixing). In it, CodeLion (Asankhaya Sharma) outlines their effort to produce a GPT-2 style model, while 'only' using one Billion training tokens; representing a tenth of the original training set that GPT-2 utilized. CodeLion's research focused on a quality over quantity approach: by utilizing only very high quality training texts, they hoped to maximize the impact of every single token. 
 
 According to CodeLion's blog post, across 50 different training attempts, they found an optimal mix of of training data - settling on a 50:30:20 ratio of of academic textbook PDFs, educational web content, and high-quality web posts. With only one billion training tokens, CodeLion claims to have trained a model that is extremely similar to the official GPT-2 model in terms of quality. With a low-budget, high-impact result, I was inspired to take up the same challenge: Can I train a GPT-2 model with only one billion tokens?
 
@@ -42,7 +42,6 @@ CodeLion's blogpost and [HuggingFace profile](https://huggingface.co/codelion) p
 - Train a 70m parameter GPT-2 style model
 - Utilize only one billion training tokens
 - Validate the finished model against CodeLion's and OpenAI's GPT-2 models
-- Utilize the DGX Spark for all training activities
 
 With the challenge parameters outlined, I spun up project [SparkNet](https://github.com/mdiener87/sparknet). I decided to use the same dataset and hyperparameters as CodeLion's best GPT-2 70m result, with one minor tweak - I also included all of my blog posts from DienerTech! These blog posts represent a miniscule addition compared to the rest of the dataset, but its fun to add a bit of personalization.
 
@@ -50,12 +49,12 @@ With the challenge parameters outlined, I spun up project [SparkNet](https://git
   name="SparkNet" 
   url="https://github.com/mdiener87/sparknet"
   description="SparkNet - a custom training pipeline for GPT-2 style LLMs"
-  src="">
+  src="/projects/sparknet-logo.png">
 </GithubProject>
 
 ## SparkNet v1
 
-The v1 run for SparNet involved two critical steps - preparing my blog posts for use as a training source, and writing the training script itself. Once the pipeline was set up, I ran a smoke-test run on 200 million tokens. This was a good call, as I used the opportunity to further refine the training script. Once the smoke-test result was stable, I set the script for the full one billion training tokens budget, and the DGX Spark did it's thing!
+The v1 run for SparkNet involved two critical steps - preparing my blog posts for use as a training source, and writing the training script itself. Once the pipeline was set up, I ran a smoke-test run on 200 million tokens. This was a good call, as I used the opportunity to further refine the training script. Once the smoke-test result was stable, I set the script for the full one billion training tokens budget, and the DGX Spark did it's thing!
 
 Approximately 13 hours later, SparkNet v1 came out of the oven. I was eager to compare it's performance to the two baseline models: OpenAI's GPT-2, and CodeLion's GPT-2 model. How well would SparkNet compare? I wrote a simple script to provide an evaluation of the three models, which compares their Loss and Perplexity values against 2,000 samples of Wikipedia text.
 
@@ -147,7 +146,7 @@ I'm starting to wonder at this point if I'm not doing something fundamentally wr
 
 <BlogImage
   src="down-not-up.png"
-  alt="R2, are you listening?"
+  alt="Spark, are you listening?"
   max-height="400px">
 </BlogImage>
 
@@ -187,7 +186,7 @@ With a Perplexity of ~8k, v4 is now by far the best training attempt in the seri
 
 While v4 represents a major improvement in the training, it is still an order of magnitude away from the CodeLion result. Furthermore, v4 utilized 2bil training tokens - double our target budget. So the question remained - how do I achieve the precision CodeLion's model demonstrates? 
 
-## v5
+## SparkNet v5
 
 I went back to the drawing board and re-evaluated all of the underlying assumptions in the training pipeline. v4 represented a major improvement, but it also somewhat cheated the challenge by doubling the amount of training tokens available. To achieve a low-Perplexity model AND stay on-budget would require more than tweaking the learning rate.
 
@@ -195,10 +194,9 @@ After review, I noted a few major areas for improvement:
 
 1) **Tokenizer** - For all previous attempts, I had made use of the original GPT-2 tokenizer. A tokenizer is a map which translates string day (such as characters, words, special tokens, etc) into a numerical value that the model can work with. GPT-2's tokenizer was build for working with relatively unrefined web text. CodeLion used their own tokenizer - and here lies a subtle distinction. CodeLion's data sources (the same data sources I'm making use of) include a lot of academic texts wither larger words and longer sentences than raw web text would likely include. The GPT-2 tokenizer, therefore, was likely needing more tokens to represent the training corpus than CodeLion's tokenizer. With a strict 1 billion token budget, a small improvement in tokenizer efficiency might represent big wins. Therefore, for the v5 run, I built my own tokenizer to precisely optimize against my training corpus. 
 
-_CodeLion also provides their tokenizer along with the model - I decided it would be more fun and educational to try my hand at creating a custom tokenizer myself_
+    _CodeLion also provides their tokenizer along with the model - I decided it would be more fun and educational to try my hand at creating a custom tokenizer myself_
 
-2) **Dropout** - A small amount of dropout was added to the model's hyperparameters; this has the effect of randomly zeroing tensor weights during the training process. On small models, it's easy for the training process to over-fit rather than 
-generalize. A small amount of Dropout essentially adds noise, forcing the model to generalize. 
+2) **Dropout** - Dropout was added to the model's hyperparameters. This has the effect of randomly zeroing tensor weights during the training process. On small models, it's easy for the training process to over-fit rather than generalize. A small amount of dropout essentially adds noise, forcing the model to generalize rather than specialize. 
 
 3) **Dataset** - In the prior training runs, I made use of a streaming pipeline to dynamically load the training data with low overhead. For v5, I built a pre-compiled database of training tokens, which would guarantee any future runs would all result from a deterministic set of local data.
 
