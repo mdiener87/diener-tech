@@ -220,14 +220,14 @@ const latestPosts = rawLatestPosts.map((post) => ({
 
 // Featured project data (placeholder until you build out a projects collection)
 const featuredProject = {
-  title: "Frame Finder",
+  title: "SparkNet",
   description:
-    "Utilize reference images to locate their occurrence within videos",
-  technologies: ["Flask", "Python", "OpenCV", "FFmpeg"],
+    "A custom training pipeline for a GPT-2 style 70m parameter language model",
+  technologies: ["Python", "PyTorch", "Transformers", "NLP"],
   additionalInfo:
-    "Featuring advanced image processing techniques, this tool helps users find specific frames in videos using reference images. Ideal for video editors and content creators.",
-  githubUrl: "https://github.com/mdiener87/frame-finder",
-  img: "/projects/frame-finder-logo.webp",
+    "Built for the One Billion Token training challenge, this model was trained on a diverse dataset to explore efficient training techniques.",
+  githubUrl: "https://github.com/mdiener87/sparknet",
+  img: "/projects/sparknet-logo.webp",
 };
 
 // SEO metadata
