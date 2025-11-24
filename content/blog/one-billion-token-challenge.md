@@ -13,7 +13,7 @@ tags:
     "sparknet",
     "gpt-2",
   ]
-titleImage: "one-billion-token-challenge.png"
+titleImage: "one-billion-token-challenge.webp"
 readingTime: "10"
 featured: true
 ---
@@ -29,7 +29,7 @@ The training plans Karpathy outline involve working through a large training dat
 According to CodeLion's blog post, across 50 different training attempts, they found an optimal mix of training data — a 50:30:20 ratio of academic textbook PDFs, educational web content, and high-quality web posts. With only one billion training tokens, CodeLion claims to have trained a model that is extremely similar to the official GPT-2 model in terms of quality. With a low-budget, high-impact result, I was inspired to take up the same challenge: Can I train a GPT-2 model with only one billion tokens?
 
 <BlogImage
-  src="challenge-accepted.jpg"
+  src="challenge-accepted.webp"
   alt="Time to lock in"
   max-height="300px">
 </BlogImage>
@@ -78,7 +78,7 @@ As it turns out, there's many different aspects to consider when training a mode
 One positive result from this v1 run - we benchmarked the Spark's training throughput. The Spark managed a steady ~20k tokens/second in the training pipeline, which amounts to 72 million tokens per hour. With the set training budget of one billion tokens, the DGX Spark could finish the entire training run in about 14 hours time. All of the training runs would make use of [Tensorboard](link), which both records statistics from the training run, and provides an easy web-based reporting interface.
 
 <BlogImage
-  src="v1-throughput-chart.png"
+  src="v1-throughput-chart.webp"
   alt="The first training run maintained a steady 20,600 tokens/sec processing speed"
   max-height="200px">
 </BlogImage>
@@ -100,7 +100,7 @@ The good news - from v2 onwards, improvements to the training script would upgra
 It's good that the runs could complete so rapidly, as further iteration was clearly needed. With a Perplexity over **90,000**, this v2 model was clearly a step in the wrong direction. I think this image really sums up the situation -
 
 <BlogImage
-  src="over-90000.png"
+  src="over-90000.webp"
   alt="Vegeta is not impressed"
   max-height="400px">
 </BlogImage>
@@ -110,7 +110,7 @@ I think the training process had some sort of issue during the v2 run - the Tens
 Gradient normalization (grad-norm) is a metric which analyzes how large a change in vector values the tensors experienced per training step. A larger grad-norm indicates a bigger update was made to the tensor weights. The v1 training run clearly experienced a sawtooth looking pattern, which likely means the tensors never really converged. Instead, they kept being surprised by new data, making large updates to their values, even late into the training run. The v2 graph, meanwhile, seems to just drop out after 4 hours. Other charts from this run do go the full 13 hours, so I'm really not sure what happened here. Nothing good came from this run, so its time to move on.
 
 <BlogImage
-  src="v1-vs-v2-grad-norm.png"
+  src="v1-vs-v2-grad-norm.webp"
   alt="Comparing v1 and v2 gradient normalization"
   max-height="200px">
 </BlogImage>
@@ -130,7 +130,7 @@ Entering my third attempt at training, I thought I'd try a different tactic. Wit
 *Oh no*
 
 <BlogImage
-  src="v2-v3-grad-norm.png"
+  src="v2-v3-grad-norm.webp"
   alt="Whatever it's learning, it's not learning it well"
   max-height="200px">
 </BlogImage>
@@ -142,7 +142,7 @@ Now I'm surely moving in the wrong direction with this project. The grad-norm gr
 I'm starting to wonder at this point if I'm not doing something fundamentally wrong here. Our Perplexity scores keep going Up, Up, Up! This is not golden at all.
 
 <BlogImage
-  src="down-not-up.png"
+  src="down-not-up.webp"
   alt="Spark, are you listening?"
   max-height="400px">
 </BlogImage>
@@ -163,19 +163,19 @@ With a Perplexity of ~8k, v4 is now by far the best training attempt in the seri
 
 
 <BlogImage
-  src="v4-tokens-sec.png"
+  src="v4-tokens-sec.webp"
   alt="At almost 22k tokens/sec, v4 had excellent sustained training"
   max-height="200px">
 </BlogImage>
 
 <BlogImage
-  src="v4-grad-norm.png"
+  src="v4-grad-norm.webp"
   alt="No big spikes or sawtooth behavior in grad-norm"
   max-height="200px">
 </BlogImage>
 
 <BlogImage
-  src="v4-perplexity.png"
+  src="v4-perplexity.webp"
   alt="Gradual decrease in perplexity against validation data"
   max-height="200px">
 </BlogImage>
@@ -248,7 +248,7 @@ While CodeLion's model consistently scores higher, SparkNet v5 is often within t
 To wrap this up, let's look at the v5 grad-norm chart. The addition of the dropout value is really keeping the grad-norm values healthy!
 
 <BlogImage
-  src="v5-grad-norm.png"
+  src="v5-grad-norm.webp"
   alt="The healthiest grad-norm chart of all runs"
   max-height="200px">
 </BlogImage>
@@ -258,7 +258,7 @@ To wrap this up, let's look at the v5 grad-norm chart. The addition of the dropo
 Finally, here is all five training run's loss validation over time. Only the v5 run (cyan line) has the value dropping over time.
 
 <BlogImage
-  src="all-runs-loss-eval.png"
+  src="all-runs-loss-eval.webp"
   alt="v5 demonstrates a healthy loss curve - no other run comes close"
   max-height="400px">
 </BlogImage>
@@ -282,7 +282,7 @@ In the meantime, feel free to check out the final model on HuggingFace, or the t
   name="SparkNet" 
   url="https://github.com/mdiener87/sparknet"
   description="SparkNet - a custom training pipeline for GPT-2 style LLMs"
-  src="/projects/sparknet-logo.png">
+  src="/projects/sparknet-logo.webp">
 </GithubProject>
 
  - Michael Diener
