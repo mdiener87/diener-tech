@@ -20,7 +20,7 @@ featured: true
 
 ## The DGX Spark as an AI Laboratory
 
-When I first introduced the DGX Spark in [Sparking the Future](sparking-the-future.md), many of initial use cases focused around AI inference. Inference is the act of running an existing AI model, in a process very similar to running any available, off-the-shelf software. However, the DGX Spark is capable of far more than just running existing models - it's also an excellent platform for training models from scratch. This post examines my first from-scratch training efforts, culminating in the creation of SparkNet GPT-2 70m.
+When I first introduced the DGX Spark in [Sparking the Future](sparking-the-future.md), many of its initial use cases focused around AI inference. Inference is the act of running an existing AI model, in a process very similar to running any available, off-the-shelf software. However, the DGX Spark is capable of far more than just running existing models - it's also an excellent platform for training models from scratch. This post examines my first from-scratch training efforts, culminating in the creation of SparkNet GPT-2 70m.
 
 [GPT-2](https://en.wikipedia.org/wiki/GPT-2) style-models make for an ideal early training target for AI research. GPT-2 was the second major model that OpenAI trained, before ChatGPT (running GPT-3) made OpenAI into a household name. At the time (circa 2019), GPT-2 represented a major research effort in OpenAI's attempt to scale up transformer architecture. Today, GPT-2 style models can be readily trained on consumer hardware. The legendary Karpathy has previously outlined easy to implement training processes for building these types of models. His contributions include [nanoGPT](https://github.com/karpathy/nanoGPT) and [nanoChat](https://github.com/karpathy/nanochat). 
 
@@ -43,7 +43,7 @@ CodeLion's blogpost and [HuggingFace profile](https://huggingface.co/codelion) p
 - Utilize only one billion training tokens
 - Validate the finished model against CodeLion's and OpenAI's GPT-2 models
 
-With the challenge parameters outlined, I spun up project [SparkNet](https://github.com/mdiener87/sparknet). I decided to use the same dataset and hyperparameters as CodeLion's best GPT-2 70m result, with one minor tweak - I also included all of my blog posts from DienerTech! These blog posts represent a miniscule addition compared to the rest of the dataset, but its fun to add a bit of personalization.
+With the challenge parameters outlined, I spun up project [SparkNet](https://github.com/mdiener87/sparknet). I decided to use the same dataset and hyperparameters as CodeLion's best GPT-2 70m result, with one minor tweak - I also included all of my blog posts from DienerTech! These blog posts represent a minuscule addition compared to the rest of the dataset, but its fun to add a bit of personalization.
 
 <GithubProject 
   name="SparkNet" 
@@ -60,8 +60,8 @@ Approximately 13 hours later, SparkNet v1 came out of the oven. I was eager to c
 
 Before examining the final results, let's briefly define these two terms. They get to the heart of how an LLM works:
 
-- **Loss**: The training objective value (lower is better). This represents, roughly, how many tokens the LLM thought was probable. So a loss of 4 meant the LLM was considering 4 different tokens, aggregated across the comparison dataset.
-- **Perplexity**: The natural exponent of the Loss factor; this again measures how well the model predicts data (lower is better). Loss tends to work on small numbers, and small shifts of decimal values might represent meaningful change. By taking Loss to an exponent value, Perplexity becomes easier to compare and understand across models.
+- **Loss**: Loss is the model’s objective function — a lower loss means the model assigned higher probability to the correct next token. It's the core measure of how well the model predicts text.
+- **Perplexity**: The natural exponent of the Loss factor; again measuring how well the model predicts data (lower is better). Loss tends to work on small numbers, and small shifts of decimal values might represent meaningful change. By taking Loss to an exponent value, Perplexity becomes easier to compare and understand across models.
 
 With our definitions so defined, let's see how my SparkNet v1 model stacks up:
 
@@ -109,7 +109,9 @@ It's good that the runs could complete so rapidly, as further iteration was clea
   max-height="400px">
 </BlogImage>
 
-I think the training process had some sort of issue during the v2 run - the Tensorboard graphs are somewhat confused when compared to v1. It's like the model just gave up training partway through, which would explain the disastrous final result.
+I think the training process had some sort of issue during the v2 run - the Tensorboard graphs are somewhat confused when compared to v1. It's like the model just gave up training partway through, which would explain the disastrous final result. 
+
+Gradient normalization (grad-norm) is a metric which analyzes how large a change in vector values the tensors experienced per training step. A larger grad-norm indicates a bigger update was made to the tensor weights. The v1 training run clearly experienced a sawtooth looking pattern, which likely means the tensors never really converged. Instead, they kept being surprised by new data, making large updates to their values, even late into the training run. The v2 graph, meanwhile, seems to just drop out after 4 hours. Other charts from this run do go the full 13 hours, so I'm really not sure what happened here. Nothing good came from this run, so its time to move on.
 
 <BlogImage
   src="v1-vs-v2-grad-norm.png"
@@ -117,7 +119,6 @@ I think the training process had some sort of issue during the v2 run - the Tens
   max-height="200px">
 </BlogImage>
 
-"Gradient normalization" is a metric which analyzes how large a change in vector values the tensors experienced per training step. A larger grad-norm indicates a bigger update was made to the tensor weights. The v1 training run clearly experienced a sawtooth looking pattern, which likely means the tensors never really converged. Instead, they kept being surprised by new data, making large updates to their values, even late into the training run. The v2 graph, meanwhile, seems to just drop out after 4 hours. Other charts from this run do go the full 13 hours, so I'm really not sure what happened here. Nothing good came from this run, so its time to move on.
 
 ## SparkNet v3
 
@@ -151,11 +152,11 @@ I'm starting to wonder at this point if I'm not doing something fundamentally wr
 </BlogImage>
 
 
-For the fourth attempt, I started v4 as a clean run - no more initializing from an existing checkpoint. I continued with the idea of using a 2bil token training run, utilizing 1bil learning tokens seen twice. The model configuration was my best-guess blend of the v2 and v3 arguments. Given this model was trained from zero, it would take ~26 hours to complete on the Spark. This was an excellent long-term stability test for the spark, and it showed no signs of thermal throttling during the long run. When we pulled the model out of the oven, these were the results:
+For the fourth attempt, I started v4 as a clean run - no more initializing from an existing checkpoint. I continued with the idea of using a 2 billion token training run, utilizing one billion learning tokens seen twice. The model configuration was my best-guess blend of the v2 and v3 arguments. Given this model was trained from zero, it would take ~26 hours to complete on the Spark. This was an excellent long-term stability test for the spark, and it showed no signs of thermal throttling during the long run. When we pulled the model out of the oven, these were the results:
 
 | Model              |    Loss |   Perplexity |
 | ------------------ | ------: | -----------: |
-| SparkNet 70M v3    |  8.9965 |    8,074.7054 |
+| SparkNet 70M v4    |  8.9965 |    8,074.7054 |
 | CodeLion GPT-2 70M |  5.0129 |     150.3469 |
 | GPT-2              |  3.9407 |      51.4545 |
 
@@ -192,7 +193,7 @@ I went back to the drawing board and re-evaluated all of the underlying assumpti
 
 After review, I noted a few major areas for improvement:
 
-1) **Tokenizer** - For all previous attempts, I had made use of the original GPT-2 tokenizer. A tokenizer is a map which translates string day (such as characters, words, special tokens, etc) into a numerical value that the model can work with. GPT-2's tokenizer was build for working with relatively unrefined web text. CodeLion used their own tokenizer - and here lies a subtle distinction. CodeLion's data sources (the same data sources I'm making use of) include a lot of academic texts wither larger words and longer sentences than raw web text would likely include. The GPT-2 tokenizer, therefore, was likely needing more tokens to represent the training corpus than CodeLion's tokenizer. With a strict 1 billion token budget, a small improvement in tokenizer efficiency might represent big wins. Therefore, for the v5 run, I built my own tokenizer to precisely optimize against my training corpus. 
+1) **Tokenizer** - For all previous attempts, I had made use of the original GPT-2 tokenizer. A tokenizer is a map which translates string data (such as characters, words, special tokens, etc) into a numerical value that the model can work with. GPT-2's tokenizer was built for working with relatively unrefined web text. CodeLion used their own tokenizer - and here lies a subtle distinction. CodeLion's data sources (the same data sources I'm making use of) include a lot of academic texts wit larger words and longer sentences than raw web text would likely include. The GPT-2 tokenizer, therefore, was likely needing more tokens to represent the training corpus than CodeLion's tokenizer. A more efficient tokenizer can represent the same text using fewer tokens, which effectively gives the model more learning signal within the same token budget.
 
     _CodeLion also provides their tokenizer along with the model - I decided it would be more fun and educational to try my hand at creating a custom tokenizer myself_
 
@@ -219,12 +220,35 @@ After review, I noted a few major areas for improvement:
 </BlogImage>
 
 
-172 is an incredibly exciting result! This is very, very close to CodeLion's official release. To better compare how v5 compares to CodeLion and GPT-2, I ran all three through a series of benchmarks to officially test their capacity. Here is a chart of these results. 
+172 is an incredibly exciting result! This is very, very close to CodeLion's official release. To better compare how v5 compares to CodeLion and GPT-2, I ran all three models through a series of benchmarks to officially test their capabilities. 
+
+
+
 
  <AccNormBenchmarkChart></AccNormBenchmarkChart>
+<details>
+<summary><i>Click to expand and learn more about each of the involved tests.</i></summary>
+
+#### Benchmark Suites
+
+**HellaSwag**
+HellaSwag is a commonsense reasoning benchmark focused on completing short narrative or instructional descriptions. Each question gives a sentence or scenario and four possible continuations; the model must pick the most realistic one. It’s deceptively difficult because the options are written to look plausible, so high scores require strong world knowledge, context understanding, and linguistic coherence.
+
+**PIQA (Physical Interaction Question Answering)**
+
+PIQA tests commonsense knowledge about the physical world—specifically, how objects are used and how everyday tasks work. Each question poses a goal or action (e.g., lighting a candle, cleaning a spill) and gives two possible solutions. Success requires understanding physical limitations, intuitive physics, and everyday practicality.
+
+**ARC (AI2 Reasoning Challenge) – Easy**
+
+ARC Easy consists of grade-school level multiple-choice science questions that rely on basic factual recall and simple reasoning. It serves as a sanity check that a model can handle straightforward academic knowledge and simple logical relationships.
+
+**ARC (AI2 Reasoning Challenge) – Challenge**
+
+ARC Challenge is one of the hardest reasoning benchmarks in the LLM ecosystem. These questions are crafted specifically to be difficult for both models and rule-based systems. They require multi-step reasoning, inference, knowledge transfer, and problem-solving rather than rote memory. Human test-takers find them challenging; models usually perform far below human-level.
+</details>
 
 
-While CodeLion's model consistently scores higher, SparkNet v5 is consistently within the statistical error bands. I'm very happy with this result. Using only CodeLion's data sources, the SparkNet training script has successfully engineered the recipe to build a comparable model from scratch.
+While CodeLion's model consistently scores higher, SparkNet v5 is often within the statistical error bands. I'm *very* happy with this result! Using only CodeLion's data sources, the SparkNet training script has successfully engineered the recipe to build a comparable model from scratch.
 
 
 To wrap this up, let's look at the v5 grad-norm chart. The addition of the dropout value is really keeping the grad-norm values healthy!
@@ -246,6 +270,18 @@ Finally, here is all five training run's loss validation over time. Only the v5 
 </BlogImage>
 
 
-So there you have it! It took 5 attempts, but the final version of SparkNet is statistically similar to CodeLion's. The one-billion token challenge has been met! Further tweaks to the exact learning parameters might further close the remaining gap. For now, I'm satisfied to let this model stand. SparkNet is the first model I've ever trained from hand, and I'm sure it won't be the last!
+So there you have it! It took five attempts, but the final version of SparkNet is statistically similar to CodeLion’s. The one-billion token challenge has been met! Further tweaks to the learning parameters might close the remaining gap, but for now, I'm satisfied to let this model stand.
+
+SparkNet is the first model I've ever trained by hand, and I’m sure it won’t be the last. The journey to the v5 milestone was a mix of frustration, excitement, and deep reflection - how _does_ a collection of data and hyperparameters become something more? That question is going to stay with me.
+
+I'm already planning the next runs, including scaling the SparkNet architecture to larger parameter sizes. My long-term goal is to train a conversational model right here on the DGX Spark - and eventually host it locally on DienerTech itself.
+
+In the meantime, feel free to check out the final model on HuggingFace!
+
+<HuggingFaceModel
+  url="https://huggingface.co/DienerTech/sparknet-70m"
+  title="SparkNet 70m"
+  description="GPT-2 style model, inspired by the One Billion Token Challenge">
+</HuggingFaceModel>
 
  - Michael Diener
