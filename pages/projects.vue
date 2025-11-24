@@ -151,6 +151,16 @@
                   Live Demo
                 </UButton>
                 <UButton
+                  v-if="project.huggingfaceUrl"
+                  :to="project.huggingfaceUrl"
+                  target="_blank"
+                  color="amber"
+                  variant="soft"
+                  icon="i-simple-icons-huggingface"
+                >
+                  View Model
+                </UButton>
+                <UButton
                   v-if="project.githubUrl"
                   :to="project.githubUrl"
                   target="_blank"
@@ -228,6 +238,17 @@
             </div>
 
             <div class="mt-auto flex gap-3">
+              <UButton
+                v-if="project.huggingfaceUrl"
+                :to="project.huggingfaceUrl"
+                target="_blank"
+                color="amber"
+                variant="soft"
+                size="sm"
+                icon="i-simple-icons-huggingface"
+              >
+                View Model
+              </UButton>
               <UButton
                 v-if="project.url || project.githubUrl"
                 :to="project.url || project.githubUrl"
@@ -319,6 +340,7 @@ interface Project {
   technologies: string[];
   demoUrl?: string;
   githubUrl?: string;
+  huggingfaceUrl?: string;
   url?: string;
   type?: "Web" | "Mobile" | "Backend" | "Experiment";
   highlights?: string[];
@@ -329,6 +351,23 @@ const selectedCategory = ref("All");
 
 // Enhanced featured projects with more details
 const featuredProjects: Project[] = [
+    {
+    id: 3,
+    title: "SparkNet",
+    description:
+      "A custom training pipeline for a GPT-2 style 70m parameter language model",
+    image: "/projects/sparknet-logo.webp",
+    technologies: ["Python", "PyTorch", "Transformers", "NLP"],
+    githubUrl: "https://github.com/mdiener87/sparknet",
+    huggingfaceUrl: "https://huggingface.co/DienerTech/sparknet-70m",
+    type: "Web",
+    highlights: [
+      "Built for the One Billion Token training challenge",
+      "Designed and implemented a custom training pipeline for large language models",
+      "Utilized PyTorch and Hugging Face Transformers for model architecture and training",
+      "Achieved efficient training on diverse datasets for improved language understanding",
+    ],
+  },
   {
     id: 2,
     title: "Frame Finder",
