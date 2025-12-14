@@ -78,7 +78,7 @@
                           <!-- Reading Time -->
                           <div class="flex items-center gap-2">
                             <UIcon name="i-heroicons-clock" class="w-5 h-5" />
-                            <span>{{ doc.readingTime || "5" }} min read</span>
+                            <span>{{ doc.readingTime?.minutes || "N/A" }} min read</span>
                           </div>
                         </div>
 
@@ -183,7 +183,11 @@ interface BlogPost {
   date: string;
   category?: string;
   tags?: string[];
-  readingTime?: number;
+  readingTime?: {
+    minutes: number;
+    words: number;
+    text: string;
+  };
   titleImage?: string;
   resolvedTitleImage?: string;
   featured?: boolean;

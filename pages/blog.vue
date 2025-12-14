@@ -220,7 +220,7 @@
                   <span>•</span>
                   <span class="flex items-center gap-1">
                     <UIcon name="i-heroicons-clock" class="w-4 h-4" />
-                    {{ featuredPost.readingTime || "5" }} min read
+                    {{ featuredPost.readingTime?.minutes || "N/A" }} min read
                   </span>
                 </div>
 
@@ -407,7 +407,7 @@
                       <span>•</span>
                       <span class="flex items-center gap-1">
                         <UIcon name="i-heroicons-clock" class="w-4 h-4" />
-                        {{ post.readingTime || "5" }} min read
+                        {{ post.readingTime?.minutes || "N/A" }} min read
                       </span>
                     </div>
                   </div>
@@ -478,7 +478,11 @@ interface BlogPost {
   date: string;
   category?: string;
   tags?: string[];
-  readingTime?: number;
+  readingTime?: {
+    minutes: number;
+    words: number;
+    text: string;
+  };
   titleImage?: string;
   resolvedTitleImage?: string; // Added resolved image path
   featured?: boolean; // Added featured flag
