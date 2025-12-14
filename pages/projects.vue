@@ -13,16 +13,9 @@
             challenge and learning opportunity.
           </p>
 
-          <!-- Projects Filter -- disabled until we add more projects to filter against -->
-          <!-- <div class="mt-8 flex flex-wrap justify-center gap-2">
+          <div class="mt-8 flex flex-wrap justify-center gap-2">
             <UButton
-              v-for="category in [
-                'All',
-                'Web',
-                'Mobile',
-                'Backend',
-                'Experiment',
-              ]"
+              v-for="category in categories"
               :key="category"
               :variant="selectedCategory === category ? 'solid' : 'soft'"
               :color="selectedCategory === category ? 'primary' : 'gray'"
@@ -31,245 +24,35 @@
             >
               {{ category }}
             </UButton>
-          </div> -->
+          </div>
         </div>
       </UContainer>
     </section>
 
-    <!-- Featured Projects Section -->
+    <!-- Projects Section -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="mb-10">
-          <h2 class="text-3xl font-bold mb-4">Featured Projects</h2>
+          <h2 class="text-3xl font-bold mb-4">Projects</h2>
           <p class="text-gray-600 dark:text-gray-400">
-            Key projects that showcase my technical skills and creative approach
+            A snapshot of the things I'm building and experimenting with.
           </p>
         </div>
 
         <div class="grid md:grid-cols-2 gap-8">
-          <UCard
-            v-for="project in filteredFeaturedProjects"
+          <ProjectCard
+            v-for="project in filteredProjects"
             :key="project.id"
-            class="project-card flex flex-col overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 transition-all duration-300"
-            :ui="{ body: { padding: 'p-0' } }"
-          >
-            <!-- Project Image -->
-            <div class="relative overflow-hidden project-image-container">
-                <NuxtImg
-                :src="project.image || '/images/default-social.svg'"
-                :alt="project.title"
-                class="w-full h-full object-contain project-image transition-all duration-500"
-                />
-
-              <!-- Overlay with tech stack -->
-              <div
-                class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex flex-col justify-end p-6 text-white opacity-0 hover:opacity-100 transition-opacity duration-300"
-              >
-                <div class="flex flex-wrap gap-2 mb-3">
-                  <UBadge
-                    v-for="tech in project.technologies"
-                    :key="tech"
-                    :color="getBadgeColor(tech)"
-                    variant="outline"
-                    class="backdrop-blur-sm"
-                  >
-                    {{ tech }}
-                  </UBadge>
-                </div>
-                <h3 class="text-xl font-bold">{{ project.title }}</h3>
-                <p class="text-sm text-gray-200 mt-1 line-clamp-2">
-                  {{ project.description }}
-                </p>
-              </div>
-            </div>
-
-            <!-- Project Details -->
-            <div class="p-6 flex flex-col flex-grow">
-              <div class="flex justify-between items-start mb-4">
-                <h3 class="text-xl font-bold">{{ project.title }}</h3>
-                <UBadge
-                  :color="getProjectTypeColor(project.type || 'Web')"
-                  variant="soft"
-                >
-                  {{ project.type || "Web" }}
-                </UBadge>
-              </div>
-
-              <p class="text-gray-600 dark:text-gray-400 mb-6">
-                {{ project.description }}
-              </p>
-
-              <!-- Feature highlights (if any) -->
-              <div
-                v-if="project.highlights && project.highlights.length"
-                class="mb-6"
-              >
-                <h4
-                  class="text-sm font-medium uppercase text-gray-500 dark:text-gray-400 mb-2"
-                >
-                  Key Features
-                </h4>
-                <ul class="space-y-1">
-                  <li
-                    v-for="(highlight, idx) in project.highlights"
-                    :key="idx"
-                    class="flex items-start gap-2"
-                  >
-                    <UIcon
-                      name="i-heroicons-check-circle"
-                      class="w-5 h-5 text-green-500 mt-0.5 shrink-0"
-                    />
-                    <span class="text-sm text-gray-600 dark:text-gray-300">{{
-                      highlight
-                    }}</span>
-                  </li>
-                </ul>
-              </div>
-
-              <!-- Tech stack pills -->
-              <div class="flex flex-wrap gap-2 mb-6">
-                <UBadge
-                  v-for="tech in project.technologies"
-                  :key="tech"
-                  :color="getBadgeColor(tech)"
-                  variant="subtle"
-                  size="sm"
-                >
-                  {{ tech }}
-                </UBadge>
-              </div>
-
-              <!-- Project links -->
-              <div class="mt-auto flex gap-3">
-                <UButton
-                  v-if="project.demoUrl"
-                  :to="project.demoUrl"
-                  target="_blank"
-                  color="primary"
-                  icon="i-heroicons-globe-alt"
-                >
-                  Live Demo
-                </UButton>
-                <UButton
-                  v-if="project.huggingfaceUrl"
-                  :to="project.huggingfaceUrl"
-                  target="_blank"
-                  color="amber"
-                  variant="soft"
-                  icon="i-simple-icons-huggingface"
-                >
-                  View Model
-                </UButton>
-                <UButton
-                  v-if="project.githubUrl"
-                  :to="project.githubUrl"
-                  target="_blank"
-                  color="gray"
-                  variant="soft"
-                  icon="i-simple-icons-github"
-                >
-                  View Project
-                </UButton>
-              </div>
-            </div>
-          </UCard>
-        </div>
-      </UContainer>
-    </section>
-
-    <!-- Other Projects Section -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
-      <UContainer>
-        <div class="mb-10">
-          <h2 class="text-3xl font-bold mb-4">More Projects</h2>
-          <p class="text-gray-600 dark:text-gray-400">
-            Additional projects showcasing my range and versatility across
-            different platforms
-          </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-6">
-          <UCard
-            v-for="project in filteredOtherProjects"
-            :key="project.id"
-            class="other-project-card flex flex-col h-full hover:shadow-lg transition-all duration-300 border border-gray-200 dark:border-gray-700"
-          >
-            <template #header>
-              <div class="flex justify-between items-center">
-                <UBadge
-                  :color="getProjectTypeColor(project.type || 'Experiment')"
-                  variant="subtle"
-                >
-                  {{ project.type || "Experiment" }}
-                </UBadge>
-              </div>
-              <div class="flex gap-4 items-center mt-3">
-                <div class="w-16 h-16 flex-shrink-0 overflow-hidden rounded-lg">
-                  <NuxtImg
-                    v-if="project.image"
-                    :src="project.image"
-                    :alt="project.title"
-                    class="w-full h-full object-cover"
-                  />
-                  <UIcon
-                    v-else
-                    name="i-heroicons-code-bracket-square"
-                    class="w-full h-full text-gray-400 dark:text-gray-600 p-3"
-                  />
-                </div>
-                <h3 class="text-xl font-bold">{{ project.title }}</h3>
-              </div>
-            </template>
-
-            <p class="text-gray-600 dark:text-gray-400 mb-6 line-clamp-3">
-              {{ project.description }}
-            </p>
-
-            <div class="flex flex-wrap gap-2 mb-6">
-              <UBadge
-                v-for="tech in project.technologies"
-                :key="tech"
-                :color="getBadgeColor(tech)"
-                variant="subtle"
-                size="xs"
-              >
-                {{ tech }}
-              </UBadge>
-            </div>
-
-            <div class="mt-auto flex gap-3">
-              <UButton
-                v-if="project.huggingfaceUrl"
-                :to="project.huggingfaceUrl"
-                target="_blank"
-                color="amber"
-                variant="soft"
-                size="sm"
-                icon="i-simple-icons-huggingface"
-              >
-                View Model
-              </UButton>
-              <UButton
-                v-if="project.url || project.githubUrl"
-                :to="project.url || project.githubUrl"
-                target="_blank"
-                color="gray"
-                variant="soft"
-                size="sm"
-                icon="i-heroicons-arrow-top-right-on-square"
-              >
-                View Project
-              </UButton>
-            </div>
-          </UCard>
+            :project="project"
+            variant="stacked"
+          />
         </div>
 
         <!-- Project availability notice -->
         <div
           v-if="
             selectedCategory !== 'All' &&
-            filteredOtherProjects.length === 0 &&
-            filteredFeaturedProjects.length === 0
+            filteredProjects.length === 0
           "
           class="text-center py-16"
         >
@@ -331,236 +114,28 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
+import type { ProjectWithPosts } from "~/composables/useProjects";
 
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  image?: string;
-  technologies: string[];
-  demoUrl?: string;
-  githubUrl?: string;
-  huggingfaceUrl?: string;
-  url?: string;
-  type?: "Web" | "Mobile" | "Backend" | "Experiment";
-  highlights?: string[];
-}
-
-// Selected category for filtering
 const selectedCategory = ref("All");
 
-// Enhanced featured projects with more details
-const featuredProjects: Project[] = [
-    {
-    id: 3,
-    title: "SparkNet",
-    description:
-      "A custom training pipeline for a GPT-2 style 70m parameter language model",
-    image: "/projects/sparknet-logo.webp",
-    technologies: ["Python", "PyTorch", "Transformers", "NLP"],
-    githubUrl: "https://github.com/mdiener87/sparknet",
-    huggingfaceUrl: "https://huggingface.co/DienerTech/sparknet-70m",
-    type: "Web",
-    highlights: [
-      "Built for the One Billion Token training challenge",
-      "Designed and implemented a custom training pipeline for large language models",
-      "Utilized PyTorch and Hugging Face Transformers for model architecture and training",
-      "Achieved efficient training on diverse datasets for improved language understanding",
-    ],
-  },
-  {
-    id: 2,
-    title: "Frame Finder",
-    description:
-      "Utilize reference images to locate their occurrence within videos",
-    image: "/projects/frame-finder-logo.webp",
-    technologies: ["Flask", "Python", "OpenCV", "FFmpeg"],
-    githubUrl: "https://github.com/mdiener87/frame-finder",
-    type: "Web",
-    highlights: [
-      "Accurate frame matching using advanced image processing",
-      "User-friendly web interface for uploading and managing videos",
-      "Efficient processing with asynchronous task handling and GPU acceleration",
-      "Detailed results with timestamps and extracted images from matching frames",
-    ],
-  },
-  {
-    id: 1,
-    title: "DienerTech Personal Website",
-    description:
-      "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
-    image: "/images/projects/diener-tech.webp",
-    technologies: ["Vue", "Nuxt", "TypeScript", "Tailwind CSS"],
-    demoUrl: "https://diener.tech",
-    githubUrl: "https://github.com/mdiener87/diener-tech",
-    type: "Web",
-    highlights: [
-      "Responsive design optimized for all devices",
-      "Dark mode support with smooth transitions",
-      "Interactive data visualization with D3.js",
-      "Content management system for blog posts",
-    ],
-  },
-];
+const { projects } = await useProjects();
 
-// Enhanced other projects with more details and types
-const otherProjects: Project[] = [
-  {
-    id: 1,
-    title: "Gkeep to Notion",
-    description:
-      "Convert your exported Google Keep notes (from Google Takeout) into clean, import-ready Markdown and HTML files for use in Notion — complete with OCR image processing and optional ChatGPT formatting.",
-    technologies: ["Python", "pytesseract", "asyncio", "chatgpt"],
-    image: "/images/projects/gkeep-to-notion.webp",
-    githubUrl: "https://github.com/mdiener87/gkeep-to-notion",
-    type: "Backend",
-  },
-];
+const categories = computed(() => [
+  "All",
+  ...new Set(projects.flatMap((project) => project.types || [])),
+]);
 
-// Function to determine badge color based on technology
-function getBadgeColor(
-  tech: string
-):
-  | "gray"
-  | "red"
-  | "orange"
-  | "amber"
-  | "yellow"
-  | "lime"
-  | "green"
-  | "emerald"
-  | "teal"
-  | "cyan"
-  | "sky"
-  | "blue"
-  | "indigo"
-  | "violet"
-  | "purple"
-  | "fuchsia"
-  | "pink"
-  | "rose"
-  | "primary" {
-  const colorMap: Record<
-    string,
-    | "gray"
-    | "red"
-    | "orange"
-    | "amber"
-    | "yellow"
-    | "lime"
-    | "green"
-    | "emerald"
-    | "teal"
-    | "cyan"
-    | "sky"
-    | "blue"
-    | "indigo"
-    | "violet"
-    | "purple"
-    | "fuchsia"
-    | "pink"
-    | "rose"
-    | "primary"
-  > = {
-    Vue: "emerald",
-    Nuxt: "green",
-    TypeScript: "blue",
-    "Node.js": "yellow",
-    JavaScript: "amber",
-    React: "cyan",
-    "React Native": "sky",
-    Python: "indigo",
-    MongoDB: "green",
-    Express: "gray",
-    D3: "orange",
-    "D3.js": "orange",
-    GraphQL: "pink",
-    "Tailwind CSS": "sky",
-    MQTT: "purple",
-    "Chart.js": "blue",
-    Pandas: "teal",
-    BeautifulSoup: "indigo",
-    "REST APIs": "violet",
-    SVG: "rose",
-    WebSockets: "indigo",
-  };
-  return colorMap[tech] || "gray";
-}
-
-// Function to determine color based on project type
-function getProjectTypeColor(
-  type: string
-):
-  | "gray"
-  | "red"
-  | "orange"
-  | "amber"
-  | "yellow"
-  | "lime"
-  | "green"
-  | "emerald"
-  | "teal"
-  | "cyan"
-  | "sky"
-  | "blue"
-  | "indigo"
-  | "violet"
-  | "purple"
-  | "fuchsia"
-  | "pink"
-  | "rose"
-  | "primary" {
-  const typeColorMap: Record<
-    string,
-    | "gray"
-    | "red"
-    | "orange"
-    | "amber"
-    | "yellow"
-    | "lime"
-    | "green"
-    | "emerald"
-    | "teal"
-    | "cyan"
-    | "sky"
-    | "blue"
-    | "indigo"
-    | "violet"
-    | "purple"
-    | "fuchsia"
-    | "pink"
-    | "rose"
-    | "primary"
-  > = {
-    Web: "blue",
-    Mobile: "cyan",
-    Backend: "indigo",
-    Experiment: "purple",
-  };
-  return typeColorMap[type] || "gray";
-}
-
-// Filter projects based on selected category
 function filterProjects(category: string) {
   selectedCategory.value = category;
 }
 
-// Computed properties for filtered projects
-const filteredFeaturedProjects = computed(() => {
+const filteredProjects = computed<ProjectWithPosts[]>(() => {
   if (selectedCategory.value === "All") {
-    return featuredProjects;
+    return projects;
   }
-  return featuredProjects.filter(
-    (project) => project.type === selectedCategory.value
-  );
-});
 
-const filteredOtherProjects = computed(() => {
-  if (selectedCategory.value === "All") {
-    return otherProjects;
-  }
-  return otherProjects.filter(
-    (project) => project.type === selectedCategory.value
+  return projects.filter((project) =>
+    (project.types || []).includes(selectedCategory.value)
   );
 });
 
@@ -580,94 +155,25 @@ setPageMeta({
   transition: all 0.3s ease;
 }
 
-/* Project card hover effects */
-.project-card {
-  transition: all 0.4s ease;
+:deep(.project-card) {
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
 }
 
-.project-card:hover {
-  transform: translateY(-8px);
+:deep(.project-card:hover) {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 35px -15px rgba(0, 0, 0, 0.25);
 }
 
-.project-image-container {
-  height: 240px;
-}
-
-.project-image {
-  transition: transform 1.5s ease;
-}
-
-.project-card:hover .project-image {
-  transform: scale(1.05);
-}
-
-.other-project-card {
-  transition: all 0.3s ease;
-}
-
-.other-project-card:hover {
-  transform: translateY(-5px);
-}
-
-/* Badge animations */
-:deep(.badge) {
-  transition: all 0.2s ease;
-}
-
-:deep(.badge:hover) {
-  transform: translateY(-2px);
-}
-
-/* Icon animations */
-.text-green-500 {
-  transition: transform 0.2s ease;
-}
-
-li:hover .text-green-500 {
-  transform: scale(1.2);
-}
-
-/* Staggered loading animation for project cards */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(18px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-.project-card,
-.other-project-card {
-  animation: fadeInUp 0.6s ease-out forwards;
-  opacity: 0;
-}
-
-.project-card:nth-child(1),
-.other-project-card:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.project-card:nth-child(2),
-.other-project-card:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.other-project-card:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.other-project-card:nth-child(4) {
-  animation-delay: 0.4s;
-}
-
-.other-project-card:nth-child(5) {
-  animation-delay: 0.5s;
-}
-
-.other-project-card:nth-child(6) {
-  animation-delay: 0.6s;
 }
 </style>
