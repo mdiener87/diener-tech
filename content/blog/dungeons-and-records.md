@@ -5,7 +5,6 @@ date: "2025-03-29"
 category: "technology"
 tags: ["python", "automation", "productivity", "tools", "gaming", "D&D"]
 titleImage: "dungeons-and-records.webp"
-readingTime: 10
 
 ---
 

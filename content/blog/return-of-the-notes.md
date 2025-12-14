@@ -5,8 +5,6 @@ date: "2025-04-06"
 category: "technology"
 tags: ["python", "api", "automation", "productivity", "programming", "D&D"]
 titleImage: "return-of-the-notes-wide.webp"
-readingTime: "10"
-
 ---
 
 ## Overly Elaborate Solutions
