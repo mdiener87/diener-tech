@@ -6,7 +6,6 @@ category: "projects"
 tags: ["blogging", "webdev", "career", "productivity", "programming"]
 titleImage: "blast-off.webp"
 shareImage: "blast-off-wide.webp"
-readingTime: "5"
 ---
 
 ## One Month Live

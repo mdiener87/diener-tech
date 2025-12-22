@@ -6,9 +6,7 @@ category: "technology"
 tags:
   ["ai", "machine learning", "computer vision", "fandom", "sci-fi", "star trek"]
 titleImage: "the-artificial-intelligence-conspiracy-voyager-wide.webp"
-readingTime: "10"
 featured: false
-
 ---
 
 ## Fall Vibes

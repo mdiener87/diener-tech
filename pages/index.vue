@@ -70,82 +70,11 @@
           </p>
         </div>
 
-        <UCard
+        <ProjectCard
           v-if="featuredProject"
-          class="overflow-hidden border border-gray-200 dark:border-gray-800"
-        >
-          <div class="flex flex-col lg:flex-row">
-            <!-- Project Preview -->
-            <div
-              class="lg:w-1/2 bg-gray-100 dark:bg-gray-800 flex items-center justify-center p-6"
-            >
-              <div
-                class="aspect-video w-full bg-primary/10 rounded-lg flex items-center justify-center"
-              >
-                <NuxtImg
-                  :src="featuredProject.img"
-                  alt="Featured Project"
-                  width="438"
-                  height="338"
-                  class="rounded-lg"
-                />
-              </div>
-            </div>
-
-            <!-- Project Details -->
-            <div class="lg:w-1/2 p-6 flex flex-col">
-              <h3 class="text-xl font-bold mb-2">
-                {{ featuredProject.title }}
-              </h3>
-              <p class="text-gray-600 dark:text-gray-400 mb-4">
-                {{ featuredProject.description }}
-              </p>
-              <div class="flex flex-wrap gap-2 mb-4">
-                <UBadge
-                  v-for="tech in featuredProject.technologies"
-                  :key="tech"
-                  color="primary"
-                  variant="soft"
-                >
-                  {{ tech }}
-                </UBadge>
-              </div>
-              <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-                {{ featuredProject.additionalInfo }}
-              </p>
-              <div class="mt-auto flex gap-4">
-                <UButton
-                  to="/projects"
-                  color="primary"
-                  variant="soft"
-                  icon="i-heroicons-arrow-right"
-                >
-                  View Project
-                </UButton>
-                <UButton
-                  v-if="featuredProject.demoUrl"
-                  :to="featuredProject.demoUrl"
-                  target="_blank"
-                  color="gray"
-                  variant="ghost"
-                  icon="i-heroicons-globe-alt"
-                >
-                  Live Demo
-                </UButton>
-                <UButton
-                  v-if="featuredProject.githubUrl"
-                  :to="featuredProject.githubUrl"
-                  target="_blank"
-                  color="gray"
-                  variant="ghost"
-                  icon="i-heroicons-code-bracket"
-                >
-                  GitHub
-                </UButton>
-              </div>
-            </div>
-          </div>
-        </UCard>
+          :project="featuredProject"
+          variant="split"
+        />
 
         <UAlert
           v-else
@@ -192,16 +121,13 @@
   </main>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 
 // Import the useImagePath composable
 import { useImagePath } from "~/composables/useImagePath";
 const { resolveBlogImage } = useImagePath();
-
-// Import the unified date formatter
-import { formatDate } from "~/utils/dateFormatter";
 
 // Fetch latest blog posts
 const rawLatestPosts = await queryContent("blog")
@@ -218,17 +144,9 @@ const latestPosts = rawLatestPosts.map((post) => ({
     : undefined,
 }));
 
-// Featured project data (placeholder until you build out a projects collection)
-const featuredProject = {
-  title: "SparkNet",
-  description:
-    "A custom training pipeline for a GPT-2 style 70m parameter language model",
-  technologies: ["Python", "PyTorch", "Transformers", "NLP"],
-  additionalInfo:
-    "Built for the One Billion Token training challenge, this model was trained on a diverse dataset to explore efficient training techniques.",
-  githubUrl: "https://github.com/mdiener87/sparknet",
-  img: "/projects/sparknet-logo.webp",
-};
+// Featured project pulled from the shared projects data
+const { featuredProjects } = await useProjects();
+const featuredProject = computed(() => featuredProjects?.[0]);
 
 // SEO metadata
 const { setPageMeta } = useSeo();

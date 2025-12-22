@@ -98,7 +98,7 @@
               >
                 <span>{{ formatDate(post.date) }}</span>
                 <span>•</span>
-                <span>{{ post.readingTime || "5" }} min read</span>
+                <span>{{ post.readingTime?.minutes || "N/A" }} min read</span>
               </div>
               
               <!-- Post description -->

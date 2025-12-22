@@ -14,7 +14,6 @@ tags:
     "gpt-2",
   ]
 titleImage: "one-billion-token-challenge.webp"
-readingTime: "10"
 featured: true
 ---
 
