@@ -100,6 +100,8 @@
                 <span>•</span>
                 <span>{{ post.readingTime?.minutes || "N/A" }} min read</span>
               </div>
+
+              <PostLikeCount :post-path="post._path" class="mb-3" />
               
               <!-- Post description -->
               <p
@@ -137,6 +139,7 @@
 
 <script setup>
 import { useImagePath } from '~/composables/useImagePath';
+import PostLikeCount from '~/components/blog/PostLikeCount.vue';
 
 const props = defineProps({
   // Title for the section (e.g., "You might also like", "Latest from the Blog")

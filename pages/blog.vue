@@ -224,6 +224,11 @@
                   </span>
                 </div>
 
+                <PostLikeCount
+                  :post-path="featuredPost._path"
+                  class="mb-4"
+                />
+
                 <!-- Tags for Featured Post -->
                 <div
                   v-if="featuredPost.tags && featuredPost.tags.length"
@@ -410,6 +415,11 @@
                         {{ post.readingTime?.minutes || "N/A" }} min read
                       </span>
                     </div>
+
+                    <PostLikeCount
+                      :post-path="post._path"
+                      class="mb-3"
+                    />
                   </div>
 
                   <p class="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
@@ -470,6 +480,7 @@
 <script setup lang="ts">
 import { useImagePath } from "~/composables/useImagePath";
 import { formatDate as formatDateUtil } from "~/utils/dateFormatter";
+import PostLikeCount from "~/components/blog/PostLikeCount.vue";
 
 interface BlogPost {
   _path: string;

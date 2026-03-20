@@ -103,6 +103,10 @@
                         >
                           {{ doc.description }}
                         </p>
+
+                        <div class="mt-5">
+                          <PostLikeButton :post-path="doc._path" />
+                        </div>
                       </div>
                     </div>
                   </UCard>
@@ -124,11 +128,23 @@
                   <div
                     class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800"
                   >
-                    <SocialShareButtons
-                      :url="pageUrl"
-                      :title="doc.title"
-                      :platforms="['copy', 'linkedin']"
-                    />
+                    <div
+                      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+                    >
+                      <div class="flex items-center gap-3">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Enjoyed this post?
+                        </span>
+                        <PostLikeButton :post-path="doc._path" />
+                      </div>
+
+                      <SocialShareButtons
+                        :url="pageUrl"
+                        :title="doc.title"
+                        :platforms="['copy', 'linkedin']"
+                        :show-heading="false"
+                      />
+                    </div>
                   </div>
                 </div>
               </UContainer>
@@ -173,6 +189,7 @@ import { ref, computed, onMounted } from "vue";
 import { useImagePath } from "~/composables/useImagePath";
 import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
+import PostLikeButton from "~/components/blog/PostLikeButton.vue";
 import { formatDate } from '~/utils/dateFormatter';
 
 // Add interfaces at the top of the script section

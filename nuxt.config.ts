@@ -111,7 +111,7 @@ export default defineNuxtConfig({
   ssr: true,
   target: "server",
   nitro: {
-    preset: "cloudflare",
+    preset: "cloudflare-module",
     output: {
       dir: ".output",
       publicDir: ".output/public",
@@ -130,6 +130,7 @@ export default defineNuxtConfig({
     // Private keys that are exposed to the server
     recaptchaSecret: process.env.RECAPTCHA_SECRET_KEY,
     resendApiKey: process.env.RESEND_API_KEY,
+    likesVisitorSalt: process.env.LIKES_VISITOR_SALT || "dev-like-salt",
 
     // Public keys that are exposed to the client
     public: {
