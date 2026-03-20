@@ -211,7 +211,7 @@
                 </h3>
 
                 <div
-                  class="flex items-center gap-3 mb-4 text-sm text-gray-500 dark:text-gray-400"
+                  class="flex flex-wrap items-center gap-3 mb-4 text-sm text-gray-500 dark:text-gray-400"
                 >
                   <span class="flex items-center gap-1">
                     <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
@@ -220,14 +220,15 @@
                   <span>•</span>
                   <span class="flex items-center gap-1">
                     <UIcon name="i-heroicons-clock" class="w-4 h-4" />
-                    {{ featuredPost.readingTime?.minutes || "N/A" }} min read
+                    {{ featuredPost.readingTime?.minutes || "N/A" }} min
                   </span>
+                  <span>•</span>
+                  <PostLikeButton
+                    :post-path="featuredPost._path"
+                    compact
+                    :show-label="false"
+                  />
                 </div>
-
-                <PostLikeCount
-                  :post-path="featuredPost._path"
-                  class="mb-4"
-                />
 
                 <!-- Tags for Featured Post -->
                 <div
@@ -403,7 +404,7 @@
                     </h2>
 
                     <div
-                      class="flex items-center gap-3 mb-3 text-sm text-gray-500 dark:text-gray-400"
+                      class="flex flex-wrap items-center gap-3 mb-3 text-sm text-gray-500 dark:text-gray-400"
                     >
                       <span class="flex items-center gap-1">
                         <UIcon name="i-heroicons-calendar" class="w-4 h-4" />
@@ -412,14 +413,15 @@
                       <span>•</span>
                       <span class="flex items-center gap-1">
                         <UIcon name="i-heroicons-clock" class="w-4 h-4" />
-                        {{ post.readingTime?.minutes || "N/A" }} min read
+                        {{ post.readingTime?.minutes || "N/A" }} min
                       </span>
+                      <span>•</span>
+                      <PostLikeButton
+                        :post-path="post._path"
+                        compact
+                        :show-label="false"
+                      />
                     </div>
-
-                    <PostLikeCount
-                      :post-path="post._path"
-                      class="mb-3"
-                    />
                   </div>
 
                   <p class="text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
@@ -480,7 +482,7 @@
 <script setup lang="ts">
 import { useImagePath } from "~/composables/useImagePath";
 import { formatDate as formatDateUtil } from "~/utils/dateFormatter";
-import PostLikeCount from "~/components/blog/PostLikeCount.vue";
+import PostLikeButton from "~/components/blog/PostLikeButton.vue";
 
 interface BlogPost {
   _path: string;

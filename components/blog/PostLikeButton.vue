@@ -2,14 +2,16 @@
   <div v-if="enabled" class="inline-flex">
     <UButton
       :color="liked ? 'rose' : 'gray'"
-      :variant="liked ? 'soft' : 'outline'"
+      :variant="compact ? (liked ? 'soft' : 'ghost') : liked ? 'soft' : 'outline'"
       :loading="pending"
       :disabled="pending"
-      icon="i-heroicons-heart"
+      :icon="liked ? 'i-heroicons-heart-solid' : 'i-heroicons-heart'"
+      :size="compact ? 'sm' : 'md'"
       class="group"
+      :class="compact ? 'px-2.5' : ''"
       @click="toggleLike"
     >
-      <span class="mr-1">{{ liked ? "Liked" : "Like" }}</span>
+      <span v-if="showLabel" class="mr-1">{{ liked ? "Liked" : "Like" }}</span>
       <span class="text-xs opacity-80">{{ count }}</span>
     </UButton>
   </div>
@@ -26,6 +28,8 @@ interface LikeResponse {
 
 const props = defineProps<{
   postPath: string;
+  compact?: boolean;
+  showLabel?: boolean;
 }>();
 
 const count = ref(0);
