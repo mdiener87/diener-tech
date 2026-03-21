@@ -14,9 +14,10 @@
               Hi, I'm <span class="text-primary">Michael Diener</span>
             </h1>
             <p class="text-lg md:text-xl text-gray-700 dark:text-gray-300">
-              Software engineer and technology enthusiast. I build innovative
-              solutions and share my journey through code, writing, and creative
-              projects.
+              Senior software engineer focused on full-stack, cloud, and
+              backend systems. I build modern frontend experiences with
+              Vue/Nuxt and scalable integrations using Node.js, Go, Azure,
+              Databricks, Spark, and Terraform.
             </p>
             <div class="flex flex-wrap gap-4 pt-2">
               <UButton

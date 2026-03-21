@@ -8,7 +8,8 @@
         <div class="max-w-4xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold mb-6">Career Journey</h1>
           <p class="text-lg text-gray-700 dark:text-gray-300 mb-8">
-            Explore my professional journey, skills, and achievements
+            Explore my professional journey, technical depth, and the systems I
+            like to build
           </p>
 
           <!-- Content Type Selector -->
@@ -42,7 +43,9 @@
       <UContainer>
         <div class="max-w-4xl mx-auto text-center">
           <p class="text-gray-600 dark:text-gray-300">
-            An interactive visualization of my technical skills and professional experience. Click nodes to expand branches and hover for details.
+            An interactive visualization of my technical skills and
+            professional experience across frontend, backend, cloud, and data
+            engineering. Click nodes to expand branches and hover for details.
           </p>
         </div>
       </UContainer>
@@ -98,7 +101,35 @@
                   <h4 class="font-bold text-gray-900 dark:text-white">
                     Senior Software Engineer
                   </h4>
-                  <UBadge color="blue" variant="subtle">2022 - Present</UBadge>
+                  <UBadge color="blue" variant="subtle">2026 - Present</UBadge>
+                </div>
+                <h5 class="text-primary font-medium mb-2">TaxCloud</h5>
+                <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
+                  Building integrations-focused cloud and backend systems on
+                  the TaxCloud platform. Working across Azure services, Go
+                  services, Databricks and Spark pipelines, Terraform-managed
+                  infrastructure, DataDog observability, and ETL-oriented
+                  system design.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <UBadge color="gray" variant="subtle" size="xs">Azure</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">Go</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">Databricks</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">Spark</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">Terraform</UBadge>
+                  <UBadge color="gray" variant="subtle" size="xs">ETL</UBadge>
+                </div>
+              </div>
+
+              <UDivider />
+
+              <!-- Experience Item -->
+              <div class="experience-item">
+                <div class="flex justify-between items-start mb-2">
+                  <h4 class="font-bold text-gray-900 dark:text-white">
+                    Senior Software Engineer
+                  </h4>
+                  <UBadge color="blue" variant="subtle">2022 - 2026</UBadge>
                 </div>
                 <h5 class="text-primary font-medium mb-2">HeadSpin</h5>
                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-3">
@@ -239,7 +270,7 @@
                 <!-- Skill Category -->
                 <div>
                   <h4 class="font-medium text-gray-900 dark:text-white mb-3">
-                    Backend
+                    Backend & Cloud
                   </h4>
                   <ul class="space-y-2">
                     <li class="flex items-center gap-2">
@@ -247,28 +278,28 @@
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>Node.js</span>
+                      <span>Node.js / Go</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>Python / Flask / Tornado</span>
+                      <span>Python / ETL Pipelines</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>C# / .NET Core / MVC</span>
+                      <span>Azure / Terraform / Cloud Services</span>
                     </li>
                     <li class="flex items-center gap-2">
                       <UIcon
                         name="i-heroicons-check-circle"
                         class="w-5 h-5 text-green-500"
                       />
-                      <span>SQL / Entity Framework</span>
+                      <span>Spark / Databricks / SQL / DataDog</span>
                     </li>
                   </ul>
                 </div>
@@ -367,9 +398,10 @@
               </p>
               <p>
                 Throughout my career, I've found fulfillment in bridging
-                technical complexity and practical usability. I prioritize
-                elegant, maintainable solutions that deliver measurable business
-                value, always keeping the human element at the core of my work.
+                technical complexity and practical usability. Whether I'm
+                working on a polished frontend, a backend integration, or a
+                cloud data pipeline, I prioritize elegant, maintainable
+                solutions that deliver measurable business value.
               </p>
               <p>
                 I deeply value continuous learning, exploration, and
@@ -451,21 +483,21 @@ const activeContentType = ref("visualizations");
 // Core skills list with icons
 const coreSkills = [
   {
-    name: "Frontend Engineering & Design",
+    name: "Frontend Engineering",
     description:
       "Crafting intuitive, responsive, and performant interfaces using modern frameworks like Vue, Nuxt, and AngularJS, emphasizing usability and user-centric design principles.",
     icon: "i-heroicons-code-bracket",
   },
   {
-    name: "User Experience Design",
+    name: "Cloud & Integration Engineering",
     description:
-      "Creating intuitive user experiences that balance aesthetics with functionality.",
-    icon: "i-heroicons-paint-brush",
+      "Designing and supporting cloud-backed integrations using Azure, Terraform, observability tooling, and reliable service-to-service patterns.",
+    icon: "i-heroicons-cloud",
   },
   {
     name: "Full-Stack Development",
     description:
-      "Leveraging a versatile skill set that bridges the gap between frontend expertise and backend logic, particularly with Node.js and Python backends, and experience with SQL database design.",
+      "Leveraging a versatile skill set that bridges frontend expertise with backend services, APIs, data workflows, and practical system design.",
     icon: "i-heroicons-server-stack",
   },
   {
@@ -481,9 +513,9 @@ const coreSkills = [
     icon: "i-heroicons-puzzle-piece",
   },
   {
-    name: "AI Integration & Exploration",
+    name: "Data Platforms & ETL",
     description:
-      "Passionate about integrating cutting-edge AI and machine learning capabilities into practical applications, including experience prototyping and implementing AI-driven features.",
+      "Building and reasoning about data movement, transformation, and observability with tools like Spark, Databricks, ETL pipelines, and monitoring platforms.",
     icon: "i-heroicons-cpu-chip",
   },
 ];

@@ -94,11 +94,17 @@
             <div class="flex flex-col">
               <!-- Meta information: date and reading time -->
               <div
-                class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2"
+                class="flex flex-wrap items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mb-2"
               >
                 <span>{{ formatDate(post.date) }}</span>
                 <span>•</span>
-                <span>{{ post.readingTime?.minutes || "N/A" }} min read</span>
+                <span>{{ post.readingTime?.minutes || "N/A" }} min</span>
+                <span>•</span>
+                <PostLikeButton
+                  :post-path="post._path"
+                  compact
+                  :show-label="false"
+                />
               </div>
               
               <!-- Post description -->
@@ -137,6 +143,7 @@
 
 <script setup>
 import { useImagePath } from '~/composables/useImagePath';
+import PostLikeButton from '~/components/blog/PostLikeButton.vue';
 
 const props = defineProps({
   // Title for the section (e.g., "You might also like", "Latest from the Blog")

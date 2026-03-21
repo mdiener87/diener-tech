@@ -3,4 +3,10 @@ account_id = "REPLACE_ME"
 kv_namespaces = [
   { binding = "CONTACT_FORM_KV", id = "REPLACE_ME" }
 ]
+
+[[d1_databases]]
+binding = "BLOG_LIKES_DB"
+database_name = "diener-tech"
+database_id = "REPLACE_ME"
+
 compatibility_date = "2024-11-01"
