@@ -1,7 +1,7 @@
 ---
 title: "SparkNet 400"
 description: "Scaling the SparkNet Model"
-date: "2026-1-19"
+date: "2026-4-04"
 category: "technology"
 tags:
   [
@@ -19,13 +19,17 @@ featured: true
 
 ## Size Does Matter
 
-My prior post, [The One Billion Token Challenge](one-billion-token-challenge.md), introduced the SparkNet series of SLMs (small language models). SparkNet 70m represents my first go at training language models from scratch. The final iteration, Sparknet 70m v5, scored impressively well. It nearly tied the best result from CodeLion, an AI researcher whom devised the post's namesake challenge. Despite the efficacy of the final iteration in training, a 70m parameter model is inherently limited. No matter how well you train it, no matter the quality of your dataset to feed it - 70 million parameters can only take you so far. It's time to scale Sparknet up!
+My prior post, [The One Billion Token Challenge](one-billion-token-challenge.md), introduced the SparkNet series of SLMs (small language models). SparkNet 70m represents my first go at training language models from scratch. The final iteration, Sparknet 70m v5, scored impressively well. It nearly tied the best result from CodeLion[link], an AI researcher whom devised the post's namesake challenge. Despite the efficacy of the final iteration in training, a 70m parameter model is inherently limited. For my next iteration of SparkNet models, I wanted to follow in the footsteps of the AI industry and scale up to a larger model!
 
-The desire to scale has led to the development of SparkNet 400m v1. This model has almost four times as many parameters as the Sparknet 70m model! Model training time does not scale linearly with a model's parameters. Going from 70m to 400m is not a simple ~4x increase in time. The larger neural net will require many more tokens to effectively train it. The rule of thumb is that a model will need 20x the parameter count as its training tokens target [name, link].
+The desire for scale has led to SparkNet 400m v1. It features modern advancements in language model architecture, and will have almost four times as many parameters as the Sparknet 70m model! However, there are challenges when scaling up model sizes: model training effort does not scale linearly with a model's parameters. Increasing the number of parameters inherently increases the number of computations required for each training pass. Those additional parameters will also require additional training tokens, compared to a smaller model. More computations x more tokens = an exponential increase in training effort!
 
-SparkNet 70m would have an optimal training target of around 1.4bil tokens (the One Billion Token Challenge, therefore, might have left additional model learning room on the table). SparkNet 400m, meanwhile, will require at least *8 billion* tokens to fully converge. To make matters even worse - all of those extra tensor parameters will mean more work to do per training loop. Model scaling therefore works like surface area: more parameters * more tokens = exponential time increase.
+The (Chinchila Ratio)[https://mbrenndoerfer.com/writing/chinchilla-scaling-laws-compute-optimal-llm-training], devised by the namesame LLM model from Google Deepmind, states that a model will need ~20x its parameter count in training tokens, as its optimal training budget target. Following this rule, SparkNet 70m model had an optimal training target of around 1.4bil tokens, and probably left some gains on the table in the name of following the strict training budget rules. 
 
-Sparknet 400 was trained to two checkpoints: one at 6 billion tokens, and the final iteration to a full 10 billion tokens. SparkNet 70m benefited from fast iteration speed - my DGX Spark was able to complete that training loop in around 13 hours. SparkNet 400m, by contrast, would require far more time to complete. I began training work on this this project December 13th, and it took until January 4th for all training work to complete. This amounted to three weeks of effort. Not all of this was pure training throughput; failures, delays, and scope creep were all part of the process. 
+That strict training budget also helped enable a fast training cadence - My DGX Spark was able to complete a training run in ~13 hours. I could leave it running overnight, and evaluate the results the next day!
+
+SparkNet 400m, meanwhile, will require at least *8 billion* tokens to reach the Chinchila Ratio. This is a massive jump in project complexity - one I did not fully appreciate when I set out on this scaling journey.
+
+I trained Sparknet 400m was to two checkpoints: the first to 6 billion tokens, and the final iteration to a full 10 billion tokens. The full 10bn checkpointed amounted to three weeks of effort! 
 
 ## Designing the Training Environment
 
@@ -43,9 +47,11 @@ SparkNet 400m made use of the following datasets:
 
 I once again made heavy use of CodeLion's high-quality training datasets. I also sprinkled in a fair portion of the ELI5 (Explain Like I'm 5) dataset. I also included an up-to-date copy of my blog posts, adding a small personal touch.
 
-With the data sources sourced, I worked on building a new tokenizer for the project. Tokenizer quality is truly *critical* - it is the bridge between the world of language, and the model's inner world of hyper-dimensional learnings. SparkNet 70m v5 made use of a custom [GPT-2-style BPE tokenizer](link). For SparkNet 400m, I wanted to modernize everything to the latest and greatest in LLM development. That meant switching to a [SentencePiece Unigram](link) tokenizer. 
+With the data sources sourced, I worked on building a new tokenizer for the project. Tokenizer quality is truly *critical* - it is the bridge between the world of language, and the model's inner world of hyper-dimensional learnings. SparkNet 70m v5 made use of a custom [GPT-2-style BPE tokenizer](https://huggingface.co/learn/llm-course/chapter6/5). For SparkNet 400m, I wanted to modernize everything to the latest and greatest in LLM development. That meant switching to a [SentencePiece Unigram](https://github.com/google/sentencepiece) tokenizer. 
 
-The SentencePiece Unigram is a fascinating mathematical project to determine the optimal way to break a corpus of text into an optimized tokenizer. This is far more modern that the BPE tokenizer used in SparkNet 70m. However, when I compared the two tokenizers head to head, the original Sparknet 70m v5 tokenizer came within 99% of the efficacy of the new v6 tokenizer. This demonstrates how good BPE tokenization is for smaller datasets!
+The SentencePiece Unigram is a fascinating mathematical project to determine the optimal way to break a corpus of text into an optimized tokenizer. This is a far more modern apporach than that of the GPT-2 era BPE tokenizer used in SparkNet 70m. However, when I compared the two tokenizers head to head, the original Sparknet 70m v5 tokenizer came within 99% of the efficacy of the new v6 tokenizer. This demonstrates how good BPE tokenization is for smaller datasets! 
+
+[if it ain't broke - don't fix it]
 
 ## Smoketesting and Performance Bencharmks
 
@@ -59,7 +65,39 @@ Given the long expected training time for SparkNet 400m, I first ran several 'sm
 | Test 3 | Off | 16 | 32 | ~5,916 |
 | Test 4 | Off | 32 | 16 | ~7,942 |
 
+Gradient checkpointing is often enabled in training runs, as it saves a good deal of memory. The DGX Spark has a ton of memory, but its tepid memory bandwidth proves the limiting factor. By disabling gradient accumulation, the Spark can trade more memory stored for less calculation overhead, eeking out a few hundred extra tokens per second! When racing towards 10 billion, every incremental advantage helps. The optimal configuration proved ~29% faster than the first test case!
 
+
+## Hurry Up and Wait
+
+With the script optimized and tested, it was time to let it rip. The DGX Spark was officially off to the races! With 10billion training tokens to process, there wasn't much to do besides let it do its thing.
+
+Or was there?
+
+As it turns out, the shift from 'hours long' training projects to 'weeks long' training projects introduces new concerns. Power stability, for instance! With my home office setup already pushing the limits of a 15A circuit, it should have been no surprise that power stability would become an issue. While the circuit breaker held steady, my large 'power tower' power strip did not. Not just once - but twice! - during the training run would I trip an internal breaker on that power tower, causing the DGX Spark (among other equipment) to lose power.
+
+Luckily, the training script features regular checkpointing. In each circumstance, it was possible to resume from a prior checkpoint. Even with this safety net, these power loss events represent a real loss of training throughput. It also highlighted how the perspective of infrastructure shifts as one extends the time horizon under consideration: 100% power uptime for 13 hours is a very different question than 100% power uptime for 3 weeks! 
+
+These events have made me interested in investing in a UPS battery system for my DGX Spark and networking equipment. An expense I have not yet pulled the trigger on, but one well worth considering as these longer operations become a more frequest use case.
+
+
+## Oh Yea and There Was DRAMA
+
+An additional complication occured during this training run: I was abrupty laid off. 
+
+A decade into my career as a software engineer, and I finally hit my first layoff. It seems to be an inevitably to anyone in this career. Or really any career in America. I suspected it was coming for some time, but was unable to secure a job offer elsewhere in time to avoid the axe. Being laid off in a cold and abrupt manner was shocking. Painful. Dehumanizing (or at least, de-Americanizing). It made me question whether I had hit my limits as a software engineer. Perhaps the combination of offshoring and AI had finally pulled ahead of my own contributions.
+
+Luckily (and somewhat ironically), I found a new and far more exciting role shortly after the layoff occured. My career - and ego! - were once again safe. Still, it represented a scary and sobering moment, and the new normal of 2026 has been slow to emerge. My work on DienerTech has had to take a backseat to job searching and role starting. The final writeup of SparkNet 400m v1 would take much more time than the training run itself would require. 
+
+## Across the Finish Line
+
+Sparknet 400m v1 did succesfully complete its training run. 
+
+## The Chatbot Future
+
+SFT Training summary, failures, and the plan to make a 'SparkChat' chatbot from a SparkNet SLM model
+
+Tie this into Sparknet 400m v2 training run, now in progress.
 
 ==
 
