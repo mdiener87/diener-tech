@@ -28,20 +28,19 @@
               <p
                 class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
               >
-                I'm a passionate software developer with experience in front-end
-                technologies like
+                I'm a full-stack software engineer with a strong frontend
+                foundation in
                 <span class="text-primary font-medium">Vue.js</span>,
                 <span class="text-primary font-medium">Node.js</span>, and
-                <span class="text-primary font-medium"
-                  >modern JavaScript frameworks</span
-                >.
+                modern JavaScript frameworks, now expanding deep into cloud,
+                backend, and data integration work.
               </p>
               <p
                 class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
               >
-                I believe that curiosity and creativity are the foundation of
-                great development, and I bring that mindset to every project I
-                work on.
+                I enjoy building software across the stack, from polished user
+                interfaces to resilient services, data flows, and the
+                infrastructure that keeps everything moving.
               </p>
             </div>
           </div>
@@ -57,12 +56,14 @@
 
           <div class="space-y-6 text-gray-700 dark:text-gray-300">
             <p class="leading-relaxed">
-              I've spent the last decade crafting intuitive, elegant, and
-              impactful software solutions, driven by a deep curiosity and
-              passion for technology. My career has been an exciting evolution,
-              taking me from building interactive frontend experiences to
-              full-stack engineering, and most recently exploring how AI and
-              machine learning can enhance everyday applications.
+              I've spent the last decade crafting thoughtful software systems,
+              driven by a deep curiosity and a genuine love of technology. My
+              career has grown from building interactive frontend experiences
+              into full-stack engineering, and now into cloud, backend, and
+              data integration work. In my current role at TaxCloud, I'm part
+              of the integrations team working with technologies like Azure,
+              Go, Databricks, DataDog, Spark, Terraform, and ETL-oriented
+              system design.
             </p>
 
             <p class="leading-relaxed">
@@ -79,9 +80,9 @@
               I believe deeply in lifelong learning, always embracing new
               technologies and challenging myself to grow—not just
               professionally, but personally. My goal is to build thoughtful
-              software solutions that improve people's lives, foster community,
-              and help bridge the gap between complex technologies and
-              meaningful user experiences.
+              software solutions that improve people's lives, whether that
+              means better user experiences on the frontend or reliable,
+              well-designed systems behind the scenes.
             </p>
           </div>
 

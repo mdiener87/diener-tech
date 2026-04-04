@@ -93,7 +93,7 @@ export default defineNitroPlugin((nitroApp) => {
     document.readingTime = {
       ...stats,
       minutes,
-      text: `${minutes} min read`,
+      text: `${minutes} min`,
     };
   });
 });

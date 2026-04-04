@@ -23,7 +23,7 @@ export interface ExtendedNode {
 export type TreeNode = d3.HierarchyNode<SkillNode> & ExtendedNode;
 
 export const skillsData: SkillNode = {
-  name: "Michael Diener - Software Engineer",
+  name: "Michael Diener - Senior Software Engineer",
   children: [
     {
       name: "Programming Languages",
@@ -57,6 +57,14 @@ export const skillsData: SkillNode = {
           ],
         },
         {
+          name: "Go",
+          experience: "Intermediate",
+          description: [
+            "A newer part of my toolkit, focused on backend services and integrations work.",
+            "I'm enjoying its directness, performance, and simplicity in distributed systems.",
+          ],
+        },
+        {
           name: "CSS",
           experience: "Advanced",
           description: [
@@ -85,8 +93,8 @@ export const skillsData: SkillNode = {
     {
       name: "Frameworks & Libraries",
       description: [
-        "I've built large-scale applications using modern JavaScript frameworks.",
-        "Vue 3 is currently my preferred framework due to its intuitive API and robust tooling.",
+        "I've built large-scale applications using modern web frameworks and backend runtimes.",
+        "Vue 3 remains my preferred frontend framework, while Node.js continues to be a go-to for backend development.",
       ],
       children: [
         {
@@ -115,7 +123,7 @@ export const skillsData: SkillNode = {
           name: "NodeJS",
           experience: "Advanced",
           description: [
-            "Extensive experience with backend development and REST APIs.",
+            "Extensive experience with backend development, REST APIs, and full-stack application architecture.",
           ],
         },
         {
@@ -130,10 +138,52 @@ export const skillsData: SkillNode = {
     {
       name: "Tools & Platforms",
       description: [
-        "Proficient with modern development environments and DevOps tools.",
-        "Always eager to explore new technologies and platforms to streamline development.",
+        "Proficient with modern development environments, cloud tooling, and DevOps practices.",
+        "My recent work has expanded heavily into cloud platforms, observability, and data-oriented systems.",
       ],
       children: [
+        {
+          name: "Azure",
+          experience: "Intermediate",
+          description: [
+            "Working with Azure-backed integrations and cloud services in my current role.",
+          ],
+        },
+        {
+          name: "Terraform",
+          experience: "Intermediate",
+          description: [
+            "Using infrastructure as code to manage and reason about cloud resources more reliably.",
+          ],
+        },
+        {
+          name: "Datadog",
+          experience: "Intermediate",
+          description: [
+            "Using observability tooling to monitor system health, data flows, and operational behavior.",
+          ],
+        },
+        {
+          name: "Databricks",
+          experience: "Intermediate",
+          description: [
+            "Working with data platform workflows and integrations that support ETL-oriented systems.",
+          ],
+        },
+        {
+          name: "Apache Spark",
+          experience: "Intermediate",
+          description: [
+            "Using Spark concepts and tooling in data processing and platform-oriented work.",
+          ],
+        },
+        {
+          name: "ETL Design",
+          experience: "Intermediate",
+          description: [
+            "Designing systems that move and transform data reliably across services and platforms.",
+          ],
+        },
         {
           name: "Docker",
           experience: "Intermediate",
@@ -184,14 +234,23 @@ export const skillsData: SkillNode = {
     {
       name: "Professional Experience",
       description: [
-        "Now a decade in the industry, I've progressively grown from a self-taught, junior developer, to a senior engineering lead.",
+        "Now a decade in the industry, I've progressively grown from a self-taught junior developer into a senior engineer spanning frontend, backend, cloud, and data systems.",
         "I have a proven track record of leadership, technical excellence, and delivering impactful projects.",
       ],
       children: [
         {
+          name: "TaxCloud",
+          position: "Senior Software Engineer",
+          duration: "2026 - Present",
+          description: [
+            "Working on the integrations team to build cloud and backend systems that connect platforms and move data reliably.",
+            "Using Azure, Go, Databricks, Spark, Terraform, and DataDog to support ETL-oriented system design and operations.",
+          ],
+        },
+        {
           name: "HeadSpin",
           position: "Senior Software Engineer",
-          duration: "Nov 2022 - Present",
+          duration: "Nov 2022 - 2026",
           description: [
             "Led a significant frontend overhaul, greatly improving application responsiveness and decreasing memory usage.",
             "Implemented individual customer requests into our product as reusable features, resulting in increased customer satisfaction and retention.",

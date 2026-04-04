@@ -62,13 +62,13 @@
                         </h1>
 
                         <div
-                          class="flex flex-wrap items-center gap-4 text-gray-600 dark:text-gray-400 mb-4"
+                          class="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-gray-600 dark:text-gray-400 mb-4"
                         >
                           <!-- Date -->
-                          <div v-if="doc.date" class="flex items-center gap-2">
+                          <div v-if="doc.date" class="flex items-center gap-1.5">
                             <UIcon
                               name="i-heroicons-calendar"
-                              class="w-5 h-5"
+                              class="w-4 h-4"
                             />
                             <time :datetime="doc.date">{{
                               formatDate(doc.date)
@@ -76,10 +76,17 @@
                           </div>
 
                           <!-- Reading Time -->
-                          <div class="flex items-center gap-2">
-                            <UIcon name="i-heroicons-clock" class="w-5 h-5" />
-                            <span>{{ doc.readingTime?.minutes || "N/A" }} min read</span>
+                          <span v-if="doc.date" aria-hidden="true">•</span>
+                          <div class="flex items-center gap-1.5">
+                            <UIcon name="i-heroicons-clock" class="w-4 h-4" />
+                            <span>{{ doc.readingTime?.minutes || "N/A" }} min</span>
                           </div>
+                          <span aria-hidden="true">•</span>
+                          <PostLikeButton
+                            :post-path="doc._path"
+                            compact
+                            :show-label="false"
+                          />
                         </div>
 
                         <!-- Tags -->
@@ -103,6 +110,7 @@
                         >
                           {{ doc.description }}
                         </p>
+
                       </div>
                     </div>
                   </UCard>
@@ -124,11 +132,23 @@
                   <div
                     class="mt-8 pt-6 border-t border-gray-200 dark:border-gray-800"
                   >
-                    <SocialShareButtons
-                      :url="pageUrl"
-                      :title="doc.title"
-                      :platforms="['copy', 'linkedin']"
-                    />
+                    <div
+                      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+                    >
+                      <div class="flex items-center gap-3">
+                        <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
+                          Enjoyed this post?
+                        </span>
+                        <PostLikeButton :post-path="doc._path" />
+                      </div>
+
+                      <SocialShareButtons
+                        :url="pageUrl"
+                        :title="doc.title"
+                        :platforms="['copy', 'linkedin']"
+                        :show-heading="false"
+                      />
+                    </div>
                   </div>
                 </div>
               </UContainer>
@@ -173,6 +193,7 @@ import { ref, computed, onMounted } from "vue";
 import { useImagePath } from "~/composables/useImagePath";
 import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
+import PostLikeButton from "~/components/blog/PostLikeButton.vue";
 import { formatDate } from '~/utils/dateFormatter';
 
 // Add interfaces at the top of the script section

@@ -95,7 +95,7 @@
 const faqs = [
   {
     title: 'What types of projects do you work on?',
-    content: 'I primarily work on web applications, API development, and full-stack projects. My focus areas include Vue.js/Nuxt, modern JavaScript/TypeScript, and cloud services.',
+    content: 'I primarily work on full-stack applications, backend integrations, APIs, and cloud-oriented systems. My focus areas include Vue.js/Nuxt on the frontend, plus Node.js, Go, Azure, Terraform, ETL patterns, and data platform tooling on the backend.',
     icon: 'i-heroicons-code-bracket'
   },
   {

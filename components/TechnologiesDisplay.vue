@@ -9,8 +9,9 @@
           Technologies I Work With
         </h2>
         <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          My tech stack is constantly evolving. Here are some of the
-          technologies I'm currently using.
+          My stack keeps evolving with my work. These are the technologies I
+          currently reach for across frontend, backend, cloud, and data
+          systems.
         </p>
       </div>
 
@@ -160,6 +161,11 @@ const technologies = [
     category: "Languages",
   },
   {
+    name: "Go",
+    icon: "i-simple-icons-go",
+    category: "Languages",
+  },
+  {
     name: "C#",
     icon: "i-simple-icons-csharp",
     category: "Languages",
@@ -197,6 +203,11 @@ const technologies = [
     category: "Backend & Infrastructure",
   },
   {
+    name: "Azure",
+    icon: "i-simple-icons-microsoftazure",
+    category: "Backend & Infrastructure",
+  },
+  {
     name: "ASP.NET MVC",
     icon: "i-heroicons-view-columns",
     category: "Backend & Infrastructure",
@@ -224,6 +235,21 @@ const technologies = [
   {
     name: "SQL Server",
     icon: "i-simple-icons-microsoftsqlserver",
+    category: "Backend & Infrastructure",
+  },
+  {
+    name: "Databricks",
+    icon: "i-simple-icons-databricks",
+    category: "Backend & Infrastructure",
+  },
+  {
+    name: "Apache Spark",
+    icon: "i-simple-icons-apachespark",
+    category: "Backend & Infrastructure",
+  },
+  {
+    name: "ETL",
+    icon: "i-heroicons-arrow-path",
     category: "Backend & Infrastructure",
   },
   {
@@ -262,6 +288,16 @@ const technologies = [
   {
     name: "Docker",
     icon: "i-simple-icons-docker",
+    category: "Dev Tools & Ops",
+  },
+  {
+    name: "Terraform",
+    icon: "i-simple-icons-terraform",
+    category: "Dev Tools & Ops",
+  },
+  {
+    name: "DataDog",
+    icon: "i-simple-icons-datadog",
     category: "Dev Tools & Ops",
   },
   {
