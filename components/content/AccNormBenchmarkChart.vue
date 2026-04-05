@@ -45,13 +45,13 @@
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { axisBottom, axisLeft } from 'd3-axis';
 import { max } from 'd3-array';
 import { scaleBand, scaleLinear } from 'd3-scale';
 import { select } from 'd3-selection';
 
-type ModelKey = 'sparknet' | 'gpt2' | 'codelion';
+type ModelKey = 'sparknet' | 'sparknet400' | 'sparknet400Expanded' | 'gpt2' | 'codelion';
 
 interface BenchmarkDatum {
   id: string;
@@ -60,11 +60,23 @@ interface BenchmarkDatum {
   values: Record<ModelKey, { score: number; stderr: number }>;
 }
 
-const models: Array<{ key: ModelKey; label: string; color: string }> = [
+const props = withDefaults(defineProps<{ include400m?: boolean }>(), {
+  include400m: false
+});
+
+const allModels: Array<{ key: ModelKey; label: string; color: string }> = [
   { key: 'sparknet', label: 'SparkNet 70M v5', color: '#0284c7' }, // sky-600
+  { key: 'sparknet400', label: 'SparkNet 400M v1 6B', color: '#0f766e' }, // teal-700
+  { key: 'sparknet400Expanded', label: 'SparkNet 400M v1 10B', color: '#14b8a6' }, // teal-500
   { key: 'codelion', label: 'CodeLion GPT-2 70M', color: '#f97316' }, // orange-500
   { key: 'gpt2', label: 'GPT-2', color: '#7c3aed' }, // violet-600
 ];
+
+const models = computed(() =>
+  props.include400m
+    ? allModels
+    : allModels.filter((model) => !['sparknet400', 'sparknet400Expanded'].includes(model.key))
+);
 
 const dataset: BenchmarkDatum[] = [
   {
@@ -73,6 +85,8 @@ const dataset: BenchmarkDatum[] = [
     description: 'Commonsense reasoning over everyday scenarios.',
     values: {
       sparknet: { score: 0.2625, stderr: 0.0044 },
+      sparknet400: { score: 0.2993, stderr: 0.0046 },
+      sparknet400Expanded: { score: 0.2993, stderr: 0.0046 },
       gpt2: { score: 0.3108, stderr: 0.0046 },
       codelion: { score: 0.2683, stderr: 0.0044 }
     }
@@ -83,6 +97,8 @@ const dataset: BenchmarkDatum[] = [
     description: 'Physical commonsense completion.',
     values: {
       sparknet: { score: 0.5598, stderr: 0.0116 },
+      sparknet400: { score: 0.6137, stderr: 0.0114 },
+      sparknet400Expanded: { score: 0.6137, stderr: 0.0114 },
       gpt2: { score: 0.6251, stderr: 0.0113 },
       codelion: { score: 0.5691, stderr: 0.0116 }
     }
@@ -93,6 +109,8 @@ const dataset: BenchmarkDatum[] = [
     description: 'Grade-school science QA (easy split).',
     values: {
       sparknet: { score: 0.3325, stderr: 0.0097 },
+      sparknet400: { score: 0.3986, stderr: 0.0100 },
+      sparknet400Expanded: { score: 0.3986, stderr: 0.0100 },
       gpt2: { score: 0.3977, stderr: 0.0100 },
       codelion: { score: 0.3527, stderr: 0.0098 }
     }
@@ -103,6 +121,8 @@ const dataset: BenchmarkDatum[] = [
     description: 'Grade-school science QA (challenge split).',
     values: {
       sparknet: { score: 0.209, stderr: 0.0119 },
+      sparknet400: { score: 0.2261, stderr: 0.0122 },
+      sparknet400Expanded: { score: 0.2261, stderr: 0.0122 },
       gpt2: { score: 0.2278, stderr: 0.0123 },
       codelion: { score: 0.2167, stderr: 0.0120 }
     }
@@ -143,11 +163,11 @@ const drawChart = () => {
     .paddingInner(0.3);
 
   const xSub = scaleBand<ModelKey>()
-    .domain(models.map((m) => m.key))
+    .domain(models.value.map((m) => m.key))
     .range([0, x.bandwidth()])
     .padding(0.08);
 
-  const yMax = max(dataset, (d) => max(models, (m) => d.values[m.key].score)) ?? 0.7;
+  const yMax = max(dataset, (d) => max(models.value, (m) => d.values[m.key].score)) ?? 0.7;
   const y = scaleLinear().domain([0, Math.min(1, yMax + 0.05)]).range([height, 0]);
 
   const axisBottomGroup = plot
@@ -199,7 +219,7 @@ const drawChart = () => {
   testGroups
     .selectAll('rect')
     .data((d) =>
-      models.map((model) => ({
+      models.value.map((model) => ({
         ...model,
         testId: d.id,
         testLabel: d.label,
@@ -280,6 +300,11 @@ onMounted(() => {
     window.addEventListener('resize', drawChart);
   }
 });
+
+watch(
+  () => props.include400m,
+  () => drawChart()
+);
 
 onBeforeUnmount(() => {
   resizeObserver?.disconnect();
