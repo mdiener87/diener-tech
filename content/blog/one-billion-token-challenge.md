@@ -14,7 +14,7 @@ tags:
     "gpt-2",
   ]
 titleImage: "one-billion-token-challenge.webp"
-featured: true
+featured: false
 ---
 
 ## The DGX Spark as an AI Laboratory
