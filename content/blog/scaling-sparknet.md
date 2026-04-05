@@ -150,6 +150,7 @@ I also benchmarked the new 400m model, running it through the same test suite th
 <details>
 
 <summary><i>Click to expand and learn more about each of the involved tests.</i></summary>
+
 **HellaSwag**
 HellaSwag is a commonsense reasoning benchmark focused on completing short narrative or instructional descriptions. Each question gives a sentence or scenario and four possible continuations; the model must pick the most realistic one. It’s deceptively difficult because the options are written to look plausible, so high scores require strong world knowledge, context understanding, and linguistic coherence.
 
