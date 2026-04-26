@@ -341,6 +341,12 @@ const technologies = [
     category: "Dev Tools & Ops",
   },
   {
+    name: "Tauri",
+    icon: null,
+    asset: "/tech-icons/tauri.svg",
+    category: "Dev Tools & Ops",
+  },
+  {
     name: "API Design",
     icon: "i-heroicons-squares-2x2",
     category: "Backend & Infrastructure",
@@ -458,6 +464,18 @@ const technologies = [
   {
     name: "OBS",
     icon: "i-simple-icons-obsstudio",
+    category: "2D & 3D Media",
+  },
+  {
+    name: "OpenXR",
+    icon: null,
+    asset: "/tech-icons/openxr.svg",
+    category: "2D & 3D Media",
+  },
+  {
+    name: "Khronos",
+    icon: null,
+    asset: "/tech-icons/khronos.svg",
     category: "2D & 3D Media",
   },
 ];
