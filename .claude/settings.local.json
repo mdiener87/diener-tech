@@ -2,5 +2,10 @@
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "think"
-  ]
+  ],
+  "permissions": {
+    "allow": [
+      "Bash(git -C /home/mdiener/projects/diener-tech branch -a)"
+    ]
+  }
 }

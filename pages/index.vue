@@ -99,8 +99,11 @@
       bgClass="bg-gray-50 dark:bg-gray-800 card-transition"
     />
 
+    <!-- Newsletter Section -->
+    <NewsletterSignup />
+
     <!-- Contact CTA Section -->
-    <section class="py-12 bg-primary/5 dark:bg-gray-900 card-transition">
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="max-w-3xl mx-auto text-center">
           <h2 class="text-2xl md:text-3xl font-bold mb-4">Let's Connect</h2>
@@ -125,6 +128,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
+import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
 
 // Import the useImagePath composable
 import { useImagePath } from "~/composables/useImagePath";
