@@ -45,7 +45,7 @@
               class="w-64 h-64 bg-primary/10 rounded-full flex items-center justify-center border-4 border-primary/20"
             >
               <NuxtImg
-                src="/images/pics/diener-headshot.webp"
+                src="/images/pics/profile-photo.webp"
                 alt="Michael Diener"
                 width="256"
                 height="256"
