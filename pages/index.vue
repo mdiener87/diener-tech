@@ -102,26 +102,6 @@
     <!-- Newsletter Section -->
     <NewsletterSignup />
 
-    <!-- Contact CTA Section -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
-      <UContainer>
-        <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-2xl md:text-3xl font-bold mb-4">Let's Connect</h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Interested in working together or have questions about my projects?
-            I'd love to hear from you!
-          </p>
-          <UButton
-            to="/contact"
-            color="primary"
-            size="lg"
-            icon="i-heroicons-envelope"
-          >
-            Get In Touch
-          </UButton>
-        </div>
-      </UContainer>
-    </section>
   </main>
 </template>
 
