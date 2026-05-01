@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -euo pipefail
 
 # Always log to a known path, relative to the Git repo root
 REPO_ROOT=$(git rev-parse --show-toplevel)
@@ -6,12 +8,15 @@ LOG_FILE="$REPO_ROOT/pre-commit.log"
 
 echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') — 🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
 
-STAGED_IMAGES=$(git diff --cached --name-only --diff-filter=ACM | grep -E '\.(jpg|jpeg|png|webp)$')
+mapfile -d '' -t STAGED_IMAGES < <(
+  git diff --cached --name-only --diff-filter=ACM -z -- \
+    '*.png' '*.jpg' '*.jpeg' '*.webp' '*.gif' '*.avif' '*.bmp' '*.tif' '*.tiff' '*.ico'
+)
 
-for file in $STAGED_IMAGES; do
+for file in "${STAGED_IMAGES[@]}"; do
   if [ -f "$file" ]; then
     echo "➡️  Cleaning $file" >> "$LOG_FILE"
-    exiftool -overwrite_original -all= "$file"
+    exiftool -overwrite_original -all= "$file" >/dev/null
     git add "$file"  # re-stage the clean version
   fi
 done

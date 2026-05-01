@@ -45,7 +45,7 @@
               class="w-64 h-64 bg-primary/10 rounded-full flex items-center justify-center border-4 border-primary/20"
             >
               <NuxtImg
-                src="/images/pics/diener-headshot.webp"
+                src="/images/pics/profile-photo.webp"
                 alt="Michael Diener"
                 width="256"
                 height="256"
@@ -99,32 +99,16 @@
       bgClass="bg-gray-50 dark:bg-gray-800 card-transition"
     />
 
-    <!-- Contact CTA Section -->
-    <section class="py-12 bg-primary/5 dark:bg-gray-900 card-transition">
-      <UContainer>
-        <div class="max-w-3xl mx-auto text-center">
-          <h2 class="text-2xl md:text-3xl font-bold mb-4">Let's Connect</h2>
-          <p class="text-gray-600 dark:text-gray-400 mb-6">
-            Interested in working together or have questions about my projects?
-            I'd love to hear from you!
-          </p>
-          <UButton
-            to="/contact"
-            color="primary"
-            size="lg"
-            icon="i-heroicons-envelope"
-          >
-            Get In Touch
-          </UButton>
-        </div>
-      </UContainer>
-    </section>
+    <!-- Newsletter Section -->
+    <NewsletterSignup />
+
   </main>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
+import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
 
 // Import the useImagePath composable
 import { useImagePath } from "~/composables/useImagePath";
