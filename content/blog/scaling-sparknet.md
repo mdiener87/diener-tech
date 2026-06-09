@@ -14,7 +14,7 @@ tags:
     "career",
   ]
 titleImage: "scaling-sparknet.webp"
-featured: true
+featured: false
 ---
 
 ## More Parameters, More Problems
