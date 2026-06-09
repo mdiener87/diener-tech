@@ -6,6 +6,12 @@ set -euo pipefail
 REPO_ROOT=$(git rev-parse --show-toplevel)
 LOG_FILE="$REPO_ROOT/pre-commit.log"
 
+cd "$REPO_ROOT"
+
+LOCK_FILE="$REPO_ROOT/.git/strip-image-metadata.lock"
+exec 9>"$LOCK_FILE"
+flock 9
+
 echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') — 🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
 
 mapfile -d '' -t STAGED_IMAGES < <(
@@ -15,6 +21,12 @@ mapfile -d '' -t STAGED_IMAGES < <(
 
 for file in "${STAGED_IMAGES[@]}"; do
   if [ -f "$file" ]; then
+    temp_file="${file}_exiftool_tmp"
+    if [ -e "$temp_file" ]; then
+      echo "🧹 Removing stale exiftool temp file $temp_file" >> "$LOG_FILE"
+      rm -f -- "$temp_file"
+    fi
+
     echo "➡️  Cleaning $file" >> "$LOG_FILE"
     exiftool -overwrite_original -all= "$file" >/dev/null
     git add "$file"  # re-stage the clean version
