@@ -9,10 +9,12 @@
         "Karpathy",
         "nuxt",
         "Ollama",
+        "pretraining",
         "Ryzen",
         "Sopheon",
         "sparknet",
-        "Tensorboard"
+        "Tensorboard",
+        "tensorgraph"
     ],
     "cSpell.ignoreWords": [
         "Asankhaya",
