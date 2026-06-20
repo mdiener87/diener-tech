@@ -75,6 +75,37 @@
       </UContainer>
     </section>
 
+    <!-- Key differentiator -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div
+          class="rounded-2xl border border-primary-200 dark:border-primary-900/60 bg-gradient-to-br from-primary-50 to-white dark:from-primary-950/40 dark:to-gray-900 p-8 md:p-10"
+        >
+          <div class="flex items-start gap-4">
+            <UIcon
+              name="i-heroicons-sparkles"
+              class="h-8 w-8 text-primary flex-shrink-0 mt-1"
+            />
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-wide text-primary mb-2">
+                What makes VectorXR different
+              </p>
+              <p class="text-xl md:text-2xl font-bold leading-snug mb-3">
+                The first and only OpenXR solution where enhanced head rotation
+                and quad-views foveated rendering work together.
+              </p>
+              <p class="text-gray-700 dark:text-gray-300">
+                When you turn your view with the Pivot module, the foveated
+                high-detail region follows your pivoted view instead of being
+                left behind &mdash; so you keep both the wider rotation and the
+                performance headroom, with no blurry sweet spot stuck off-center.
+              </p>
+            </div>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
     <!-- Quick facts -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
@@ -183,8 +214,42 @@
       </UContainer>
     </section>
 
-    <!-- Profiles & management -->
+    <!-- App screens -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4">App Screens</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
+            A look at the desktop app &mdash; each module gets its own tab, with
+            a global default profile and optional per-application overrides.
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <figure
+            v-for="screen in screenshots"
+            :key="screen.src"
+            class="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+          >
+            <NuxtImg
+              :src="screen.src"
+              :alt="screen.alt"
+              class="w-full aspect-[1.3] object-contain bg-gray-100 dark:bg-gray-950"
+              sizes="sm:100vw md:50vw"
+            />
+            <figcaption class="p-4">
+              <h3 class="font-bold mb-1">{{ screen.title }}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                {{ screen.description }}
+              </p>
+            </figcaption>
+          </figure>
+        </div>
+      </UContainer>
+    </section>
+
+    <!-- Profiles & management -->
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">Profiles &amp; Management</h2>
@@ -211,7 +276,7 @@
     </section>
 
     <!-- How it works + installation -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="grid lg:grid-cols-2 gap-10">
           <div>
@@ -264,7 +329,7 @@
     </section>
 
     <!-- Beta status -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-8">
           <div class="flex items-center gap-3 mb-4">
@@ -312,7 +377,7 @@
     </section>
 
     <!-- License note -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="max-w-3xl">
           <h2 class="text-2xl font-bold mb-4">Open Source &amp; License</h2>
@@ -448,6 +513,37 @@ const management = [
     description:
       "Import, export, reset, and validate your local settings, all stored on your own machine.",
     icon: "i-heroicons-arrow-path",
+  },
+];
+
+const screenshots = [
+  {
+    title: "Depth",
+    src: "/images/vectorxr/screenshots/depth.png",
+    alt: "VectorXR Depth tab showing stereo boost and convergence sliders",
+    description:
+      "Stereo boost and convergence with a global default profile, per-application overrides, and a runtime toggle binding for quick comparisons in headset.",
+  },
+  {
+    title: "Pivot",
+    src: "/images/vectorxr/screenshots/pivot.png",
+    alt: "VectorXR Pivot tab showing yaw and pitch rotation controls",
+    description:
+      "Enhanced yaw and pitch rotation with activation mode, smoothing, an activation ramp, and per-axis multipliers and deadzones.",
+  },
+  {
+    title: "Quadviews",
+    src: "/images/vectorxr/screenshots/quadviews.png",
+    alt: "VectorXR Quadviews tab showing foveated rendering controls",
+    description:
+      "Foveated and peripheral resolution, focus window, and eye-tracked or fixed foveation, with a live stereo-pixel budget.",
+  },
+  {
+    title: "OpenXR Layer Manager",
+    src: "/images/vectorxr/screenshots/openxr-layer-manager.png",
+    alt: "VectorXR OpenXR Layer Manager showing installed API layers",
+    description:
+      "Enable, disable, and reorder installed implicit API layers across registry slices, with signature and path status at a glance.",
   },
 ];
 
