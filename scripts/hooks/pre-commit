@@ -5,59 +5,32 @@ set -euo pipefail
 # Always log to a known path, relative to the Git repo root
 REPO_ROOT=$(git rev-parse --show-toplevel)
 LOG_FILE="$REPO_ROOT/pre-commit.log"
-LOCK_DIR="${TMPDIR:-/tmp}/strip-image-metadata-${REPO_ROOT//\//_}.lock"
-ACQUIRED_LOCK=false
 
 cd "$REPO_ROOT"
 
+LOCK_FILE="$REPO_ROOT/.git/strip-image-metadata.lock"
+exec 9>"$LOCK_FILE"
+flock 9
+
 echo "🕒 $(date '+%Y-%m-%d %H:%M:%S') — 🧼 [HOOK] Scrubbing metadata from staged images..." >> "$LOG_FILE"
 
-for _ in {1..50}; do
-  if mkdir "$LOCK_DIR" 2>/dev/null; then
-    ACQUIRED_LOCK=true
-    trap 'rmdir "$LOCK_DIR"' EXIT
-    break
-  fi
-
-  sleep 0.1
-done
-
-if [ "$ACQUIRED_LOCK" != true ]; then
-  echo "Failed to acquire metadata scrub lock: $LOCK_DIR" >&2
-  exit 1
-fi
-
-if [ "$#" -gt 0 ]; then
-  STAGED_IMAGES=("$@")
-else
-  mapfile -d '' -t STAGED_IMAGES < <(
-    git diff --cached --name-only --diff-filter=ACM -z -- \
-      '*.png' '*.jpg' '*.jpeg' '*.webp' '*.gif' '*.avif' '*.bmp' '*.tif' '*.tiff' '*.ico'
-  )
-fi
-
-declare -A SEEN_IMAGES=()
-IMAGES_TO_CLEAN=()
+mapfile -d '' -t STAGED_IMAGES < <(
+  git diff --cached --name-only --diff-filter=ACM -z -- \
+    '*.png' '*.jpg' '*.jpeg' '*.webp' '*.gif' '*.avif' '*.bmp' '*.tif' '*.tiff' '*.ico'
+)
 
 for file in "${STAGED_IMAGES[@]}"; do
-  case "$file" in
-    *.png|*.jpg|*.jpeg|*.webp|*.gif|*.avif|*.bmp|*.tif|*.tiff|*.ico)
-      ;;
-    *)
-      continue
-      ;;
-  esac
+  if [ -f "$file" ]; then
+    temp_file="${file}_exiftool_tmp"
+    if [ -e "$temp_file" ]; then
+      echo "🧹 Removing stale exiftool temp file $temp_file" >> "$LOG_FILE"
+      rm -f -- "$temp_file"
+    fi
 
-  if [ -f "$file" ] && [ -z "${SEEN_IMAGES[$file]:-}" ]; then
-    SEEN_IMAGES["$file"]=1
-    IMAGES_TO_CLEAN+=("$file")
+    echo "➡️  Cleaning $file" >> "$LOG_FILE"
+    exiftool -overwrite_original -all= "$file" >/dev/null
+    git add "$file"  # re-stage the clean version
   fi
-done
-
-for file in "${IMAGES_TO_CLEAN[@]}"; do
-  echo "➡️  Cleaning $file" >> "$LOG_FILE"
-  exiftool -overwrite_original -all= "$file" >/dev/null
-  git add "$file"  # re-stage the clean version
 done
 
 echo "✅ [HOOK] Done." >> "$LOG_FILE"

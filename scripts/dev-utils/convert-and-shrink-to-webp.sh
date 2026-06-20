@@ -3,7 +3,7 @@
 
 set -e
 
-IMG_DIR="../../public/"
+IMG_DIR="${1:-./public}"
 MAX_SIZE=800  # max width or height in pixels
 
 find "$IMG_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) | while read -r img; do
