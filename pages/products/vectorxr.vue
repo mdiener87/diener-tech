@@ -1,14 +1,16 @@
 <template>
   <main class="flex-grow">
+    <!-- Hero -->
     <section
       class="py-16 bg-gradient-to-br from-primary-50 to-white dark:from-gray-800 dark:to-gray-900 card-transition"
     >
       <UContainer>
-        <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10 items-center">
+        <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-10 items-center">
           <div class="space-y-6">
             <div class="flex flex-wrap gap-2">
               <UBadge color="primary" variant="soft">DienerTech LLC</UBadge>
               <UBadge color="emerald" variant="soft">{{ product.status }}</UBadge>
+              <UBadge color="blue" variant="soft">Open source</UBadge>
               <UBadge color="gray" variant="soft">{{ product.license }}</UBadge>
             </div>
 
@@ -20,11 +22,12 @@
                 {{ product.tagline }}
               </p>
               <p class="text-lg text-gray-700 dark:text-gray-300">
-                VectorXR is a Windows desktop app and OpenXR API layer for
-                tuning VR experiences on a per-game basis. It gives practical
-                controls for stereo depth, convergence, enhanced head rotation,
-                and OpenXR layer management without hand-editing config files or
-                digging through the Windows registry.
+                VectorXR is a free, open source Windows desktop app and OpenXR
+                API layer for tuning VR experiences on a per-game basis. It
+                gives practical controls for stereo depth, convergence, enhanced
+                head rotation, foveated-style rendering, and OpenXR layer
+                management &mdash; without hand-editing config files or digging
+                through the Windows registry.
               </p>
             </div>
 
@@ -46,28 +49,36 @@
                 size="lg"
                 icon="i-simple-icons-github"
               >
-                GitHub
+                View Source
               </UButton>
             </div>
+
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              A community open source project, maintained under the DienerTech
+              LLC umbrella. Free to download, use, and modify.
+            </p>
           </div>
 
-          <div
-            class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-xl overflow-hidden"
-          >
-            <NuxtImg
-              src="/images/vectorxr/screenshots/screenshot-home.png"
-              alt="VectorXR home screen showing suite settings and layer status"
-              class="w-full h-full object-contain"
-              sizes="sm:100vw lg:50vw"
-            />
+          <div class="flex justify-center lg:justify-end">
+            <div
+              class="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-xl p-8 max-w-sm"
+            >
+              <NuxtImg
+                src="/images/vectorxr/icon-vectorxr.png"
+                alt="VectorXR application icon"
+                class="w-full h-full object-contain"
+                sizes="sm:60vw lg:30vw"
+              />
+            </div>
           </div>
         </div>
       </UContainer>
     </section>
 
+    <!-- Quick facts -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div
             v-for="metric in productFacts"
             :key="metric.label"
@@ -84,16 +95,23 @@
       </UContainer>
     </section>
 
+    <!-- Overview + feature grid -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10">
           <div>
             <h2 class="text-3xl font-bold mb-4">Built For OpenXR Tinkering</h2>
-            <p class="text-gray-700 dark:text-gray-300 mb-6">
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
               VectorXR is aimed at VR players and simulation users who want
-              repeatable per-application tuning. The app keeps profiles,
-              feature toggles, device bindings, update checks, runtime logs,
-              and OpenXR layer controls in one place.
+              repeatable, per-application tuning. It started as a small
+              experiment and grew into a full working suite that keeps profiles,
+              feature toggles, device bindings, update checks, runtime logs, and
+              OpenXR layer controls in one place.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 mb-6">
+              Everything is reversible by design: disable any enhancement, turn
+              off the VectorXR layer, or uninstall entirely if something
+              misbehaves.
             </p>
             <div class="flex flex-wrap gap-2">
               <UBadge
@@ -124,41 +142,76 @@
       </UContainer>
     </section>
 
+    <!-- Enhancement modules deep dive -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="mb-8">
-          <h2 class="text-3xl font-bold mb-4">App Screens</h2>
+          <h2 class="text-3xl font-bold mb-4">Enhancement Modules</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
-            The app is organized around dedicated modules for suite settings,
-            depth tuning, pivot tuning, application profiles, OpenXR layer
-            management, and release information.
+            Three runtime modules do the heavy lifting. Each can run with a
+            global default or a dedicated profile for a specific OpenXR
+            application.
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 gap-6">
-          <figure
-            v-for="screen in screenshots"
-            :key="screen.src"
-            class="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800"
+        <div class="grid md:grid-cols-3 gap-6">
+          <div
+            v-for="module in modules"
+            :key="module.title"
+            class="rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 p-6 flex flex-col"
           >
-            <NuxtImg
-              :src="screen.src"
-              :alt="screen.alt"
-              class="w-full aspect-[1.3] object-contain bg-gray-100 dark:bg-gray-950"
-              sizes="sm:100vw md:50vw"
-            />
-            <figcaption class="p-4">
-              <h3 class="font-bold mb-1">{{ screen.title }}</h3>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ screen.description }}
-              </p>
-            </figcaption>
-          </figure>
+            <UIcon :name="module.icon" class="h-8 w-8 text-primary mb-3" />
+            <h3 class="font-bold text-xl mb-2">{{ module.title }}</h3>
+            <p class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
+              {{ module.summary }}
+            </p>
+            <ul class="space-y-2 mt-auto">
+              <li
+                v-for="point in module.points"
+                :key="point"
+                class="flex gap-2 text-sm text-gray-600 dark:text-gray-400"
+              >
+                <UIcon
+                  name="i-heroicons-check-circle"
+                  class="h-5 w-5 text-primary flex-shrink-0"
+                />
+                <span>{{ point }}</span>
+              </li>
+            </ul>
+          </div>
         </div>
       </UContainer>
     </section>
 
+    <!-- Profiles & management -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div class="mb-8">
+          <h2 class="text-3xl font-bold mb-4">Profiles &amp; Management</h2>
+          <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
+            Beyond the enhancements, VectorXR doubles as a control panel for the
+            OpenXR layers and applications on your system.
+          </p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div
+            v-for="item in management"
+            :key="item.title"
+            class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-5"
+          >
+            <UIcon :name="item.icon" class="h-7 w-7 text-primary mb-3" />
+            <h3 class="font-bold text-lg mb-2">{{ item.title }}</h3>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ item.description }}
+            </p>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
+    <!-- How it works + installation -->
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="grid lg:grid-cols-2 gap-10">
           <div>
@@ -172,12 +225,13 @@
             <p class="text-gray-700 dark:text-gray-300">
               The installer registers the VectorXR API layer with Windows so
               OpenXR runtimes can load it automatically. Settings are stored
-              locally under <code>%LOCALAPPDATA%\VectorXR</code>.
+              locally under <code>%LOCALAPPDATA%\VectorXR</code> &mdash; nothing
+              is sent off your machine.
             </p>
           </div>
 
           <div
-            class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6"
+            class="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6"
           >
             <h3 class="text-xl font-bold mb-4">Installation</h3>
             <ol class="space-y-3 text-gray-700 dark:text-gray-300">
@@ -208,6 +262,75 @@
         </div>
       </UContainer>
     </section>
+
+    <!-- Beta status -->
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div class="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-8">
+          <div class="flex items-center gap-3 mb-4">
+            <UBadge color="emerald" variant="soft">Beta</UBadge>
+            <h2 class="text-2xl font-bold">Where It Stands</h2>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            VectorXR is in beta and feature-complete for its current scope. The
+            desktop app, Windows installer, OpenXR layer registration,
+            per-application profiles, the Depth, Pivot, and Quadviews modules,
+            app discovery, logs, update checks, and the OpenXR layer manager are
+            all implemented and working.
+          </p>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            Beta means it is ready for day-to-day use, but it is young and has
+            had limited testing across the full range of VR runtimes and
+            hardware. You may hit rough edges on an untested runtime &mdash; some
+            headset-native OpenXR runtimes are known to ignore certain
+            adjustments, for example. Current builds are unsigned, so the
+            installer will show a Windows SmartScreen warning. Feedback and bug
+            reports are genuinely welcome &mdash; that is what this stage is for.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <UButton
+              :to="`${product.githubUrl}/issues`"
+              target="_blank"
+              color="gray"
+              variant="soft"
+              icon="i-simple-icons-github"
+            >
+              Report an Issue
+            </UButton>
+            <UButton
+              :to="product.githubUrl"
+              target="_blank"
+              color="gray"
+              variant="ghost"
+              icon="i-heroicons-document-text"
+            >
+              Read the Docs
+            </UButton>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
+    <!-- License note -->
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+      <UContainer>
+        <div class="max-w-3xl">
+          <h2 class="text-2xl font-bold mb-4">Open Source &amp; License</h2>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            The VectorXR source code is released under the Mozilla Public License
+            2.0 (MPL-2.0), a file-level copyleft license. You are free to use,
+            modify, and redistribute VectorXR, provided that changes to the
+            MPL-covered files themselves remain available under the MPL.
+          </p>
+          <p class="text-sm text-gray-500 dark:text-gray-400">
+            VectorXR, the VectorXR name, and VectorXR branding are product
+            identifiers of DienerTech LLC. The license covers the source code
+            but does not grant rights to use DienerTech LLC trademarks, logos, or
+            branding except to refer to the project.
+          </p>
+        </div>
+      </UContainer>
+    </section>
   </main>
 </template>
 
@@ -224,27 +347,34 @@ if (!product) {
 
 const productFacts = [
   { label: "Platform", value: product.platform },
-  { label: "Owner", value: product.owner },
-  { label: "Source", value: product.license },
+  { label: "Price", value: "Free" },
+  { label: "Status", value: product.status },
+  { label: "License", value: product.license },
 ];
 
 const features = [
   {
-    title: "Depth Profiles",
+    title: "Depth Module",
     description:
-      "Tune stereo boost and convergence globally or per OpenXR application.",
+      "Tune stereo depth boost and convergence globally or per OpenXR application.",
     icon: "i-heroicons-cube-transparent",
   },
   {
-    title: "Pivot Controls",
+    title: "Pivot Module",
     description:
       "Configure enhanced yaw and pitch rotation with smoothing, deadzones, and activation behavior.",
     icon: "i-heroicons-arrow-path-rounded-square",
   },
   {
-    title: "Application Registry",
+    title: "Quadviews Module",
     description:
-      "Track discovered OpenXR apps and convert them into reusable profile targets.",
+      "Drive foveated-style rendering with a visible performance budget you can dial in.",
+    icon: "i-heroicons-viewfinder-circle",
+  },
+  {
+    title: "Per-App Profiles",
+    description:
+      "Create profiles so different OpenXR games can each use their own settings.",
     icon: "i-heroicons-rectangle-stack",
   },
   {
@@ -253,50 +383,71 @@ const features = [
       "Inspect, enable, disable, and reorder installed OpenXR implicit API layers.",
     icon: "i-heroicons-adjustments-horizontal",
   },
+  {
+    title: "Input Bindings",
+    description:
+      "Bind feature toggles to keyboard shortcuts or detected input devices.",
+    icon: "i-heroicons-command-line",
+  },
 ];
 
-const screenshots = [
-  {
-    title: "Home",
-    src: "/images/vectorxr/screenshots/screenshot-home.png",
-    alt: "VectorXR home tab",
-    description:
-      "Suite settings, app status, log access, theme controls, import and export actions, and layer status.",
-  },
+const modules = [
   {
     title: "Depth",
-    src: "/images/vectorxr/screenshots/screenshot-depth.png",
-    alt: "VectorXR depth tab",
-    description:
-      "Stereo boost and convergence controls for global and per-application profiles.",
+    icon: "i-heroicons-cube-transparent",
+    summary: "Stereo depth and convergence tuning.",
+    points: [
+      "Adjust stereo depth boost and convergence",
+      "Apply globally or per application",
+      "Reversible at any time",
+    ],
   },
   {
     title: "Pivot",
-    src: "/images/vectorxr/screenshots/screenshot-pivot.png",
-    alt: "VectorXR pivot tab",
-    description:
-      "Enhanced yaw and pitch rotation controls with activation behavior and device bindings.",
+    icon: "i-heroicons-arrow-path-rounded-square",
+    summary: "Enhanced yaw and pitch head rotation.",
+    points: [
+      "Activation behavior, smoothing, and deadzones",
+      "Helpful for seated VR and flight sim setups",
+      "Bind to keyboard or detected devices",
+    ],
   },
+  {
+    title: "Quadviews",
+    icon: "i-heroicons-viewfinder-circle",
+    summary: "Foveated-style rendering with a budget.",
+    points: [
+      "Foveated-style quad-views rendering",
+      "Visible performance budget to balance quality and frame rate",
+      "Per-application configuration",
+    ],
+  },
+];
+
+const management = [
   {
     title: "Application Registry",
-    src: "/images/vectorxr/screenshots/screenshot-application-registry.png",
-    alt: "VectorXR application registry tab",
     description:
-      "Discovered OpenXR applications can be organized into reusable profile targets.",
+      "Track OpenXR apps VectorXR has seen, register them as profile targets, and keep them organized as reusable entries.",
+    icon: "i-heroicons-rectangle-stack",
   },
   {
-    title: "OpenXR Layers",
-    src: "/images/vectorxr/screenshots/screenshot-openxr-layers.png",
-    alt: "VectorXR OpenXR layers tab",
+    title: "OpenXR Layer Manager",
     description:
-      "Layer inspection and ordering for installed OpenXR implicit API layers.",
+      "Inspect installed implicit API layers with signature and path status, then enable, disable, or reorder them.",
+    icon: "i-heroicons-adjustments-horizontal",
   },
   {
-    title: "About And Updates",
-    src: "/images/vectorxr/screenshots/screenshot-about.png",
-    alt: "VectorXR about tab",
+    title: "Logs & Updates",
     description:
-      "Release status, GitHub update checks, project links, patch notes, and support information.",
+      "View VectorXR runtime logs in-app and check GitHub for newer releases from the About tab.",
+    icon: "i-heroicons-document-magnifying-glass",
+  },
+  {
+    title: "Settings Control",
+    description:
+      "Import, export, reset, and validate your local settings, all stored on your own machine.",
+    icon: "i-heroicons-arrow-path",
   },
 ];
 
@@ -305,8 +456,8 @@ const { setPageMeta } = useSeo();
 setPageMeta({
   title: "VectorXR",
   description:
-    "VectorXR is a DienerTech LLC open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, pivot, and layer tuning.",
-  image: "/images/vectorxr/screenshots/screenshot-home.png",
+    "VectorXR is a free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, and layer tuning. Maintained under DienerTech LLC.",
+  image: "/images/vectorxr/icon-vectorxr.png",
   type: "website",
   canonicalUrl: "https://diener.tech/products/vectorxr",
 });
@@ -322,8 +473,13 @@ useHead({
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Windows",
         description:
-          "Windows desktop app and OpenXR API layer for tuning VR experiences on a per-game basis.",
+          "Free, open source Windows desktop app and OpenXR API layer for tuning VR experiences on a per-game basis.",
         softwareVersion: product.status,
+        offers: {
+          "@type": "Offer",
+          price: "0",
+          priceCurrency: "USD",
+        },
         license: "https://github.com/DienerTech/vectorxr/blob/main/LICENSE",
         url: "https://diener.tech/products/vectorxr",
         downloadUrl: product.releaseUrl,
