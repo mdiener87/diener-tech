@@ -6,3 +6,4 @@ repos:
         entry: /bin/bash scripts/hooks/pre-commit
         language: script
         types: [image]
+        require_serial: true

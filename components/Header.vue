@@ -71,6 +71,7 @@ import { useRouter } from "vue-router";
 const navLinks = [
   { label: "Home", to: "/" },
   { label: "Career", to: "/career" },
+  { label: "Products", to: "/products" },
   { label: "Projects", to: "/projects" },
   { label: "Blog", to: "/blog" },
   { label: "About", to: "/about" },
