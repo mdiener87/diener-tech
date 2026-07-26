@@ -31,9 +31,9 @@
                 VectorXR is a free, open source Windows desktop app and OpenXR
                 API layer for tuning VR experiences on a per-game basis. It
                 gives practical controls for stereo depth, convergence, enhanced
-                head rotation, foveated-style rendering, and OpenXR layer
-                management &mdash; without hand-editing config files or digging
-                through the Windows registry.
+                head rotation, foveated-style rendering, frame pacing, and
+                OpenXR layer management &mdash; without hand-editing config
+                files or digging through the Windows registry.
               </p>
             </div>
 
@@ -134,6 +134,39 @@
       </UContainer>
     </section>
 
+    <!-- Product video -->
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+      <UContainer>
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-8">
+            <p
+              class="text-sm font-semibold uppercase tracking-wide text-primary mb-2"
+            >
+              Product walkthrough
+            </p>
+            <h2 class="text-3xl font-bold mb-3">See VectorXR In Action</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+              Tour the desktop app and see how VectorXR brings OpenXR tuning
+              into one approachable workflow.
+            </p>
+          </div>
+          <div
+            class="video-embed overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-black shadow-xl"
+          >
+            <iframe
+              class="absolute inset-0 h-full w-full"
+              src="https://www.youtube-nocookie.com/embed/_Vtdf_vobwI"
+              title="VectorXR product walkthrough"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
     <!-- Key differentiator -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
@@ -200,8 +233,8 @@
               VectorXR is aimed at VR players and simulation users who want
               repeatable, per-application tuning. It started as a small
               experiment and grew into a full working suite that keeps profiles,
-              feature toggles, device bindings, update checks, runtime logs, and
-              OpenXR layer controls in one place.
+              feature toggles, device bindings, frame-pacing diagnostics, update
+              checks, runtime logs, and OpenXR layer controls in one place.
             </p>
             <p class="text-gray-700 dark:text-gray-300 mb-6">
               Everything is reversible by design: disable any enhancement, turn
@@ -243,13 +276,13 @@
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">Enhancement Modules</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
-            Three runtime modules do the heavy lifting. Each can run with a
+            Four runtime modules do the heavy lifting. Each can run with a
             global default or a dedicated profile for a specific OpenXR
             application.
           </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
           <div
             v-for="module in modules"
             :key="module.title"
@@ -286,8 +319,9 @@
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">App Screens</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
-            A look at the desktop app &mdash; each module gets its own tab, with
-            a global default profile and optional per-application overrides.
+            The current VectorXR v0.14.0 desktop experience, from system status
+            and enhancement profiles to diagnostics, application registration,
+            and OpenXR layer management.
           </p>
         </div>
 
@@ -295,14 +329,31 @@
           <figure
             v-for="screen in screenshots"
             :key="screen.src"
-            class="rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900"
+            class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm"
           >
-            <NuxtImg
-              :src="screen.src"
-              :alt="screen.alt"
-              class="w-full aspect-[1.3] object-contain bg-gray-100 dark:bg-gray-950"
-              sizes="sm:100vw md:50vw"
-            />
+            <button
+              type="button"
+              class="group relative block w-full cursor-zoom-in overflow-hidden bg-gray-100 text-left dark:bg-gray-950"
+              :aria-label="`Open full-size preview of ${screen.title}`"
+              @click="openScreenshot(screen, $event)"
+            >
+              <NuxtImg
+                :src="screen.src"
+                :alt="screen.alt"
+                class="w-full aspect-[1.2984] object-cover transition-transform duration-300 group-hover:scale-[1.01]"
+                sizes="sm:100vw md:50vw"
+              />
+              <span
+                class="absolute bottom-3 right-3 inline-flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-medium text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+                aria-hidden="true"
+              >
+                <UIcon
+                  name="i-heroicons-arrows-pointing-out"
+                  class="h-4 w-4"
+                />
+                View full size
+              </span>
+            </button>
             <figcaption class="p-4">
               <h3 class="font-bold mb-1">{{ screen.title }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -354,19 +405,18 @@
           <p class="text-gray-700 dark:text-gray-300 mb-4">
             VectorXR is in beta and feature-complete for its current scope. The
             desktop app, Windows installer, OpenXR layer registration,
-            per-application profiles, the Depth, Pivot, and Quadviews modules,
-            app discovery, logs, update checks, and the OpenXR layer manager are
-            all implemented and working.
+            per-application profiles, the Depth, Pivot, Quadviews, and Turbo
+            modules, app discovery, logs, update checks, and the OpenXR layer
+            manager are all implemented and working.
           </p>
           <p class="text-gray-700 dark:text-gray-300 mb-4">
             Beta means it is ready for day-to-day use, but it is young and has
             had limited testing across the full range of VR runtimes and
             hardware. You may hit rough edges on an untested runtime &mdash;
-            some headset-native OpenXR runtimes are known to ignore certain
-            adjustments, for example. Current builds are unsigned, so the
+            some game-level Force IPD or world-scale controls can override
+            Stereo Boost, for example. Current builds are unsigned, so the
             installer will show a Windows SmartScreen warning. Feedback and bug
-            reports are genuinely welcome &mdash; that is what this stage is
-            for.
+            reports are genuinely welcome &mdash; that is what this stage is for.
           </p>
           <div class="flex flex-wrap gap-3">
             <UButton
@@ -412,6 +462,41 @@
         </div>
       </UContainer>
     </section>
+
+    <Teleport to="body">
+      <Transition name="screenshot-lightbox">
+        <div
+          v-if="selectedScreenshot"
+          class="screenshot-lightbox"
+          role="dialog"
+          aria-modal="true"
+          :aria-label="`${selectedScreenshot.title} full-size preview`"
+          @click="closeScreenshot"
+        >
+          <div class="screenshot-lightbox-content" @click.stop>
+            <img
+              :src="selectedScreenshot.src"
+              :alt="selectedScreenshot.alt"
+              class="screenshot-lightbox-image"
+            />
+            <div class="mt-4 max-w-4xl text-center text-white">
+              <p class="font-bold">{{ selectedScreenshot.title }}</p>
+              <p class="mt-1 text-sm text-gray-300">
+                {{ selectedScreenshot.description }}
+              </p>
+            </div>
+            <button
+              type="button"
+              class="screenshot-lightbox-close"
+              aria-label="Close full-size screenshot preview"
+              @click="closeScreenshot"
+            >
+              <UIcon name="i-heroicons-x-mark" class="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+      </Transition>
+    </Teleport>
   </main>
 </template>
 
@@ -453,6 +538,12 @@ const features = [
     icon: "i-heroicons-cube-transparent",
   },
   {
+    title: "Turbo Module",
+    description:
+      "Test per-application frame-pacing strategies with in-headset A/B controls and built-in diagnostics.",
+    icon: "i-heroicons-bolt",
+  },
+  {
     title: "Per-App Profiles",
     description:
       "Create profiles so different OpenXR games can each use their own settings.",
@@ -470,6 +561,12 @@ const features = [
       "Bind feature toggles to keyboard shortcuts or detected input devices.",
     icon: "i-heroicons-command-line",
   },
+  {
+    title: "System Dashboard",
+    description:
+      "See runtime health, layer readiness, and the active state of every enhancement at a glance.",
+    icon: "i-heroicons-squares-2x2",
+  },
 ];
 
 const modules = [
@@ -481,6 +578,16 @@ const modules = [
       "Foveated-style quad-views rendering",
       "Visible performance budget to balance quality and frame rate",
       "Per-application configuration",
+    ],
+  },
+  {
+    title: "Turbo",
+    icon: "i-heroicons-bolt",
+    summary: "Opt-in OpenXR frame-pacing control.",
+    points: [
+      "Automatic or manually selected runtime strategies",
+      "In-headset A/B controls and performance diagnostics",
+      "Compatibility-sensitive and configured per application",
     ],
   },
   {
@@ -498,9 +605,9 @@ const modules = [
     icon: "i-heroicons-cube-transparent",
     summary: "Stereo depth and convergence tuning.",
     points: [
-      "Adjust stereo depth boost and convergence",
+      "Tune world scale and the convergence plane",
+      "Depth Lock preserves tuned stereo geometry at submission",
       "Apply globally or per application",
-      "Reversible at any time",
     ],
   },
 ];
@@ -515,7 +622,7 @@ const management = [
   {
     title: "OpenXR Layer Manager",
     description:
-      "Inspect installed implicit API layers with signature and path status, then enable, disable, or reorder them.",
+      "Inspect installed implicit API layers with signature and path status, then enable, disable, reorder, or remove stale registrations.",
     icon: "i-heroicons-adjustments-horizontal",
   },
   {
@@ -534,41 +641,123 @@ const management = [
 
 const screenshots = [
   {
-    title: "Quadviews",
-    src: "/images/vectorxr/screenshots/quadviews.png",
-    alt: "VectorXR Quadviews tab showing foveated rendering controls",
+    title: "Home Dashboard",
+    src: "/images/vectorxr/screenshots/home.webp",
+    alt: "VectorXR Home dashboard showing system health and enhancement status",
     description:
-      "Foveated and peripheral resolution, focus window, and eye-tracked or fixed foveation, with a live stereo-pixel budget.",
+      "Check runtime and layer health, then see the default profile, custom profiles, and active state for every enhancement.",
+  },
+  {
+    title: "Depth",
+    src: "/images/vectorxr/screenshots/depth.webp",
+    alt: "VectorXR Depth tab showing world-scale and convergence profile controls",
+    description:
+      "Tune world scale and the convergence plane with a live pairing map, Depth Lock, and quick in-headset A/B controls.",
   },
   {
     title: "Pivot",
-    src: "/images/vectorxr/screenshots/pivot.png",
+    src: "/images/vectorxr/screenshots/pivot.webp",
     alt: "VectorXR Pivot tab showing yaw and pitch rotation controls",
     description:
       "Enhanced yaw and pitch rotation with activation mode, smoothing, an activation ramp, and per-axis multipliers and deadzones.",
   },
   {
-    title: "Depth",
-    src: "/images/vectorxr/screenshots/depth.png",
-    alt: "VectorXR Depth tab showing stereo boost and convergence sliders",
+    title: "Quadviews",
+    src: "/images/vectorxr/screenshots/quadviews.webp",
+    alt: "VectorXR Quadviews tab showing foveated rendering profile controls",
     description:
-      "Stereo boost and convergence with a global default profile, per-application overrides, and a runtime toggle binding for quick comparisons in headset.",
+      "Configure foveated-style rendering with focus, tracking, and resolution controls plus a live performance budget.",
+  },
+  {
+    title: "Turbo",
+    src: "/images/vectorxr/screenshots/turbo.webp",
+    alt: "VectorXR Turbo tab showing frame-pacing and performance diagnostic controls",
+    description:
+      "Compare frame-pacing strategies per application with automatic runtime selection, an in-game toggle, and measured diagnostics.",
+  },
+  {
+    title: "Application Registry",
+    src: "/images/vectorxr/screenshots/application-registry.webp",
+    alt: "VectorXR Application Registry showing registered and discovered OpenXR apps",
+    description:
+      "Register discovered OpenXR apps as reusable targets for dedicated enhancement profiles.",
   },
   {
     title: "OpenXR Layer Manager",
-    src: "/images/vectorxr/screenshots/openxr-layer-manager.png",
+    src: "/images/vectorxr/screenshots/openxr-layer-manager.webp",
     alt: "VectorXR OpenXR Layer Manager showing installed API layers",
     description:
-      "Enable, disable, and reorder installed implicit API layers across registry slices, with signature and path status at a glance.",
+      "Inspect all four Windows registry slices, then enable, disable, reorder, or clean up implicit API layer registrations.",
+  },
+  {
+    title: "Settings",
+    src: "/images/vectorxr/screenshots/settings.webp",
+    alt: "VectorXR Settings tab showing runtime, theme, logging, and configuration controls",
+    description:
+      "Control the runtime master switch, theme, logging, app discovery, and local configuration import, export, or reset.",
+  },
+  {
+    title: "About & Updates",
+    src: "/images/vectorxr/screenshots/about.webp",
+    alt: "VectorXR About tab showing release information and project support links",
+    description:
+      "Review the latest patch notes, check release status, and find project and support links from inside the app.",
+  },
+  {
+    title: "Dark Mode",
+    src: "/images/vectorxr/screenshots/home-dark.webp",
+    alt: "VectorXR Home dashboard displayed in dark mode",
+    description:
+      "Use VectorXR in system, light, or dark theme without changing the workflow.",
   },
 ];
+
+const selectedScreenshot = ref<(typeof screenshots)[number] | null>(null);
+let screenshotTrigger: HTMLElement | null = null;
+
+function openScreenshot(
+  screen: (typeof screenshots)[number],
+  event: MouseEvent,
+) {
+  screenshotTrigger = event.currentTarget as HTMLElement;
+  selectedScreenshot.value = screen;
+}
+
+function closeScreenshot() {
+  selectedScreenshot.value = null;
+  nextTick(() => {
+    screenshotTrigger?.focus();
+    screenshotTrigger = null;
+  });
+}
+
+function handleScreenshotKeydown(event: KeyboardEvent) {
+  if (event.key === "Escape" && selectedScreenshot.value) {
+    closeScreenshot();
+  }
+}
+
+watch(selectedScreenshot, (screen) => {
+  if (import.meta.client) {
+    document.body.style.overflow = screen ? "hidden" : "";
+  }
+});
+
+onMounted(() => {
+  window.addEventListener("keydown", handleScreenshotKeydown);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("keydown", handleScreenshotKeydown);
+  document.body.style.overflow = "";
+});
 
 const { setPageMeta } = useSeo();
 
 setPageMeta({
   title: "VectorXR",
   description:
-    "VectorXR is a free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, and layer tuning. Maintained under DienerTech LLC.",
+    "VectorXR is a free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, frame pacing, and layer tuning.",
   image: "/images/vectorxr/icon-vectorxr.png",
   type: "website",
   canonicalUrl: "https://diener.tech/products/vectorxr",
@@ -585,8 +774,8 @@ useHead({
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Windows",
         description:
-          "Free, open source Windows desktop app and OpenXR API layer for tuning VR experiences on a per-game basis.",
-        softwareVersion: product.status,
+          "Free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, frame pacing, and layer management.",
+        softwareVersion: "0.14.0",
         offers: {
           "@type": "Offer",
           price: "0",
@@ -610,6 +799,75 @@ useHead({
 <style scoped>
 .card-transition {
   transition: all 0.3s ease;
+}
+
+.video-embed {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.screenshot-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.92);
+  cursor: zoom-out;
+}
+
+.screenshot-lightbox-content {
+  position: relative;
+  display: flex;
+  width: min(96vw, 1700px);
+  max-height: 94vh;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.screenshot-lightbox-image {
+  max-width: 100%;
+  max-height: calc(94vh - 5rem);
+  object-fit: contain;
+  border-radius: 0.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.screenshot-lightbox-close {
+  position: absolute;
+  top: -1rem;
+  right: -1rem;
+  display: inline-flex;
+  width: 2.75rem;
+  height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  backdrop-filter: blur(8px);
+  transition: background-color 0.2s ease;
+}
+
+.screenshot-lightbox-close:hover,
+.screenshot-lightbox-close:focus-visible {
+  background: rgba(255, 255, 255, 0.35);
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+.screenshot-lightbox-enter-active,
+.screenshot-lightbox-leave-active {
+  transition: opacity 0.2s ease;
+}
+
+.screenshot-lightbox-enter-from,
+.screenshot-lightbox-leave-to {
+  opacity: 0;
 }
 
 code {

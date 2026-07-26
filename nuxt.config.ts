@@ -2,6 +2,12 @@
 export default defineNuxtConfig({
   compatibilityDate: "2024-11-01",
   devtools: { enabled: true },
+  experimental: {
+    // This site does not use client-side route rules. Keeping the app manifest
+    // disabled also prevents Vite from resolving Nuxt's server-only
+    // `#app-manifest` alias during development.
+    appManifest: false,
+  },
   imports: {
     autoImport: true,
   },
