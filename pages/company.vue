@@ -53,7 +53,7 @@
                   name="i-heroicons-building-office-2"
                   class="w-7 h-7 text-primary shrink-0"
                 />
-                <h2 class="text-2xl font-bold">DienerTech</h2>
+                <h2 class="text-2xl font-bold">DienerTech LLC</h2>
               </div>
             </template>
 
@@ -93,6 +93,18 @@
                 Founder
               </dt>
               <dd class="sm:col-span-2">Michael Diener</dd>
+            </div>
+            <div class="grid gap-1 sm:grid-cols-3 sm:gap-6 p-5">
+              <dt class="font-medium text-gray-600 dark:text-gray-400">
+                Business address
+              </dt>
+              <dd class="sm:col-span-2">
+                <address class="not-italic">
+                  1500 N GRANT ST<br />
+                  STE N<br />
+                  DENVER, CO, 80203, USA
+                </address>
+              </dd>
             </div>
             <div class="grid gap-1 sm:grid-cols-3 sm:gap-6 p-5">
               <dt class="font-medium text-gray-600 dark:text-gray-400">
