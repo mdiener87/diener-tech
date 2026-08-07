@@ -69,12 +69,12 @@ import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 
 const navLinks = [
-  { label: "Home", to: "/" },
-  { label: "Career", to: "/career" },
   { label: "Products", to: "/products" },
   { label: "Projects", to: "/projects" },
   { label: "Blog", to: "/blog" },
+  { label: "Career", to: "/career" },
   { label: "About", to: "/about" },
+  { label: "Company", to: "/company" },
   { label: "Contact", to: "/contact" },
 ];
 
