@@ -7,10 +7,22 @@
           <NewsletterSignup compact />
         </div>
 
-        <!-- Copyright -->
-        <p class="text-sm text-gray-600 dark:text-gray-400 md:self-end text-center md:text-right shrink-0">
-          © 2024 DienerTech | Built with Nuxt.js
-        </p>
+        <!-- Company and legal information -->
+        <div
+          class="text-sm text-gray-600 dark:text-gray-400 md:self-end text-center md:text-right shrink-0 space-y-1"
+        >
+          <p>© 2024–2026 DienerTech LLC</p>
+          <p>
+            DienerTech is operated by
+            <NuxtLink
+              to="/company"
+              class="font-medium text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-colors"
+            >
+              DienerTech LLC
+            </NuxtLink>.
+          </p>
+          <p class="text-xs">Built with Nuxt.js</p>
+        </div>
       </div>
     </UContainer>
   </footer>
