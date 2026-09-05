@@ -13,7 +13,7 @@
             >
               <NuxtImg
                 src="/images/pics/diener-mountain.webp"
-                alt="Profile Photo"
+                alt="Michael Diener in the Colorado mountains"
                 class="object-cover w-full h-full rounded-2xl"
               />
             </div>
@@ -28,20 +28,18 @@
               <p
                 class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-4"
               >
-                I'm a full-stack software engineer with a strong frontend
-                foundation in
-                <span class="text-primary font-medium">Vue.js</span>,
-                <span class="text-primary font-medium">Node.js</span>, and
-                modern JavaScript frameworks, now expanding deep into cloud,
-                backend, and data integration work.
+                I’m Michael Diener, a Senior AI Engineer at TaxCloud and the
+                founder of DienerTech LLC. I build AI systems, open source
+                software, and tools that make complicated things more useful.
               </p>
               <p
                 class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
               >
-                I enjoy building software across the stack, from polished user
-                interfaces to resilient services, data flows, and the
-                infrastructure that keeps everything moving.
+                My work spans language model experiments, business workflows,
+                and immersive software. I like understanding the whole system,
+                from the people using it to the infrastructure underneath.
               </p>
+              <NuxtLink to="/career" class="text-link inline-block mt-5">My career and current role →</NuxtLink>
             </div>
           </div>
         </div>
@@ -56,14 +54,12 @@
 
           <div class="space-y-6 text-gray-700 dark:text-gray-300">
             <p class="leading-relaxed">
-              I've spent the last decade crafting thoughtful software systems,
-              driven by a deep curiosity and a genuine love of technology. My
-              career has grown from building interactive frontend experiences
-              into full-stack engineering, and now into cloud, backend, and
-              data integration work. In my current role at TaxCloud, I'm part
-              of the integrations team working with technologies like Azure,
-              Go, Databricks, DataDog, Spark, Terraform, and ETL-oriented
-              system design.
+              My career has taken me from enterprise consulting and frontend
+              engineering into full-stack, cloud, and data integration work.
+              I’ve recently been promoted to Senior AI Engineer at TaxCloud,
+              where I’m starting a new team focused on tackling business
+              problems with agentic AI. It’s a direction I’ve been working
+              toward for years.
             </p>
 
             <p class="leading-relaxed">

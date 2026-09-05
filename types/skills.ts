@@ -23,7 +23,7 @@ export interface ExtendedNode {
 export type TreeNode = d3.HierarchyNode<SkillNode> & ExtendedNode;
 
 export const skillsData: SkillNode = {
-  name: "Michael Diener - Senior Software Engineer",
+  name: "Michael Diener - Senior AI Engineer",
   children: [
     {
       name: "Programming Languages",
@@ -240,10 +240,10 @@ export const skillsData: SkillNode = {
       children: [
         {
           name: "TaxCloud",
-          position: "Senior Software Engineer",
+          position: "Senior AI Engineer",
           duration: "2026 - Present",
           description: [
-            "Working on the integrations team to build cloud and backend systems that connect platforms and move data reliably.",
+            "Starting a new AI engineering team to tackle business problems with agentic AI, following work on the integrations team.",
             "Using Azure, Go, Databricks, Spark, Terraform, and DataDog to support ETL-oriented system design and operations.",
           ],
         },

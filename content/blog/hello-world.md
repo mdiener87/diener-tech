@@ -2,6 +2,7 @@
 title: "Hello World"
 description: "An introduction to my personal website."
 date: "2025-03-16"
+kind: "Note"
 category: "technology"
 tags: ["webdev", "programming", "career", "blogging", "introduction"]
 titleImage: "hello-world.webp"

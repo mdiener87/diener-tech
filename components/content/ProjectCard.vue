@@ -89,10 +89,10 @@
               :to="post.path"
               variant="soft"
               size="xs"
-              class="cursor-pointer"
-              aria-label="Open related blog post"
+              class="cursor-pointer max-w-full"
+              :aria-label="`Read ${post.title}`"
             >
-              {{ post.title }}
+              <span class="whitespace-normal text-left break-words">{{ post.title }}</span>
             </UButton>
           </div>
         </div>

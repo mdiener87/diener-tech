@@ -25,15 +25,12 @@
               <p
                 class="text-xl text-gray-800 dark:text-gray-200 font-medium mb-4"
               >
-                {{ product.tagline }}
+                Tune your VR experience. Per game.
               </p>
               <p class="text-lg text-gray-700 dark:text-gray-300">
-                VectorXR is a free, open source Windows desktop app and OpenXR
-                API layer for tuning VR experiences on a per-game basis. It
-                gives practical controls for stereo depth, convergence, enhanced
-                head rotation, foveated-style rendering, frame pacing, and
-                OpenXR layer management &mdash; without hand-editing config
-                files or digging through the Windows registry.
+                Adjust depth, head rotation, and rendering from one desktop
+                app. Save a profile for each game and manage your OpenXR layers
+                without editing config files. Free, open source, and built for Windows VR.
               </p>
             </div>
 
@@ -45,7 +42,7 @@
                 size="lg"
                 icon="i-heroicons-arrow-down-tray"
               >
-                Download Installer
+                Download for Windows
               </UButton>
               <UButton
                 :to="product.githubUrl"
@@ -59,6 +56,11 @@
               </UButton>
             </div>
 
+            <nav aria-label="On this product page" class="flex flex-wrap gap-4 text-sm">
+              <a href="#walkthrough" class="text-link">Watch the walkthrough ↓</a>
+              <a href="#modules" class="text-link">Features ↓</a>
+              <a href="#screens" class="text-link">App screens ↓</a>
+            </nav>
             <p class="text-sm text-gray-500 dark:text-gray-400">
               A community open source project, maintained under the DienerTech
               LLC umbrella. Free to download, use, and modify.
@@ -67,15 +69,48 @@
 
           <div class="flex justify-center lg:justify-end">
             <div
-              class="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-xl p-8 max-w-sm"
+              class="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-xl p-3 w-full"
             >
               <NuxtImg
-                src="/images/vectorxr/icon-vectorxr.png"
-                alt="VectorXR application icon"
+                src="/images/vectorxr/screenshots/home-dark.webp"
+                alt="VectorXR desktop application showing system status and enhancement controls"
                 class="w-full h-full object-contain"
-                sizes="sm:60vw lg:30vw"
+                sizes="sm:90vw lg:45vw"
               />
             </div>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
+    <!-- Product video -->
+    <section id="walkthrough" class="py-12 bg-white dark:bg-gray-900 card-transition">
+      <UContainer>
+        <div class="max-w-5xl mx-auto">
+          <div class="text-center mb-8">
+            <p
+              class="text-sm font-semibold uppercase tracking-wide text-primary mb-2"
+            >
+              Product walkthrough
+            </p>
+            <h2 class="text-3xl font-bold mb-3">See VectorXR In Action</h2>
+            <p class="text-gray-600 dark:text-gray-400">
+              Tour the desktop app and see how VectorXR brings OpenXR tuning
+              into one approachable workflow.
+            </p>
+          </div>
+          <div
+            class="video-embed overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-black shadow-xl"
+          >
+            <iframe
+              class="absolute inset-0 h-full w-full"
+              src="https://www.youtube-nocookie.com/embed/_Vtdf_vobwI"
+              title="VectorXR product walkthrough"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
           </div>
         </div>
       </UContainer>
@@ -134,39 +169,6 @@
       </UContainer>
     </section>
 
-    <!-- Product video -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
-      <UContainer>
-        <div class="max-w-5xl mx-auto">
-          <div class="text-center mb-8">
-            <p
-              class="text-sm font-semibold uppercase tracking-wide text-primary mb-2"
-            >
-              Product walkthrough
-            </p>
-            <h2 class="text-3xl font-bold mb-3">See VectorXR In Action</h2>
-            <p class="text-gray-600 dark:text-gray-400">
-              Tour the desktop app and see how VectorXR brings OpenXR tuning
-              into one approachable workflow.
-            </p>
-          </div>
-          <div
-            class="video-embed overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-black shadow-xl"
-          >
-            <iframe
-              class="absolute inset-0 h-full w-full"
-              src="https://www.youtube-nocookie.com/embed/_Vtdf_vobwI"
-              title="VectorXR product walkthrough"
-              loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-          </div>
-        </div>
-      </UContainer>
-    </section>
-
     <!-- Key differentiator -->
     <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
@@ -185,8 +187,8 @@
                 What makes VectorXR different
               </p>
               <p class="text-xl md:text-2xl font-bold leading-snug mb-3">
-                The first and only OpenXR solution where enhanced head rotation
-                and quad-views foveated rendering work together.
+                Enhanced head rotation and quad-views foveated rendering,
+                working together.
               </p>
               <p class="text-gray-700 dark:text-gray-300">
                 When you turn your view with the Pivot module, the foveated
@@ -271,7 +273,7 @@
     </section>
 
     <!-- Enhancement modules deep dive -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section id="modules" class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">Enhancement Modules</h2>
@@ -314,7 +316,7 @@
     </section>
 
     <!-- App screens -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <section id="screens" class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">App Screens</h2>

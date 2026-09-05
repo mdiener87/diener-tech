@@ -2,6 +2,7 @@
 title: "The Return of the Notes"
 description: "Programming my way to note-keeping harmony"
 date: "2025-04-06"
+kind: "Build log"
 category: "technology"
 tags: ["python", "api", "automation", "productivity", "programming", "D&D"]
 titleImage: "return-of-the-notes-wide.webp"

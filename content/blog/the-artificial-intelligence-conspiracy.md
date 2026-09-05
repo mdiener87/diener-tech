@@ -2,6 +2,7 @@
 title: "The Artificial Intelligence Conspiracy"
 description: "Using an AI, to build an AI, to track down... an AI? Sounds like a Voyager Episode!"
 date: "2025-09-14"
+kind: "Build log"
 category: "technology"
 tags:
   ["ai", "machine learning", "computer vision", "fandom", "sci-fi", "star trek"]

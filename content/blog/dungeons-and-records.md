@@ -2,6 +2,7 @@
 title: "Dungeons and Records"
 description: "Navigating records in a 7+ Year D&D Campaign"
 date: "2025-03-29"
+kind: "Build log"
 category: "technology"
 tags: ["python", "automation", "productivity", "tools", "gaming", "D&D"]
 titleImage: "dungeons-and-records.webp"

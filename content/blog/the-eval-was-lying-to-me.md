@@ -1,7 +1,9 @@
 ---
+series: "sparknet"
 title: "SparkNet 400M v2: The Eval Was Lying to Me"
 description: "How a WikiText-only validation set made a working model look broken, and reshaped how I evaluate every run since."
 date: "2026-06-09"
+kind: "Build log"
 category: "technology"
 tags:
   [

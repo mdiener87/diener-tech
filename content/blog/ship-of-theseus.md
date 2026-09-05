@@ -2,6 +2,7 @@
 title: "The Ship of Theseus"
 description: "Engineering in the Age of AI"
 date: "2025-03-23"
+kind: "Essay"
 category: "technology"
 tags: ["ai", "programming", "philosophy", "technology", "future"]
 titleImage: "ship-of-theseus.webp"

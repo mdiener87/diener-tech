@@ -75,7 +75,7 @@ export default defineNuxtConfig({
     url: "https://diener.tech",
     name: "DienerTech",
     description:
-      "Personal portfolio and blog showcasing software development, creative projects, and more.",
+      "Michael Diener — AI engineer and builder. Practical AI systems, open source software, and lessons from the workshop.",
     defaultLocale: "en",
   },
   sitemap: {

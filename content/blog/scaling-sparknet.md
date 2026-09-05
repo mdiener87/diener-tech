@@ -1,7 +1,9 @@
 ---
+series: "sparknet"
 title: "Scaling SparkNet"
 description: "SparkNet 70M Trained Overnight. SparkNet 400M Took Weeks - and Broke My Power Strip"
 date: "2026-04-04"
+kind: "Build log"
 category: "technology"
 tags:
   [

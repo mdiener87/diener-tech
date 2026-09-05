@@ -2,6 +2,7 @@
 title: "Blast Off! DienerTech Is Live!"
 description: "From localhost to liftoff: metrics, mishaps, and lessons from shipping my personal dev hub in one adrenaline‑fueled night."
 date: "2025-05-07"
+kind: "Build log"
 category: "projects"
 tags: ["blogging", "webdev", "career", "productivity", "programming"]
 titleImage: "blast-off.webp"

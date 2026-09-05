@@ -19,7 +19,7 @@ export const projectsData: Project[] = [
     id: "sparknet",
     title: "SparkNet",
     description:
-      "A custom training pipeline for a GPT-2 style 70m parameter language model.",
+      "An ongoing language model project spanning 70M and 400M pretraining, supervised fine-tuning, inference, and evaluation.",
     image: "/projects/sparknet-logo.webp",
     technologies: ["Python", "PyTorch", "Transformers", "NLP"],
     githubUrl: "https://github.com/mdiener87/sparknet",
@@ -31,7 +31,7 @@ export const projectsData: Project[] = [
       "Rich evaluation suite for validating checkpoints and dataset health",
     ],
     featured: true,
-    relatedPosts: ["one-billion-token-challenge", "sparking-the-future"],
+    relatedPosts: ["the-eval-was-lying-to-me", "scaling-sparknet", "one-billion-token-challenge", "sparking-the-future"],
   },
   {
     id: "frame-finder",
@@ -62,7 +62,7 @@ export const projectsData: Project[] = [
     types: ["Web"],
     highlights: [
       "Responsive, accessibility-first design with Nuxt UI components",
-      "Content-driven blog powered by Nuxt Content and custom MDX features",
+      "Content-driven blog powered by Nuxt Content and custom Markdown components",
       "Custom visual flourishes including animated skill trees and gradients",
     ],
     featured: true,

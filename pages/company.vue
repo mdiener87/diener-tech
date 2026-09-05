@@ -32,7 +32,7 @@
             </template>
 
             <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
-              Michael Diener is the founder and software engineer behind
+              Michael Diener is the founder and engineer behind
               DienerTech. He designs and builds software across frontend,
               backend, cloud, data, and immersive systems.
             </p>

@@ -59,7 +59,7 @@ import {
 // References for D3 visualizations
 const skillsTreeRef = ref<HTMLElement>();
 const infoPanel = ref<HTMLElement>();
-const isInfoPanelExpanded = ref(true);
+const isInfoPanelExpanded = ref(false);
 const infoPanelContent = ref<HTMLElement>();
 
 // Get color mode from Nuxt

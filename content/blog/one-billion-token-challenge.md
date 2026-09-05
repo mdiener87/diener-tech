@@ -1,7 +1,9 @@
 ---
+series: "sparknet"
 title: "The One Billion Token Challenge"
 description: "The Making of SparkNet GPT-2 70m"
 date: "2025-11-22"
+kind: "Build log"
 category: "technology"
 tags:
   [
