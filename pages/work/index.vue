@@ -54,20 +54,6 @@
         </div>
       </UContainer>
     </section>
-    <section class="section-space">
-      <UContainer class="max-w-3xl"
-        ><p class="eyebrow mb-3">At TaxCloud</p>
-        <h2 class="editorial-title text-3xl">Building the team, too.</h2>
-        <p class="text-gray-600 dark:text-gray-300 mt-4 leading-relaxed">
-          As Senior AI Engineer, I’m starting a new team with a broad mandate:
-          tackle business problems with agentic AI. This is my professional work
-          at TaxCloud; the projects above are my independent work.
-        </p>
-        <NuxtLink to="/career" class="text-link inline-block mt-5"
-          >My career and current role →</NuxtLink
-        ></UContainer
-      >
-    </section>
   </main>
 </template>
 <script setup lang="ts">

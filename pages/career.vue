@@ -106,29 +106,9 @@
         </div></UContainer
       >
     </section>
-    <section class="section-space">
-      <UContainer
-        ><button
-          class="text-link inline-flex items-center gap-2"
-          :aria-expanded="showSkills"
-          aria-controls="skills-explorer"
-          @click="showSkills = !showSkills"
-        >
-          {{ showSkills ? "Close" : "Open" }} the interactive skills explorer
-          <span aria-hidden="true">{{ showSkills ? "−" : "+" }}</span>
-        </button>
-        <div v-if="showSkills" id="skills-explorer" class="mt-6">
-          <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
-            A visual map of my technical background. Click branches to explore;
-            drag to pan.
-          </p>
-          <LazyCareerSkillsTree /></div
-      ></UContainer>
-    </section>
   </main>
 </template>
 <script setup lang="ts">
-const showSkills = ref(false);
 const principles = [
   {
     title: "Start with the business problem.",

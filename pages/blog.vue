@@ -54,22 +54,27 @@
                 icon="i-heroicons-magnifying-glass"
               />
             </div>
-            <div>
-              <label for="writing-topic" class="block text-sm font-medium mb-2"
-                >Topic</label
-              ><select
-                id="writing-topic"
-                v-model="selectedTag"
-                class="rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-sm py-2 pl-3 pr-8"
-              >
-                <option value="">All topics</option>
-                <option v-for="tag in tags" :key="tag" :value="tag">
-                  {{ tag }}
-                </option>
-              </select>
-            </div>
           </div>
         </div>
+        <fieldset class="mb-6">
+          <legend class="text-sm font-medium mb-3">Browse by topic</legend>
+          <div class="flex flex-wrap gap-2">
+            <UButton
+              :variant="!selectedTopic ? 'solid' : 'soft'"
+              :aria-pressed="!selectedTopic"
+              @click="selectedTopic = ''"
+              >All topics</UButton
+            >
+            <UButton
+              v-for="topic in topics"
+              :key="topic"
+              :variant="selectedTopic === topic ? 'solid' : 'soft'"
+              :aria-pressed="selectedTopic === topic"
+              @click="selectedTopic = topic"
+              >{{ topic }}</UButton
+            >
+          </div>
+        </fieldset>
         <div
           class="flex items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400"
         >
@@ -78,7 +83,7 @@
             {{ filteredPosts.length === 1 ? "entry" : "entries" }}
           </p>
           <button
-            v-if="search || selectedTag || selectedKind !== 'All'"
+            v-if="search || selectedTopic || selectedKind !== 'All'"
             class="text-link"
             @click="resetFilters"
           >
@@ -152,17 +157,22 @@ const posts = await queryContent("blog")
   .find();
 const kinds = ["All", "Note", "Build log", "Essay"];
 const selectedKind = ref("All");
-const selectedTag = ref("");
+const selectedTopic = ref("");
 const search = ref("");
-const tags = [...new Set(posts.flatMap((post) => post.tags || []))].sort();
+const topics = [
+  "AI & models",
+  "Software & tools",
+  "Career & industry",
+  "Life & play",
+];
 const filteredPosts = computed(() =>
   posts.filter((post) => {
     const matchesKind =
       selectedKind.value === "All" || post.kind === selectedKind.value;
     const matchesTag =
-      !selectedTag.value || post.tags?.includes(selectedTag.value);
+      !selectedTopic.value || post.topics?.includes(selectedTopic.value);
     const text =
-      `${post.title} ${post.description} ${(post.tags || []).join(" ")}`.toLowerCase();
+      `${post.title} ${post.description} ${(post.tags || []).join(" ")} ${(post.topics || []).join(" ")}`.toLowerCase();
     return (
       matchesKind &&
       matchesTag &&
@@ -172,7 +182,7 @@ const filteredPosts = computed(() =>
 );
 function resetFilters() {
   selectedKind.value = "All";
-  selectedTag.value = "";
+  selectedTopic.value = "";
   search.value = "";
 }
 useSeo().setPageMeta({

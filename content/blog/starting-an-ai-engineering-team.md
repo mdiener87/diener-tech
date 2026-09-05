@@ -2,6 +2,7 @@
 title: "Starting an AI Engineering Team"
 description: "A new role at TaxCloud, a new team, and a career direction I’ve been working toward for years."
 date: "2026-09-04"
+topics: ["AI & models", "Career & industry"]
 kind: "Note"
 category: "career"
 tags: ["ai", "engineering", "career", "leadership"]

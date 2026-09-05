@@ -4,6 +4,7 @@ title: "Sparking the Future"
 description: "Exploring the DGX Spark — a quiet revolution in home AI computing."
 excerpt: "The DGX Spark isn’t just another gadget — it’s the beginning of a new era in personal AI infrastructure."
 date: "2025-11-01"
+topics: ["AI & models"]
 kind: "Essay"
 category: "technology"
 tags:

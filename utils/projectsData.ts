@@ -63,7 +63,7 @@ export const projectsData: Project[] = [
     highlights: [
       "Responsive, accessibility-first design with Nuxt UI components",
       "Content-driven blog powered by Nuxt Content and custom Markdown components",
-      "Custom visual flourishes including animated skill trees and gradients",
+      "Project showcases, a searchable writing archive, and interactive benchmark charts",
     ],
     featured: true,
     relatedPosts: ["ship-of-theseus"],

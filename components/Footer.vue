@@ -10,16 +10,6 @@
         </p>
       </div>
       <div class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
-        <nav
-          aria-label="Footer navigation"
-          class="flex flex-wrap gap-x-5 gap-y-3"
-        >
-          <NuxtLink to="/career">Career</NuxtLink
-          ><NuxtLink to="/company">DienerTech LLC</NuxtLink
-          ><NuxtLink to="/products">Products</NuxtLink
-          ><a href="/feed.xml">RSS</a
-          ><a href="https://buttondown.com/dienertech">Newsletter</a>
-        </nav>
         <p>© 2024–{{ new Date().getFullYear() }} DienerTech LLC</p>
       </div>
     </UContainer>

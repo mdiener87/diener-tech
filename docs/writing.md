@@ -12,7 +12,18 @@ Set `kind` to exactly `Note`, `Build log`, or `Essay`. The writing archive filte
 
 For SparkNet posts, add `series: "sparknet"`. That adds the entry to the SparkNet project page and article series navigation. Heading-based navigation appears automatically for articles with more than two top-level table-of-contents entries.
 
-The homepage intentionally curates three entries in `pages/index.vue`. Update that selection when a new article makes a better introduction to the work. The small “Now” update is also maintained there: change both the text and its month when the focus changes.
+The homepage intentionally curates three entries in `pages/index.vue`. Update that selection when a new article makes a better introduction to the work.
+
+## Topics
+
+Use one or two broad `topics` per post from this fixed set:
+
+- `AI & models`
+- `Software & tools`
+- `Career & industry`
+- `Life & play`
+
+The archive shows these four topics as buttons. Keep specific technology names and project keywords in `tags`; they remain searchable without expanding the topic navigation. A VectorXR post, for example, can use `Software & tools` and `Life & play`, with `openxr` and `vectorxr` as tags.
 
 ## A manageable next queue
 
