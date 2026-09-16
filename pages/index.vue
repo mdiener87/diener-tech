@@ -11,15 +11,17 @@
             <div class="max-w-3xl">
               <p class="eyebrow mb-5">Michael Diener / AI engineer & builder</p>
               <h1 class="editorial-title text-4xl sm:text-5xl lg:text-7xl">
-                Making AI work
-                <span class="block text-primary">in the real world.</span>
+                Welcome to
+                <span class="block text-primary">DienerTech.</span>
               </h1>
               <p
                 class="mt-6 text-lg lg:text-xl text-gray-600 dark:text-gray-300 max-w-2xl leading-relaxed"
               >
-                I build AI systems, open source tools, and the teams behind
-                them. From training language models to untangling business
-                workflows, I like getting my hands on the whole problem.
+                I’m Michael — an AI engineer, builder, and curious person in
+                Colorado. This is home to my work, my experiments, and
+                DienerTech LLC. I train language models, build tools for
+                everyday problems, and share what I learn along the way. Glad
+                you’re here.
               </p>
               <div class="flex flex-wrap gap-3 mt-7">
                 <UButton
@@ -62,6 +64,8 @@
         </div>
       </UContainer>
     </section>
+
+    <TechnologiesDisplay />
 
     <section class="section-space">
       <UContainer>
@@ -152,12 +156,12 @@
         </div>
       </UContainer>
     </section>
-    <NewsletterSignup />
+    <SubscribeInvitation />
   </main>
 </template>
 <script setup lang="ts">
 import SelectedWork from "~/components/work/SelectedWork.vue";
-import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
+import SubscribeInvitation from "~/components/newsletter/SubscribeInvitation.vue";
 import { formatDate } from "~/utils/dateFormatter";
 const paths = [
   "/blog/starting-an-ai-engineering-team",

@@ -183,7 +183,7 @@
             />
 
             <!-- Newsletter Signup -->
-            <NewsletterSignup />
+            <SubscribeInvitation />
           </template>
 
           <!-- Default Content Page Layout -->
@@ -215,7 +215,7 @@ import { useImagePath } from "~/composables/useImagePath";
 import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 import PostLikeButton from "~/components/blog/PostLikeButton.vue";
-import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
+import SubscribeInvitation from "~/components/newsletter/SubscribeInvitation.vue";
 import { formatDate } from '~/utils/dateFormatter';
 
 // Add interfaces at the top of the script section

@@ -1,9 +1,9 @@
 <template>
   <section class="section-space bg-blue-50/70 dark:bg-gray-800/50">
     <UContainer class="max-w-3xl">
-      <p class="eyebrow mb-3">Occasional dispatches</p>
+      <p class="eyebrow mb-3">In your inbox</p>
       <h2 class="editorial-title text-3xl sm:text-4xl">
-        Good things take a few experiments.
+        A note from me, now and then.
       </h2>
       <p class="text-gray-600 dark:text-gray-300 mt-4 mb-6 leading-relaxed">
         Get new essays, build logs, and short notes from the workshop. AI
@@ -41,10 +41,7 @@
       </form>
       <p class="mt-4 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
         Continue to Buttondown to complete your subscription. Unsubscribe
-        anytime. Prefer a feed?
-        <a href="/feed.xml" class="underline underline-offset-2"
-          >Read via RSS.</a
-        >
+        anytime.
       </p>
     </UContainer>
   </section>

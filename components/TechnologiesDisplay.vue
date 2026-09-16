@@ -1,91 +1,105 @@
 <template>
-  <!-- Skills & Technologies Section -->
   <section
-    class="py-12 bg-white dark:bg-gray-900 border-t border-b border-gray-200 dark:border-gray-800"
+    ref="viewer"
+    class="pt-8 sm:pt-10"
+    aria-labelledby="technology-title"
   >
     <UContainer>
-      <div class="text-center mb-8">
-        <h2 class="text-2xl md:text-3xl font-bold mb-4">
-          Technologies I Work With
-        </h2>
-        <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-          My stack keeps evolving with my work. These are the technologies I
-          currently reach for across frontend, backend, cloud, and data
-          systems.
-        </p>
-      </div>
-
-      <!-- Categories Filter -->
-      <div class="flex flex-wrap justify-center gap-3 mb-6">
-        <UBadge
-          v-for="category in categories"
-          :key="category"
-          :color="categoryColors[category]?.buttonColor || 'primary'"
-          variant="soft"
-          size="lg"
-          class="cursor-pointer transition-all"
-          :class="
-            selectedCategory === category
-              ? `ring-2 ring-${categoryColors[category]?.buttonColor || 'primary'}`
-              : ''
-          "
-          @click="filterByCategory(category)"
-          @mouseenter="filterByCategory(category)"
-          @mouseleave="clearCategoryFilter"
-        >
-          {{ category.charAt(0).toUpperCase() + category.slice(1) }}
-        </UBadge>
-      </div>
-
       <div
-        ref="techCarouselRef"
-        class="tech-carousel relative overflow-hidden py-8"
+        class="rounded-xl border border-gray-200 dark:border-gray-700 p-5 sm:p-6"
       >
-        <!-- Fixed-height, single-row container -->
-        <div class="relative h-[140px]">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2
+              id="technology-title"
+              class="text-lg font-semibold tracking-tight"
+            >
+              A peek inside my toolbox
+            </h2>
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+              Always exploring. Hover to browse; click a category to stay a
+              while.
+            </p>
+          </div>
+          <UButton
+            variant="ghost"
+            size="xs"
+            :icon="motionPaused ? 'i-heroicons-play' : 'i-heroicons-pause'"
+            @click="userPaused = !motionPaused"
+          >
+            {{ motionPaused ? "Resume rotation" : "Pause rotation" }}
+          </UButton>
+        </div>
+        <div
+          class="flex flex-wrap gap-2 mt-4"
+          role="group"
+          aria-label="Technology categories"
+        >
+          <button
+            v-for="category in categories"
+            :key="category.value"
+            type="button"
+            class="tech-category rounded-full px-3 py-2 text-xs font-medium"
+            :class="{
+              'tech-category--active': activeCategory === category.value,
+            }"
+            :style="{ '--tech-color': category.color }"
+            :aria-pressed="selectedCategory === category.value"
+            @pointerenter="previewCategory($event, category.value)"
+            @pointerleave="hoveredCategory = null"
+            @focus="focusCategory(category.value)"
+            @blur="focusedCategory = null"
+            @click="selectedCategory = category.value"
+          >
+            {{ category.label }}
+          </button>
+        </div>
+        <div
+          class="pt-5 pb-2"
+          @mouseenter="hoveringCards = true"
+          @mouseleave="hoveringCards = false"
+        >
           <TransitionGroup
             name="tech-shuffle"
-            tag="div"
-            class="absolute inset-0 flex justify-center"
+            tag="ul"
+            class="tech-grid"
+            aria-label="Technologies"
+            @before-leave="placeLeavingCard"
+            @after-leave="clearLeavingCard"
+            @leave-cancelled="clearLeavingCard"
           >
-            <div
-              v-for="tech in visibleTechs"
+            <li
+              v-for="(tech, index) in visibleTechs"
               :key="tech.name"
-              class="tech-card absolute p-5 rounded-xl flex flex-col items-center transform transition-all duration-300 ease-in-out"
-              :class="tech.colorClass"
-              :style="{ left: `${tech.position}px` }"
-              @mouseenter="onTechHover(tech)"
-              @mouseleave="resetTechHover"
+              class="tech-card"
+              :style="{
+                '--tech-color': categoryColors.get(tech.category),
+                '--slot': index,
+              }"
             >
-              <div
-                class="tech-icon-wrapper relative w-16 h-16 rounded-full flex items-center justify-center mb-2 transition-all duration-300"
-              >
-                <img
-                  v-if="tech.asset"
-                  :src="tech.asset"
-                  :alt="`${tech.name} logo`"
-                  class="tech-icon tech-icon-image w-10 h-10 transition-transform duration-300 object-contain"
-                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
-                />
-                <UIcon
-                  v-else-if="tech.icon"
-                  :name="tech.icon"
-                  class="tech-icon w-10 h-10 transition-transform duration-300"
-                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
-                />
-                <div
-                  v-else
-                  class="tech-icon fallback-icon w-10 h-10 transition-transform duration-300 rounded-full flex items-center justify-center text-sm font-semibold"
-                  :class="hoveredTech === tech.name ? 'scale-125' : ''"
+              <div class="tech-card-inner">
+                <span class="tech-icon-wrap">
+                  <img
+                    v-if="tech.asset"
+                    :src="tech.asset"
+                    alt=""
+                    width="28"
+                    height="28"
+                    class="tech-asset tech-icon"
+                  />
+                  <UIcon
+                    v-else-if="tech.icon"
+                    :name="tech.icon"
+                    class="tech-icon"
+                    aria-hidden="true"
+                  />
+                </span>
+                <span
+                  class="min-w-0 text-xs font-semibold leading-snug break-words"
+                  >{{ tech.name }}</span
                 >
-                  {{ getFallbackLabel(tech.name) }}
-                </div>
               </div>
-              <span
-                class="font-medium text-white drop-shadow-md text-center w-full px-1 leading-tight text-sm"
-                >{{ tech.name }}</span
-              >
-            </div>
+            </li>
           </TransitionGroup>
         </div>
       </div>
@@ -93,668 +107,329 @@
   </section>
 </template>
 
-<script setup>
-import { ref, computed, onMounted, nextTick } from "vue";
+<script setup lang="ts">
+import { technologies } from "~/utils/technologies";
+import type { Technology } from "~/utils/technologies";
 
-// Technologies list with color classes - organized by category
-const technologies = [
-  // Frontend Frameworks & Libraries
-  {
-    name: "Vue.js",
-    icon: "i-simple-icons-vuedotjs",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Nuxt 3",
-    icon: "i-simple-icons-nuxtdotjs",
-    category: "Frontend & UI",
-  },
-  {
-    name: "React",
-    icon: "i-simple-icons-react",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Angular",
-    icon: "i-simple-icons-angular",
-    category: "Frontend & UI",
-  },
-  {
-    name: "d3.js",
-    icon: "i-simple-icons-d3dotjs",
-    category: "Frontend & UI",
-  },
-  {
-    name: "JQuery",
-    icon: "i-simple-icons-jquery",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Tailwind",
-    icon: "i-simple-icons-tailwindcss",
-    category: "Frontend & UI",
-  },
-  {
-    name: "Bootstrap",
-    icon: "i-simple-icons-bootstrap",
-    category: "Frontend & UI",
-  },
-  {
-    name: "UI/UX",
-    icon: "i-heroicons-rectangle-group",
-    category: "Frontend & UI",
-  },
-  // Programming Languages
-  {
-    name: "JavaScript",
-    icon: "i-simple-icons-javascript",
-    category: "Languages",
-  },
-  {
-    name: "TypeScript",
-    icon: "i-simple-icons-typescript",
-    category: "Languages",
-  },
-  {
-    name: "Python",
-    icon: "i-simple-icons-python",
-    category: "Languages",
-  },
-  {
-    name: "Go",
-    icon: "i-simple-icons-go",
-    category: "Languages",
-  },
-  {
-    name: "C#",
-    icon: "i-simple-icons-csharp",
-    category: "Languages",
-  },
-  {
-    name: "Bash",
-    icon: "i-simple-icons-gnubash",
-    category: "Languages",
-  },
-
-  // Backend & Infrastructure
-  {
-    name: "Node.js",
-    icon: "i-simple-icons-nodedotjs",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Express.js",
-    icon: "i-simple-icons-express",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "SQL",
-    icon: "i-heroicons-circle-stack",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "NoSQL",
-    icon: "i-heroicons-server-stack",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "AWS",
-    icon: "i-simple-icons-amazonwebservices",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Azure",
-    icon: "i-simple-icons-microsoftazure",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "ASP.NET MVC",
-    icon: "i-heroicons-view-columns",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: ".NET Core",
-    icon: "i-simple-icons-dotnet",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Flask",
-    icon: "i-simple-icons-flask",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Tornado",
-    icon: "i-heroicons-arrow-path-rounded-square",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Entity Framework",
-    icon: "i-heroicons-link",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "SQL Server",
-    icon: "i-simple-icons-microsoftsqlserver",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Databricks",
-    icon: "i-simple-icons-databricks",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Apache Spark",
-    icon: "i-simple-icons-apachespark",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "ETL",
-    icon: "i-heroicons-arrow-path",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "SQL Workbench",
-    icon: "i-simple-icons-mysql",
-    category: "Backend & Infrastructure",
-  },
-
-  // Dev Tools & Ops
-  {
-    name: "Git",
-    icon: "i-simple-icons-git",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "VS Code",
-    icon: "i-simple-icons-visualstudiocode",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Cursor",
-    icon: null,
-    asset: "/tech-icons/cursor.svg",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "n8n",
-    icon: "i-simple-icons-n8n",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Visual Studio",
-    icon: "i-simple-icons-visualstudio",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Docker",
-    icon: "i-simple-icons-docker",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Terraform",
-    icon: "i-simple-icons-terraform",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "DataDog",
-    icon: "i-simple-icons-datadog",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "GitHub",
-    icon: "i-simple-icons-github",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "TFS",
-    icon: "i-heroicons-clipboard-document-check",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Jest",
-    icon: "i-simple-icons-jest",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Testing Library",
-    icon: "i-simple-icons-testinglibrary",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Selenium",
-    icon: "i-simple-icons-selenium",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "GitHub Actions",
-    icon: "i-simple-icons-githubactions",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "CI/CD",
-    icon: "i-heroicons-arrow-path",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Jira",
-    icon: "i-simple-icons-jira",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "Tauri",
-    icon: null,
-    asset: "/tech-icons/tauri.svg",
-    category: "Dev Tools & Ops",
-  },
-  {
-    name: "API Design",
-    icon: "i-heroicons-squares-2x2",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Cloudflare",
-    icon: "i-simple-icons-cloudflare",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "REST API",
-    icon: "i-heroicons-code-bracket-square",
-    category: "Backend & Infrastructure",
-  },
-  {
-    name: "Microservices",
-    icon: "i-heroicons-command-line",
-    category: "Backend & Infrastructure",
-  },
-
-  // AI & Emerging Technologies
-  {
-    name: "ChatGPT",
-    icon: "i-simple-icons-openai",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Claude",
-    icon: "i-simple-icons-claude",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Model Context Protocol",
-    icon: "i-heroicons-document-text",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Stable Diffusion",
-    icon: null,
-    asset: "/tech-icons/stable-diffusion.svg",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Ollama",
-    icon: "i-simple-icons-ollama",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "llama.cpp",
-    icon: "i-heroicons-cpu-chip",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "HuggingFace",
-    icon: "i-simple-icons-huggingface",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "DeepSeek",
-    icon: null,
-    asset: "/tech-icons/deepseek.svg",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Qwen",
-    icon: null,
-    asset: "/tech-icons/qwen.svg",
-    category: "AI & Emerging Tech",
-  },
-    {
-    name: "Comfy UI",
-    icon: null,
-    asset: "/tech-icons/comfyuibw.svg",
-    category: "AI & Emerging Tech",
-  },
-  {
-    name: "Retrieval Augmented Generation",
-    icon: "i-heroicons-magnifying-glass-circle",
-    category: "AI & Emerging Tech",
-  },
-
-  // Media & 3D Technologies
-  {
-    name: "3D Printing",
-    icon: "i-heroicons-cube",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Cura",
-    icon: null,
-    asset: "/tech-icons/cura.svg",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Fusion 360",
-    icon: "i-simple-icons-autodesk",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Creality",
-    icon: null,
-    asset: "/tech-icons/creality.svg",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Unity",
-    icon: "i-simple-icons-unity",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Unreal",
-    icon: "i-simple-icons-unrealengine",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "OBS",
-    icon: "i-simple-icons-obsstudio",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "OpenXR",
-    icon: null,
-    asset: "/tech-icons/openxr.svg",
-    category: "2D & 3D Media",
-  },
-  {
-    name: "Khronos",
-    icon: null,
-    asset: "/tech-icons/khronos.svg",
-    category: "2D & 3D Media",
-  },
+const categories = [
+  { label: "A little of everything", value: "", color: "#475569" },
+  { label: "AI & models", value: "AI & Emerging Tech", color: "#be185d" },
+  { label: "Languages", value: "Languages", color: "#b45309" },
+  { label: "Frontend", value: "Frontend & UI", color: "#0369a1" },
+  {
+    label: "Backend & cloud",
+    value: "Backend & Infrastructure",
+    color: "#6d28d9",
+  },
+  { label: "Dev tools", value: "Dev Tools & Ops", color: "#047857" },
+  { label: "Creative & 3D", value: "2D & 3D Media", color: "#0e7490" },
 ];
-
-function getFallbackLabel(name) {
-  const cleaned = name.replace(/[^a-zA-Z0-9+]/g, "");
-  return cleaned.slice(0, 3).toUpperCase();
-}
-
-const categorySortOrder = [
-  "Frontend & UI",
-  "Backend & Infrastructure",
-  "Languages",
-  "Dev Tools & Ops",
-  "2D & 3D Media",
-  "AI & Emerging Tech",
+const categoryColors = new Map(
+  categories.map((category) => [category.value, category.color]),
+);
+// Index once, then sample with Fisher–Yates instead of randomly sorting the full list.
+const pools = new Map(
+  categories.map((category) => [
+    category.value,
+    category.value
+      ? technologies.filter((tech) => tech.category === category.value)
+      : technologies,
+  ]),
+);
+const selectedCategory = ref("");
+const hoveredCategory = ref<string | null>(null);
+const focusedCategory = ref<string | null>(null);
+const activeCategory = computed(
+  () =>
+    hoveredCategory.value ?? focusedCategory.value ?? selectedCategory.value,
+);
+const initialNames = [
+  "HuggingFace",
+  "Python",
+  "Vue.js",
+  "Cloudflare",
+  "Docker",
+  "OpenXR",
 ];
+const visibleTechs = ref(
+  initialNames.flatMap((name) =>
+    technologies.filter((tech) => tech.name === name),
+  ),
+);
 
-// Category color mapping
-const categoryColors = {
-  "Frontend & UI": {
-    base: "bg-sky-500 hover:bg-sky-600",
-    lighter: "bg-sky-400 hover:bg-sky-500",
-    darker: "bg-sky-600 hover:bg-sky-700",
-    accent: "bg-indigo-500 hover:bg-indigo-600",
-    buttonColor: "primary", // Using the existing primary color for buttons
-  },
-  Languages: {
-    base: "bg-amber-500 hover:bg-amber-600",
-    lighter: "bg-amber-400 hover:bg-amber-500",
-    darker: "bg-amber-600 hover:bg-amber-700",
-    accent: "bg-yellow-500 hover:bg-yellow-600",
-    buttonColor: "amber",
-  },
-  "Backend & Infrastructure": {
-    base: "bg-emerald-500 hover:bg-emerald-600",
-    lighter: "bg-emerald-400 hover:bg-emerald-500",
-    darker: "bg-emerald-600 hover:bg-emerald-700",
-    accent: "bg-green-500 hover:bg-green-600",
-    buttonColor: "emerald",
-  },
-  "Dev Tools & Ops": {
-    base: "bg-violet-500 hover:bg-violet-600",
-    lighter: "bg-violet-400 hover:bg-violet-500",
-    darker: "bg-violet-600 hover:bg-violet-700",
-    accent: "bg-purple-500 hover:bg-purple-600",
-    buttonColor: "violet",
-  },
-  "2D & 3D Media": {
-    base: "bg-cyan-500 hover:bg-cyan-600",
-    lighter: "bg-cyan-400 hover:bg-cyan-500",
-    darker: "bg-cyan-600 hover:bg-cyan-700",
-    accent: "bg-teal-500 hover:bg-teal-600",
-    buttonColor: "cyan",
-  },
-  "AI & Emerging Tech": {
-    base: "bg-rose-500 hover:bg-rose-600",
-    lighter: "bg-rose-400 hover:bg-rose-500",
-    darker: "bg-rose-600 hover:bg-rose-700",
-    accent: "bg-pink-500 hover:bg-pink-600",
-    buttonColor: "rose",
-  },
-};
-
-// Tech display logic
-const visibleTechs = ref([]);
-const hoveredTech = ref(null);
-const techCarouselRef = ref(null);
-const containerWidth = ref(0);
-const CARD_WIDTH = 140; // Width of each card
-const CARD_MARGIN = 24; // Space between cards
-const preventBackToBackTechs = ref(true); // Toggle to prevent back-to-back tech display
-const lastDisplayedTechs = ref([]); // Keep track of last displayed techs
-const categories = computed(() => {
-  const uniqueCategories = [
-    ...new Set(technologies.map((tech) => tech.category)),
-  ];
-  return uniqueCategories.sort((a, b) => {
-    const indexA = categorySortOrder.indexOf(a);
-    const indexB = categorySortOrder.indexOf(b);
-    return indexA - indexB;
-  });
-});
-const selectedCategory = ref(null); // Currently selected category
-
-// Calculate how many cards can fit based on container width
-function calculateDisplayCount() {
-  // Get actual container width
-  const width = containerWidth.value;
-  const count = Math.max(
-    1,
-    Math.floor((width - CARD_MARGIN) / (CARD_WIDTH + CARD_MARGIN))
-  );
-  return count;
+function takeRandom(items: Technology[], count: number) {
+  for (let i = 0; i < Math.min(count, items.length); i++) {
+    const j = i + Math.floor(Math.random() * (items.length - i));
+    [items[i], items[j]] = [items[j], items[i]];
+  }
+  return items.slice(0, count);
 }
-
-// Initialize with random technologies
-onMounted(() => {
-  // Get container width
-  nextTick(() => {
-    if (techCarouselRef.value) {
-      containerWidth.value = techCarouselRef.value.clientWidth;
-
-      // Add resize listener
-      window.addEventListener(
-        "resize",
-        debounce(() => {
-          if (techCarouselRef.value) {
-            containerWidth.value = techCarouselRef.value.clientWidth;
-            shuffleTechs();
-          }
-        }, 250)
-      );
-    }
-
-    shuffleTechs();
-    // Set up interval to shuffle techs
-    setInterval(shuffleTechs, 5000);
-  });
-});
-
-// Debounce function to avoid excessive resize calculations
-function debounce(fn, ms) {
-  let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(this, args);
-    }, ms);
-  };
-}
-
-// Shuffle and select random technologies to display
 function shuffleTechs() {
-  if (!containerWidth.value) {
-    // If container width isn't available yet, use a default
-    containerWidth.value =
-      techCarouselRef.value?.clientWidth || window.innerWidth * 0.8;
-  }
-
-  const displayCount = Math.min(calculateDisplayCount(), technologies.length);
-
-  // Filter technologies by category if one is selected
-  const techPool = selectedCategory.value
-    ? technologies.filter((tech) => tech.category === selectedCategory.value)
-    : technologies;
-
-  // If selected category doesn't have enough techs, fall back to all
-  // if (techPool.length < displayCount) {
-  //   selectedCategory.value = null;
-  //   return shuffleTechs();
-  // }
-
-  let shuffled = [...techPool].sort(() => 0.5 - Math.random());
-
-  // If preventing back-to-back techs, filter out the last displayed techs
+  const pool = pools.get(activeCategory.value) || technologies;
+  const previous = new Set(visibleTechs.value.map((tech) => tech.name));
+  const fresh: Technology[] = [];
+  const seen: Technology[] = [];
+  for (const tech of pool) (previous.has(tech.name) ? seen : fresh).push(tech);
+  // Show as many fresh items as possible; small categories still fill all six slots.
+  const next = takeRandom(fresh, 6);
+  next.push(...takeRandom(seen, 6 - next.length));
+  takeRandom(next, next.length);
   if (
-    preventBackToBackTechs.value &&
-    lastDisplayedTechs.value.length > 0 &&
-    !selectedCategory.value
+    next.length > 1 &&
+    next.every((tech, i) => tech.name === visibleTechs.value[i]?.name)
   ) {
-    // Get names of last displayed techs
-    const lastNames = lastDisplayedTechs.value.map((t) => t.name);
-    // Filter out techs that were last displayed
-    const filtered = shuffled.filter((tech) => !lastNames.includes(tech.name));
-
-    // If we have enough techs after filtering, use the filtered list
-    if (filtered.length >= displayCount) {
-      shuffled = filtered;
-    }
-    // Otherwise, use the original shuffled list (fallback if too few techs remain)
+    next.push(next.shift()!);
   }
+  captureCardPositions();
+  visibleTechs.value = next;
+}
+function previewCategory(event: PointerEvent, category: string) {
+  if (event.pointerType === "mouse") hoveredCategory.value = category;
+}
+function focusCategory(category: string) {
+  hoveredCategory.value = null;
+  focusedCategory.value = category;
+}
 
-  const selectedTechs = shuffled.slice(0, displayCount);
+const viewer = ref<HTMLElement>();
+const userPaused = ref<boolean | null>(null);
+const reducedMotion = ref(false);
+const motionPaused = computed(() => userPaused.value ?? reducedMotion.value);
+const hoveringCards = ref(false);
+const inView = ref(false);
+const pageVisible = ref(true);
+const rotating = computed(
+  () =>
+    !motionPaused.value &&
+    !hoveringCards.value &&
+    inView.value &&
+    pageVisible.value,
+);
+let timer: ReturnType<typeof setTimeout> | undefined;
+let observer: IntersectionObserver | undefined;
+let motionQuery: MediaQueryList | undefined;
+function scheduleRotation() {
+  clearTimeout(timer);
+  if (rotating.value)
+    timer = setTimeout(() => {
+      shuffleTechs();
+      scheduleRotation();
+    }, 5000);
+}
+function updateVisibility() {
+  pageVisible.value = !document.hidden;
+}
+function updateMotionPreference() {
+  reducedMotion.value = motionQuery?.matches ?? false;
+  userPaused.value = null;
+}
+watch(rotating, scheduleRotation);
+watch(activeCategory, () => {
+  shuffleTechs();
+  scheduleRotation();
+});
+onMounted(() => {
+  motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  updateMotionPreference();
+  motionQuery.addEventListener("change", updateMotionPreference);
+  updateVisibility();
+  document.addEventListener("visibilitychange", updateVisibility);
+  observer = new IntersectionObserver(([entry]) => {
+    inView.value = entry.isIntersecting;
+  });
+  if (viewer.value) observer.observe(viewer.value);
+});
+onBeforeUnmount(() => {
+  clearTimeout(timer);
+  observer?.disconnect();
+  motionQuery?.removeEventListener("change", updateMotionPreference);
+  document.removeEventListener("visibilitychange", updateVisibility);
+});
 
-  // Save current selection for next shuffle
-  lastDisplayedTechs.value = [...selectedTechs];
-
-  // Calculate positions for each card
-  const totalWidth =
-    displayCount * CARD_WIDTH + (displayCount - 1) * CARD_MARGIN;
-  const startX = (containerWidth.value - totalWidth) / 2;
-
-  visibleTechs.value = selectedTechs.map((tech, index) => {
-    const position = startX + index * (CARD_WIDTH + CARD_MARGIN);
-
-    // Apply color based on category
-    const category = tech.category;
-    const colorSet = categoryColors[category];
-
-    // Distribute technologies across different shades within the same category
-    // Using the index to make technologies within the same category have different shades
-    let colorClass;
-    if (index % 3 === 0) {
-      colorClass = colorSet?.base || tech.colorClass;
-    } else if (index % 3 === 1) {
-      colorClass = colorSet?.lighter || tech.colorClass;
-    } else {
-      colorClass = colorSet?.darker || tech.colorClass;
-    }
-
-    return {
-      ...tech,
-      position: position,
-      colorClass: colorClass, // Override the original colorClass with the category-based one
-    };
+interface CardPosition {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+const cardPositions = new WeakMap<Element, CardPosition>();
+// Read all six positions before patching: removing one grid item otherwise
+// shifts the others before their leave hooks run.
+function captureCardPositions() {
+  viewer.value
+    ?.querySelectorAll<HTMLElement>(
+      ".tech-card:not(.tech-shuffle-leave-active)",
+    )
+    .forEach((card) => {
+      cardPositions.set(card, {
+        left: card.offsetLeft,
+        top: card.offsetTop,
+        width: card.offsetWidth,
+        height: card.offsetHeight,
+      });
+    });
+}
+// Hold departing cards in their original cells while Vue animates the next layout.
+function placeLeavingCard(element: Element) {
+  const card = element as HTMLElement;
+  const position = cardPositions.get(card);
+  if (!position) return;
+  Object.assign(card.style, {
+    left: `${position.left}px`,
+    top: `${position.top}px`,
+    width: `${position.width}px`,
+    height: `${position.height}px`,
   });
 }
-
-// Handle tech hover
-function onTechHover(tech) {
-  hoveredTech.value = tech.name;
-}
-
-// Reset tech hover
-function resetTechHover() {
-  hoveredTech.value = null;
-}
-
-// Filter by category
-function filterByCategory(category) {
-  selectedCategory.value = category;
-  shuffleTechs();
-}
-
-// Clear category filter
-function clearCategoryFilter() {
-  selectedCategory.value = null;
-  shuffleTechs();
+function clearLeavingCard(element: Element) {
+  const card = element as HTMLElement;
+  for (const property of ["left", "top", "width", "height"])
+    card.style.removeProperty(property);
 }
 </script>
 
 <style scoped>
+.tech-category {
+  color: var(--tech-color);
+  background: color-mix(in srgb, var(--tech-color) 10%, white);
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--tech-color) 25%, transparent);
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    box-shadow 180ms ease;
+}
+.tech-category--active,
+.tech-category:hover {
+  color: white;
+  background: var(--tech-color);
+  box-shadow: 0 2px 8px color-mix(in srgb, var(--tech-color) 25%, transparent);
+}
+.dark .tech-category:not(.tech-category--active):not(:hover) {
+  color: color-mix(in srgb, var(--tech-color) 35%, white);
+  background: color-mix(in srgb, var(--tech-color) 25%, #0f172a);
+}
+.tech-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
 .tech-card {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  min-width: 140px;
-  height: 120px;
-  width: 140px;
-  position: absolute;
-  transition: all 0.6s ease;
+  min-width: 0;
+}
+.tech-card-inner {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 0.625rem;
+  height: 6rem;
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  color: white;
+  background: linear-gradient(
+    135deg,
+    var(--tech-color),
+    color-mix(in srgb, var(--tech-color) 82%, #0f172a)
+  );
+  border: 1px solid rgb(255 255 255 / 0.18);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--tech-color) 22%, transparent);
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease;
 }
-
-.tech-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-}
-
-.tech-icon-wrapper {
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(5px);
+.tech-icon-wrap {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.16);
 }
 .tech-icon {
-  color: rgba(255, 255, 255, 0.95);
+  width: 1.75rem;
+  height: 1.75rem;
+  transition: transform 250ms ease;
 }
-
-.tech-icon-image {
+.tech-asset {
+  object-fit: contain;
   filter: brightness(0) invert(1);
 }
-
-.fallback-icon {
-  background: rgba(255, 255, 255, 0.25);
-  color: rgba(255, 255, 255, 0.95);
+@media (hover: hover) {
+  .tech-card:hover .tech-card-inner {
+    transform: translateY(-5px) rotate(-1deg);
+    box-shadow: 0 9px 18px
+      color-mix(in srgb, var(--tech-color) 35%, transparent);
+  }
+  .tech-card:hover .tech-icon {
+    transform: scale(1.18) rotate(5deg);
+  }
 }
-
-/* Transition animations for tech cards entering/leaving */
-.tech-shuffle-enter-active,
+.tech-shuffle-move {
+  transition: transform 550ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.tech-shuffle-enter-active {
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 400ms ease;
+  transition-delay: calc(var(--slot) * 35ms);
+}
 .tech-shuffle-leave-active {
-  transition: all 0.6s ease;
+  position: absolute;
+  pointer-events: none;
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease;
 }
-
 .tech-shuffle-enter-from {
   opacity: 0;
-  transform: translateY(30px) scale(0.8);
+  transform: translateY(22px) scale(0.92) rotate(2deg);
 }
-
 .tech-shuffle-leave-to {
   opacity: 0;
-  transform: translateY(-30px) scale(0.8);
+  transform: translateY(-18px) scale(0.92) rotate(-2deg);
+}
+@media (min-width: 640px) {
+  .tech-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .tech-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+@media (max-width: 399px) {
+  .tech-card-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.375rem;
+    padding: 0.625rem;
+    height: 6.5rem;
+  }
+  .tech-icon-wrap {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+  .tech-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-shuffle-move,
+  .tech-shuffle-enter-active,
+  .tech-shuffle-leave-active,
+  .tech-card-inner,
+  .tech-icon,
+  .tech-category {
+    transition: none;
+  }
+  .tech-shuffle-enter-from,
+  .tech-shuffle-leave-to,
+  .tech-card:hover .tech-card-inner,
+  .tech-card:hover .tech-icon {
+    transform: none;
+  }
 }
 </style>

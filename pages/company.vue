@@ -49,10 +49,7 @@
           <UCard class="h-full">
             <template #header>
               <div class="flex items-center gap-3">
-                <UIcon
-                  name="i-heroicons-building-office-2"
-                  class="w-7 h-7 text-primary shrink-0"
-                />
+                <BrandLogo monogram class="shrink-0" />
                 <h2 class="text-2xl font-bold">DienerTech LLC</h2>
               </div>
             </template>

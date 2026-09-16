@@ -2,13 +2,14 @@
   <ClientOnly>
     <button 
       class="color-mode-button p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300 focus:outline-none" 
-      aria-label="Toggle color mode"
+      :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+      type="button"
       @click="toggleColorMode"
     >
       <transition name="mode-switch" mode="out-in">
         <div v-if="isDark" key="dark" class="w-6 h-6 relative">
           <!-- Moon SVG with Stars (optimized) -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-primary fill-current">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-blue-300 fill-current">
             <!-- Background -->
             <rect width="24" height="24" fill="transparent" />
             
@@ -27,7 +28,7 @@
         </div>
         <div v-else key="light" class="w-6 h-6 relative">
           <!-- Sun SVG (optimized) -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-amber-500 fill-current">
+          <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-6 h-6 text-blue-600 fill-current">
             <circle cx="12" cy="12" r="5" class="sun-circle" />
             <g class="sun-rays">
               <line x1="12" y1="2" x2="12" y2="5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />

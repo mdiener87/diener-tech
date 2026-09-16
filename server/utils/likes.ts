@@ -88,6 +88,10 @@ export async function getLikeStatus(
 ): Promise<LikeStatus> {
   const db = getLikesDatabase(event);
   if (!db) {
+    if (import.meta.dev) {
+      const { localLikes } = await import("./localLikes");
+      return localLikes.getStatus(postPath, await getVisitorHash(event));
+    }
     return { count: 0, liked: false, enabled: false };
   }
 
@@ -118,6 +122,10 @@ export async function addLike(
 ): Promise<LikeStatus> {
   const db = getLikesDatabase(event);
   if (!db) {
+    if (import.meta.dev) {
+      const { localLikes } = await import("./localLikes");
+      return localLikes.addLike(postPath, await getVisitorHash(event));
+    }
     throw createError({
       statusCode: 503,
       statusMessage: "Likes are not configured",
@@ -164,6 +172,10 @@ export async function removeLike(
 ): Promise<LikeStatus> {
   const db = getLikesDatabase(event);
   if (!db) {
+    if (import.meta.dev) {
+      const { localLikes } = await import("./localLikes");
+      return localLikes.removeLike(postPath, await getVisitorHash(event));
+    }
     throw createError({
       statusCode: 503,
       statusMessage: "Likes are not configured",

@@ -20,7 +20,7 @@ export const useSeo = () => {
     const {
       title,
       description,
-      image = '/images/default_image.webp', // Default image
+      image = '/branding/dienertech-social.png',
       type = 'website',
       publishedTime,
       modifiedTime,
@@ -76,4 +76,4 @@ export const useSeo = () => {
   return {
     setPageMeta,
   };
-}; 
+};

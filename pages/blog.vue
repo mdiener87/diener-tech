@@ -20,67 +20,88 @@
         <div class="flex flex-wrap gap-5 mt-6 text-sm">
           <NuxtLink to="/work/sparknet" class="text-link"
             >The SparkNet series →</NuxtLink
-          ><a href="/feed.xml" class="text-link">RSS ↗</a
-          ><a href="#newsletter" class="text-link">Subscribe ↓</a>
+          ><NuxtLink to="/subscribe" class="text-link">Subscribe →</NuxtLink>
         </div></UContainer
       >
     </section>
     <section class="section-space">
       <UContainer>
         <div
-          class="flex flex-col md:flex-row gap-5 md:items-end justify-between mb-8"
+          class="writing-filters grid lg:grid-cols-[minmax(0,0.6fr)_minmax(0,1.4fr)] gap-6 lg:gap-8 mb-6 rounded-xl border border-gray-200 dark:border-gray-700 bg-gray-50/70 dark:bg-gray-950/30 p-5 sm:p-6"
         >
           <div>
-            <p class="text-sm font-medium mb-3">Browse by format</p>
-            <div class="flex flex-wrap gap-2">
-              <UButton
-                v-for="kind in kinds"
-                :key="kind"
-                :variant="selectedKind === kind ? 'solid' : 'soft'"
-                :aria-pressed="selectedKind === kind"
-                @click="selectedKind = kind"
-                >{{ kind }}</UButton
+            <label for="writing-search" class="block text-sm font-medium mb-3"
+              >Search writing</label
+            ><UInput
+              id="writing-search"
+              v-model="search"
+              type="search"
+              placeholder="Try SparkNet, Python, or D&D"
+              aria-describedby="writing-search-help"
+              icon="i-heroicons-magnifying-glass"
+            />
+            <p
+              id="writing-search-help"
+              class="mt-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400"
+            >
+              Matches titles, summaries, tags, and topics as you type, within
+              your selected filters. Article bodies aren’t searched.
+            </p>
+            <div class="flex flex-wrap items-center gap-3 mt-2 text-xs">
+              <span class="text-gray-500 dark:text-gray-400">Try:</span>
+              <button
+                v-for="example in searchExamples"
+                :key="example"
+                type="button"
+                class="text-link"
+                @click="trySearch(example)"
               >
+                {{ example }}
+              </button>
             </div>
           </div>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <div>
-              <label for="writing-search" class="block text-sm font-medium mb-2"
-                >Search writing</label
-              ><UInput
-                id="writing-search"
-                v-model="search"
-                placeholder="A topic or project…"
-                icon="i-heroicons-magnifying-glass"
-              />
-            </div>
+          <div class="min-w-0 space-y-5">
+            <fieldset>
+              <legend class="text-sm font-medium mb-3">Browse by format</legend>
+              <div class="flex flex-wrap gap-2">
+                <UButton
+                  v-for="kind in kinds"
+                  :key="kind"
+                  :variant="selectedKind === kind ? 'solid' : 'soft'"
+                  :aria-pressed="selectedKind === kind"
+                  @click="selectedKind = kind"
+                  >{{ kind }}</UButton
+                >
+              </div>
+            </fieldset>
+            <fieldset>
+              <legend class="text-sm font-medium mb-3">Browse by topic</legend>
+              <div class="flex flex-wrap gap-2">
+                <UButton
+                  :variant="!selectedTopic ? 'solid' : 'soft'"
+                  :aria-pressed="!selectedTopic"
+                  @click="selectedTopic = ''"
+                  >All topics</UButton
+                >
+                <UButton
+                  v-for="topic in topics"
+                  :key="topic"
+                  :variant="selectedTopic === topic ? 'solid' : 'soft'"
+                  :aria-pressed="selectedTopic === topic"
+                  @click="selectedTopic = topic"
+                  >{{ topic }}</UButton
+                >
+              </div>
+            </fieldset>
           </div>
         </div>
-        <fieldset class="mb-6">
-          <legend class="text-sm font-medium mb-3">Browse by topic</legend>
-          <div class="flex flex-wrap gap-2">
-            <UButton
-              :variant="!selectedTopic ? 'solid' : 'soft'"
-              :aria-pressed="!selectedTopic"
-              @click="selectedTopic = ''"
-              >All topics</UButton
-            >
-            <UButton
-              v-for="topic in topics"
-              :key="topic"
-              :variant="selectedTopic === topic ? 'solid' : 'soft'"
-              :aria-pressed="selectedTopic === topic"
-              @click="selectedTopic = topic"
-              >{{ topic }}</UButton
-            >
-          </div>
-        </fieldset>
         <div
           class="flex items-center gap-4 mb-4 text-sm text-gray-500 dark:text-gray-400"
         >
-          <p role="status">
+          <p role="status" aria-atomic="true">
             {{ filteredPosts.length }}
             {{ filteredPosts.length === 1 ? "entry" : "entries" }}
+            <span v-if="search.trim()"> matching “{{ search.trim() }}”</span>
           </p>
           <button
             v-if="search || selectedTopic || selectedKind !== 'All'"
@@ -104,6 +125,9 @@
               <p v-if="post.readingTime" class="mt-1">
                 {{ post.readingTime.minutes }} min read
               </p>
+              <div class="mt-2 -ml-2.5">
+                <PostLikeButton :post-path="post._path" compact />
+              </div>
             </div>
             <div>
               <h2 class="text-2xl font-semibold tracking-tight leading-snug">
@@ -138,17 +162,22 @@
         </div>
         <div v-if="!filteredPosts.length" class="py-12">
           <h2 class="text-xl font-semibold">No entries match those filters.</h2>
+          <p class="mt-2 text-gray-600 dark:text-gray-400">
+            Try a shorter phrase, another topic, or clear the filters to start
+            again.
+          </p>
           <button class="text-link mt-4" @click="resetFilters">
             Show all writing →
           </button>
         </div>
       </UContainer>
     </section>
-    <div id="newsletter"><NewsletterSignup /></div>
+    <div id="newsletter"><SubscribeInvitation /></div>
   </main>
 </template>
 <script setup lang="ts">
-import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
+import PostLikeButton from "~/components/blog/PostLikeButton.vue";
+import SubscribeInvitation from "~/components/newsletter/SubscribeInvitation.vue";
 import { formatDate } from "~/utils/dateFormatter";
 const { resolveBlogImage } = useImagePath();
 const posts = await queryContent("blog")
@@ -159,6 +188,7 @@ const kinds = ["All", "Note", "Build log", "Essay"];
 const selectedKind = ref("All");
 const selectedTopic = ref("");
 const search = ref("");
+const searchExamples = ["SparkNet", "Python", "D&D"];
 const topics = [
   "AI & models",
   "Software & tools",
@@ -184,6 +214,10 @@ function resetFilters() {
   selectedKind.value = "All";
   selectedTopic.value = "";
   search.value = "";
+}
+function trySearch(example: string) {
+  resetFilters();
+  search.value = example;
 }
 useSeo().setPageMeta({
   title: "Writing — Notes, Build Logs & Essays",

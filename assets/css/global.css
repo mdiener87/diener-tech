@@ -31,12 +31,6 @@ body {
   background: rgb(15 23 42 / 0.95);
   border-color: #1e293b;
 }
-.wordmark {
-  font-weight: 800;
-  font-size: 1.4rem;
-  letter-spacing: -0.055em;
-  white-space: nowrap;
-}
 .nav-link {
   font-size: 0.9rem;
   color: #475569;

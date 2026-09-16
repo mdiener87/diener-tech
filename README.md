@@ -51,13 +51,44 @@ The site will be available at `http://localhost:3000`.
 
 ### Image Metadata Hygiene
 
-This project uses `pre-commit` to automatically strip EXIF metadata from images before committing them:
+This project uses `pre-commit` to strip and validate metadata in raster images
+before committing them. Install Python 3 and ExifTool (`sudo apt install
+libimage-exiftool-perl` on Ubuntu), then install the hook:
 
 ```bash
 # Install pre-commit (Python 3 required)
 pip install pre-commit
 pre-commit install
 ```
+
+The hook handles PNG, JPEG, WebP, GIF, AVIF, BMP, TIFF, and ICO (case insensitive).
+It removes EXIF/GPS, XMP, comments, PNG text/private chunks, and user extended
+attributes where supported. Required image/container fields remain. PNG-based
+ICO frames are cleaned individually without re-encoding pixels; classic
+uncompressed ICO bitmaps are supported too. Unrecognized metadata or unsupported
+ICO bitmap layouts block the commit with an error instead of silently passing.
+SVG source files are outside this raster policy.
+
+When cleanup changes an image, pre-commit stops the commit. Review and stage the
+cleaned image in GitHub Desktop, then commit again. The hook never stages files
+itself. If a partially staged image causes an automatic-fix/stash conflict,
+pre-commit restores your changes; clean and stage that image before retrying.
+The “unstaged files detected” message itself is normal.
+
+All entry points use the same policy:
+
+```bash
+bash scripts/dev-utils/validate-metadata.sh  # Read-only check of public/
+bash scripts/dev-utils/purge-image-metadata.sh  # Clean public/ in place
+pre-commit run --all-files  # Clean all tracked raster images
+python3 -B -m unittest discover -s tests -p '*_test.py' -v
+```
+
+Both shell utilities accept an optional directory. The legacy `strip_metadata.sh`
+delegates to the same cleaner. Extended filesystem attributes are not part of
+Git blobs; the cleaner removes `user.*` and `com.apple.*` attributes locally,
+while preserving security labels and ACLs. These local hooks cover new commits;
+they do not clean existing Git history or enforce uploads when hooks are bypassed.
 
 ## Project Structure
 

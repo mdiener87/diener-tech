@@ -25,6 +25,8 @@ Use one or two broad `topics` per post from this fixed set:
 
 The archive shows these four topics as buttons. Keep specific technology names and project keywords in `tags`; they remain searchable without expanding the topic navigation. A VectorXR post, for example, can use `Software & tools` and `Life & play`, with `openxr` and `vectorxr` as tags.
 
+Archive search matches a case-insensitive phrase in titles, summaries, tags, and topics, combined with the selected format and topic. It does not search article bodies. The example searches clear the other filters before running, so they work as starting points.
+
 ## A manageable next queue
 
 1. **VectorXR: why I built it.** Start with the VR problem, show the app, explain one difficult product decision. Add a link from the product page once written.
@@ -34,6 +36,8 @@ The archive shows these four topics as buttons. Keep specific technology names a
 Keep unfinished drafts outside `content/blog/`; files there are public site content and included in RSS. The promotion note in this branch is reviewable website copy, with no newsletter sending or external posting performed.
 
 ## Subscription and feed
+
+`/subscribe` is the shared destination for email and RSS. The header, footer, homepage, archive, and articles link there. The email form lives on that page; the RSS section explains feed readers and labels the XML link explicitly. The archive retains its old `#newsletter` anchor at the subscription invitation for existing links.
 
 The newsletter uses Buttondown’s native HTML form so the service can present validation and confirmation. See [Buttondown’s embedding instructions](https://docs.buttondown.com/building-your-subscriber-base). Do not replace it with a `no-cors` fetch that cannot inspect the result.
 
