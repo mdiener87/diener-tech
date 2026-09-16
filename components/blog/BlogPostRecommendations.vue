@@ -6,7 +6,7 @@
     <UContainer>
       <div class="max-w-6xl mx-auto">
         <!-- Section header with customizable title and optional button -->
-        <div class="flex justify-between items-center mb-8">
+        <div class="flex flex-col sm:flex-row gap-4 justify-between sm:items-center mb-8">
           <div>
             <h2 class="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
               {{ title }}
@@ -75,7 +75,7 @@
                 </NuxtLink>
                 
                 <h3 class="text-lg font-semibold mt-4">
-                  {{ post.title || 'Untitled' }}
+                  <NuxtLink :to="post._path">{{ post.title || 'Untitled' }}</NuxtLink>
                 </h3>
                 
                 <!-- Featured Post Badge -->
@@ -142,6 +142,7 @@
 </template>
 
 <script setup>
+import { formatDate } from '~/utils/dateFormatter';
 import { useImagePath } from '~/composables/useImagePath';
 import PostLikeButton from '~/components/blog/PostLikeButton.vue';
 
@@ -194,15 +195,6 @@ function resolveImagePath(post) {
   return resolveBlogImage(post.titleImage, path);
 }
 
-// Format date function
-function formatDate(date) {
-  if (!date) return "";
-  return new Date(date).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
 </script>
 
 <style scoped>

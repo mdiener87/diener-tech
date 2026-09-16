@@ -2,8 +2,9 @@ repos:
   - repo: local
     hooks:
       - id: strip-image-metadata
-        name: Strip EXIF metadata from staged images
+        name: Strip and validate image metadata
         entry: /bin/bash scripts/hooks/pre-commit
         language: script
-        types: [image]
+        types: [file]
+        files: '(?i)\.(png|jpe?g|webp|gif|avif|bmp|tiff?|ico)$'
         require_serial: true

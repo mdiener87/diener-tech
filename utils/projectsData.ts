@@ -19,7 +19,7 @@ export const projectsData: Project[] = [
     id: "sparknet",
     title: "SparkNet",
     description:
-      "A custom training pipeline for a GPT-2 style 70m parameter language model.",
+      "An ongoing language model project spanning 70M and 400M pretraining, supervised fine-tuning, inference, and evaluation.",
     image: "/projects/sparknet-logo.webp",
     technologies: ["Python", "PyTorch", "Transformers", "NLP"],
     githubUrl: "https://github.com/mdiener87/sparknet",
@@ -31,7 +31,7 @@ export const projectsData: Project[] = [
       "Rich evaluation suite for validating checkpoints and dataset health",
     ],
     featured: true,
-    relatedPosts: ["one-billion-token-challenge", "sparking-the-future"],
+    relatedPosts: ["the-eval-was-lying-to-me", "scaling-sparknet", "one-billion-token-challenge", "sparking-the-future"],
   },
   {
     id: "frame-finder",
@@ -55,15 +55,15 @@ export const projectsData: Project[] = [
     title: "DienerTech Personal Website",
     description:
       "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
-    image: "/images/projects/diener-tech.webp",
+    image: "/branding/dienertech-social.webp",
     technologies: ["Vue", "Nuxt", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://diener.tech",
     githubUrl: "https://github.com/mdiener87/diener-tech",
     types: ["Web"],
     highlights: [
       "Responsive, accessibility-first design with Nuxt UI components",
-      "Content-driven blog powered by Nuxt Content and custom MDX features",
-      "Custom visual flourishes including animated skill trees and gradients",
+      "Content-driven blog powered by Nuxt Content and custom Markdown components",
+      "Project showcases, a searchable writing archive, and interactive benchmark charts",
     ],
     featured: true,
     relatedPosts: ["ship-of-theseus"],

@@ -11,13 +11,13 @@
             >
               <UContainer>
                 <div class="max-w-4xl mx-auto">
-                  <!-- Back to Blog Link -->
+                  <!-- All writing Link -->
                   <NuxtLink
                     to="/blog"
                     class="inline-flex items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-primary dark:hover:text-primary-400 mb-4 transition-colors"
                   >
                     <UIcon name="i-heroicons-arrow-left" class="w-5 h-5" />
-                    <span>Back to Blog</span>
+                    <span>All writing</span>
                   </NuxtLink>
 
                   <!-- Blog Header Card -->
@@ -42,7 +42,8 @@
                       </div>
 
                       <!-- Content (Right Side on Desktop) -->
-                      <div class="p-6 md:p-8 md:w-2/3 order-1 md:order-2">
+                      <div class="p-6 md:p-8 order-1 md:order-2" :class="doc.titleImage ? 'md:w-2/3' : 'w-full'">
+                        <p class="eyebrow mb-4">{{ doc.kind || 'Essay' }}</p>
                         <!-- Featured Badge -->
                         <UBadge
                           v-if="doc.featured"
@@ -119,9 +120,26 @@
             </section>
 
             <!-- Blog Content Section -->
-            <section class="pt-0 pb-10 bg-white dark:bg-gray-900">
+            <section class="pt-8 pb-10 bg-white dark:bg-gray-900">
               <UContainer>
                 <div class="max-w-3xl mx-auto">
+                  <details v-if="doc.body?.toc?.links?.length > 2" class="mb-8 rounded-lg border border-gray-200 dark:border-gray-700 p-5">
+                    <summary class="font-semibold cursor-pointer">In this {{ (doc.kind || 'essay').toLowerCase() }}</summary>
+                    <nav aria-label="Table of contents" class="mt-4">
+                      <ol class="space-y-3 text-sm">
+                        <li v-for="heading in doc.body.toc.links" :key="heading.id"><a :href="`#${heading.id}`" class="text-link">{{ heading.text }}</a></li>
+                      </ol>
+                    </nav>
+                  </details>
+                  <details v-if="seriesPosts.length" class="mb-8 border-l-2 border-blue-300 dark:border-blue-700 pl-5">
+                    <summary class="font-semibold cursor-pointer text-sm">Part of the SparkNet series</summary>
+                    <nav aria-label="SparkNet series" class="mt-4">
+                      <NuxtLink to="/work/sparknet" class="text-link text-sm">About the project →</NuxtLink>
+                      <ol class="flex flex-col gap-2 mt-3 text-sm">
+                        <li v-for="post in seriesPosts" :key="post._path"><NuxtLink :to="post._path" :aria-current="post._path === doc._path ? 'page' : undefined" :class="post._path === doc._path ? 'font-semibold' : 'text-gray-600 dark:text-gray-400 hover:text-primary'">{{ post.title }}</NuxtLink></li>
+                      </ol>
+                    </nav>
+                  </details>
                   <div
                     class="prose dark:prose-invert prose-lg max-w-none px-0 md:px-4"
                   >
@@ -165,7 +183,7 @@
             />
 
             <!-- Newsletter Signup -->
-            <NewsletterSignup />
+            <SubscribeInvitation />
           </template>
 
           <!-- Default Content Page Layout -->
@@ -197,7 +215,7 @@ import { useImagePath } from "~/composables/useImagePath";
 import SocialShareButtons from "~/components/blog/SocialShareButtons.vue";
 import BlogPostRecommendations from "~/components/blog/BlogPostRecommendations.vue";
 import PostLikeButton from "~/components/blog/PostLikeButton.vue";
-import NewsletterSignup from "~/components/newsletter/NewsletterSignup.vue";
+import SubscribeInvitation from "~/components/newsletter/SubscribeInvitation.vue";
 import { formatDate } from '~/utils/dateFormatter';
 
 // Add interfaces at the top of the script section
@@ -251,6 +269,10 @@ const resolvedTitleImage = computed(() => {
   if (!data.value?.titleImage) return undefined;
   return resolveImage(data.value.titleImage);
 });
+
+const seriesPosts = data.value?.series
+  ? await queryContent('blog').where({ series: data.value.series }).sort({ date: 1 }).only(['_path', 'title']).find()
+  : [];
 
 const resolvedShareImage = computed(() => {
   if (data.value?.shareImage) return resolveImage(data.value.shareImage);

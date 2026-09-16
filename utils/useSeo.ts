@@ -20,7 +20,7 @@ export const useSeo = () => {
     const {
       title,
       description,
-      image = '/images/default-social.jpg', // Default image
+      image = '/branding/dienertech-social.webp',
       type = 'website',
       publishedTime,
       modifiedTime,
@@ -49,13 +49,13 @@ export const useSeo = () => {
 
     // Extended SEO metadata with Open Graph and Twitter tags
     useSeoMeta({
-      title: fullTitle,
+      title: title,
       description: description,
       
       // Open Graph
       ogTitle: fullTitle,
       ogDescription: description,
-      ogImage: image,
+      ogImage: new URL(image, siteUrl).href,
       ogType: type,
       ogUrl: fullUrl,
       ogSiteName: siteName,
@@ -63,7 +63,7 @@ export const useSeo = () => {
       // Twitter
       twitterTitle: fullTitle,
       twitterDescription: description,
-      twitterImage: image,
+      twitterImage: new URL(image, siteUrl).href,
       twitterCard: 'summary_large_image',
       
       // Article specific data (for blog posts)
@@ -76,4 +76,4 @@ export const useSeo = () => {
   return {
     setPageMeta,
   };
-}; 
+};

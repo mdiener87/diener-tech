@@ -1,5 +1,6 @@
 import { Feed } from 'feed';
 import { serverQueryContent } from '#content/server';
+import { serializeContent } from '../utils/feedContent';
 
 interface BlogPost {
   title: string;
@@ -10,29 +11,15 @@ interface BlogPost {
   image?: string;
 }
 
-function serializeContent(content: any): string {
-  if (typeof content === 'object') {
-    // Convert JSON structure to HTML
-    return content.children.map((child: any) => {
-      if (child.type === 'element') {
-        const children = child.children.map((c: any) => c.value).join('');
-        return `<${child.tag}>${children}</${child.tag}>`;
-      }
-      return '';
-    }).join('');
-  }
-  return String(content || '');
-}
-
 export default defineEventHandler(async (event) => {
   // Initialize the feed
   const feed = new Feed({
     title: "DienerTech Blog",
-    description: "Personal portfolio and blog showcasing software development, creative projects, and more",
+    description: "AI engineering, open source software, and lessons from the workshop. Notes, build logs, and essays by Michael Diener.",
     id: "https://diener.tech/",
     link: "https://diener.tech/",
     language: "en",
-    image: "https://diener.tech/images/default-social.jpg",
+    image: "https://diener.tech/images/default_image.webp",
     favicon: "https://diener.tech/favicon.ico",
     copyright: `All rights reserved ${new Date().getFullYear()}, DienerTech`,
     feedLinks: {
@@ -53,7 +40,7 @@ export default defineEventHandler(async (event) => {
       id: `https://diener.tech${post._path}`,
       link: `https://diener.tech${post._path}`,
       description: post.description || post.title,
-      content: serializeContent(post.body),
+      content: serializeContent(post.body, post._path),
       date: new Date(post.date),
       image: post.image,
     });
