@@ -42,7 +42,7 @@ frames.forEach((frame, i) => {
 });
 await write("public/favicon.ico", Buffer.concat([directory, ...frames]));
 
-// Editable vector source and a crawler-friendly, opaque PNG export.
+// Editable vector source, PNG master, and WebP used by the site.
 const social = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs><linearGradient id="surface" x2="1" y2="1"><stop stop-color="#172640"/><stop offset="1" stop-color="#0f172a"/></linearGradient></defs>
   <rect width="1200" height="630" fill="url(#surface)"/>
@@ -58,6 +58,7 @@ const social = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630
 </svg>\n`;
 await write("public/branding/dienertech-social.svg", social);
 await sharp(Buffer.from(social)).png().toFile(new URL("public/branding/dienertech-social.png", root).pathname);
+await sharp(Buffer.from(social)).webp({ quality: 80 }).toFile(new URL("public/branding/dienertech-social.webp", root).pathname);
 // Match the repository's image metadata policy (exiftool is also used by its
 // pre-commit hook). SVG rendering otherwise adds PNG resolution metadata.
 execFileSync("exiftool", ["-all=", "-overwrite_original",

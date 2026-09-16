@@ -760,7 +760,7 @@ setPageMeta({
   title: "VectorXR",
   description:
     "VectorXR is a free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, frame pacing, and layer tuning.",
-  image: "/images/vectorxr/icon-vectorxr.png",
+  image: "/images/vectorxr/icon-vectorxr.webp",
   type: "website",
   canonicalUrl: "https://diener.tech/products/vectorxr",
 });

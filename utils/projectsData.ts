@@ -55,7 +55,7 @@ export const projectsData: Project[] = [
     title: "DienerTech Personal Website",
     description:
       "My personal portfolio and blog built with Vue 3 + Nuxt, featuring a modern UI, dark mode support, and interactive components.",
-    image: "/branding/dienertech-social.png",
+    image: "/branding/dienertech-social.webp",
     technologies: ["Vue", "Nuxt", "TypeScript", "Tailwind CSS"],
     demoUrl: "https://diener.tech",
     githubUrl: "https://github.com/mdiener87/diener-tech",

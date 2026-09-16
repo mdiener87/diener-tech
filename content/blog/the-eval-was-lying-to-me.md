@@ -159,18 +159,18 @@ I had the opportunity to demo the SparkNet chatbot to my team at TaxCloud. This 
 *note - in the below screenshots, the model name implies it is hosted by vLLM. That is an artifact of reusing the same port within OpenWebUI*
 
 <BlogImage
-  src="SparkChat-Hotdog.png"
+  src="SparkChat-Hotdog.webp"
   alt="This question really divided my team when we tried to answer it.">
 </BlogImage>
 
 
 <BlogImage
-  src="SparkChat-Strawberry.png"
+  src="SparkChat-Strawberry.webp"
   alt="A viral test that stumped AI for a year. The best way to avoid counting wrong is to just avoid counting!">
 </BlogImage>
 
 <BlogImage
-  src="SparkChat-OpenAI-Comparison.png"
+  src="SparkChat-OpenAI-Comparison.webp"
   alt="I aspire to such levels of confidence!">
 </BlogImage>
 

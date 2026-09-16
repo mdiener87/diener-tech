@@ -6,7 +6,7 @@
     <div :class="containerClass">
       <div :class="imageWrapperClass">
         <NuxtImg
-          :src="project.image || '/branding/dienertech-social.png'"
+          :src="project.image || '/branding/dienertech-social.webp'"
           :alt="project.title"
           class="h-full w-full object-contain transition-transform duration-700"
         />

@@ -23,7 +23,7 @@ export const productsData: Product[] = [
     tagline: "Per-game OpenXR tuning for Windows VR.",
     description:
       "A free, open source Windows desktop app and OpenXR API layer for tuning stereo depth, convergence, enhanced head rotation, foveated-style rendering, frame pacing, application profiles, and installed OpenXR layers without hand-editing config files.",
-    image: "/images/vectorxr/icon-vectorxr.png",
+    image: "/images/vectorxr/icon-vectorxr.webp",
     owner: "DienerTech LLC",
     status: "Beta",
     platform: "Windows OpenXR",

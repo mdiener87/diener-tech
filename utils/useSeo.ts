@@ -20,7 +20,7 @@ export const useSeo = () => {
     const {
       title,
       description,
-      image = '/branding/dienertech-social.png',
+      image = '/branding/dienertech-social.webp',
       type = 'website',
       publishedTime,
       modifiedTime,

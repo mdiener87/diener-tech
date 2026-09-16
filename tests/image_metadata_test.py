@@ -113,6 +113,17 @@ class MetadataTests(unittest.TestCase):
                 metadata.exiftool('-overwrite_original', tag, path)
                 self.assert_cleans(path)
 
+    def test_transparent_webp_keeps_alpha_and_removes_xmp(self):
+        path = self.folder / 'transparent.webp'
+        shutil.copyfile(ROOT / 'tests/fixtures/image-metadata/transparent.webp', path)
+        original = path.read_bytes()
+        self.assertFalse(metadata.process(path, True))
+        self.assertFalse(metadata.process(path, False))
+        self.assertEqual(path.read_bytes(), original)
+        metadata.exiftool('-overwrite_original', '-XMP-dc:Creator=Private author', path)
+        self.assert_cleans(path)
+        self.assertEqual(metadata.exiftool('-s3', '-WebP_Flags', path).strip(), 'Alpha')
+
     def test_jpeg_gps_and_exif(self):
         path = self.folder / 'photo.jpg'
         shutil.copyfile(ROOT / 'tests/fixtures/image-metadata/image.jpeg', path)

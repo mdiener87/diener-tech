@@ -7,7 +7,7 @@ Source: `C:\Users\nullv\OneDrive\Documents\Projects\DienerTech\Branding` (Septem
 - Header and footer: the supplied logo geometry, with tighter SVG canvas spacing for navigation. Removed the previous rotating accent colors and alternate text wordmark.
 - Company card: the DT monogram replaces the generic building icon.
 - Browser and device icons: SVG, multi-resolution ICO, 16/32px PNGs, Apple touch icon, and 192/512px launcher icons. The navy tile and subtle border work on either browser theme. Existing WebP versions were refreshed too.
-- Social sharing: a new opaque 1200 × 630 PNG, with an editable SVG source, uses the homepage headline and existing author description. It is the shared SEO default, the website project artwork, and the project-card fallback. Explicit article images still take precedence.
+- Social sharing: artwork with an editable 1200 × 630 SVG source and PNG master uses the homepage headline and existing author description. The WebP export is the shared SEO default, the website project artwork, and the project-card fallback. Explicit article images still take precedence.
 - Theme control: blue sun/moon icons and an accessible label describing the next mode.
 - Manifest: supplied the missing website name and connected the icon manifest in the page head. It uses browser display mode; this site does not provide an offline app experience.
 
@@ -36,7 +36,7 @@ This uses Sharp from the existing image dependency and `exiftool`, also required
 
 ## Useful content still to add
 
-1. **Page-specific sharing artwork.** The new default covers missing artwork. Dedicated cards for VectorXR, SparkNet, and major essays would describe those destinations more clearly. “Starting an AI Engineering Team” currently has no title image; one is optional for its short-note format.
+1. **Page-specific sharing artwork.** The new default covers missing artwork. Dedicated cards for VectorXR, SparkNet, and major essays would describe those destinations more clearly. “Starting an AI Engineering Team” uses its dedicated WebP title image.
 2. **A fuller brand guide.** This document supplies website color and placement rules. Confirm preferred typography, formal minimum sizes/clear space, approved light-background colors, and whether a tagline should be part of the broader identity.
 3. **Fresh product and project media.** A current website screenshot and curated light/dark VectorXR screenshots or a short captioned walkthrough would add more useful context than additional decorative logos. Existing product identities and editorial images retain their own artwork.
 

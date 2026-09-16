@@ -6,7 +6,7 @@ topics: ["AI & models", "Career & industry"]
 kind: "Note"
 category: "career"
 tags: ["ai", "engineering", "career", "leadership"]
-titleImage: "starting-an-ai-team.png"
+titleImage: "starting-an-ai-team.webp"
 featured: true
 ---
 

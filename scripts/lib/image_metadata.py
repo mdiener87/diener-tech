@@ -29,7 +29,7 @@ STRUCTURAL = {
            'Palette Transparency AnimationFrames AnimationPlays FrameWidth FrameHeight '
            'XOffset YOffset DelayNum DelayDen DisposeOp BlendOp SequenceNumber',
     'RIFF': 'ImageWidth ImageHeight VP8Version HorizontalScale VerticalScale '
-            'VP8XFlags AnimationBackgroundColor AnimationLoopCount Duration '
+            'VP8XFlags WebP_Flags AnimationBackgroundColor AnimationLoopCount Duration '
             'AlphaPreprocessing AlphaFiltering AlphaCompression',
     'GIF': 'GIFVersion ImageWidth ImageHeight HasColorMap ColorResolution ColorResolutionDepth BitsPerPixel '
            'BackgroundColor PixelAspectRatio TransparentColor AnimationIterations Duration FrameCount',
