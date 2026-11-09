@@ -20,17 +20,18 @@
               <h1
                 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4"
               >
-                VectorXR
+                VectorXR<sup class="trademark" aria-label="trademark">™</sup>
               </h1>
               <p
                 class="text-xl text-gray-800 dark:text-gray-200 font-medium mb-4"
               >
-                Tune your VR experience. Per game.
+                Smoother VR sims. Tuned per game.
               </p>
               <p class="text-lg text-gray-700 dark:text-gray-300">
-                Adjust depth, head rotation, and rendering from one desktop
-                app. Save a profile for each game and manage your OpenXR layers
-                without editing config files. Free, open source, and built for Windows VR.
+                A free OpenXR toolkit for Windows VR. Add frame generation,
+                foveated rendering, frame pacing, enhanced head rotation, and
+                stereo depth tuning to your sims, with a profile for each game
+                and no config files to edit.
               </p>
             </div>
 
@@ -57,13 +58,15 @@
             </div>
 
             <nav aria-label="On this product page" class="flex flex-wrap gap-4 text-sm">
-              <a href="#walkthrough" class="text-link">Watch the walkthrough ↓</a>
+              <a href="#videos" class="text-link">Videos ↓</a>
+              <a href="#frame-generation" class="text-link">Frame Generation ↓</a>
               <a href="#modules" class="text-link">Features ↓</a>
+              <a href="#pimax" class="text-link">On Pimax ↓</a>
               <a href="#screens" class="text-link">App screens ↓</a>
             </nav>
             <p class="text-sm text-gray-500 dark:text-gray-400">
-              A community open source project, maintained under the DienerTech
-              LLC umbrella. Free to download, use, and modify.
+              An open source project published by DienerTech LLC. Free to
+              download, use, and modify, with code-signed official releases.
             </p>
           </div>
 
@@ -83,41 +86,125 @@
       </UContainer>
     </section>
 
-    <!-- Product video -->
-    <section id="walkthrough" class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <!-- Product videos -->
+    <section id="videos" class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="max-w-5xl mx-auto">
           <div class="text-center mb-8">
             <p
               class="text-sm font-semibold uppercase tracking-wide text-primary mb-2"
             >
-              Product walkthrough
+              Videos
             </p>
             <h2 class="text-3xl font-bold mb-3">See VectorXR In Action</h2>
             <p class="text-gray-600 dark:text-gray-400">
-              Tour the desktop app and see how VectorXR brings OpenXR tuning
-              into one approachable workflow.
+              Release walkthroughs and in-headset footage from the DienerTech
+              channel, newest first.
             </p>
           </div>
-          <div
-            class="video-embed overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-700 bg-black shadow-xl"
-          >
-            <iframe
-              class="absolute inset-0 h-full w-full"
-              src="https://www.youtube-nocookie.com/embed/_Vtdf_vobwI"
-              title="VectorXR product walkthrough"
-              loading="lazy"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-          </div>
+          <ProductsVideoCarousel :videos="videos" />
+          <p class="mt-6 text-center">
+            <a
+              :href="youtubeChannelUrl"
+              target="_blank"
+              rel="noopener"
+              class="text-link inline-flex items-center gap-2"
+            >
+              More on the DienerTech YouTube channel
+              <UIcon name="i-heroicons-arrow-up-right" />
+            </a>
+          </p>
         </div>
       </UContainer>
     </section>
 
+    <!-- Frame Generation -->
+    <section
+      id="frame-generation"
+      class="py-12 bg-gray-50 dark:bg-gray-800 card-transition"
+    >
+      <UContainer>
+        <div class="grid lg:grid-cols-2 gap-10 items-center">
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-3">
+              <p
+                class="text-sm font-semibold uppercase tracking-wide text-primary"
+              >
+                Frame Generation
+              </p>
+              <UBadge color="amber" variant="soft">Experimental</UBadge>
+            </div>
+            <h2 class="text-3xl font-bold mb-4">
+              A fresh image every refresh, even when the game renders fewer.
+            </h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-6">
+              VectorXR adds optical-flow generated frames between the frames
+              your game renders. A sim holding half your headset's refresh
+              rate, such as 45 fps at 90 Hz, can reach the full rate in the
+              headset.
+            </p>
+            <ul class="space-y-3 mb-6">
+              <li
+                v-for="point in frameGenPoints"
+                :key="point"
+                class="flex gap-2 text-gray-700 dark:text-gray-300"
+              >
+                <UIcon
+                  name="i-heroicons-check-circle"
+                  class="h-5 w-5 text-primary flex-shrink-0 mt-0.5"
+                />
+                <span>{{ point }}</span>
+              </li>
+            </ul>
+            <UButton
+              :to="`${product.githubUrl}/blob/master/docs/usage.md#frame-generation-experimental`"
+              target="_blank"
+              color="primary"
+              variant="soft"
+              icon="i-heroicons-book-open"
+            >
+              Frame Generation setup guide
+            </UButton>
+          </div>
+
+          <div
+            class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-950 shadow-xl p-3"
+          >
+            <NuxtImg
+              src="/images/vectorxr/screenshots/framegen.webp"
+              alt="VectorXR Frame Generation page with a Microsoft Flight Simulator 2024 profile set to Interpolate, Dynamic, and NVIDIA hardware optical flow"
+              class="w-full rounded-xl"
+              sizes="sm:90vw lg:45vw"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-3 gap-6 mt-10">
+          <div
+            v-for="stat in frameGenStats"
+            :key="stat.label"
+            class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-5"
+          >
+            <p class="text-3xl font-bold text-primary mb-1">{{ stat.value }}</p>
+            <p class="font-semibold mb-1">{{ stat.label }}</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ stat.detail }}
+            </p>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-gray-500 dark:text-gray-400 max-w-4xl">
+          Measured on an NVIDIA RTX 5090 with a Pimax Crystal Super, from the
+          0.19 and 0.20 release notes. Frame Generation is developed and tested
+          mainly on that PC, in DCS, MSFS 2024, and Star Citizen. AMD and Intel
+          GPUs are untested, and your game needs to hold half the refresh rate
+          on its own first.
+        </p>
+      </UContainer>
+    </section>
+
     <!-- How it works + installation -->
-    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="grid lg:grid-cols-2 gap-10">
           <div>
@@ -155,6 +242,19 @@
                 Launch VectorXR from the Start menu or desktop shortcut.
               </li>
             </ol>
+            <p
+              class="mt-4 flex gap-2 text-sm text-gray-600 dark:text-gray-400"
+            >
+              <UIcon
+                name="i-heroicons-shield-check"
+                class="h-5 w-5 text-primary flex-shrink-0"
+              />
+              <span>
+                Official releases include an app, OpenXR layer, and installer
+                code-signed by DienerTech LLC, with a SHA-256 checksum on each
+                release.
+              </span>
+            </p>
             <UButton
               :to="product.releaseUrl"
               target="_blank"
@@ -206,7 +306,7 @@
     <!-- Quick facts -->
     <section class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6">
           <div
             v-for="metric in productFacts"
             :key="metric.label"
@@ -230,13 +330,14 @@
       <UContainer>
         <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-10">
           <div>
-            <h2 class="text-3xl font-bold mb-4">Built For OpenXR Tinkering</h2>
+            <h2 class="text-3xl font-bold mb-4">Built For VR Sims</h2>
             <p class="text-gray-700 dark:text-gray-300 mb-4">
-              VectorXR is aimed at VR players and simulation users who want
-              repeatable, per-application tuning. It started as a small
-              experiment and grew into a full working suite that keeps profiles,
-              feature toggles, device bindings, frame-pacing diagnostics, update
-              checks, runtime logs, and OpenXR layer controls in one place.
+              VectorXR is aimed at flight, racing, and space sim players who
+              want more performance and repeatable, per-application tuning. It
+              started as a small experiment and grew into a full suite that
+              keeps frame generation, foveated rendering, frame pacing,
+              profiles, device bindings, diagnostics, and OpenXR layer controls
+              in one place.
             </p>
             <p class="text-gray-700 dark:text-gray-300 mb-6">
               Everything is reversible by design: disable any enhancement, turn
@@ -278,13 +379,13 @@
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">Enhancement Modules</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
-            Four runtime modules do the heavy lifting. Each can run with a
-            global default or a dedicated profile for a specific OpenXR
+            Six runtime modules do the heavy lifting. Each enhancement can run
+            with a global default or a dedicated profile for a specific OpenXR
             application.
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
           <div
             v-for="module in modules"
             :key="module.title"
@@ -315,15 +416,80 @@
       </UContainer>
     </section>
 
+    <!-- Developed on Pimax -->
+    <section id="pimax" class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+      <UContainer>
+        <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
+          <div>
+            <p
+              class="text-sm font-semibold uppercase tracking-wide text-primary mb-2"
+            >
+              VectorXR on Pimax
+            </p>
+            <h2 class="text-3xl font-bold mb-4">Developed On Pimax Headsets</h2>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              VectorXR is built and tested first on Pimax hardware: a Crystal
+              Super 50 PPD and a Crystal Super micro-OLED, on Pimax's OpenXR
+              runtime and on SteamVR, driven by an NVIDIA RTX 5090. That is the
+              setup each feature is developed and measured on.
+            </p>
+            <p class="text-gray-700 dark:text-gray-300 mb-4">
+              A Crystal Super can ask a game to render as much as 6240 x 6280
+              pixels per eye, and holding full refresh at that size is hard
+              for any GPU. Quadviews
+              foveated rendering, Turbo, and Frame Generation are the tools
+              VectorXR gives you to close that gap.
+            </p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              VectorXR is a standard OpenXR layer and is not limited to Pimax:
+              it is also used on Varjo headsets and through SteamVR and Virtual
+              Desktop. It is an independent project, not affiliated with or
+              endorsed by Pimax.
+            </p>
+          </div>
+
+          <div
+            class="rounded-lg bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 p-6"
+          >
+            <h3 class="text-xl font-bold mb-4">Recommended Pimax Setup</h3>
+            <dl class="space-y-4">
+              <div v-for="tip in pimaxSetup" :key="tip.title" class="flex gap-3">
+                <UIcon
+                  :name="tip.icon"
+                  class="h-6 w-6 text-primary flex-shrink-0 mt-0.5"
+                />
+                <div>
+                  <dt class="font-semibold">{{ tip.title }}</dt>
+                  <dd class="text-sm text-gray-600 dark:text-gray-400">
+                    {{ tip.description }}
+                  </dd>
+                </div>
+              </div>
+            </dl>
+            <UButton
+              :to="`${product.githubUrl}/blob/master/docs/usage.md`"
+              target="_blank"
+              color="gray"
+              variant="soft"
+              icon="i-heroicons-book-open"
+              class="mt-6"
+            >
+              Full usage guide
+            </UButton>
+          </div>
+        </div>
+      </UContainer>
+    </section>
+
     <!-- App screens -->
-    <section id="screens" class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
+    <section id="screens" class="py-12 bg-white dark:bg-gray-900 card-transition">
       <UContainer>
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">App Screens</h2>
           <p class="text-gray-600 dark:text-gray-400 max-w-3xl">
-            The current VectorXR v0.14.0 desktop experience, from system status
-            and enhancement profiles to diagnostics, application registration,
-            and OpenXR layer management.
+            The VectorXR v{{ product.version }} desktop app, from system status
+            and enhancement profiles to the in-headset display, application
+            registration, and OpenXR layer management.
           </p>
         </div>
 
@@ -331,7 +497,7 @@
           <figure
             v-for="screen in screenshots"
             :key="screen.src"
-            class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm"
+            class="rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 shadow-sm"
           >
             <button
               type="button"
@@ -368,7 +534,7 @@
     </section>
 
     <!-- Profiles & management -->
-    <section class="py-12 bg-white dark:bg-gray-900 card-transition">
+    <section class="py-12 bg-gray-50 dark:bg-gray-800 card-transition">
       <UContainer>
         <div class="mb-8">
           <h2 class="text-3xl font-bold mb-4">Profiles &amp; Management</h2>
@@ -378,7 +544,7 @@
           </p>
         </div>
 
-        <div class="grid sm:grid-cols-2 gap-4">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div
             v-for="item in management"
             :key="item.title"
@@ -405,20 +571,34 @@
             <h2 class="text-2xl font-bold">Where It Stands</h2>
           </div>
           <p class="text-gray-700 dark:text-gray-300 mb-4">
-            VectorXR is in beta and feature-complete for its current scope. The
-            desktop app, Windows installer, OpenXR layer registration,
-            per-application profiles, the Depth, Pivot, Quadviews, and Turbo
-            modules, app discovery, logs, update checks, and the OpenXR layer
-            manager are all implemented and working.
+            VectorXR is in beta. The desktop app, Windows installer, OpenXR
+            layer registration, per-application profiles, the Depth, Pivot,
+            Quadviews, and Turbo modules, the On-Screen Display, app discovery,
+            logs, update checks, and the OpenXR layer manager are all
+            implemented and working. Frame Generation is newer and still
+            experimental.
           </p>
           <p class="text-gray-700 dark:text-gray-300 mb-4">
             Beta means it is ready for day-to-day use, but it is young and has
             had limited testing across the full range of VR runtimes and
             hardware. You may hit rough edges on an untested runtime &mdash;
             some game-level Force IPD or world-scale controls can override
-            Stereo Boost, for example. Current builds are unsigned, so the
-            installer will show a Windows SmartScreen warning. Feedback and bug
+            Stereo Boost, for example. Everything is reversible: disable any
+            enhancement, turn off the layer, or uninstall. Feedback and bug
             reports are genuinely welcome &mdash; that is what this stage is for.
+          </p>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            <strong>Signed releases.</strong> Official Windows releases include
+            an app, OpenXR layer, and installer code-signed by DienerTech LLC.
+            Builds you compile from source yourself may be unsigned.
+          </p>
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
+            <strong>Online games with anti-cheat.</strong> Using VectorXR in
+            online games with anti-cheat, including Star Citizen, is at your own
+            risk, and that includes your game account. VectorXR has run under
+            Star Citizen's Easy Anti-Cheat in testing, but no game developer has
+            endorsed it, and a developer can change what its anti-cheat allows
+            at any time.
           </p>
           <div class="flex flex-wrap gap-3">
             <UButton
@@ -456,8 +636,9 @@
             the MPL-covered files themselves remain available under the MPL.
           </p>
           <p class="text-sm text-gray-500 dark:text-gray-400">
-            VectorXR, the VectorXR name, and VectorXR branding are product
-            identifiers of DienerTech LLC. The license covers the source code
+            VectorXR™ is a trademark of DienerTech LLC. The VectorXR name and
+            VectorXR branding are product identifiers of DienerTech LLC. The
+            license covers the source code
             but does not grant rights to use DienerTech LLC trademarks, logos,
             or branding except to refer to the project.
           </p>
@@ -513,24 +694,121 @@ if (!product) {
   });
 }
 
+const youtubeChannelUrl = "https://www.youtube.com/@DienerTech";
+
+// Newest first. The first entry is the one shown in the player on load.
+const videos = [
+  {
+    id: "FD69Yjdcf74",
+    label: "0.20 release",
+    title: "VectorXR 0.20: Faster Frame Generation & Turbo on SteamVR",
+  },
+  {
+    id: "UEK4vCR1zXE",
+    label: "Frame Generation",
+    title: "45 → 90 FPS in VR Sims: Free Frame Generation in VectorXR 0.19",
+  },
+  {
+    id: "99HhmbctFqA",
+    label: "Three-month update",
+    title:
+      "Three Months of VectorXR - What's New in the Free OpenXR Toolkit for VR Sims",
+  },
+  {
+    id: "_Vtdf_vobwI",
+    label: "Introduction",
+    title: "VectorXR: A New OpenXR Toolkit for Better VR Tuning",
+  },
+];
+
 const productFacts = [
   { label: "Platform", value: product.platform },
   { label: "Price", value: "Free" },
-  { label: "Status", value: product.status },
+  { label: "Latest release", value: `v${product.version}` },
+  { label: "Downloads", value: "13,000+" },
+  { label: "Languages", value: "11" },
   { label: "License", value: product.license },
+];
+
+const frameGenPoints = [
+  "Works in Direct3D 11, Direct3D 12, and Vulkan games, in stereo or with Quadviews.",
+  "Dynamic fills only the refreshes the game misses. Fixed holds the game at 2x, 3x, or 4x.",
+  "Interpolate for the fewest artifacts, or Extrapolate for no added latency, with optional NVIDIA hardware optical flow on RTX GPUs.",
+  "Uses the game's depth where the game provides it, to keep cockpit detail sharp in generated frames.",
+  "An in-game A/B toggle and the On-Screen Display show exactly what it is doing.",
+];
+
+const frameGenStats = [
+  {
+    value: "45 → 90 fps",
+    label: "Half refresh to full",
+    detail:
+      "At 90 Hz, a game holding 45 fps on its own can show a fresh image every refresh.",
+  },
+  {
+    value: "~90 fps",
+    label: "Held in MSFS 2024",
+    detail:
+      "Through a 16-minute flight with Dynamic Interpolate on NVIDIA hardware optical flow.",
+  },
+  {
+    value: "92–98%",
+    label: "Cockpit detail kept",
+    detail:
+      "Fine cockpit detail in generated frames, relative to the real frames, in MSFS 2024 replays.",
+  },
+];
+
+const pimaxSetup = [
+  {
+    title: "Turn Smart Smoothing off for Frame Generation",
+    description:
+      "In Pimax Play, under Device settings on the Frame rate card, turn off Smart Smoothing and Lock Frame Rate to Half Refresh Rate. Frame Generation paces the game itself and needs the headset at full refresh.",
+    icon: "i-heroicons-forward",
+  },
+  {
+    title: "Let VectorXR provide Quadviews in DCS",
+    description:
+      "Turn Native Pimax Quad Views off in Pimax Play, and turn on Use Quad View and Use Eye Tracking in DCS. VectorXR then keeps the focus region aligned with your gaze and with Pivot.",
+    icon: "i-heroicons-viewfinder-circle",
+  },
+  {
+    title: "Reach half refresh first",
+    description:
+      "Get the game to at least half the headset's refresh rate with Frame Generation off, for example 45 fps at 90 Hz. Below that, artifacts grow quickly.",
+    icon: "i-heroicons-chart-bar",
+  },
+  {
+    title: "Check it in the headset",
+    description:
+      "The On-Screen Display shows application FPS, the frame rate the headset receives, and CPU, GPU, and video memory headroom while you fly.",
+    icon: "i-heroicons-presentation-chart-line",
+  },
 ];
 
 const features = [
   {
+    title: "Frame Generation",
+    description:
+      "Add optical-flow generated frames between real frames, so the headset gets a fresh image every refresh. Experimental.",
+    icon: "i-heroicons-forward",
+  },
+  {
     title: "Quadviews Module",
     description:
-      "Drive foveated-style rendering with a visible performance budget you can dial in.",
+      "Drive foveated rendering, with eye tracking where the headset has it, and a visible performance budget you can dial in.",
     icon: "i-heroicons-viewfinder-circle",
+  },
+  {
+    title: "Turbo Module",
+    description:
+      "Override OpenXR frame pacing per application, with in-headset A/B controls and built-in diagnostics.",
+    icon: "i-heroicons-bolt",
   },
   {
     title: "Pivot Module",
     description:
-      "Configure enhanced yaw and pitch rotation with smoothing, deadzones, and activation behavior.",
+      "Configure enhanced yaw and pitch rotation, Snap Views, and Nudges with smoothing, deadzones, and activation behavior.",
     icon: "i-heroicons-arrow-path-rounded-square",
   },
   {
@@ -540,10 +818,10 @@ const features = [
     icon: "i-heroicons-cube-transparent",
   },
   {
-    title: "Turbo Module",
+    title: "On-Screen Display",
     description:
-      "Test per-application frame-pacing strategies with in-headset A/B controls and built-in diagnostics.",
-    icon: "i-heroicons-bolt",
+      "A head-following panel with FPS, frame times, CPU and GPU headroom, video memory, and enhancement state.",
+    icon: "i-heroicons-presentation-chart-line",
   },
   {
     title: "Per-App Profiles",
@@ -552,34 +830,32 @@ const features = [
     icon: "i-heroicons-rectangle-stack",
   },
   {
-    title: "OpenXR Layer Manager",
+    title: "Eleven Languages",
     description:
-      "Inspect, enable, disable, and reorder installed OpenXR implicit API layers.",
-    icon: "i-heroicons-adjustments-horizontal",
-  },
-  {
-    title: "Input Bindings",
-    description:
-      "Bind feature toggles to keyboard shortcuts or detected input devices.",
-    icon: "i-heroicons-command-line",
-  },
-  {
-    title: "System Dashboard",
-    description:
-      "See runtime health, layer readiness, and the active state of every enhancement at a glance.",
-    icon: "i-heroicons-squares-2x2",
+      "The app, tray, On-Screen Display, and installer are available in eleven languages.",
+    icon: "i-heroicons-language",
   },
 ];
 
 const modules = [
   {
+    title: "Frame Generation",
+    icon: "i-heroicons-forward",
+    summary: "Generated frames between real ones. Experimental.",
+    points: [
+      "Direct3D 11, Direct3D 12, and Vulkan, in stereo or Quadviews",
+      "Dynamic or Fixed rate, Interpolate or Extrapolate",
+      "Shader optical flow on any GPU, or NVIDIA hardware flow on RTX",
+    ],
+  },
+  {
     title: "Quadviews",
     icon: "i-heroicons-viewfinder-circle",
-    summary: "Foveated-style rendering with a budget.",
+    summary: "Foveated rendering with a budget.",
     points: [
-      "Foveated-style quad-views rendering",
+      "Quad-views foveated rendering with gaze-tracked focus",
       "Visible performance budget to balance quality and frame rate",
-      "Per-application configuration",
+      "For games that request OpenXR quad views; DCS is the primary tested title",
     ],
   },
   {
@@ -589,7 +865,7 @@ const modules = [
     points: [
       "Automatic or manually selected runtime strategies",
       "In-headset A/B controls and performance diagnostics",
-      "Compatibility-sensitive and configured per application",
+      "Turbo Safety holds it off after a runtime fault",
     ],
   },
   {
@@ -598,7 +874,7 @@ const modules = [
     summary: "Enhanced yaw and pitch head rotation.",
     points: [
       "Activation behavior, smoothing, and deadzones",
-      "Helpful for seated VR and flight sim setups",
+      "Snap Views and Nudges for named and fixed-step views",
       "Bind to keyboard or detected devices",
     ],
   },
@@ -610,6 +886,16 @@ const modules = [
       "Tune world scale and the convergence plane",
       "Depth Lock preserves tuned stereo geometry at submission",
       "Apply globally or per application",
+    ],
+  },
+  {
+    title: "On-Screen Display",
+    icon: "i-heroicons-presentation-chart-line",
+    summary: "Performance, in the headset.",
+    points: [
+      "Application FPS, frame times, and a frame-time graph",
+      "CPU and GPU headroom, video memory, and enhancement state",
+      "Compact or expanded layouts with your own placement and colors",
     ],
   },
 ];
@@ -628,6 +914,12 @@ const management = [
     icon: "i-heroicons-adjustments-horizontal",
   },
   {
+    title: "Input Bindings",
+    description:
+      "Bind feature toggles to keyboard shortcuts or detected input devices, with optional sound feedback.",
+    icon: "i-heroicons-command-line",
+  },
+  {
     title: "Logs & Updates",
     description:
       "View VectorXR runtime logs in-app and check GitHub for newer releases from the About tab.",
@@ -639,6 +931,12 @@ const management = [
       "Import, export, reset, and validate your local settings, all stored on your own machine.",
     icon: "i-heroicons-arrow-path",
   },
+  {
+    title: "Status File For Tools",
+    description:
+      "A documented, versioned status file lets other tools read the current game and Frame Generation state.",
+    icon: "i-heroicons-code-bracket",
+  },
 ];
 
 const screenshots = [
@@ -648,6 +946,34 @@ const screenshots = [
     alt: "VectorXR Home dashboard showing system health and enhancement status",
     description:
       "Check runtime and layer health, then see the default profile, custom profiles, and active state for every enhancement.",
+  },
+  {
+    title: "Frame Generation",
+    src: "/images/vectorxr/screenshots/framegen.webp",
+    alt: "VectorXR Frame Generation page showing in-headset controls, the default profile, and a per-game profile",
+    description:
+      "Turn Frame Generation on per game, choose its mode and motion source, and compare in the headset with an A/B toggle.",
+  },
+  {
+    title: "On-Screen Display",
+    src: "/images/vectorxr/screenshots/osd.webp",
+    alt: "VectorXR On-Screen Display page with a live preview of the in-headset performance panel",
+    description:
+      "Lay out the in-headset panel with a live preview: FPS, frame times, CPU and GPU headroom, video memory, and enhancement state.",
+  },
+  {
+    title: "Quadviews",
+    src: "/images/vectorxr/screenshots/quadviews.webp",
+    alt: "VectorXR Quadviews tab showing foveated rendering profile controls",
+    description:
+      "Configure foveated rendering with focus, tracking, and resolution controls plus a live performance budget.",
+  },
+  {
+    title: "Turbo",
+    src: "/images/vectorxr/screenshots/turbo.webp",
+    alt: "VectorXR Turbo tab showing frame-pacing and performance diagnostic controls",
+    description:
+      "Compare frame-pacing strategies per application with automatic runtime selection, an in-game toggle, and measured diagnostics.",
   },
   {
     title: "Depth",
@@ -662,20 +988,6 @@ const screenshots = [
     alt: "VectorXR Pivot tab showing yaw and pitch rotation controls",
     description:
       "Enhanced yaw and pitch rotation with activation mode, smoothing, an activation ramp, and per-axis multipliers and deadzones.",
-  },
-  {
-    title: "Quadviews",
-    src: "/images/vectorxr/screenshots/quadviews.webp",
-    alt: "VectorXR Quadviews tab showing foveated rendering profile controls",
-    description:
-      "Configure foveated-style rendering with focus, tracking, and resolution controls plus a live performance budget.",
-  },
-  {
-    title: "Turbo",
-    src: "/images/vectorxr/screenshots/turbo.webp",
-    alt: "VectorXR Turbo tab showing frame-pacing and performance diagnostic controls",
-    description:
-      "Compare frame-pacing strategies per application with automatic runtime selection, an in-game toggle, and measured diagnostics.",
   },
   {
     title: "Application Registry",
@@ -759,7 +1071,7 @@ const { setPageMeta } = useSeo();
 setPageMeta({
   title: "VectorXR",
   description:
-    "VectorXR is a free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, frame pacing, and layer tuning.",
+    "VectorXR is a free, open source Windows desktop app and OpenXR API layer for VR sims: frame generation, foveated rendering, frame pacing, head rotation, and depth tuning per game.",
   image: "/images/vectorxr/icon-vectorxr.webp",
   type: "website",
   canonicalUrl: "https://diener.tech/products/vectorxr",
@@ -776,14 +1088,14 @@ useHead({
         applicationCategory: "UtilitiesApplication",
         operatingSystem: "Windows",
         description:
-          "Free, open source Windows desktop app and OpenXR API layer for per-game VR depth, convergence, head rotation, foveated rendering, frame pacing, and layer management.",
-        softwareVersion: "0.14.0",
+          "Free, open source Windows desktop app and OpenXR API layer for VR sims: frame generation, foveated rendering, frame pacing, head rotation, depth tuning, and layer management per game.",
+        softwareVersion: product.version,
         offers: {
           "@type": "Offer",
           price: "0",
           priceCurrency: "USD",
         },
-        license: "https://github.com/DienerTech/vectorxr/blob/main/LICENSE",
+        license: "https://github.com/DienerTech/vectorxr/blob/master/LICENSE",
         url: "https://diener.tech/products/vectorxr",
         downloadUrl: product.releaseUrl,
         codeRepository: product.githubUrl,
@@ -803,10 +1115,11 @@ useHead({
   transition: all 0.3s ease;
 }
 
-.video-embed {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+.trademark {
+  top: -1.1em;
+  margin-left: 0.1em;
+  font-size: 0.35em;
+  font-weight: 600;
 }
 
 .screenshot-lightbox {
