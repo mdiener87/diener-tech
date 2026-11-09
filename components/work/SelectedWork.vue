@@ -23,8 +23,8 @@
         <p
           class="mt-2 text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg"
         >
-          Your VR experience, tuned per game. A Windows app for depth, head
-          rotation, rendering, and OpenXR layer management.
+          Smoother VR sims, tuned per game. A Windows app and OpenXR layer for
+          frame generation, foveated rendering, head rotation, and depth.
         </p>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-3">
           Published by DienerTech LLC · Windows / OpenXR
